@@ -473,6 +473,7 @@ const SolarSolutionsSection = () => {
           >
             Solar Solutions for Every Need
           </motion.h2>
+          <p>We Australians are quickly realising the benefits of solar. However, it’s not just residential property owners that can profit from solar power, with Australian businesses also reaping the benefits of Commercial Solar Systems, be it in Brisbane, Melbourne, Sydney, Adelaide, Perth or any Suburb in Australia for that matter. While some businesses use much more power than others and for longer periods of time depending on operating hours, industry and many other factors, almost every commercial property is using more energy than the average home. For this reason, the environmental impact of a solar system Australian businesses can contribute is far greater than that of a household. You can increase your positive impact on future energy users by converting both your home and your workplace to solar power. We, The Australians can also save significant amounts of money by doing this.</p>
         </motion.div>
 
         {/* Tab Navigation */}

@@ -1,149 +1,105 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-
-/* ----------------------------------------------------------------
-   Each brand is rendered as a styled SVG / JSX logo matching the
-   exact look from the reference screenshot.
----------------------------------------------------------------- */
-const BrandLogos = {
-  Sungrow: () => (
-    <div className="flex items-center space-x-2">
-      {/* Sun icon */}
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <circle cx="14" cy="14" r="6" fill="url(#sgGrad)" />
-        {[0,45,90,135,180,225,270,315].map((deg, i) => (
-          <line
-            key={i}
-            x1="14" y1="14"
-            x2={14 + 11 * Math.cos((deg * Math.PI) / 180)}
-            y2={14 + 11 * Math.sin((deg * Math.PI) / 180)}
-            stroke="url(#sgGrad)" strokeWidth="2" strokeLinecap="round"
-          />
-        ))}
-        <defs>
-          <linearGradient id="sgGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#f97316" />
-            <stop offset="1" stopColor="#eab308" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <span className="font-extrabold text-xl tracking-tight" style={{
-        background: 'linear-gradient(135deg, #f97316, #eab308)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}>
-        SUNGROW
-      </span>
-    </div>
-  ),
-
-  Solis: () => (
-    <div className="flex items-center space-x-2">
-      {/* Green circle with sun rays */}
-      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-        <circle cx="15" cy="15" r="14" fill="#22c55e" />
-        <circle cx="15" cy="15" r="6" fill="white" />
-        {[0, 60, 120, 180, 240, 300].map((deg, i) => (
-          <line
-            key={i}
-            x1={15 + 8 * Math.cos((deg * Math.PI) / 180)}
-            y1={15 + 8 * Math.sin((deg * Math.PI) / 180)}
-            x2={15 + 12 * Math.cos((deg * Math.PI) / 180)}
-            y2={15 + 12 * Math.sin((deg * Math.PI) / 180)}
-            stroke="white" strokeWidth="1.8" strokeLinecap="round"
-          />
-        ))}
-      </svg>
-      <span className="font-bold text-xl text-[#22c55e] tracking-tight italic">solis</span>
-    </div>
-  ),
-
-  SolaX: () => (
-    <div className="flex items-center space-x-1.5">
-      {/* Orange X mark */}
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <path d="M4 4L24 24" stroke="#f97316" strokeWidth="5" strokeLinecap="round" />
-        <path d="M24 4L4 24" stroke="#f97316" strokeWidth="5" strokeLinecap="round" />
-      </svg>
-      <div className="flex flex-col leading-none">
-        <span className="font-extrabold text-lg text-slate-700 tracking-tight">SOLA</span>
-        <span className="font-extrabold text-lg text-[#f97316] tracking-tight -mt-1">·X</span>
-      </div>
-    </div>
-  ),
-
-  Fronius: () => (
-    <span className="font-extrabold text-2xl text-[#003da5] tracking-tight italic">
-      Fronius
-    </span>
-  ),
-
-  Growatt: () => (
-    <span className="font-extrabold text-2xl text-[#1f2937] tracking-tight">
-      Growatt
-    </span>
-  ),
-
-  Longi: () => (
-    <span className="font-extrabold text-2xl text-[#16a34a] tracking-tight uppercase">
-      LONGI
-    </span>
-  ),
-};
+import brand1 from '../assets/brand/1.png';
+import brand2 from '../assets/brand/2.png';
+import brand3 from '../assets/brand/3.png';
+import brand4 from '../assets/brand/4.png';
+import brand5 from '../assets/brand/5.png';
+import brand6 from '../assets/brand/6.png';
+import brand7 from '../assets/brand/7.png';
+import brand8 from '../assets/brand/8.png';
+import brand9 from '../assets/brand/9.png';
+import brand10 from '../assets/brand/10.png';
 
 const brands = [
-  { id: 'sungrow', Logo: BrandLogos.Sungrow },
-  { id: 'solis',   Logo: BrandLogos.Solis   },
-  { id: 'solax',   Logo: BrandLogos.SolaX   },
-  { id: 'fronius', Logo: BrandLogos.Fronius  },
-  { id: 'growatt', Logo: BrandLogos.Growatt  },
-  { id: 'longi',   Logo: BrandLogos.Longi    },
+  { id: 'brand1', image: brand1 },
+  { id: 'brand2', image: brand2 },
+  { id: 'brand3', image: brand3 },
+  { id: 'brand4', image: brand4 },
+  { id: 'brand5', image: brand5 },
+  { id: 'brand6', image: brand6 },
+  { id: 'brand7', image: brand7 },
+  { id: 'brand8', image: brand8 },
+  { id: 'brand9', image: brand9 },
+  { id: 'brand10', image: brand10 },
 ];
 
 const BrandsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.1 });
 
+  // Duplicate brands for seamless infinite scroll
+  const duplicateBrands = [...brands, ...brands];
+
   return (
-    <section ref={ref} id="brands" className="py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={ref} id="brands" className="w-full bg-white overflow-hidden">
+      <style>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-10 * (13rem + 2rem)));
+          }
+        }
+        .brands-carousel {
+          animation: scroll 80s linear infinite;
+        }
+      `}</style>
 
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-10"
-        >
-          <span className="text-[#39b54a] text-xs font-extrabold tracking-widest uppercase">
-            TRUSTED BRANDS WE WORK WITH
-          </span>
-        </motion.div>
+      {/* Heading with decorative line and star */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5 }}
+        className="text-center py-4 px-4"
+      >
+        <div className="flex items-center justify-center space-x-3 mb-1">
+          <div className="flex-1 h-0.5 bg-red-400"></div>
+          <h2 className="text-3xl md:text-4xl font-bold text-red-600 tracking-tight whitespace-nowrap">
+            Brands we offer
+          </h2>
+          <div className="flex-1 h-0.5 bg-red-400"></div>
+        </div>
+        <div className="flex justify-center mt-1">
+          <span className="text-red-600 text-2xl">★</span>
+        </div>
+      </motion.div>
 
-        {/* Brand Logo Strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="border border-slate-200 rounded-2xl overflow-hidden"
-        >
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-x divide-y sm:divide-y-0 divide-slate-200">
-            {brands.map((brand, i) => (
+      {/* Auto-Scrolling Carousel */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="w-full"
+      >
+        {/* Scrolling Container - Full Width */}
+        <div className="w-full bg-slate-50 py-6 overflow-hidden">
+          <div className="flex gap-8 md:gap-12 lg:gap-16 brands-carousel">
+            {duplicateBrands.map((brand, i) => (
               <motion.div
-                key={brand.id}
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.1 + i * 0.07 }}
-                whileHover={{ backgroundColor: '#f8fafc' }}
-                className="flex items-center justify-center py-8 px-6 cursor-default transition-colors"
+                key={`${brand.id}-${i}`}
+                className="flex-shrink-0 w-48 md:w-56 lg:w-64 h-32 md:h-40 flex items-center justify-center"
+                whileHover={{
+                  scale: 1.08,
+                  transition: { duration: 0.3 },
+                }}
               >
-                <brand.Logo />
+                <div className="w-full h-full flex items-center justify-center">
+                  <img
+                    src={brand.image}
+                    alt={brand.id}
+                    className="max-h-full max-w-full object-contain hover:scale-110 transition-transform duration-300 filter drop-shadow-sm hover:drop-shadow-md"
+                  />
+                </div>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-      </div>
+        {/* Bottom decorative bar - Full Width */}
+        <div className="w-full h-3 md:h-4 bg-gradient-to-r from-red-200 via-red-300 to-red-200"></div>
+      </motion.div>
     </section>
   );
 };

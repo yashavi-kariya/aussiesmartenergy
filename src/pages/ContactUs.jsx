@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import {
     Phone, Mail, MapPin, Clock3, Send, ArrowRight,
@@ -7,6 +7,12 @@ import {
 
 const NAVY = '#1e2d53';
 const GREEN = '#39b54a';
+
+// Real business location — clicking the map opens this exact place in Google Maps
+const MAP_LINK = 'https://www.google.com/maps/place/Aussie+Smart+Energy/@-24.1501978,148.5507008,3254937m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!8m2!3d-24.1501978!4d148.5507008!16s%2Fg%2F11y8snbby8?entry=ttu&g_ep=EgoyMDI2MDcwNi4wIKXMDSoASAFQAw%3D%3D';
+
+// Shared elegant easing curve for a premium, unhurried feel
+const EASE = [0.22, 1, 0.36, 1];
 
 const ContactUs = () => {
     const heroRef = useRef(null);
@@ -20,6 +26,13 @@ const ContactUs = () => {
     });
     const [submitted, setSubmitted] = useState(false);
     const [openFaq, setOpenFaq] = useState(0);
+
+    // Subtle parallax drift on the hero background image as the page scrolls
+    const { scrollYProgress: heroScroll } = useScroll({
+        target: heroRef,
+        offset: ['start start', 'end start']
+    });
+    const heroImgY = useTransform(heroScroll, [0, 1], [0, 80]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,10 +80,14 @@ const ContactUs = () => {
                 className="relative h-[360px] flex items-center overflow-hidden"
                 style={{ backgroundColor: NAVY }}
             >
-                <img
+                <motion.img
                     src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
                     alt="Contact Aussie Smart Energy"
                     className="absolute inset-0 w-full h-full object-cover opacity-30"
+                    style={{ y: heroImgY }}
+                    initial={{ scale: 1.15 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.4, ease: EASE }}
                 />
                 <div
                     className="absolute inset-0"
@@ -83,16 +100,38 @@ const ContactUs = () => {
                     transition={{ duration: 0.6 }}
                     className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
                 >
-                    <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-5">
-                        <MessageSquare className="w-3.5 h-3.5" style={{ color: GREEN }} />
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.15, duration: 0.5, ease: EASE }}
+                        className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-5"
+                    >
+                        <motion.span
+                            animate={{ rotate: [0, -12, 12, 0] }}
+                            transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 1.5, ease: 'easeInOut' }}
+                        >
+                            <MessageSquare className="w-3.5 h-3.5" style={{ color: GREEN }} />
+                        </motion.span>
                         We'd Love To Hear From You
-                    </span>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">Contact Us</h1>
-                    <p className="text-white/70 text-sm">
+                    </motion.span>
+                    <motion.h1
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.6, ease: EASE }}
+                        className="text-4xl md:text-5xl font-extrabold text-white mb-3"
+                    >
+                        Contact Us
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5, duration: 0.6 }}
+                        className="text-white/70 text-sm"
+                    >
                         <span className="text-white/90 font-medium">Home</span>
                         <span className="mx-2">/</span>
                         <span style={{ color: GREEN }}>Contact Us</span>
-                    </p>
+                    </motion.p>
                 </motion.div>
             </section>
 
@@ -107,16 +146,24 @@ const ContactUs = () => {
                     {quickContact.map((item, i) => {
                         const Icon = item.icon;
                         const content = (
-                            <div className="flex flex-col items-center text-center gap-2 px-6 py-8">
-                                <div
+                            <motion.div
+                                initial={{ opacity: 0, y: 16 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.35 + i * 0.1, duration: 0.5, ease: EASE }}
+                                whileHover={{ y: -4 }}
+                                className="flex flex-col items-center text-center gap-2 px-6 py-8"
+                            >
+                                <motion.div
+                                    whileHover={{ rotate: 360, scale: 1.12 }}
+                                    transition={{ duration: 0.6, ease: EASE }}
                                     className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm"
                                     style={{ backgroundColor: item.color }}
                                 >
                                     <Icon className="w-5 h-5 text-white" />
-                                </div>
+                                </motion.div>
                                 <h3 className="font-bold text-sm" style={{ color: NAVY }}>{item.title}</h3>
                                 <p className="text-gray-500 text-sm">{item.value}</p>
-                            </div>
+                            </motion.div>
                         );
                         return item.href ? (
                             <a key={i} href={item.href} className="hover:bg-gray-50 transition-colors duration-200 rounded-2xl">
@@ -160,13 +207,17 @@ const ContactUs = () => {
 
                             <motion.form variants={itemVariants} onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid grid-cols-2 gap-6">
-                                    <input
+                                    <motion.input
+                                        whileFocus={{ scale: 1.02 }}
+                                        transition={{ duration: 0.2 }}
                                         type="text" name="firstName" value={formData.firstName} onChange={handleChange}
                                         placeholder="Enter First Name" required
                                         className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
                                         style={{ borderColor: `${NAVY}33` }}
                                     />
-                                    <input
+                                    <motion.input
+                                        whileFocus={{ scale: 1.02 }}
+                                        transition={{ duration: 0.2 }}
                                         type="text" name="lastName" value={formData.lastName} onChange={handleChange}
                                         placeholder="Enter Last Name" required
                                         className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
@@ -174,28 +225,36 @@ const ContactUs = () => {
                                     />
                                 </div>
 
-                                <input
+                                <motion.input
+                                    whileFocus={{ scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
                                     type="email" name="email" value={formData.email} onChange={handleChange}
                                     placeholder="Enter Email Address" required
                                     className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
                                     style={{ borderColor: `${NAVY}33` }}
                                 />
 
-                                <input
+                                <motion.input
+                                    whileFocus={{ scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
                                     type="tel" name="phone" value={formData.phone} onChange={handleChange}
                                     placeholder="Enter Phone"
                                     className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
                                     style={{ borderColor: `${NAVY}33` }}
                                 />
 
-                                <input
+                                <motion.input
+                                    whileFocus={{ scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
                                     type="text" name="address" value={formData.address} onChange={handleChange}
                                     placeholder="Enter Address"
                                     className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
                                     style={{ borderColor: `${NAVY}33` }}
                                 />
 
-                                <textarea
+                                <motion.textarea
+                                    whileFocus={{ scale: 1.01 }}
+                                    transition={{ duration: 0.2 }}
                                     name="message" value={formData.message} onChange={handleChange}
                                     placeholder="Enter Message" rows={4} required
                                     className="w-full border-2 outline-none rounded-md p-3 text-gray-700 placeholder-gray-400 resize-none transition-colors duration-200 focus:border-[#39b54a]"
@@ -206,21 +265,42 @@ const ContactUs = () => {
                                     type="submit"
                                     whileHover={{ scale: 1.03 }}
                                     whileTap={{ scale: 0.97 }}
-                                    className="text-white font-bold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2"
+                                    animate={{
+                                        boxShadow: [
+                                            '0 4px 12px rgba(57,181,74,0.0)',
+                                            '0 4px 20px rgba(57,181,74,0.35)',
+                                            '0 4px 12px rgba(57,181,74,0.0)'
+                                        ]
+                                    }}
+                                    transition={{ boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut' } }}
+                                    className="text-white font-bold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
                                     style={{ backgroundColor: GREEN }}
                                 >
                                     Send Message
-                                    <Send className="w-4 h-4" />
+                                    <motion.span
+                                        animate={{ x: [0, 4, 0] }}
+                                        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                                        className="inline-flex"
+                                    >
+                                        <Send className="w-4 h-4" />
+                                    </motion.span>
                                 </motion.button>
 
                                 {submitted && (
                                     <motion.p
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0, y: -10, scale: 0.9 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                                         className="font-medium flex items-center gap-2"
                                         style={{ color: GREEN }}
                                     >
-                                        <CheckCircle2 className="w-4 h-4" />
+                                        <motion.span
+                                            initial={{ scale: 0, rotate: -45 }}
+                                            animate={{ scale: 1, rotate: 0 }}
+                                            transition={{ delay: 0.1, type: 'spring', stiffness: 400 }}
+                                        >
+                                            <CheckCircle2 className="w-4 h-4" />
+                                        </motion.span>
                                         Thanks! Your message has been sent — we'll be in touch soon.
                                     </motion.p>
                                 )}
@@ -249,25 +329,50 @@ const ContactUs = () => {
                                 Our Location
                             </motion.h2>
 
-                            <motion.div variants={itemVariants} className="relative rounded-2xl overflow-hidden shadow-lg">
+                            <motion.a
+                                href={MAP_LINK}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Open Aussie Smart Energy location in Google Maps"
+                                variants={itemVariants}
+                                whileHover={{ scale: 1.015 }}
+                                transition={{ duration: 0.3, ease: EASE }}
+                                className="relative rounded-2xl overflow-hidden shadow-lg block cursor-pointer group"
+                            >
                                 <iframe
                                     title="Aussie Smart Energy Location"
                                     src="https://www.google.com/maps?q=Tarneit+VIC+3029+Australia&output=embed"
                                     className="w-full h-[420px] border-0"
+                                    style={{ pointerEvents: 'none' }}
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
                                 />
 
-                                <div className="absolute top-4 left-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2">
+                                {/* Transparent overlay so the whole card reliably opens the real map link */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={isFormInView ? { opacity: 1, y: 0 } : {}}
+                                    transition={{ delay: 0.6, duration: 0.5, ease: EASE }}
+                                    whileHover={{ scale: 1.06 }}
+                                    className="absolute top-4 left-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2"
+                                >
                                     <ShieldCheck className="w-4 h-4" style={{ color: GREEN }} />
                                     <span className="text-xs font-bold" style={{ color: NAVY }}>Approved Seller</span>
-                                </div>
+                                </motion.div>
 
-                                <div className="absolute bottom-4 right-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={isFormInView ? { opacity: 1, y: 0 } : {}}
+                                    transition={{ delay: 0.7, duration: 0.5, ease: EASE }}
+                                    whileHover={{ scale: 1.06 }}
+                                    className="absolute bottom-4 right-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2"
+                                >
                                     <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                                     <span className="text-xs font-bold" style={{ color: NAVY }}>(Australia) Tarneit, VIC 3029</span>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </motion.a>
                         </motion.div>
 
                     </div>
@@ -282,19 +387,28 @@ const ContactUs = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
+                        whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
                         className="rounded-2xl p-10 relative overflow-hidden"
                         style={{ backgroundColor: GREEN }}
                     >
                         <span className="text-white/80 text-xs font-bold uppercase tracking-wider">Prefer To Talk?</span>
                         <h3 className="text-2xl md:text-3xl font-extrabold text-white mt-2 mb-4">Call Our Team Directly</h3>
-                        <a
+                        <motion.a
                             href="tel:0468331724"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             className="inline-flex items-center gap-2 bg-white font-bold py-2.5 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200"
                             style={{ color: GREEN }}
                         >
                             0468 331 724
-                            <ArrowRight className="w-4 h-4" />
-                        </a>
+                            <motion.span
+                                animate={{ x: [0, 4, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                                className="inline-flex"
+                            >
+                                <ArrowRight className="w-4 h-4" />
+                            </motion.span>
+                        </motion.a>
                     </motion.div>
 
                     <motion.div
@@ -302,19 +416,28 @@ const ContactUs = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
+                        whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.25)' }}
                         className="rounded-2xl p-10 relative overflow-hidden"
                         style={{ backgroundColor: NAVY }}
                     >
                         <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Free & No Obligation</span>
                         <h3 className="text-2xl md:text-3xl font-extrabold text-white mt-2 mb-4">Request a Rebate Check</h3>
-                        <a
+                        <motion.a
                             href="#"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             className="inline-flex items-center gap-2 font-bold py-2.5 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 text-white"
                             style={{ backgroundColor: GREEN }}
                         >
                             Check Rebate
-                            <ArrowRight className="w-4 h-4" />
-                        </a>
+                            <motion.span
+                                animate={{ x: [0, 4, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                                className="inline-flex"
+                            >
+                                <ArrowRight className="w-4 h-4" />
+                            </motion.span>
+                        </motion.a>
                     </motion.div>
                 </div>
             </section>
@@ -343,6 +466,7 @@ const ContactUs = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={isFaqInView ? { opacity: 1, y: 0 } : {}}
                                     transition={{ duration: 0.4, delay: i * 0.08 }}
+                                    whileHover={{ scale: 1.01 }}
                                     className="bg-white rounded-xl shadow-sm overflow-hidden"
                                 >
                                     <button
@@ -350,17 +474,21 @@ const ContactUs = () => {
                                         className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
                                     >
                                         <span className="font-bold" style={{ color: NAVY }}>{faq.q}</span>
-                                        <span
-                                            className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-white text-lg font-bold transition-transform duration-200"
-                                            style={{ backgroundColor: isOpen ? NAVY : GREEN, transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
+                                        <motion.span
+                                            animate={{
+                                                backgroundColor: isOpen ? NAVY : GREEN,
+                                                rotate: isOpen ? 45 : 0
+                                            }}
+                                            transition={{ duration: 0.3, ease: EASE }}
+                                            className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-white text-lg font-bold"
                                         >
                                             +
-                                        </span>
+                                        </motion.span>
                                     </button>
                                     <motion.div
                                         initial={false}
                                         animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
-                                        transition={{ duration: 0.25 }}
+                                        transition={{ duration: 0.3, ease: EASE }}
                                         className="overflow-hidden"
                                     >
                                         <p className="px-6 pb-5 text-gray-500 text-sm leading-relaxed">{faq.a}</p>

@@ -268,11 +268,10 @@ const SolarSolutionsSection = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`relative px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 capitalize ${
-                  activeTab === tab
+                className={`relative px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 capitalize ${activeTab === tab
                     ? 'bg-[#1e2d53] text-white shadow-md'
                     : 'text-slate-600 hover:text-[#1e2d53]'
-                }`}
+                  }`}
               >
                 {tab === 'residential' ? 'Residential Solar' : 'Commercial Solar'}
               </button>
@@ -288,11 +287,10 @@ const SolarSolutionsSection = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className={`grid gap-6 ${
-              activeTab === 'commercial'
+            className={`grid gap-6 ${activeTab === 'commercial'
                 ? 'lg:grid-cols-4 md:grid-cols-2'
                 : 'lg:grid-cols-3 md:grid-cols-1'
-            }`}
+              }`}
           >
             {currentSystems.map((system, index) => {
               const Icon = system.icon;
@@ -304,11 +302,10 @@ const SolarSolutionsSection = () => {
                   animate={isInView ? "visible" : "hidden"}
                   whileHover={{ y: -10, boxShadow: `0 25px 50px -12px ${system.accent}40` }}
                   transition={{ delay: index * 0.12 }}
-                  className={`relative bg-white rounded-3xl overflow-hidden border-2 transition-all duration-300 cursor-pointer ${
-                    system.recommended
+                  className={`relative bg-white rounded-3xl overflow-hidden border-2 transition-all duration-300 cursor-pointer ${system.recommended
                       ? `border-[${system.accent}]`
                       : `border-slate-100 ${system.borderHover}`
-                  }`}
+                    }`}
                   style={{
                     borderColor: system.recommended ? system.accent : undefined,
                     background: 'white'

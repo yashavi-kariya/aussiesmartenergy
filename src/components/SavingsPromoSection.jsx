@@ -33,9 +33,9 @@ const SavingsPromoSection = () => {
                   <rect x="20" y="40" width="90" height="62" rx="4" fill="#1e3a5f" />
                   <rect x="22" y="42" width="86" height="58" rx="3" fill="#1a3a6e" />
                   {/* Panel cells */}
-                  {[0,1,2].map(row => [0,1,2,3].map(col => (
+                  {[0, 1, 2].map(row => [0, 1, 2, 3].map(col => (
                     <rect key={`${row}-${col}`} x={24 + col * 22} y={44 + row * 18} width={20} height={16} rx="1"
-                      fill={`rgba(59,130,246,${0.5 + (row+col) * 0.05})`} stroke="#2563eb" strokeWidth="0.5" />
+                      fill={`rgba(59,130,246,${0.5 + (row + col) * 0.05})`} stroke="#2563eb" strokeWidth="0.5" />
                   )))}
                   {/* Shine */}
                   <rect x="22" y="42" width="40" height="15" rx="2" fill="white" opacity="0.08" />
@@ -64,11 +64,11 @@ const SavingsPromoSection = () => {
                   GOVERNMENT REBATES AVAILABLE
                 </span>
                 <h3 className="text-2xl lg:text-3xl font-extrabold text-white leading-tight">
-                  Save Thousands Today!
+                  Claim your Victorian Government solar
+                  panel rebate now!
                 </h3>
                 <p className="text-emerald-100 text-sm font-medium leading-relaxed">
-                  Claim your solar rebate and start saving from day one.
-                </p>
+                  Solar panel rebates are available of $1,400 plus the option of an interest-free loan.                </p>
               </div>
               <motion.button
                 whileHover={{ scale: 1.03 }}
@@ -123,17 +123,15 @@ const SavingsPromoSection = () => {
             {/* Text content */}
             <div className="relative z-10 p-8 flex flex-col justify-between max-w-[62%]">
               <div className="space-y-3">
-                <span className="text-indigo-300 text-[10px] font-extrabold tracking-widest uppercase">
-                  0% INTEREST PAYMENT PLANS
-                </span>
                 <h3 className="text-2xl lg:text-3xl font-extrabold text-white leading-tight">
-                  Flexible. Easy. Affordable.
+                  0% INTEREST PAYMENT PLANS
                 </h3>
+
                 <ul className="space-y-1.5 mt-1">
                   {[
-                    'No upfront cost on select systems',
-                    'Easy monthly payments',
-                    'Approved in minutes',
+                    '0% interest upto 24 month*',
+                    'Beat the upfront cost of a solar system.',
+                    'Fast approval times',
                   ].map((item, i) => (
                     <li key={i} className="flex items-center space-x-2 text-indigo-100 text-xs font-medium">
                       <div className="w-4 h-4 rounded-full bg-indigo-500/30 flex items-center justify-center flex-shrink-0">

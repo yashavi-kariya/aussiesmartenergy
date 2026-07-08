@@ -42,7 +42,7 @@ const ServicesSection = () => {
       description: "Perfect for average households looking to reduce electricity bills significantly.",
       features: [
         "High Efficiency Panels",
-        "Premium Quality Inverter", 
+        "Premium Quality Inverter",
         "25 Year Warranty",
         "Full Installation",
         "Grid Connection",
@@ -63,7 +63,7 @@ const ServicesSection = () => {
       features: [
         "High Efficiency Panels",
         "Commercial Grade Inverter",
-        "25 Year Warranty", 
+        "25 Year Warranty",
         "Professional Installation",
         "Monitoring System",
         "10 Year Maintenance"
@@ -85,7 +85,7 @@ const ServicesSection = () => {
         "Hybrid Inverter System",
         "Lithium Battery Storage",
         "Smart Energy Management",
-        "Backup Power Supply", 
+        "Backup Power Supply",
         "15 Year Total Warranty"
       ],
       gradient: "from-red-500 to-pink-500",
@@ -97,7 +97,7 @@ const ServicesSection = () => {
     <section ref={ref} className="relative py-20 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-blue-50">
-        <motion.div 
+        <motion.div
           className="absolute inset-0 opacity-30"
           animate={{
             background: [
@@ -118,14 +118,14 @@ const ServicesSection = () => {
           animate={isInView ? "visible" : "hidden"}
           className="text-center mb-16"
         >
-          <motion.span 
+          <motion.span
             variants={cardVariants}
             className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500/10 to-red-500/10 border border-blue-200 rounded-full text-blue-600 text-sm font-medium mb-4"
           >
             Our Solutions
           </motion.span>
-          
-          <motion.h2 
+
+          <motion.h2
             variants={cardVariants}
             className="text-4xl md:text-5xl font-bold mb-6"
           >
@@ -134,13 +134,14 @@ const ServicesSection = () => {
             </span>
             <br />
             <span className="text-gray-800">Every Need</span>
+
           </motion.h2>
-          
-          <motion.p 
+
+          <motion.p
             variants={cardVariants}
             className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
           >
-            Choose from our range of premium solar systems designed to maximize your savings 
+            Choose from our range of premium solar systems designed to maximize your savings
             and energy independence with cutting-edge technology.
           </motion.p>
         </motion.div>
@@ -156,8 +157,8 @@ const ServicesSection = () => {
             <motion.div
               key={service.id}
               variants={cardVariants}
-              whileHover={{ 
-                y: -10, 
+              whileHover={{
+                y: -10,
                 scale: 1.02,
                 transition: { duration: 0.3 }
               }}
@@ -172,7 +173,7 @@ const ServicesSection = () => {
 
               {/* Badge */}
               <div className="flex justify-between items-start mb-6">
-                <motion.div 
+                <motion.div
                   className={`px-3 py-1 bg-gradient-to-r ${service.gradient} text-white text-sm font-medium rounded-full shadow-lg`}
                   whileHover={{ scale: 1.1 }}
                 >
@@ -193,9 +194,9 @@ const ServicesSection = () => {
                   <h3 className="text-2xl font-bold text-gray-800 mb-1">{service.title}</h3>
                   <p className="text-gray-600 font-medium">{service.subtitle}</p>
                 </div>
-                
+
                 <p className="text-gray-600 leading-relaxed">{service.description}</p>
-                
+
                 {/* Pricing */}
                 <div className="flex items-baseline space-x-2">
                   <span className="text-3xl font-bold text-gray-800">{service.price}</span>
@@ -232,7 +233,7 @@ const ServicesSection = () => {
               </motion.button>
 
               {/* Hover Effect */}
-              <motion.div 
+              <motion.div
                 className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 rounded-3xl transition-opacity duration-300`}
               />
             </motion.div>
@@ -246,7 +247,7 @@ const ServicesSection = () => {
           animate={isInView ? "visible" : "hidden"}
           className="mt-20 text-center"
         >
-          <motion.div 
+          <motion.div
             variants={cardVariants}
             className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100 max-w-4xl mx-auto"
           >
@@ -256,7 +257,7 @@ const ServicesSection = () => {
                   Government Rebates Available
                 </h3>
                 <p className="text-lg text-gray-600 mb-6">
-                  Solar panel rebates are available of <span className="font-bold text-green-600">$1,400</span> plus 
+                  Solar panel rebates are available of <span className="font-bold text-green-600">$1,400</span> plus
                   the option of an interest-free loan to make solar more affordable than ever.
                 </p>
                 <div className="flex items-center space-x-4">
@@ -268,7 +269,7 @@ const ServicesSection = () => {
                   <span className="text-gray-600">Trusted by 15,000+ customers</span>
                 </div>
               </div>
-              
+
               <div className="text-center md:text-right">
                 <motion.button
                   className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-full font-bold shadow-xl hover:shadow-2xl transition-all duration-300"

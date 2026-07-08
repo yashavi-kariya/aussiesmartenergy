@@ -15,6 +15,7 @@ import {
   Leaf
 } from 'lucide-react';
 import rooftopSolarImg from '../assets/rooftopsolar.png';
+import bannerLogo from '../assets/banner-logo-1024x365.png';
 
 const ModernHeroSection = () => {
   const ref = useRef(null);
@@ -29,20 +30,15 @@ const ModernHeroSection = () => {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const stats = [
-    { number: '15,000+', label: 'Happy Customers', icon: Users },
-    { number: '100%', label: 'Quality Assured', icon: Shield },
-    { number: '25+', label: 'Years Warranty', icon: Clock },
-    { number: '5 Star', label: 'Rated Service', icon: Star },
-  ];
-
   const bottomFeatures = [
-    { icon: Shield, text: 'Premium Quality Products' },
-    { icon: Zap, text: 'Flexible Finance Options' },
+    { icon: Shield, text: 'Proven Quality Products' },
     { icon: Award, text: 'Competitive Pricing' },
-    { icon: Activity, text: 'Seamless End to End Process' },
-    { icon: MapPin, text: 'Local Support Australia Wide' },
-    { icon: UserCheck, text: 'Trusted by 15,000+ Customers' },
+    { icon: Zap, text: 'Flexible Finance Options' },
+    { icon: Activity, text: 'Seamless Start To End Process' },
+    { icon: Users, text: 'Reliable and Efficient' },
+    { icon: UserCheck, text: 'Customer Services and Support' },
+    { icon: MapPin, text: '100% Australian Owned' },
+    { icon: Award, text: 'Local "SAA" Accredited Installers' },
   ];
 
   const handleInputChange = (e) => {
@@ -121,38 +117,15 @@ const ModernHeroSection = () => {
               High performance solar solutions for homes and businesses. Lower energy bills, cleaner planet and a brighter future for generations.
             </motion.p>
 
-            {/* Certification badges */}
+            {/* Certification Banner Image */}
             <motion.div
               variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
-              className="flex flex-wrap gap-3"
             >
-              <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
-                <CheckCircle className="w-5 h-5 text-[#39b54a]" />
-                <span className="text-xs font-bold text-slate-700">Approved Seller</span>
-              </div>
-              <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center text-white text-[10px] font-extrabold flex-shrink-0">C</div>
-                <span className="text-xs font-bold text-slate-700">Clean Energy Council Approved Retailer</span>
-              </div>
-            </motion.div>
-
-            {/* Stats row */}
-            <motion.div
-              variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2"
-            >
-              {stats.map((stat, i) => (
-                <div
-                  key={i}
-                  className="bg-white/95 rounded-2xl p-3 text-center shadow-md border border-slate-100 flex flex-col items-center"
-                >
-                  <div className="w-8 h-8 bg-emerald-50 rounded-full flex items-center justify-center mb-1.5">
-                    <stat.icon className="w-4 h-4 text-[#39b54a]" />
-                  </div>
-                  <div className="text-sm font-extrabold text-[#1e2d53]">{stat.number}</div>
-                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wide leading-tight">{stat.label}</div>
-                </div>
-              ))}
+              <img
+                src={bannerLogo}
+                alt="Aussie Smart Energy Certifications"
+                className="h-16 w-auto object-contain"
+              />
             </motion.div>
           </motion.div>
 
@@ -184,18 +157,16 @@ const ModernHeroSection = () => {
                       placeholder="First Name"
                       value={formState.firstName}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${
-                        errors.firstName ? 'border-red-400 bg-red-50' : 'border-slate-200'
-                      }`}
+                      className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${errors.firstName ? 'border-red-400 bg-red-50' : 'border-slate-200'
+                        }`}
                     />
                     <input
                       name="lastName"
                       placeholder="Last Name"
                       value={formState.lastName}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${
-                        errors.lastName ? 'border-red-400 bg-red-50' : 'border-slate-200'
-                      }`}
+                      className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${errors.lastName ? 'border-red-400 bg-red-50' : 'border-slate-200'
+                        }`}
                     />
                   </div>
                   <input
@@ -204,9 +175,8 @@ const ModernHeroSection = () => {
                     placeholder="Email Address"
                     value={formState.email}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${
-                      errors.email ? 'border-red-400 bg-red-50' : 'border-slate-200'
-                    }`}
+                    className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${errors.email ? 'border-red-400 bg-red-50' : 'border-slate-200'
+                      }`}
                   />
                   <input
                     type="tel"
@@ -214,18 +184,16 @@ const ModernHeroSection = () => {
                     placeholder="Phone Number"
                     value={formState.phone}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${
-                      errors.phone ? 'border-red-400 bg-red-50' : 'border-slate-200'
-                    }`}
+                    className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${errors.phone ? 'border-red-400 bg-red-50' : 'border-slate-200'
+                      }`}
                   />
                   <input
                     name="postcode"
                     placeholder="Suburb / Postcode"
                     value={formState.postcode}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${
-                      errors.postcode ? 'border-red-400 bg-red-50' : 'border-slate-200'
-                    }`}
+                    className={`w-full px-3 py-2.5 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-[#39b54a]/40 focus:border-[#39b54a] transition ${errors.postcode ? 'border-red-400 bg-red-50' : 'border-slate-200'
+                      }`}
                   />
                   <motion.button
                     type="submit"
@@ -273,14 +241,34 @@ const ModernHeroSection = () => {
           className="bg-[#0f1f3d] w-full"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
               {bottomFeatures.map((feat, idx) => (
-                <div key={idx} className="flex items-center space-x-2.5 px-3 py-3">
-                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <feat.icon className="w-4 h-4 text-[#39b54a]" />
-                  </div>
-                  <span className="text-xs font-bold text-white/90 leading-tight">{feat.text}</span>
-                </div>
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.6 + (idx * 0.1),
+                    ease: "easeOut"
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    transition: { duration: 0.2 }
+                  }}
+                  className="flex items-center space-x-2.5 px-3 py-3 cursor-pointer group"
+                >
+                  <motion.div
+                    className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#39b54a]/20 transition-colors"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <feat.icon className="w-4 h-4 text-[#39b54a] group-hover:text-[#4dd865] transition-colors" />
+                  </motion.div>
+                  <span className="text-xs font-bold text-white/90 leading-tight group-hover:text-white transition-colors">
+                    {feat.text}
+                  </span>
+                </motion.div>
               ))}
             </div>
           </div>
