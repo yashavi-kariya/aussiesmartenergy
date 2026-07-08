@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Phone, Mail, MapPin, Clock, ArrowRight, Heart } from 'lucide-react';
+import logoImg from '../assets/Mainlogo.png';
 
 const Footer = () => {
   const ref = useRef(null);
@@ -46,7 +47,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <img
-                src="/src/assets/Mainlogo.png"
+                src={logoImg}
                 alt="Aussie Smart Energy"
                 className="w-10 h-10 object-contain"
                 onError={(e) => { e.target.style.display = 'none'; }}
