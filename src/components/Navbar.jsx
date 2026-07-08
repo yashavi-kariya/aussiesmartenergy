@@ -20,11 +20,22 @@ const Navbar = () => {
     { name: 'About Us', href: '/about', hasDropdown: false, isRoute: true },
     {
       name: 'Residential Solar', href: '#residential', hasDropdown: true, isRoute: false,
-      dropdown: ['6.6kW System', '10.5kW System', '13.2kW System', 'Battery Storage']
+      dropdown: [
+        { label: '6.6kW System', href: '/solar/6.6kw' },
+        { label: '10.5kW System', href: '/solar/10.5kw' },
+        { label: '13.2kW System', href: '/solar/13.2kw' },
+        { label: '15kW System', href: '/solar/15kw' },
+
+      ]
     },
     {
       name: 'Commercial Solar', href: '#commercial', hasDropdown: true, isRoute: false,
-      dropdown: ['Small Business', 'Medium Business', 'Industrial', 'Solar Farms']
+      dropdown: [
+        { label: '20 kW Solar System', href: '/solar/commercial/20kw' },
+        { label: '30 kW Solar System', href: '/solar/commercial/30kw' },
+        { label: '50 kW Solar System', href: '/solar/commercial/50kw' },
+        { label: '100 kW Solar System', href: '/solar/commercial/100kw' },
+      ]
     },
     { name: 'Contact Us', href: '/contact', hasDropdown: false, isRoute: true },
   ];
@@ -44,7 +55,7 @@ const Navbar = () => {
             <img
               src="/src/assets/Mainlogo.png"
               alt="Aussie Smart Energy"
-              className="h-10 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </Link>
 
@@ -99,16 +110,16 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full left-0 mt-1 w-48 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-50"
+                      className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-50"
                     >
                       {item.dropdown.map((sub) => (
-                        <a
-                          key={sub}
-                          href="#"
-                          className="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-[#39b54a] font-medium transition-colors"
+                        <Link
+                          key={sub.label}
+                          to={sub.href}
+                          className="block px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#1e2d53] font-medium transition-colors border-l-3 border-transparent hover:border-blue-500"
                         >
-                          {sub}
-                        </a>
+                          {sub.label}
+                        </Link>
                       ))}
                     </motion.div>
                   )}
@@ -153,27 +164,54 @@ const Navbar = () => {
           >
             <div className="px-4 py-4 space-y-1">
               {navItems.map((item) => (
-                item.isRoute ? (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between py-3 px-3 text-slate-700 hover:text-[#39b54a] hover:bg-emerald-50 rounded-xl font-medium text-sm transition-colors"
-                  >
-                    <span>{item.name}</span>
-                    {item.hasDropdown && <ChevronDown size={14} />}
-                  </Link>
-                ) : (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between py-3 px-3 text-slate-700 hover:text-[#39b54a] hover:bg-emerald-50 rounded-xl font-medium text-sm transition-colors"
-                  >
-                    <span>{item.name}</span>
-                    {item.hasDropdown && <ChevronDown size={14} />}
-                  </a>
-                )
+                <div key={item.name}>
+                  {item.isRoute ? (
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center justify-between py-3 px-3 text-slate-700 hover:text-[#1e2d53] hover:bg-blue-50 rounded-xl font-medium text-sm transition-colors"
+                    >
+                      <span>{item.name}</span>
+                      {item.hasDropdown && <ChevronDown size={14} />}
+                    </Link>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                        className="w-full flex items-center justify-between py-3 px-3 text-slate-700 hover:text-[#1e2d53] hover:bg-blue-50 rounded-xl font-medium text-sm transition-colors"
+                      >
+                        <span>{item.name}</span>
+                        <ChevronDown size={14} className={`transition-transform ${activeDropdown === item.name ? 'rotate-180' : ''}`} />
+                      </button>
+                      {/* Mobile Dropdown Items */}
+                      <AnimatePresence>
+                        {activeDropdown === item.name && item.hasDropdown && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="pl-4 space-y-1"
+                          >
+                            {item.dropdown.map((sub) => (
+                              <Link
+                                key={sub.label}
+                                to={sub.href}
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  setActiveDropdown(null);
+                                }}
+                                className="block py-2.5 px-3 text-sm text-slate-600 hover:text-[#1e2d53] hover:bg-blue-50 rounded-lg transition-colors border-l-2 border-blue-300 ml-2"
+                              >
+                                {sub.label}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  )}
+                </div>
               ))}
               <div className="pt-3 border-t border-slate-100">
                 <button className="w-full flex items-center justify-center space-x-2 bg-[#1e2d53] text-white py-3 rounded-full font-semibold text-sm">

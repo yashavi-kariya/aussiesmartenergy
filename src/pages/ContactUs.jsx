@@ -47,7 +47,7 @@ const ContactUs = () => {
     const quickContact = [
         { icon: Phone, title: 'Call Us', value: '0468 331 724', href: 'tel:0468331724', color: GREEN },
         { icon: Mail, title: 'Email Us', value: 'info@aussiesmartenergy.com.au', href: 'mailto:info@aussiesmartenergy.com.au', color: NAVY },
-        { icon: MapPin, title: 'Visit Us', value: 'Tarneit, VIC 3029', href: null, color: GREEN },
+        { icon: MapPin, title: 'Visit Us', value: '(Australia) Tarneit, VIC 3029', href: null, color: GREEN },
         { icon: Clock3, title: 'Working Hours', value: 'Mon-Fri, 9am - 5pm', href: null, color: NAVY }
     ];
 
@@ -265,7 +265,7 @@ const ContactUs = () => {
 
                                 <div className="absolute bottom-4 right-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2">
                                     <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                                    <span className="text-xs font-bold" style={{ color: NAVY }}>Tarneit, VIC 3029</span>
+                                    <span className="text-xs font-bold" style={{ color: NAVY }}>(Australia) Tarneit, VIC 3029</span>
                                 </div>
                             </motion.div>
                         </motion.div>

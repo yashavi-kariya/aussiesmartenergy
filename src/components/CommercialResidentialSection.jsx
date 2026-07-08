@@ -265,6 +265,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Home, Building2, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const SolarSolutionsSection = () => {
   const ref = useRef(null);
@@ -291,19 +292,37 @@ const SolarSolutionsSection = () => {
     }
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.94, y: 30 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: 0.55,
-        type: "spring",
-        stiffness: 110
-      }
+  // Unique per-card entry animations (index-driven)
+  const cardAnimations = [
+    // Card 0: slide in from left with spring
+    {
+      hidden: { opacity: 0, x: -70, rotateY: -12 },
+      visible: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 0.75, type: "spring", stiffness: 90 } }
+    },
+    // Card 1: scale up from center
+    {
+      hidden: { opacity: 0, scale: 0.6, y: 50 },
+      visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.65, type: "spring", stiffness: 120 } }
+    },
+    // Card 2: slide in from right with spring
+    {
+      hidden: { opacity: 0, x: 70, rotateY: 12 },
+      visible: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 0.75, type: "spring", stiffness: 90 } }
+    },
+    // Card 3 (commercial extra): drop from top
+    {
+      hidden: { opacity: 0, y: -50, scale: 0.85 },
+      visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, type: "spring", stiffness: 100 } }
     }
-  };
+  ];
+
+  // Unique continuous icon animations per card
+  const iconAnimations = [
+    { animate: { y: [0, -9, 0] }, transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" } },
+    { animate: { scale: [1, 1.18, 1], rotate: [0, 8, 0] }, transition: { duration: 2, repeat: Infinity, ease: "easeInOut" } },
+    { animate: { y: [0, -5, 0], x: [0, 5, 0] }, transition: { duration: 1.9, repeat: Infinity, ease: "easeInOut" } },
+    { animate: { rotate: [0, 18, 0], scale: [1, 1.12, 1] }, transition: { duration: 1.6, repeat: Infinity, ease: "easeInOut" } }
+  ];
 
   // Each tier gets its own accent + soft background gradient (no photos)
   const residentialSystems = [
@@ -315,15 +334,10 @@ const SolarSolutionsSection = () => {
       recommended: false,
       icon: Home,
       accent: "#3b82f6",
+      accentMid: "#bfdbfe",
       bgFrom: "from-blue-50",
       bgTo: "to-blue-100/60",
-      features: [
-        "6.6kW System",
-        "New Energy Tech Approved",
-        "30 Years Linear Output Warranty",
-        "Reputed and Trustworthy Brand",
-        "High Efficiency"
-      ]
+      path: "/solar/6.6kw"
     },
     {
       type: "Medium Houses",
@@ -332,16 +346,11 @@ const SolarSolutionsSection = () => {
       subtitle: "p.a on electricity*",
       recommended: true,
       icon: Home,
-      accent: "#39b54a",
+      accent: "#22c55e",
+      accentMid: "#bbf7d0",
       bgFrom: "from-green-50",
       bgTo: "to-green-100/60",
-      features: [
-        "10.5kW System",
-        "New Energy Tech Approved",
-        "30 Years Linear Output Warranty",
-        "Reputed and Trustworthy Brand",
-        "High Efficiency"
-      ]
+      path: "/solar/10.5kw"
     },
     {
       type: "Large House",
@@ -351,16 +360,17 @@ const SolarSolutionsSection = () => {
       recommended: false,
       icon: Home,
       accent: "#a855f7",
+      accentMid: "#e9d5ff",
       bgFrom: "from-purple-50",
       bgTo: "to-purple-100/60",
-      features: [
-        "13.2kW System",
-        "New Energy Tech Approved",
-        "30 Years Linear Output Warranty",
-        "Reputed and Trustworthy Brand",
-        "High Efficiency"
-      ]
+      path: "/solar/13.2kw"
     }
+  ];
+
+  const residentialFeatures = [
+    ["6.6kW System", "New Energy Tech Approved", "30 Years Linear Output Warranty", "Reputed and Trustworthy Brand", "High Efficiency"],
+    ["10.5kW System", "New Energy Tech Approved", "30 Years Linear Output Warranty", "Reputed and Trustworthy Brand", "High Efficiency"],
+    ["13.2kW System", "New Energy Tech Approved", "30 Years Linear Output Warranty", "Reputed and Trustworthy Brand", "High Efficiency"]
   ];
 
   const commercialSystems = [
@@ -372,14 +382,10 @@ const SolarSolutionsSection = () => {
       recommended: false,
       icon: Building2,
       accent: "#3b82f6",
+      accentMid: "#bfdbfe",
       bgFrom: "from-blue-50",
       bgTo: "to-blue-100/60",
-      features: [
-        "Tier 1 Solar Module",
-        "15kW Power Inverter",
-        "15,000w Tier 1 Panels",
-        "High Efficiency Solar Module"
-      ]
+      path: "/solar/commercial"
     },
     {
       type: "Medium Businesses",
@@ -388,15 +394,11 @@ const SolarSolutionsSection = () => {
       subtitle: "",
       recommended: true,
       icon: Building2,
-      accent: "#39b54a",
+      accent: "#22c55e",
+      accentMid: "#bbf7d0",
       bgFrom: "from-green-50",
       bgTo: "to-green-100/60",
-      features: [
-        "Tier 1 Solar Module",
-        "25kW Power Inverter",
-        "25,000w Tier 1 Panels",
-        "High Efficiency Solar Module"
-      ]
+      path: "/solar/commercial"
     },
     {
       type: "Large Businesses",
@@ -406,14 +408,10 @@ const SolarSolutionsSection = () => {
       recommended: false,
       icon: Building2,
       accent: "#a855f7",
+      accentMid: "#e9d5ff",
       bgFrom: "from-purple-50",
       bgTo: "to-purple-100/60",
-      features: [
-        "Tier 1 Solar Module",
-        "40kW Power Inverter",
-        "40,000w Tier 1 Panels",
-        "High Efficiency Solar Module"
-      ]
+      path: "/solar/commercial"
     },
     {
       type: "Extra Large Businesses",
@@ -423,21 +421,25 @@ const SolarSolutionsSection = () => {
       recommended: false,
       icon: Zap,
       accent: "#f97316",
+      accentMid: "#fed7aa",
       bgFrom: "from-orange-50",
       bgTo: "to-orange-100/60",
-      features: [
-        "Tier 1 Solar Module",
-        "75kW Power Inverter",
-        "80,000w Tier 1 Panels",
-        "High Efficiency Solar Module"
-      ]
+      path: "/solar/commercial"
     }
   ];
 
+  const commercialFeatures = [
+    ["Tier 1 Solar Module", "15kW Power Inverter", "15,000w Tier 1 Panels", "High Efficiency Solar Module"],
+    ["Tier 1 Solar Module", "25kW Power Inverter", "25,000w Tier 1 Panels", "High Efficiency Solar Module"],
+    ["Tier 1 Solar Module", "40kW Power Inverter", "40,000w Tier 1 Panels", "High Efficiency Solar Module"],
+    ["Tier 1 Solar Module", "75kW Power Inverter", "80,000w Tier 1 Panels", "High Efficiency Solar Module"]
+  ];
+
   const currentSystems = activeTab === 'residential' ? residentialSystems : commercialSystems;
+  const currentFeatures = activeTab === 'residential' ? residentialFeatures : commercialFeatures;
 
   return (
-    <section ref={ref} className="relative py-20 overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100">
+    <section ref={ref} className="relative py-20 overflow-hidden" style={{ background: 'linear-gradient(135deg, #dbeafe 0%, #ede9fe 40%, #f0fdf4 70%, #e0f2fe 100%)' }}>
       {/* Ambient background blobs */}
       <motion.div
         animate={{ y: [0, -20, 0], x: [0, 15, 0] }}
@@ -521,32 +523,38 @@ const SolarSolutionsSection = () => {
         >
           {currentSystems.map((system, index) => {
             const Icon = system.icon;
+            const cardAnim = cardAnimations[index] || cardAnimations[0];
+            const iconAnim = iconAnimations[index] || iconAnimations[0];
+            const features = currentFeatures[index] || [];
             return (
               <motion.div
                 key={`${activeTab}-${index}`}
-                variants={cardVariants}
-                whileHover={{ scale: 1.03, y: -8 }}
+                variants={cardAnim}
+                whileHover={{ y: -12, boxShadow: `0 30px 60px -12px ${system.accent}45` }}
                 transition={{ duration: 0.25 }}
-                className={`relative rounded-2xl overflow-hidden shadow-lg border transition-all duration-300 hover:shadow-2xl bg-gradient-to-br ${system.bgFrom} ${system.bgTo} ${system.recommended ? 'border-[#39b54a] ring-2 ring-[#39b54a]/40' : 'border-gray-200'
-                  }`}
+                className={`relative rounded-3xl overflow-hidden shadow-lg border-2 transition-all duration-300 bg-white`}
+                style={{ borderColor: system.recommended ? system.accent : '#e5e7eb' }}
               >
+                {/* Top accent gradient band */}
+                <div className="h-2 w-full" style={{ background: `linear-gradient(90deg, ${system.accentMid}, ${system.accent})` }} />
                 {/* Recommended Badge */}
                 {system.recommended && (
                   <motion.div
                     initial={{ scale: 0, rotate: -10 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 0.3, type: "spring" }}
-                    className="absolute top-3 right-3 bg-[#39b54a] text-white px-3 py-1 rounded-full text-xs font-bold z-10 shadow-md"
+                    animate={isInView ? { scale: 1, rotate: 0 } : {}}
+                    transition={{ delay: index * 0.12 + 0.3, type: "spring" }}
+                    className="absolute top-5 right-4 text-white px-3 py-1 rounded-full text-xs font-extrabold z-10 shadow-md"
+                    style={{ backgroundColor: system.accent }}
                   >
                     Most Popular
                   </motion.div>
                 )}
 
-                {/* Icon header (replaces the image) */}
-                <div className="pt-8 pb-4 flex flex-col items-center">
+                {/* Icon header with continuous animation */}
+                <div className="pt-8 pb-4 flex flex-col items-center" style={{ background: `linear-gradient(180deg, ${system.accent}12 0%, white 60%)` }}>
                   <motion.div
-                    whileHover={{ rotate: [0, -8, 8, 0] }}
-                    transition={{ duration: 0.5 }}
+                    animate={isInView ? iconAnim.animate : {}}
+                    transition={iconAnim.transition}
                     className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-md mb-4"
                     style={{ backgroundColor: `${system.accent}1A` }}
                   >
@@ -565,10 +573,10 @@ const SolarSolutionsSection = () => {
                   {/* Power Rating */}
                   <div className="text-center mb-6">
                     <motion.h4
-                      initial={{ scale: 0.8, opacity: 0 }}
+                      initial={{ scale: 0.5, opacity: 0 }}
                       animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                      transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
-                      className="text-4xl font-extrabold mb-2"
+                      transition={{ delay: index * 0.12 + 0.2, type: 'spring', stiffness: 120 }}
+                      className="text-5xl font-black mb-2"
                       style={{ color: system.accent }}
                     >
                       {system.power}
@@ -582,24 +590,23 @@ const SolarSolutionsSection = () => {
                   </div>
 
                   {/* CTA Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full text-white py-3 px-4 rounded-lg font-bold text-sm mb-6 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                  <Link
+                    to={system.path}
+                    className="w-full text-white py-3 px-4 rounded-lg font-bold text-sm mb-6 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-center"
                     style={{ backgroundColor: system.accent }}
                   >
                     Get Discounted Price
                     <ArrowRight className="w-4 h-4" />
-                  </motion.button>
+                  </Link>
 
                   {/* Features */}
-                  <div className="space-y-3 mb-6">
-                    {system.features.map((feature, featureIndex) => (
+                  <div className="space-y-2.5 mb-6">
+                    {features.map((feature, featureIndex) => (
                       <motion.div
                         key={featureIndex}
                         initial={{ opacity: 0, x: -15 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ delay: 0.3 + featureIndex * 0.1, duration: 0.4 }}
+                        transition={{ delay: index * 0.1 + featureIndex * 0.08 + 0.35, duration: 0.35 }}
                         className="flex items-center gap-2"
                       >
                         <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: system.accent }} />
@@ -617,12 +624,13 @@ const SolarSolutionsSection = () => {
                     transition={{ delay: 0.7 + index * 0.1 }}
                     className="text-center"
                   >
-                    <button
+                    <Link
+                      to={system.path}
                       className="font-bold text-sm underline transition-colors duration-200"
                       style={{ color: system.accent }}
                     >
                       Learn More
-                    </button>
+                    </Link>
                   </motion.div>
                 </div>
               </motion.div>

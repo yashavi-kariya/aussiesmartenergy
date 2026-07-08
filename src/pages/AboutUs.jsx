@@ -387,9 +387,7 @@ const AboutUs = () => {
               </h2>
 
               <p className="text-lg text-gray-600 leading-relaxed">
-                Our journey began with a simple yet powerful vision: to democratize access
-                to clean, renewable energy across Australia. What started as a passion project
-                has evolved into Australia's most trusted solar installation company.
+                Our design philosophy is more than aesthetics; it’s a dynamic process That delves into the heart of each brand, understanding its story, Values, and aspirations. We believe in the
               </p>
 
               <div className="space-y-4">
