@@ -1,6 +1,8 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ScrollToTopButton from './components/ScrollToTopButton'
 import Home from './pages/Home'
 import AboutUs from './pages/AboutUs'
 import ContactUs from './pages/ContactUs'
@@ -15,6 +17,13 @@ import Solar50kw from './pages/Solar50kw'
 import Solar100kw from './pages/Solar100kw'
 
 function App() {
+  const location = useLocation();
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -33,6 +42,7 @@ function App() {
         <Route path="/solar/commercial/100kw" element={<Solar100kw />} />
       </Routes>
       <Footer />
+      <ScrollToTopButton />
     </div>
   )
 }
