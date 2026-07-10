@@ -4,7 +4,6 @@ import {
     Phone, Mail, MapPin, Clock3, Send, ArrowRight,
     CheckCircle2, MessageSquare, ShieldCheck
 } from 'lucide-react';
-
 const NAVY = '#1e2d53';
 const GREEN = '#39b54a';
 
@@ -72,7 +71,7 @@ const ContactUs = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-blue-50">
 
             {/* Hero Banner */}
             <section
@@ -176,144 +175,160 @@ const ContactUs = () => {
                 </motion.div>
             </section>
 
-            {/* Get in Touch Section */}
-            <section ref={formRef} className="pt-20 pb-20 bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Get in Touch Section (highlighted + full-section animation + decorative shapes) */}
+            <motion.section
+                ref={formRef}
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.12 }}
+                className="pt-20 pb-20 relative overflow-hidden"
+            >
+                {/* Decorative floating shapes */}
+                <motion.div
+                    aria-hidden
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-gradient-to-br from-[#dff7e6] to-[#e6f3ff] blur-3xl opacity-80 pointer-events-none"
+                />
+                <motion.div
+                    aria-hidden
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.9 }}
+                    transition={{ duration: 0.9, delay: 0.15 }}
+                    className="absolute -bottom-28 -right-28 w-96 h-96 rounded-2xl bg-gradient-to-tr from-[#f0fbf4] to-[#d6eefc] blur-3xl opacity-70 pointer-events-none"
+                />
+
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-16">
 
                         {/* Left - Form */}
-                        <motion.div
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate={isFormInView ? 'visible' : 'hidden'}
-                        >
-                            <motion.span
-                                variants={itemVariants}
-                                className="inline-block font-bold text-sm uppercase tracking-wider mb-3"
-                                style={{ color: GREEN }}
-                            >
-                                Get in Touch
-                            </motion.span>
-                            <motion.h2
-                                variants={itemVariants}
-                                className="text-4xl md:text-5xl font-extrabold mb-4"
-                                style={{ color: NAVY }}
-                            >
-                                Say Hello:
-                            </motion.h2>
-                            <motion.p variants={itemVariants} className="text-gray-500 mb-8">
-                                Your Path to Clean Energy Begins with a Conversation
-                            </motion.p>
-
-                            <motion.form variants={itemVariants} onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-2 gap-6">
-                                    <motion.input
-                                        whileFocus={{ scale: 1.02 }}
-                                        transition={{ duration: 0.2 }}
-                                        type="text" name="firstName" value={formData.firstName} onChange={handleChange}
-                                        placeholder="Enter First Name" required
-                                        className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
-                                        style={{ borderColor: `${NAVY}33` }}
-                                    />
-                                    <motion.input
-                                        whileFocus={{ scale: 1.02 }}
-                                        transition={{ duration: 0.2 }}
-                                        type="text" name="lastName" value={formData.lastName} onChange={handleChange}
-                                        placeholder="Enter Last Name" required
-                                        className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
-                                        style={{ borderColor: `${NAVY}33` }}
-                                    />
-                                </div>
-
-                                <motion.input
-                                    whileFocus={{ scale: 1.02 }}
-                                    transition={{ duration: 0.2 }}
-                                    type="email" name="email" value={formData.email} onChange={handleChange}
-                                    placeholder="Enter Email Address" required
-                                    className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
-                                    style={{ borderColor: `${NAVY}33` }}
-                                />
-
-                                <motion.input
-                                    whileFocus={{ scale: 1.02 }}
-                                    transition={{ duration: 0.2 }}
-                                    type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                                    placeholder="Enter Phone"
-                                    className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
-                                    style={{ borderColor: `${NAVY}33` }}
-                                />
-
-                                <motion.input
-                                    whileFocus={{ scale: 1.02 }}
-                                    transition={{ duration: 0.2 }}
-                                    type="text" name="address" value={formData.address} onChange={handleChange}
-                                    placeholder="Enter Address"
-                                    className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
-                                    style={{ borderColor: `${NAVY}33` }}
-                                />
-
-                                <motion.textarea
-                                    whileFocus={{ scale: 1.01 }}
-                                    transition={{ duration: 0.2 }}
-                                    name="message" value={formData.message} onChange={handleChange}
-                                    placeholder="Enter Message" rows={4} required
-                                    className="w-full border-2 outline-none rounded-md p-3 text-gray-700 placeholder-gray-400 resize-none transition-colors duration-200 focus:border-[#39b54a]"
-                                    style={{ borderColor: `${NAVY}33` }}
-                                />
-
-                                <motion.button
-                                    type="submit"
-                                    whileHover={{ scale: 1.03 }}
-                                    whileTap={{ scale: 0.97 }}
-                                    animate={{
-                                        boxShadow: [
-                                            '0 4px 12px rgba(57,181,74,0.0)',
-                                            '0 4px 20px rgba(57,181,74,0.35)',
-                                            '0 4px 12px rgba(57,181,74,0.0)'
-                                        ]
-                                    }}
-                                    transition={{ boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut' } }}
-                                    className="text-white font-bold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
-                                    style={{ backgroundColor: GREEN }}
+                        <motion.div variants={itemVariants} className="">
+                            <motion.div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl ring-1 ring-[#39b54a]/10">
+                                <motion.span
+                                    variants={itemVariants}
+                                    className="inline-block font-bold text-sm uppercase tracking-wider mb-3"
+                                    style={{ color: GREEN }}
                                 >
-                                    Send Message
-                                    <motion.span
-                                        animate={{ x: [0, 4, 0] }}
-                                        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                                        className="inline-flex"
-                                    >
-                                        <Send className="w-4 h-4" />
-                                    </motion.span>
-                                </motion.button>
+                                    Get in Touch
+                                </motion.span>
+                                <motion.h2
+                                    variants={itemVariants}
+                                    className="text-4xl md:text-5xl font-extrabold mb-4"
+                                    style={{ color: NAVY }}
+                                >
+                                    Say Hello:
+                                </motion.h2>
+                                <motion.p variants={itemVariants} className="text-gray-500 mb-8">
+                                    Your Path to Clean Energy Begins with a Conversation
+                                </motion.p>
 
-                                {submitted && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: -10, scale: 0.9 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                                        className="font-medium flex items-center gap-2"
-                                        style={{ color: GREEN }}
+                                <motion.form variants={itemVariants} onSubmit={handleSubmit} className="space-y-6">
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <motion.input
+                                            whileFocus={{ scale: 1.02 }}
+                                            transition={{ duration: 0.2 }}
+                                            type="text" name="firstName" value={formData.firstName} onChange={handleChange}
+                                            placeholder="Enter First Name" required
+                                            className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
+                                            style={{ borderColor: `${NAVY}33` }}
+                                        />
+                                        <motion.input
+                                            whileFocus={{ scale: 1.02 }}
+                                            transition={{ duration: 0.2 }}
+                                            type="text" name="lastName" value={formData.lastName} onChange={handleChange}
+                                            placeholder="Enter Last Name" required
+                                            className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
+                                            style={{ borderColor: `${NAVY}33` }}
+                                        />
+                                    </div>
+
+                                    <motion.input
+                                        whileFocus={{ scale: 1.02 }}
+                                        transition={{ duration: 0.2 }}
+                                        type="email" name="email" value={formData.email} onChange={handleChange}
+                                        placeholder="Enter Email Address" required
+                                        className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
+                                        style={{ borderColor: `${NAVY}33` }}
+                                    />
+
+                                    <motion.input
+                                        whileFocus={{ scale: 1.02 }}
+                                        transition={{ duration: 0.2 }}
+                                        type="tel" name="phone" value={formData.phone} onChange={handleChange}
+                                        placeholder="Enter Phone"
+                                        className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
+                                        style={{ borderColor: `${NAVY}33` }}
+                                    />
+
+                                    <motion.input
+                                        whileFocus={{ scale: 1.02 }}
+                                        transition={{ duration: 0.2 }}
+                                        type="text" name="address" value={formData.address} onChange={handleChange}
+                                        placeholder="Enter Address"
+                                        className="w-full border-b-2 outline-none py-2 text-gray-700 placeholder-gray-400 transition-colors duration-200 focus:border-[#39b54a]"
+                                        style={{ borderColor: `${NAVY}33` }}
+                                    />
+
+                                    <motion.textarea
+                                        whileFocus={{ scale: 1.01 }}
+                                        transition={{ duration: 0.2 }}
+                                        name="message" value={formData.message} onChange={handleChange}
+                                        placeholder="Enter Message" rows={4} required
+                                        className="w-full border-2 outline-none rounded-md p-3 text-gray-700 placeholder-gray-400 resize-none transition-colors duration-200 focus:border-[#39b54a]"
+                                        style={{ borderColor: `${NAVY}33` }}
+                                    />
+
+                                    <motion.button
+                                        type="submit"
+                                        whileHover={{ scale: 1.03 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        animate={{
+                                            boxShadow: [
+                                                '0 4px 12px rgba(57,181,74,0.0)',
+                                                '0 4px 20px rgba(57,181,74,0.35)',
+                                                '0 4px 12px rgba(57,181,74,0.0)'
+                                            ]
+                                        }}
+                                        transition={{ boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut' } }}
+                                        className="text-white font-bold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
+                                        style={{ backgroundColor: GREEN }}
                                     >
+                                        Send Message
                                         <motion.span
-                                            initial={{ scale: 0, rotate: -45 }}
-                                            animate={{ scale: 1, rotate: 0 }}
-                                            transition={{ delay: 0.1, type: 'spring', stiffness: 400 }}
+                                            animate={{ x: [0, 4, 0] }}
+                                            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                                            className="inline-flex"
                                         >
-                                            <CheckCircle2 className="w-4 h-4" />
+                                            <Send className="w-4 h-4" />
                                         </motion.span>
-                                        Thanks! Your message has been sent — we'll be in touch soon.
-                                    </motion.p>
-                                )}
-                            </motion.form>
+                                    </motion.button>
+
+                                    {submitted && (
+                                        <motion.p
+                                            initial={{ opacity: 0, y: -10, scale: 0.9 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                                            className="font-medium flex items-center gap-2"
+                                            style={{ color: GREEN }}
+                                        >
+                                            <motion.span
+                                                initial={{ scale: 0, rotate: -45 }}
+                                                animate={{ scale: 1, rotate: 0 }}
+                                                transition={{ delay: 0.1, type: 'spring', stiffness: 400 }}
+                                            >
+                                                <CheckCircle2 className="w-4 h-4" />
+                                            </motion.span>
+                                            Thanks! Your message has been sent — we'll be in touch soon.
+                                        </motion.p>
+                                    )}
+                                </motion.form>
+                            </motion.div>
                         </motion.div>
 
                         {/* Right - Map with floating chips */}
-                        <motion.div
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate={isFormInView ? 'visible' : 'hidden'}
-                            className="relative"
-                        >
+                        <motion.div variants={itemVariants} className="relative">
                             <motion.span
                                 variants={itemVariants}
                                 className="inline-block font-bold text-sm uppercase tracking-wider mb-3"
@@ -353,7 +368,7 @@ const ContactUs = () => {
 
                                 <motion.div
                                     initial={{ opacity: 0, y: -10 }}
-                                    animate={isFormInView ? { opacity: 1, y: 0 } : {}}
+                                    animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.6, duration: 0.5, ease: EASE }}
                                     whileHover={{ scale: 1.06 }}
                                     className="absolute top-4 left-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2"
@@ -364,7 +379,7 @@ const ContactUs = () => {
 
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
-                                    animate={isFormInView ? { opacity: 1, y: 0 } : {}}
+                                    animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.7, duration: 0.5, ease: EASE }}
                                     whileHover={{ scale: 1.06 }}
                                     className="absolute bottom-4 right-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2"
@@ -377,7 +392,7 @@ const ContactUs = () => {
 
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
             {/* CTA Banner */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">

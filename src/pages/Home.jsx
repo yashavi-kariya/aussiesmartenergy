@@ -2,6 +2,7 @@ import ModernHeroSection from '../components/ModernHeroSection'
 import AboutSection from '../components/AboutSection'
 import CommercialResidentialSection from '../components/CommercialResidentialSection'
 import ProjectExecutionSection from '../components/ProjectExecutionSection'
+import TestimonialsSection from '../components/TestimonialsSection'
 import SavingsPromoSection from '../components/SavingsPromoSection'
 import TestimonialsFAQSection from '../components/TestimonialsFAQSection'
 import BrandsSection from '../components/BrandsSection'
@@ -19,7 +20,8 @@ const Home = () => {
       <ProjectExecutionSection />
       {/* 5. Savings promo — rebates + payment plans */}
       <SavingsPromoSection />
-      {/* 6. Testimonials + FAQ side-by-side */}
+      <TestimonialsSection />
+      {/* 6. FAQ + Video side-by-side */}
       <TestimonialsFAQSection />
       {/* 7. Brands strip */}
       <BrandsSection />
