@@ -1,4 +1,3 @@
-
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Home, Building2, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
@@ -70,8 +69,8 @@ const SolarSolutionsSection = () => {
       subtitle: "p.a on electricity*",
       recommended: false,
       icon: Home,
-      accent: "#3b82f6",
-      accentMid: "#bfdbfe",
+      accent: "#2563eb",
+      accentMid: "#93c5fd",
       bgFrom: "from-blue-50",
       bgTo: "to-blue-100/60",
       path: "/solar/6.6kw"
@@ -83,10 +82,10 @@ const SolarSolutionsSection = () => {
       subtitle: "p.a on electricity*",
       recommended: true,
       icon: Home,
-      accent: "#22c55e",
-      accentMid: "#bbf7d0",
-      bgFrom: "from-green-50",
-      bgTo: "to-green-100/60",
+      accent: "#dc2626",
+      accentMid: "#fca5a5",
+      bgFrom: "from-red-50",
+      bgTo: "to-red-100/60",
       path: "/solar/10.5kw"
     },
     {
@@ -96,10 +95,10 @@ const SolarSolutionsSection = () => {
       subtitle: "p.a on electricity*",
       recommended: false,
       icon: Home,
-      accent: "#a855f7",
-      accentMid: "#e9d5ff",
-      bgFrom: "from-purple-50",
-      bgTo: "to-purple-100/60",
+      accent: "#1d4ed8",
+      accentMid: "#bfdbfe",
+      bgFrom: "from-blue-50",
+      bgTo: "to-indigo-100/60",
       path: "/solar/13.2kw"
     }
   ];
@@ -118,8 +117,8 @@ const SolarSolutionsSection = () => {
       subtitle: "",
       recommended: false,
       icon: Building2,
-      accent: "#3b82f6",
-      accentMid: "#bfdbfe",
+      accent: "#2563eb",
+      accentMid: "#93c5fd",
       bgFrom: "from-blue-50",
       bgTo: "to-blue-100/60",
       path: "/solar/commercial"
@@ -131,10 +130,10 @@ const SolarSolutionsSection = () => {
       subtitle: "",
       recommended: true,
       icon: Building2,
-      accent: "#22c55e",
-      accentMid: "#bbf7d0",
-      bgFrom: "from-green-50",
-      bgTo: "to-green-100/60",
+      accent: "#dc2626",
+      accentMid: "#fca5a5",
+      bgFrom: "from-red-50",
+      bgTo: "to-red-100/60",
       path: "/solar/commercial"
     },
     {
@@ -144,10 +143,10 @@ const SolarSolutionsSection = () => {
       subtitle: "",
       recommended: false,
       icon: Building2,
-      accent: "#a855f7",
-      accentMid: "#e9d5ff",
-      bgFrom: "from-purple-50",
-      bgTo: "to-purple-100/60",
+      accent: "#1d4ed8",
+      accentMid: "#bfdbfe",
+      bgFrom: "from-blue-50",
+      bgTo: "to-indigo-100/60",
       path: "/solar/commercial"
     },
     {
@@ -157,10 +156,10 @@ const SolarSolutionsSection = () => {
       subtitle: "",
       recommended: false,
       icon: Zap,
-      accent: "#f97316",
-      accentMid: "#fed7aa",
-      bgFrom: "from-orange-50",
-      bgTo: "to-orange-100/60",
+      accent: "#b91c1c",
+      accentMid: "#fecaca",
+      bgFrom: "from-red-50",
+      bgTo: "to-red-100/60",
       path: "/solar/commercial"
     }
   ];
@@ -200,7 +199,7 @@ const SolarSolutionsSection = () => {
         >
           <motion.span
             variants={itemVariants}
-            className="inline-block text-[#39b54a] font-bold text-sm uppercase tracking-widest mb-3"
+            className="inline-block text-[#dc2626] font-bold text-sm uppercase tracking-widest mb-3"
           >
             Our Solutions
           </motion.span>
@@ -226,7 +225,7 @@ const SolarSolutionsSection = () => {
           >
             <div className="relative flex">
               <motion.div
-                className="absolute inset-y-0 bg-[#39b54a] rounded-full shadow-md"
+                className="absolute inset-y-0 bg-[#dc2626] rounded-full shadow-md"
                 animate={{
                   x: activeTab === 'residential' ? 0 : '100%',
                   width: '50%'
@@ -235,14 +234,14 @@ const SolarSolutionsSection = () => {
               />
               <button
                 onClick={() => setActiveTab('residential')}
-                className={`relative z-10 px-8 py-3 font-bold text-sm rounded-full transition-colors duration-300 ${activeTab === 'residential' ? 'text-white' : 'text-[#1e2d53] hover:text-[#39b54a]'
+                className={`relative z-10 px-8 py-3 font-bold text-sm rounded-full transition-colors duration-300 ${activeTab === 'residential' ? 'text-white' : 'text-[#1e2d53] hover:text-[#dc2626]'
                   }`}
               >
                 Residential Solar
               </button>
               <button
                 onClick={() => setActiveTab('commercial')}
-                className={`relative z-10 px-8 py-3 font-bold text-sm rounded-full transition-colors duration-300 ${activeTab === 'commercial' ? 'text-white' : 'text-[#1e2d53] hover:text-[#39b54a]'
+                className={`relative z-10 px-8 py-3 font-bold text-sm rounded-full transition-colors duration-300 ${activeTab === 'commercial' ? 'text-white' : 'text-[#1e2d53] hover:text-[#dc2626]'
                   }`}
               >
                 Commercial Solar
