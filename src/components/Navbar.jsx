@@ -66,14 +66,19 @@ const Navbar = () => {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: EASE }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-md' : 'bg-white shadow-sm'
+      className={`fixed top-0 left-0 right-0 z-50 overflow-hidden transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-2xl border-b border-slate-200/70' : 'bg-white shadow-xl border-b border-slate-100'
         }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute right-8 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-sky-200/55 blur-3xl" />
+        <div className="absolute left-10 top-1/2 h-28 w-28 -translate-y-1/2 rounded-full bg-emerald-200/65 blur-3xl" />
+        <div className="absolute inset-x-6 top-4 h-[86%] rounded-b-[40px] bg-slate-950/5" />
+      </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          animate={{ height: scrolled ? 70 : 90 }}   // was: 62 : 70
+          animate={{ height: scrolled ? 70 : 92 }}   // was: 62 : 70
           transition={{ duration: 0.35, ease: EASE }}
-          className="flex items-center justify-between"
+          className="flex items-center justify-between py-3"
         >
 
           {/* Logo */}
@@ -90,7 +95,7 @@ const Navbar = () => {
 
           {/* Desktop Nav */}
           <div
-            className="hidden lg:flex items-center space-x-1"
+            className="hidden lg:flex items-center space-x-1 bg-slate-50/80 backdrop-blur-sm rounded-full px-3 py-2 shadow-sm"
             onMouseLeave={() => setHoveredItem(null)}
           >
             {navItems.map((item) => {
@@ -108,7 +113,7 @@ const Navbar = () => {
                   {item.isRoute ? (
                     <Link
                       to={item.href}
-                      className={`flex items-center space-x-0.5 px-3 py-2 text-sm font-semibold rounded transition-colors relative ${isActive ? 'text-[#1e2d53]' : 'text-slate-600 hover:text-[#1e2d53]'
+                      className={`flex items-center space-x-0.5 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative ${isActive ? 'bg-[#1e2d53] text-white shadow-sm shadow-slate-200/40' : 'text-slate-600 hover:text-[#1e2d53] hover:bg-slate-100'
                         }`}
                     >
                       <span>{item.name}</span>
@@ -148,7 +153,7 @@ const Navbar = () => {
                   ) : (
                     <a
                       href={item.href}
-                      className="flex items-center space-x-0.5 px-3 py-2 text-sm font-semibold rounded transition-colors relative text-slate-600 hover:text-[#1e2d53]"
+                      className="flex items-center space-x-0.5 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative text-slate-600 hover:text-[#1e2d53] hover:bg-slate-100"
                     >
                       <span>{item.name}</span>
                       {item.hasDropdown && (

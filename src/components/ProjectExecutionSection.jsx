@@ -11,24 +11,20 @@ const ProjectExecutionSection = () => {
 
   const steps = [
     {
-      id: 1, icon: MessageSquare, label: 'Free Consultation', sub: 'We understand your needs',
+      id: 1, icon: MessageSquare, label: 'Customized Consultation', sub: 'We understand your needs',
       iconColor: 'text-[#39b54a]', bg: 'bg-emerald-50', border: 'border-emerald-200'
     },
     {
-      id: 2, icon: ClipboardList, label: 'System Design', sub: 'Custom solution just for you',
+      id: 2, icon: ClipboardList, label: 'Design & Documentation', sub: 'Custom solution just for you',
       iconColor: 'text-orange-500', bg: 'bg-orange-50', border: 'border-orange-200'
     },
     {
-      id: 3, icon: FileText, label: 'Proposal & Quote', sub: 'Transparent pricing, no hidden cost',
+      id: 3, icon: FileText, label: 'Installation & Certification', sub: 'Transparent pricing, no hidden cost',
       iconColor: 'text-blue-500', bg: 'bg-blue-50', border: 'border-blue-200'
     },
     {
-      id: 4, icon: HardHat, label: 'Installation', sub: 'Certified experts do the job',
+      id: 4, icon: HardHat, label: 'Commissioning & Net Metering', sub: 'Certified experts do the job',
       iconColor: 'text-purple-500', bg: 'bg-purple-50', border: 'border-purple-200'
-    },
-    {
-      id: 5, icon: ShieldCheck, label: 'Support & Monitor', sub: "We're here always",
-      iconColor: 'text-[#39b54a]', bg: 'bg-emerald-50', border: 'border-emerald-200'
     },
   ];
 
@@ -49,7 +45,7 @@ const ProjectExecutionSection = () => {
         >
           <span className="text-[#39b54a] text-xs font-extrabold tracking-widest uppercase">OUR PROCESS</span>
           <h2 className="mt-2 text-3xl lg:text-4xl font-extrabold text-[#1e2d53]">
-            From Start to Solar in 5 Easy Steps
+            From Start to Solar in 4 Easy Steps
           </h2>
         </motion.div>
 
@@ -82,7 +78,7 @@ const ProjectExecutionSection = () => {
           </div>
 
           {/* Step Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 lg:gap-4 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-4 justify-items-center relative z-10">
             {steps.map((step, i) => {
               const delay = i * STEP_GAP;
               return (
@@ -115,7 +111,7 @@ const ProjectExecutionSection = () => {
                   </div>
 
                   <h3 className="text-sm font-extrabold text-[#1e2d53] leading-tight mb-1">{step.label}</h3>
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed max-w-[120px]">{step.sub}</p>
+                  {/* <p className="text-xs text-slate-500 font-medium leading-relaxed max-w-[120px]">{step.sub}</p> */}
                 </motion.div>
               );
             })}
