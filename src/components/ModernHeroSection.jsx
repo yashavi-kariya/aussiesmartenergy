@@ -224,7 +224,7 @@ const ModernHeroSection = () => {
               {/* Decorative corner accent — top-right notch */}
               <div
                 className="absolute -top-3 -right-3 w-24 h-24 rounded-full z-0 pointer-events-none"
-                style={{ background: 'radial-gradient(circle, rgba(220,38,38,0.18) 0%, transparent 70%)' }}
+                style={{ background: 'radial-gradient(circle, rgba(30,64,175,0.18) 0%, transparent 70%)' }}
               />
               <div
                 className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full z-0 pointer-events-none"
@@ -237,14 +237,14 @@ const ModernHeroSection = () => {
                 style={{ width: 80, height: 80 }}
               >
                 <div
-                  className="absolute bg-[#dc2626] text-white text-[9px] font-black tracking-widest uppercase text-center"
+                  className="absolute bg-[#1e40af] text-white text-[9px] font-black tracking-widest uppercase text-center"
                   style={{
                     width: 110,
                     top: 22,
                     left: -28,
                     transform: 'rotate(-45deg)',
                     padding: '3px 0',
-                    boxShadow: '0 2px 6px rgba(220,38,38,0.4)',
+                    boxShadow: '0 2px 6px rgba(30,64,175,0.4)',
                   }}
                 >
                   FREE
@@ -253,7 +253,7 @@ const ModernHeroSection = () => {
 
               {/* Main card with custom clip-path for unique shape */}
               <motion.div
-                whileHover={{ y: -6, boxShadow: '0 40px 80px -20px rgba(220,38,38,0.2), 0 20px 40px -10px rgba(30,45,83,0.2)' }}
+                whileHover={{ y: -6, boxShadow: '0 40px 80px -20px rgba(30,64,175,0.2), 0 20px 40px -10px rgba(30,45,83,0.2)' }}
                 transition={{ duration: 0.3, ease: EASE }}
                 className="relative z-10 bg-white shadow-2xl border border-slate-100 overflow-hidden"
                 style={{
@@ -264,7 +264,7 @@ const ModernHeroSection = () => {
                 {/* Gradient top bar — navy to red */}
                 <div
                   className="h-1.5 w-full"
-                  style={{ background: 'linear-gradient(90deg, #1e2d53 0%, #dd0505ff 50%, #1e2d53 100%)' }}
+                  style={{ background: 'linear-gradient(90deg, #1e2d53 0%, #1e40af 50%, #1e2d53 100%)' }}
                 />
 
                 {/* Subtle background pattern inside card */}
@@ -289,7 +289,7 @@ const ModernHeroSection = () => {
                       animate={{ rotate: [0, -8, 8, 0] }}
                       transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
                       className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm"
-                      style={{ background: 'linear-gradient(135deg, #dc2626, #f52727ff)' }}
+                      style={{ background: 'linear-gradient(135deg, #1e40af, #1d4ed8)' }}
                     >
                       <Leaf className="w-5 h-5 text-white" />
                     </motion.div>
@@ -327,15 +327,15 @@ const ModernHeroSection = () => {
                               onFocus={() => setFocusedField(field.name)}
                               onBlur={() => setFocusedField(null)}
                               className={`w-full px-3 py-2.5 text-sm border-b-2 border-x-0 border-t-0 bg-slate-50 rounded-t-lg outline-none transition-all duration-200 focus:bg-white ${errors[field.name]
-                                ? 'border-b-red-400 bg-red-50'
+                                ? 'border-b-blue-400 bg-blue-50'
                                 : focusedField === field.name
-                                  ? 'border-b-[#dc2626]'
+                                  ? 'border-b-[#1e40af]'
                                   : 'border-b-slate-200'
                                 }`}
                             />
                             {/* Animated underline */}
                             <motion.div
-                              className="absolute bottom-0 left-0 h-0.5 bg-[#dc2626] rounded-full"
+                              className="absolute bottom-0 left-0 h-0.5 bg-[#1e40af] rounded-full"
                               animate={{ width: focusedField === field.name ? '100%' : '0%' }}
                               transition={{ duration: 0.3, ease: EASE }}
                             />
@@ -359,15 +359,15 @@ const ModernHeroSection = () => {
                             onFocus={() => setFocusedField(field.name)}
                             onBlur={() => setFocusedField(null)}
                             className={`w-full px-3 py-2.5 text-sm border-b-2 border-x-0 border-t-0 bg-slate-50 rounded-t-lg outline-none transition-all duration-200 focus:bg-white ${errors[field.name]
-                              ? 'border-b-red-400 bg-red-50'
+                              ? 'border-b-blue-400 bg-blue-50'
                               : focusedField === field.name
-                                ? 'border-b-[#dc2626]'
+                                ? 'border-b-[#1e40af]'
                                 : 'border-b-slate-200'
                               }`}
                           />
                           {/* Animated underline */}
                           <motion.div
-                            className="absolute bottom-0 left-0 h-0.5 bg-[#dc2626] rounded-full"
+                            className="absolute bottom-0 left-0 h-0.5 bg-[#1e40af] rounded-full"
                             animate={{ width: focusedField === field.name ? '100%' : '0%' }}
                             transition={{ duration: 0.3, ease: EASE }}
                           />
@@ -382,11 +382,11 @@ const ModernHeroSection = () => {
                       >
                         <motion.button
                           type="submit"
-                          whileHover={{ scale: 1.02, boxShadow: '0 12px 32px -8px rgba(220,38,38,0.55)' }}
+                          whileHover={{ scale: 1.02, boxShadow: '0 12px 32px -8px rgba(30,64,175,0.55)' }}
                           whileTap={{ scale: 0.97 }}
                           className="relative w-full text-white py-3.5 font-extrabold text-sm overflow-hidden group flex items-center justify-center gap-3"
                           style={{
-                            background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
+                            background: 'linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #1e3a8a 100%)',
                             clipPath: 'polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%)',
                             borderRadius: '4px',
                           }}
@@ -409,7 +409,7 @@ const ModernHeroSection = () => {
                             }}
                             className="relative w-7 h-7 bg-white rounded-full flex items-center justify-center flex-shrink-0"
                           >
-                            <ArrowRight className="w-4 h-4 text-[#dc2626]" />
+                            <ArrowRight className="w-4 h-4 text-[#1e40af]" />
                           </motion.div>
                         </motion.button>
                       </motion.div>
@@ -421,7 +421,7 @@ const ModernHeroSection = () => {
                       >
                         {['No Obligation', '100% Free', 'Fast Response'].map((badge) => (
                           <span key={badge} className="flex items-center gap-1 text-[10px] font-semibold text-slate-400">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626]" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#1e40af]" />
                             {badge}
                           </span>
                         ))}
@@ -439,7 +439,7 @@ const ModernHeroSection = () => {
                         animate={{ scale: 1, rotate: 0 }}
                         transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.1 }}
                         className="w-14 h-14 rounded-full flex items-center justify-center mx-auto"
-                        style={{ background: 'linear-gradient(135deg, #dc2626, #b91c1c)' }}
+                        style={{ background: 'linear-gradient(135deg, #1e40af, #1d4ed8)' }}
                       >
                         <CheckCircle className="w-7 h-7 text-white" />
                       </motion.div>
@@ -447,7 +447,7 @@ const ModernHeroSection = () => {
                       <p className="text-sm text-slate-600">A solar specialist will contact you shortly to discuss your rebate options.</p>
                       <button
                         onClick={() => { setSubmitted(false); setFormState({ firstName: '', lastName: '', email: '', phone: '', postcode: '' }); }}
-                        className="text-sm text-[#dc2626] font-bold hover:underline"
+                        className="text-sm text-[#1e40af] font-bold hover:underline"
                       >
                         Check again →
                       </button>
