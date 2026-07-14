@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Phone, Mail, MapPin, ArrowRight, ShieldCheck, Send } from 'lucide-react';
 import logoImg from '../assets/Mainlogo.png';
+import bannerLogo from '../assets/banner-logo-1024x365.png';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -286,7 +287,6 @@ export default function Footer() {
             <motion.div variants={itemVariants} className="flex flex-col gap-5">
               {/* Logo — white pill card so blue logo pops on dark bg */}
               <div className="relative w-fit">
-                {/* Animated glow ring behind the pill */}
                 <motion.div
                   animate={{ opacity: [0.5, 1, 0.5], scale: [0.95, 1.08, 0.95] }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -296,7 +296,6 @@ export default function Footer() {
                     filter: 'blur(12px)',
                   }}
                 />
-                {/* White pill background */}
                 <motion.div
                   whileHover={{ scale: 1.03, boxShadow: '0 0 32px rgba(57,181,74,0.5), 0 0 12px rgba(59,130,246,0.3)' }}
                   transition={{ duration: 0.3 }}
@@ -307,25 +306,14 @@ export default function Footer() {
                     border: '1px solid rgba(57,181,74,0.3)',
                   }}
                 >
-                  {/* Subtle shimmer sweep */}
                   <motion.div
                     animate={{ x: ['-120%', '220%'] }}
                     transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
                     className="absolute inset-y-0 w-1/3 pointer-events-none rounded-2xl"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-                      skewX: '-15deg',
-                    }}
+                    style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)', skewX: '-15deg' }}
                   />
-                  <img
-                    src={logoImg}
-                    alt="Aussie Smart Energy"
-                    className="relative h-16 w-auto object-contain"
-                    onError={(e) => { e.target.style.display = 'none'; }}
-                  />
+                  <img src={logoImg} alt="Aussie Smart Energy" className="relative h-16 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
                 </motion.div>
-
-                {/* Green dot indicator — "active / online" feel */}
                 <motion.span
                   animate={{ scale: [1, 1.4, 1], opacity: [0.8, 1, 0.8] }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -335,42 +323,74 @@ export default function Footer() {
               </div>
 
               <p className="text-slate-400 text-sm leading-relaxed">
-                Delivering reliable, high quality solar solutions across Australia.
-                Powering homes and businesses with clean, sustainable energy.
+                Solar panels provide excellent benefits for Australian homes and businesses.
+                They reduce energy bills, harnessing abundant sunlight for cost-effective power.
+                Government Incentives make solar systems more affordable — a smart investment for a greener future.
               </p>
 
               {/* Social icons */}
               <div className="flex items-center gap-2.5 mt-1">
                 <SocialBtn label="Facebook" color="#1877f2" bg="#e7f0fe">f</SocialBtn>
-                <SocialBtn label="LinkedIn" color="#0a66c2" bg="#dbeafe">in</SocialBtn>
-                <SocialBtn label="YouTube" color="#ff0000" bg="#fee2e2">?</SocialBtn>
-                <SocialBtn label="X" color="#0f172a" bg="#f1f5f9">??</SocialBtn>
+                <SocialBtn label="YouTube" color="#ff0000" bg="#fee2e2">▶</SocialBtn>
+                <SocialBtn label="Instagram" color="#e1306c" bg="#fce7f3">◎</SocialBtn>
               </div>
             </motion.div>
 
-            {/* -- Col 2: Quick Links -- */}
-            <motion.div variants={itemVariants} className="flex flex-col gap-4">
-              <h4 className="text-white font-bold text-base tracking-wide flex items-center gap-2">
-                <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/25 flex items-center justify-center text-[#39b54a] text-xs">??</span>
-                Quick Links
-              </h4>
-              <ul className="space-y-0.5">
-                {quickLinks.map(l => <FooterLink key={l}>{l}</FooterLink>)}
-              </ul>
+            {/* -- Col 2: Phone + Email + Socials -- */}
+            <motion.div variants={itemVariants} className="flex flex-col gap-6">
+
+              {/* Phone */}
+              <div>
+                <h4 className="text-white font-bold text-base tracking-wide mb-3 flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/25 flex items-center justify-center text-[#39b54a]">
+                    <Phone size={13} />
+                  </span>
+                  Phone
+                </h4>
+                <a href="tel:0468331724" className="group flex items-center gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
+                  <span className="text-[#39b54a] font-bold">›</span>
+                  0468 331 724
+                </a>
+              </div>
+
+              {/* Email */}
+              <div>
+                <h4 className="text-white font-bold text-base tracking-wide mb-3 flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400">
+                    <Mail size={13} />
+                  </span>
+                  Email
+                </h4>
+                <a href="mailto:info@aussiesmartenergy.com.au" className="group flex items-center gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200 break-all">
+                  <span className="text-[#39b54a] font-bold flex-shrink-0">›</span>
+                  info@aussiesmartenergy.com.au
+                </a>
+              </div>
+
+              {/* Social icons */}
+              <div className="flex items-center gap-2.5">
+                <SocialBtn label="Facebook" color="#1877f2" bg="#e7f0fe">f</SocialBtn>
+                <SocialBtn label="YouTube" color="#ff0000" bg="#fee2e2">▶</SocialBtn>
+                <SocialBtn label="Instagram" color="#e1306c" bg="#fce7f3">◎</SocialBtn>
+              </div>
             </motion.div>
 
             {/* -- Col 3: Resources -- */}
             <motion.div variants={itemVariants} className="flex flex-col gap-4">
               <h4 className="text-white font-bold text-base tracking-wide flex items-center gap-2">
-                <span className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400 text-xs">??</span>
+                <span className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400 text-xs">📖</span>
                 Resources
               </h4>
               <ul className="space-y-0.5">
-                {resources.map(r => <FooterLink key={r}>{r}</FooterLink>)}
+                <FooterLink href="/">Home</FooterLink>
+                <FooterLink href="/about">About Us</FooterLink>
+                <FooterLink href="/contact">Contact Us</FooterLink>
+                <FooterLink href="#residential">Residential Solar</FooterLink>
+                <FooterLink href="#commercial">Commercial Solar</FooterLink>
               </ul>
             </motion.div>
 
-            {/* -- Col 4: Contact + Newsletter -- */}
+            {/* -- Col 4: Subscribe + banner logo -- */}
             <motion.div variants={itemVariants} className="flex flex-col gap-5">
               {/* Floating solar icon */}
               <motion.div
@@ -383,69 +403,60 @@ export default function Footer() {
                   <line x1="18" y1="16" x2="18" y2="38" /><line x1="30" y1="16" x2="30" y2="38" />
                   <line x1="6" y1="27" x2="42" y2="27" />
                   <line x1="24" y1="38" x2="24" y2="44" /><line x1="16" y1="44" x2="32" y2="44" />
-                  <path d="M16 10 C16 4, 22 2, 24 8" /><path d="M32 10 C32 4, 26 2, 24 8" />
                 </svg>
               </motion.div>
 
               <h4 className="text-white font-bold text-base tracking-wide flex items-center gap-2">
                 <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/25 flex items-center justify-center text-[#39b54a]">
-                  <Phone size={13} />
+                  <Send size={13} />
                 </span>
-                Contact Us
+                Subscribe
               </h4>
 
-              <ul className="space-y-3">
-                <ContactRow icon={Phone}>0468 331 724</ContactRow>
-                <ContactRow icon={Mail}>info@aussiesmartenergy.com.au</ContactRow>
-                <ContactRow icon={MapPin}>Sydney, NSW &amp; Australia</ContactRow>
-              </ul>
+              <p className="text-slate-500 text-xs -mt-2">Sign up for tips, updates and special offers on solar.</p>
 
-              {/* Divider */}
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-              {/* Newsletter */}
-              <div className="flex flex-col gap-3">
-                <h5 className="text-white font-bold text-sm flex items-center gap-2">
-                  <Send size={14} className="text-[#39b54a]" />
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{ backgroundImage: 'linear-gradient(90deg, #60a5fa, #39b54a, #60a5fa)', backgroundSize: '200% auto', animation: 'gradShine 4s linear infinite' }}
+              {subscribed ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-2 text-[#39b54a] text-sm font-semibold py-2"
+                >
+                  <ShieldCheck size={16} /> Subscribed! Thank you.
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex gap-0 rounded-xl overflow-hidden border border-white/10 focus-within:border-[#39b54a]/50 transition-all duration-300 focus-within:shadow-[0_0_16px_rgba(57,181,74,0.2)]">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="Email Address"
+                    required
+                    className="flex-1 min-w-0 bg-white/5 text-white text-sm px-4 py-3 outline-none placeholder:text-slate-600"
+                  />
+                  <motion.button
+                    type="submit"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex-shrink-0 w-12 flex items-center justify-center text-white transition-all duration-300"
+                    style={{ background: 'linear-gradient(135deg, #39b54a, #2d9e3f)' }}
                   >
-                    Stay Updated
-                  </span>
-                </h5>
-                <p className="text-slate-500 text-xs">Sign up for tips, updates and special offers on solar.</p>
+                    <ArrowRight size={16} />
+                  </motion.button>
+                </form>
+              )}
 
-                {subscribed ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex items-center gap-2 text-[#39b54a] text-sm font-semibold py-2"
-                  >
-                    <ShieldCheck size={16} /> Subscribed! Thank you.
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="flex gap-0 rounded-xl overflow-hidden border border-white/10 focus-within:border-[#39b54a]/50 transition-all duration-300 focus-within:shadow-[0_0_16px_rgba(57,181,74,0.2)]">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      required
-                      className="flex-1 min-w-0 bg-white/5 text-white text-sm px-4 py-3 outline-none placeholder:text-slate-600"
-                    />
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex-shrink-0 w-12 flex items-center justify-center text-white transition-all duration-300"
-                      style={{ background: 'linear-gradient(135deg, #39b54a, #2d9e3f)' }}
-                    >
-                      <ArrowRight size={16} />
-                    </motion.button>
-                  </form>
-                )}
-              </div>
+              {/* Banner / certification logos */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.25 }}
+              >
+                <img
+                  src={bannerLogo}
+                  alt="Certifications"
+                  className="w-full max-w-[260px] h-auto object-contain rounded-xl"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+              </motion.div>
             </motion.div>
           </motion.div>
 
