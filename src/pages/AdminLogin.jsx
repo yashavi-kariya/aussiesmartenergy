@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import { Lock, User, Eye, EyeOff, ShieldAlert, ArrowLeft, Zap } from 'lucide-react';
 import api from '../utils/api';
 
-const NAVY = '#b8c5e7ff';
-const NAVY_DARK = '#6679aeff';
-const NAVY_LIGHT = '#586796ff';
+const NAVY = '#1e2d53';
+const NAVY_DARK = '#141f3d';
+const NAVY_LIGHT = '#253466';
 const GREEN = '#39b54a';
 const GREEN_DARK = '#2e9a3d';
 
@@ -77,7 +77,7 @@ const AdminLogin = () => {
       <div className="absolute top-6 left-6 z-20">
         <Link
           to="/"
-          className="flex items-center gap-2 text-white/50 hover:text-white transition-colors duration-200 text-sm font-medium"
+          className="flex items-center gap-2 text-white/80 hover:text-white transition-colors duration-200 text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Website
@@ -122,7 +122,7 @@ const AdminLogin = () => {
             <h1 className="text-2xl font-extrabold text-white tracking-tight">
               Aussie Smart Energy
             </h1>
-            <p className="text-white/40 text-sm mt-1 font-medium tracking-wide uppercase">
+            <p className="text-white/70 text-sm mt-1 font-medium tracking-wide uppercase">
               Admin Portal
             </p>
           </div>
@@ -148,7 +148,7 @@ const AdminLogin = () => {
           <form onSubmit={handleLogin} className="space-y-5">
             {/* Username / Email */}
             <div>
-              <label className="block text-white/60 text-xs font-bold uppercase tracking-widest mb-2">
+              <label className="block text-white text-xs font-bold uppercase tracking-widest mb-2">
                 Username or Email
               </label>
               <div className="relative">
@@ -159,10 +159,10 @@ const AdminLogin = () => {
                   type="text"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="w-full py-3 pl-11 pr-4 text-white text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/25"
+                  className="w-full py-3 pl-11 pr-4 text-white text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/50"
                   style={{
-                    background: `rgba(255,255,255,0.06)`,
-                    border: `1px solid rgba(255,255,255,0.1)`,
+                    background: `rgba(255,255,255,0.10)`,
+                    border: `1px solid rgba(255,255,255,0.2)`,
                   }}
                   onFocus={e => e.target.style.border = `1px solid ${GREEN}60`}
                   onBlur={e => e.target.style.border = '1px solid rgba(255,255,255,0.1)'}
@@ -174,7 +174,7 @@ const AdminLogin = () => {
 
             {/* Password */}
             <div>
-              <label className="block text-white/60 text-xs font-bold uppercase tracking-widest mb-2">
+              <label className="block text-white text-xs font-bold uppercase tracking-widest mb-2">
                 Password
               </label>
               <div className="relative">
@@ -185,10 +185,10 @@ const AdminLogin = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full py-3 pl-11 pr-12 text-white text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/25"
+                  className="w-full py-3 pl-11 pr-12 text-white text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/50"
                   style={{
-                    background: `rgba(255,255,255,0.06)`,
-                    border: `1px solid rgba(255,255,255,0.1)`,
+                    background: `rgba(255,255,255,0.10)`,
+                    border: `1px solid rgba(255,255,255,0.2)`,
                   }}
                   onFocus={e => e.target.style.border = `1px solid ${GREEN}60`}
                   onBlur={e => e.target.style.border = '1px solid rgba(255,255,255,0.1)'}
@@ -232,8 +232,8 @@ const AdminLogin = () => {
           </form>
 
           {/* Default credentials hint */}
-          <p className="text-center text-white/25 text-xs mt-6">
-            Default: <span className="font-mono text-white/40">admin</span> / <span className="font-mono text-white/40">Admin123!</span>
+          <p className="text-center text-white/60 text-xs mt-6">
+            Default: <span className="font-mono text-white/80">admin</span> / <span className="font-mono text-white/80">Admin123!</span>
           </p>
         </div>
       </motion.div>
