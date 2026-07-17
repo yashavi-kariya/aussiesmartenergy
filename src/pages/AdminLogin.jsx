@@ -167,6 +167,10 @@ const AdminLogin = () => {
                   onFocus={e => e.target.style.border = `1px solid ${GREEN}60`}
                   onBlur={e => e.target.style.border = '1px solid rgba(255,255,255,0.1)'}
                   placeholder="admin or admin@aussiesmartenergy.com.au"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  autoComplete="username"
                   required
                 />
               </div>
@@ -193,6 +197,10 @@ const AdminLogin = () => {
                   onFocus={e => e.target.style.border = `1px solid ${GREEN}60`}
                   onBlur={e => e.target.style.border = '1px solid rgba(255,255,255,0.1)'}
                   placeholder="••••••••"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  autoComplete="current-password"
                   required
                 />
                 <button
