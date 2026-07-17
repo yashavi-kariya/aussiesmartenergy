@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
+import api from '../utils/api';
 import {
   Shield, CheckCircle, ArrowRight, Users, Zap, Award, Activity,
   MapPin, UserCheck, Leaf
@@ -13,10 +14,12 @@ const ModernHeroSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.1 });
   const [formState, setFormState] = useState({
-    firstName: '', lastName: '', email: '', phone: '', postcode: ''
+    firstName: '', lastName: '', email: '', phone: '', address: ''
   });
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
 
   const bottomFeatures = [
@@ -40,18 +43,36 @@ const ModernHeroSection = () => {
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     if (!formState.firstName) newErrors.firstName = true;
     if (!formState.lastName) newErrors.lastName = true;
     if (!formState.email) newErrors.email = true;
     if (!formState.phone) newErrors.phone = true;
-    if (!formState.postcode) newErrors.postcode = true;
+    if (!formState.address) newErrors.address = true;
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-    } else {
+      setError('Please complete all required fields.');
+      return;
+    }
+
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      await api.post('/enquiries', {
+        ...formState,
+        message: '',
+        formType: 'hero',
+      });
       setSubmitted(true);
+      setFormState({ firstName: '', lastName: '', email: '', phone: '', address: '' });
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Unable to submit your enquiry right now.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -60,7 +81,7 @@ const ModernHeroSection = () => {
     { name: 'lastName', placeholder: 'Last Name', type: 'text', half: true },
     { name: 'email', placeholder: 'Email Address', type: 'email', half: false },
     { name: 'phone', placeholder: 'Phone Number', type: 'tel', half: false },
-    { name: 'postcode', placeholder: 'Suburb / Postcode', type: 'text', half: false },
+    { name: 'address', placeholder: 'Address', type: 'text', half: false },
   ];
 
   return (

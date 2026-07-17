@@ -15,6 +15,9 @@ import Solar20kw from './pages/Solar20kw'
 import Solar30kw from './pages/Solar30kw'
 import Solar50kw from './pages/Solar50kw'
 import Solar100kw from './pages/Solar100kw'
+import AdminLogin from './pages/AdminLogin'
+import AdminDashboard from './pages/AdminDashboard'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   const location = useLocation();
@@ -24,9 +27,11 @@ function App() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/login/admin';
+
   return (
     <div className="min-h-screen">
-      <Navbar />
+      {!isAdminRoute && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
@@ -40,9 +45,15 @@ function App() {
         <Route path="/solar/commercial/30kw" element={<Solar30kw />} />
         <Route path="/solar/commercial/50kw" element={<Solar50kw />} />
         <Route path="/solar/commercial/100kw" element={<Solar100kw />} />
+        
+        {/* Admin Routes */}
+        <Route path="/login/admin" element={<AdminLogin />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
       </Routes>
-      <Footer />
-      <ScrollToTopButton />
+      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && <ScrollToTopButton />}
     </div>
   )
 }

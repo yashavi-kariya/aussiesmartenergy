@@ -1,5 +1,6 @@
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
+import api from '../utils/api';
 import {
     Phone, Mail, MapPin, Clock3, Send, ArrowRight,
     CheckCircle2, MessageSquare, ShieldCheck
@@ -24,6 +25,8 @@ const ContactUs = () => {
         firstName: '', lastName: '', email: '', phone: '', address: '', message: ''
     });
     const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [openFaq, setOpenFaq] = useState(0);
 
     // Subtle parallax drift on the hero background image as the page scrolls
@@ -37,13 +40,24 @@ const ContactUs = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: wire this up to your backend / email service
-        console.log('Contact form submitted:', formData);
-        setSubmitted(true);
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', address: '', message: '' });
-        setTimeout(() => setSubmitted(false), 4000);
+        setError('');
+        setIsSubmitting(true);
+
+        try {
+            await api.post('/enquiries', {
+                ...formData,
+                formType: 'contact',
+            });
+            setSubmitted(true);
+            setFormData({ firstName: '', lastName: '', email: '', phone: '', address: '', message: '' });
+            setTimeout(() => setSubmitted(false), 4000);
+        } catch (err) {
+            setError(err?.response?.data?.message || 'Unable to submit your enquiry right now.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const containerVariants = {
@@ -225,6 +239,8 @@ const ContactUs = () => {
                                 </motion.p>
 
                                 <motion.form variants={itemVariants} onSubmit={handleSubmit} className="space-y-6">
+                                    {error && <p className="text-sm text-red-600">{error}</p>}
+                                    {error && <p className="text-sm text-red-600">{error}</p>}
                                     <div className="grid grid-cols-2 gap-6">
                                         <motion.input
                                             whileFocus={{ scale: 1.02 }}
@@ -284,6 +300,7 @@ const ContactUs = () => {
                                         type="submit"
                                         whileHover={{ scale: 1.03 }}
                                         whileTap={{ scale: 0.97 }}
+                                        disabled={isSubmitting}
                                         animate={{
                                             boxShadow: [
                                                 '0 4px 12px rgba(57,181,74,0.0)',
@@ -292,10 +309,10 @@ const ContactUs = () => {
                                             ]
                                         }}
                                         transition={{ boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut' } }}
-                                        className="text-white font-bold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
+                                        className="text-white font-bold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group disabled:opacity-70"
                                         style={{ backgroundColor: GREEN }}
                                     >
-                                        Send Message
+                                        {isSubmitting ? 'Sending...' : 'Send Message'}
                                         <motion.span
                                             animate={{ x: [0, 4, 0] }}
                                             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
