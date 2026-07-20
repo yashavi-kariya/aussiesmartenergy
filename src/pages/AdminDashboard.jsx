@@ -236,7 +236,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="flex flex-wrap w-full md:w-auto items-center gap-3 justify-end">
-                          {/* Form Type Filter */}
+            {/* Form Type Filter */}
             <div
               className="flex items-center gap-2 px-3 py-2 rounded-xl"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
@@ -386,19 +386,19 @@ const AdminDashboard = () => {
                           enquiry.formType === 'hero'
                             ? { background: `${GREEN}18`, color: GREEN, border: `1px solid ${GREEN}35` }
                             : enquiry.formType === 'contact'
-                            ? { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
-                            : enquiry.formType?.startsWith('residential')
-                            ? { background: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }
-                            : { background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }
+                              ? { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
+                              : enquiry.formType?.startsWith('residential')
+                                ? { background: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }
+                                : { background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }
                         }
                       >
                         {enquiry.formType === 'hero'
                           ? 'Hero Form'
                           : enquiry.formType === 'contact'
-                          ? 'Contact Us'
-                          : enquiry.formType?.startsWith('residential')
-                          ? `Residential · ${enquiry.formType.replace('residential-', '').toUpperCase()}`
-                          : `Commercial · ${enquiry.formType?.replace('commercial-', '').toUpperCase()}`
+                            ? 'Contact Us'
+                            : enquiry.formType?.startsWith('residential')
+                              ? `Residential · ${enquiry.formType.replace('residential-', '').toUpperCase()}`
+                              : `Commercial · ${enquiry.formType?.replace('commercial-', '').toUpperCase()}`
                         }
                       </span>
                     </td>
@@ -478,9 +478,10 @@ const AdminDashboard = () => {
       </main>
 
       {/* ─── View Details Modal ─── */}
+      {/* ─── View Details Modal ─── */}
       <AnimatePresence>
         {selectedEnquiry && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(10,16,32,0.85)', backdropFilter: 'blur(8px)' }}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(52, 56, 85, 0.85)', backdropFilter: 'blur(8px)' }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -488,9 +489,9 @@ const AdminDashboard = () => {
               transition={{ duration: 0.22 }}
               className="w-full max-w-2xl rounded-2xl overflow-hidden flex flex-col max-h-[85vh]"
               style={{
-                background: `linear-gradient(145deg, ${NAVY_LIGHT}, ${NAVY_MID})`,
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 30px 80px rgba(0,0,0,0.5)',
+                background: '#ffffff',
+                border: '1px solid rgba(0,0,0,0.08)',
+                boxShadow: '0 30px 80px rgba(0,0,0,0.35)',
               }}
             >
               {/* Green accent bar */}
@@ -498,39 +499,39 @@ const AdminDashboard = () => {
 
               <div
                 className="p-5 flex items-center justify-between"
-                style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: `${NAVY_DARK}60` }}
+                style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#f8f9fb' }}
               >
                 <div className="flex items-center gap-2.5">
                   <span
                     className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold"
                     style={
                       selectedEnquiry.formType === 'hero'
-                        ? { background: `${GREEN}18`, color: GREEN, border: `1px solid ${GREEN}35` }
+                        ? { background: `${GREEN}18`, color: GREEN_DARK, border: `1px solid ${GREEN}35` }
                         : selectedEnquiry.formType === 'contact'
-                        ? { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
-                        : selectedEnquiry.formType?.startsWith('residential')
-                        ? { background: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }
-                        : { background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }
+                          ? { background: 'rgba(37,99,235,0.1)', color: '#2563eb', border: '1px solid rgba(37,99,235,0.25)' }
+                          : selectedEnquiry.formType?.startsWith('residential')
+                            ? { background: 'rgba(124,58,237,0.1)', color: '#7c3aed', border: '1px solid rgba(124,58,237,0.25)' }
+                            : { background: 'rgba(5,150,105,0.1)', color: '#059669', border: '1px solid rgba(5,150,105,0.25)' }
                     }
                   >
                     {selectedEnquiry.formType === 'hero'
                       ? 'Hero Form'
                       : selectedEnquiry.formType === 'contact'
-                      ? 'Contact Form'
-                      : selectedEnquiry.formType?.startsWith('residential')
-                      ? `Residential · ${selectedEnquiry.formType.replace('residential-', '').toUpperCase()}`
-                      : `Commercial · ${selectedEnquiry.formType?.replace('commercial-', '').toUpperCase()}`
+                        ? 'Contact Form'
+                        : selectedEnquiry.formType?.startsWith('residential')
+                          ? `Residential · ${selectedEnquiry.formType.replace('residential-', '').toUpperCase()}`
+                          : `Commercial · ${selectedEnquiry.formType?.replace('commercial-', '').toUpperCase()}`
                     }
                   </span>
-                  <span className="text-white/30 text-xs flex items-center gap-1">
+                  <span className="text-black/40 text-xs flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5" />
                     {formatDate(selectedEnquiry.createdAt)}
                   </span>
                 </div>
                 <button
                   onClick={() => setSelectedEnquiry(null)}
-                  className="p-1.5 rounded-lg text-white/30 hover:text-white transition-colors"
-                  style={{ background: 'rgba(255,255,255,0.05)' }}
+                  className="p-1.5 rounded-lg text-black/40 hover:text-black transition-colors"
+                  style={{ background: 'rgba(0,0,0,0.05)' }}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -538,24 +539,24 @@ const AdminDashboard = () => {
 
               <div className="p-6 overflow-y-auto space-y-5">
                 <div>
-                  <h3 className="text-xl font-bold text-white">{selectedEnquiry.firstName} {selectedEnquiry.lastName}</h3>
-                  <p className="text-sm text-white/35 mt-0.5">Customer Enquiry Details</p>
+                  <h3 className="text-xl font-bold text-black">{selectedEnquiry.firstName} {selectedEnquiry.lastName}</h3>
+                  <p className="text-sm text-black/40 mt-0.5">Customer Enquiry Details</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    { icon: Mail, label: 'Email Address', value: selectedEnquiry.email, href: `mailto:${selectedEnquiry.email}`, green: true },
-                    { icon: Phone, label: 'Phone Number', value: selectedEnquiry.phone, href: `tel:${selectedEnquiry.phone}`, mono: true },
-                  ].map(({ icon: Icon, label, value, href, green, mono }) => (
+                    { icon: Mail, label: 'Email Address', value: selectedEnquiry.email, href: `mailto:${selectedEnquiry.email}` },
+                    { icon: Phone, label: 'Phone Number', value: selectedEnquiry.phone, href: `tel:${selectedEnquiry.phone}` },
+                  ].map(({ icon: Icon, label, value, href }) => (
                     <div
                       key={label}
                       className="p-3.5 rounded-xl flex items-center gap-3"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
+                      style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
                     >
-                      <Icon className="w-5 h-5 text-white/30 shrink-0" />
+                      <Icon className="w-5 h-5 text-white/60 shrink-0" />
                       <div className="overflow-hidden">
-                        <p className="text-xs text-white/35 font-medium">{label}</p>
-                        <a href={href} className={`text-sm block truncate ${mono ? 'font-mono text-white' : ''}`} style={green ? { color: GREEN } : {}}>
+                        <p className="text-xs text-white/50 font-medium">{label}</p>
+                        <a href={href} className="text-sm block truncate text-white font-mono">
                           {value}
                         </a>
                       </div>
@@ -565,29 +566,29 @@ const AdminDashboard = () => {
 
                 <div
                   className="p-3.5 rounded-xl flex items-start gap-3"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
+                  style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
                 >
-                  <MapPin className="w-5 h-5 text-white/30 shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-xs text-white/35 font-medium">Address</p>
+                    <p className="text-xs text-white/50 font-medium">Address</p>
                     <p className="text-sm text-white mt-0.5">{selectedEnquiry.address || 'No Address Provided'}</p>
                   </div>
                 </div>
 
                 <div
                   className="p-4 rounded-xl"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
+                  style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
                 >
                   <div className="flex items-center gap-2 mb-3">
-                    <MessageSquare className="w-4 h-4 text-white/30" />
-                    <p className="text-xs text-white/35 font-medium">Message</p>
+                    <MessageSquare className="w-4 h-4 text-white/50" />
+                    <p className="text-xs text-white/50 font-medium">Message</p>
                   </div>
                   <div
-                    className="text-sm text-white/70 whitespace-pre-wrap leading-relaxed p-3 rounded-lg min-h-[72px]"
-                    style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.05)' }}
+                    className="text-sm text-white/90 whitespace-pre-wrap leading-relaxed p-3 rounded-lg min-h-[72px]"
+                    style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.08)' }}
                   >
                     {selectedEnquiry.message ||
-                      <span className="italic text-white/25">No message provided (Hero section brief sign-up)</span>
+                      <span className="italic text-white/40">No message provided (Hero section brief sign-up)</span>
                     }
                   </div>
                 </div>
@@ -595,19 +596,19 @@ const AdminDashboard = () => {
 
               <div
                 className="p-5 flex justify-end gap-3"
-                style={{ borderTop: '1px solid rgba(255,255,255,0.07)', background: `${NAVY_DARK}40` }}
+                style={{ borderTop: '1px solid rgba(0,0,0,0.08)', background: '#f8f9fb' }}
               >
                 <button
                   onClick={() => setSelectedEnquiry(null)}
-                  className="px-5 py-2.5 rounded-xl text-white/70 hover:text-white text-sm font-semibold transition-colors"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  className="px-5 py-2.5 rounded-xl text-black/70 hover:text-black text-sm font-semibold transition-colors"
+                  style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)' }}
                 >
                   Close
                 </button>
                 <button
                   onClick={() => { const id = selectedEnquiry._id; setSelectedEnquiry(null); setDeleteId(id); }}
                   className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold transition-all flex items-center gap-1.5"
-                  style={{ background: 'rgba(239,68,68,0.8)', border: '1px solid rgba(239,68,68,0.4)' }}
+                  style={{ background: 'rgba(239,68,68,0.9)', border: '1px solid rgba(239,68,68,0.4)' }}
                 >
                   <Trash2 className="w-4 h-4" /> Delete
                 </button>

@@ -48,6 +48,13 @@ const ProductEnquiryModal = ({ isOpen, onClose, productName, formType, accentCol
         source: 'product-card',
       });
       setStatus('success');
+      setTimeout(() => {
+        setForm({ firstName: '', lastName: '', email: '', phone: '', address: '', message: '' });
+        setErrors({});
+        setStatus('idle');
+        setServerError('');
+        onClose();
+      }, 2000);
     } catch (err) {
       const errData = err.response?.data;
       const detail = errData?.errors?.[0]?.msg || errData?.message || 'Something went wrong. Please try again.';

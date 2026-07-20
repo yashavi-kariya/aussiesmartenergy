@@ -38,17 +38,11 @@ const AdminLogin = () => {
       } else {
         setError('Login failed. Please try again.');
       }
-      // } catch (err) {
-      //   setError(
-      //     err.response?.data?.message ||
-      //     'Invalid credentials or server connection error.'
-      //   );
-      //   } catch (err) {
+    } catch (err) {
       console.error('LOGIN ERROR:', err);
       setError(
-        err.message + ' :: ' + (err.response?.data?.message || 'no response')
+        err.response?.data?.message || err.message || 'Invalid credentials or server connection error.'
       );
-
     } finally {
       setLoading(false);
     }
