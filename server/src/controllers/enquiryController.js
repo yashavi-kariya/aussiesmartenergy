@@ -16,6 +16,7 @@ export const getAllEnquiries = async (req, res, next) => {
         const limit = Number(req.query.limit) || 10;
         const search = req.query.search || '';
         const formType = req.query.formType || '';
+        const category = req.query.category || '';
         const sortBy = req.query.sortBy || 'createdAt';
         const sortOrder = req.query.sortOrder === 'asc' ? 1 : -1;
 
@@ -31,6 +32,10 @@ export const getAllEnquiries = async (req, res, next) => {
 
         if (formType) {
             query.formType = formType;
+        } else if (category === 'residential') {
+            query.formType = { $regex: '^residential', $options: 'i' };
+        } else if (category === 'commercial') {
+            query.formType = { $regex: '^commercial', $options: 'i' };
         }
 
         const total = await Enquiry.countDocuments(query);

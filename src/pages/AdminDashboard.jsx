@@ -19,13 +19,14 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const [enquiries, setEnquiries] = useState([]);
-  const [stats, setStats] = useState({ total: 0, hero: 0, contact: 0 });
+  const [stats, setStats] = useState({ total: 0, hero: 0, contact: 0, residential: 0, commercial: 0 });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [formType, setFormType] = useState('');
+  const [category, setCategory] = useState('');
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('desc');
   const [page, setPage] = useState(1);
@@ -50,7 +51,7 @@ const AdminDashboard = () => {
     setError('');
     try {
       const response = await api.get('/enquiries', {
-        params: { page, limit, search: debouncedSearch, formType, sortBy, sortOrder },
+        params: { page, limit, search: debouncedSearch, formType, category, sortBy, sortOrder },
       });
       if (response.data && response.data.success) {
         const { enquiries: fetchedEnquiries, pagination } = response.data.data;
@@ -76,6 +77,8 @@ const AdminDashboard = () => {
           total: list.length,
           hero: list.filter(e => e.formType === 'hero').length,
           contact: list.filter(e => e.formType === 'contact').length,
+          residential: list.filter(e => e.formType?.startsWith('residential')).length,
+          commercial: list.filter(e => e.formType?.startsWith('commercial')).length,
         });
       }
     } catch (err) {
@@ -83,7 +86,7 @@ const AdminDashboard = () => {
     }
   };
 
-  useEffect(() => { fetchEnquiries(); }, [page, limit, debouncedSearch, formType, sortBy, sortOrder]);
+  useEffect(() => { fetchEnquiries(); }, [page, limit, debouncedSearch, formType, category, sortBy, sortOrder]);
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
@@ -170,11 +173,13 @@ const AdminDashboard = () => {
       <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {[
             { label: 'Total Enquiries', value: stats.total, icon: FileText, color: '#60a5fa' },
             { label: 'Hero Form', value: stats.hero, icon: CheckSquare, color: GREEN },
             { label: 'Contact Form', value: stats.contact, icon: MessageSquare, color: '#f97316' },
+            { label: 'Residential', value: stats.residential, icon: FileText, color: '#a78bfa' },
+            { label: 'Commercial', value: stats.commercial, icon: Zap, color: '#34d399' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -231,21 +236,46 @@ const AdminDashboard = () => {
           </div>
 
           <div className="flex flex-wrap w-full md:w-auto items-center gap-3 justify-end">
-            {/* Form Type Filter */}
+                          {/* Form Type Filter */}
             <div
               className="flex items-center gap-2 px-3 py-2 rounded-xl"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
             >
               <Filter className="w-4 h-4 text-white/40" />
               <select
-                value={formType}
-                onChange={(e) => { setFormType(e.target.value); setPage(1); }}
+                value={formType || category}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  // category shortcuts
+                  if (val === 'cat-residential') {
+                    setCategory('residential');
+                    setFormType('');
+                  } else if (val === 'cat-commercial') {
+                    setCategory('commercial');
+                    setFormType('');
+                  } else {
+                    setCategory('');
+                    setFormType(val);
+                  }
+                  setPage(1);
+                }}
                 className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
                 style={{ color: 'rgba(255,255,255,0.85)' }}
               >
                 <option value="" style={{ background: NAVY }}>All Types</option>
                 <option value="hero" style={{ background: NAVY }}>Hero Form</option>
                 <option value="contact" style={{ background: NAVY }}>Contact Form</option>
+                <option disabled style={{ background: NAVY, color: 'rgba(255,255,255,0.3)' }}>── Residential ──</option>
+                <option value="cat-residential" style={{ background: NAVY }}>All Residential</option>
+                <option value="residential-6.6kw" style={{ background: NAVY }}>6.6kW Residential</option>
+                <option value="residential-10.5kw" style={{ background: NAVY }}>10.5kW Residential</option>
+                <option value="residential-13.2kw" style={{ background: NAVY }}>13.2kW Residential</option>
+                <option disabled style={{ background: NAVY, color: 'rgba(255,255,255,0.3)' }}>── Commercial ──</option>
+                <option value="cat-commercial" style={{ background: NAVY }}>All Commercial</option>
+                <option value="commercial-20kw" style={{ background: NAVY }}>20kW Commercial</option>
+                <option value="commercial-30kw" style={{ background: NAVY }}>30kW Commercial</option>
+                <option value="commercial-50kw" style={{ background: NAVY }}>50kW Commercial</option>
+                <option value="commercial-100kw" style={{ background: NAVY }}>100kW Commercial</option>
               </select>
             </div>
 
@@ -355,10 +385,21 @@ const AdminDashboard = () => {
                         style={
                           enquiry.formType === 'hero'
                             ? { background: `${GREEN}18`, color: GREEN, border: `1px solid ${GREEN}35` }
-                            : { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
+                            : enquiry.formType === 'contact'
+                            ? { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
+                            : enquiry.formType?.startsWith('residential')
+                            ? { background: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }
+                            : { background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }
                         }
                       >
-                        {enquiry.formType === 'hero' ? 'Hero Form' : 'Contact Us'}
+                        {enquiry.formType === 'hero'
+                          ? 'Hero Form'
+                          : enquiry.formType === 'contact'
+                          ? 'Contact Us'
+                          : enquiry.formType?.startsWith('residential')
+                          ? `Residential · ${enquiry.formType.replace('residential-', '').toUpperCase()}`
+                          : `Commercial · ${enquiry.formType?.replace('commercial-', '').toUpperCase()}`
+                        }
                       </span>
                     </td>
                     <td className="px-5 py-3.5 whitespace-nowrap font-semibold text-white">
@@ -465,10 +506,21 @@ const AdminDashboard = () => {
                     style={
                       selectedEnquiry.formType === 'hero'
                         ? { background: `${GREEN}18`, color: GREEN, border: `1px solid ${GREEN}35` }
-                        : { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
+                        : selectedEnquiry.formType === 'contact'
+                        ? { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
+                        : selectedEnquiry.formType?.startsWith('residential')
+                        ? { background: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }
+                        : { background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }
                     }
                   >
-                    {selectedEnquiry.formType === 'hero' ? 'Hero Form' : 'Contact Form'}
+                    {selectedEnquiry.formType === 'hero'
+                      ? 'Hero Form'
+                      : selectedEnquiry.formType === 'contact'
+                      ? 'Contact Form'
+                      : selectedEnquiry.formType?.startsWith('residential')
+                      ? `Residential · ${selectedEnquiry.formType.replace('residential-', '').toUpperCase()}`
+                      : `Commercial · ${selectedEnquiry.formType?.replace('commercial-', '').toUpperCase()}`
+                    }
                   </span>
                   <span className="text-white/30 text-xs flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5" />

@@ -2,11 +2,13 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Home, Building2, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ProductEnquiryModal from './ProductEnquiryModal';
 
 const SolarSolutionsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.1 });
   const [activeTab, setActiveTab] = useState('residential');
+  const [selectedProduct, setSelectedProduct] = useState(null); // { productName, formType, accentColor }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,7 +75,9 @@ const SolarSolutionsSection = () => {
       accentMid: "#93c5fd",
       bgFrom: "from-blue-50",
       bgTo: "to-blue-100/60",
-      path: "/solar/6.6kw"
+      path: "/solar/6.6kw",
+      formType: "residential-6.6kw",
+      productName: "6.6kW Residential Solar"
     },
     {
       type: "Medium Houses",
@@ -86,7 +90,9 @@ const SolarSolutionsSection = () => {
       accentMid: "#fca5a5",
       bgFrom: "from-red-50",
       bgTo: "to-red-100/60",
-      path: "/solar/10.5kw"
+      path: "/solar/10.5kw",
+      formType: "residential-10.5kw",
+      productName: "10.5kW Residential Solar"
     },
     {
       type: "Large House",
@@ -99,7 +105,9 @@ const SolarSolutionsSection = () => {
       accentMid: "#bfdbfe",
       bgFrom: "from-blue-50",
       bgTo: "to-indigo-100/60",
-      path: "/solar/13.2kw"
+      path: "/solar/13.2kw",
+      formType: "residential-13.2kw",
+      productName: "13.2kW Residential Solar"
     }
   ];
 
@@ -121,7 +129,9 @@ const SolarSolutionsSection = () => {
       accentMid: "#93c5fd",
       bgFrom: "from-blue-50",
       bgTo: "to-blue-100/60",
-      path: "/solar/commercial"
+      path: "/solar/commercial",
+      formType: "commercial-20kw",
+      productName: "20kW Commercial Solar"
     },
     {
       type: "Medium Businesses",
@@ -134,7 +144,9 @@ const SolarSolutionsSection = () => {
       accentMid: "#fca5a5",
       bgFrom: "from-red-50",
       bgTo: "to-red-100/60",
-      path: "/solar/commercial"
+      path: "/solar/commercial",
+      formType: "commercial-30kw",
+      productName: "30kW Commercial Solar"
     },
     {
       type: "Large Businesses",
@@ -147,7 +159,9 @@ const SolarSolutionsSection = () => {
       accentMid: "#bfdbfe",
       bgFrom: "from-blue-50",
       bgTo: "to-indigo-100/60",
-      path: "/solar/commercial"
+      path: "/solar/commercial",
+      formType: "commercial-50kw",
+      productName: "50kW Commercial Solar"
     },
     {
       type: "Extra Large Businesses",
@@ -160,7 +174,9 @@ const SolarSolutionsSection = () => {
       accentMid: "#fecaca",
       bgFrom: "from-red-50",
       bgTo: "to-red-100/60",
-      path: "/solar/commercial"
+      path: "/solar/commercial",
+      formType: "commercial-100kw",
+      productName: "100kW Commercial Solar"
     }
   ];
 
@@ -327,14 +343,14 @@ const SolarSolutionsSection = () => {
                   </div>
 
                   {/* CTA Button */}
-                  <Link
-                    to={system.path}
+                  <button
+                    onClick={() => setSelectedProduct({ productName: system.productName, formType: system.formType, accentColor: system.accent })}
                     className="w-full text-white py-3 px-4 rounded-lg font-bold text-sm mb-6 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-center"
                     style={{ backgroundColor: system.accent }}
                   >
                     Get Discounted Price
                     <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  </button>
 
                   {/* Features */}
                   <div className="space-y-2.5 mb-6">
@@ -376,6 +392,15 @@ const SolarSolutionsSection = () => {
         </motion.div>
 
       </div>
+
+      {/* Product Enquiry Modal */}
+      <ProductEnquiryModal
+        isOpen={!!selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+        productName={selectedProduct?.productName || ''}
+        formType={selectedProduct?.formType || ''}
+        accentColor={selectedProduct?.accentColor || '#dc2626'}
+      />
     </section>
   );
 };

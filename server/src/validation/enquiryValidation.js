@@ -7,7 +7,11 @@ export const validateEnquiry = [
     body('phone').trim().notEmpty().withMessage('Phone is required'),
     body('address').optional({ values: 'falsy' }).trim(),
     body('message').optional({ values: 'falsy' }).trim(),
-    body('formType').optional().isIn(['hero', 'contact']).withMessage('Form type must be hero or contact'),
+    body('formType').optional().isIn([
+        'hero', 'contact',
+        'residential-6.6kw', 'residential-10.5kw', 'residential-13.2kw',
+        'commercial-20kw', 'commercial-30kw', 'commercial-50kw', 'commercial-100kw',
+    ]).withMessage('Invalid form type'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

@@ -8,7 +8,21 @@ const enquirySchema = new mongoose.Schema(
         phone: { type: String, required: true, trim: true },
         address: { type: String, trim: true, default: '' },
         message: { type: String, trim: true, default: '' },
-        formType: { type: String, enum: ['hero', 'contact'], default: 'contact' },
+        formType: {
+            type: String,
+            enum: [
+                'hero',
+                'contact',
+                'residential-6.6kw',
+                'residential-10.5kw',
+                'residential-13.2kw',
+                'commercial-20kw',
+                'commercial-30kw',
+                'commercial-50kw',
+                'commercial-100kw',
+            ],
+            default: 'contact',
+        },
         source: { type: String, default: 'website' },
     },
     { timestamps: true }
