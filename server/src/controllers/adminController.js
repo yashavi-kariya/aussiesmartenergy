@@ -9,8 +9,13 @@ const createToken = (id) => {
 export const loginAdmin = async (req, res, next) => {
     try {
         const { identifier, password } = req.body;
+        const normalizedIdentifier = identifier.trim().toLowerCase();
+
         const admin = await Admin.findOne({
-            $or: [{ username: identifier }, { email: identifier }],
+            $or: [
+                { username: normalizedIdentifier },
+                { email: normalizedIdentifier },
+            ],
         });
 
         if (!admin) {
