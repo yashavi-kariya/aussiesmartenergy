@@ -22,8 +22,6 @@ import about2 from '../assets/about2.jpg';
 // Shared elegant easing curve for a premium, unhurried feel
 const EASE = [0.22, 1, 0.36, 1];
 
-// Small helper: animates a numeric stat (e.g. "2500+", "99%") counting up
-// from 0 once its section scrolls into view.
 const CountUp = ({ value, inView, duration = 1.6, delay = 0 }) => {
   const spanRef = useRef(null);
   const hasRun = useRef(false);

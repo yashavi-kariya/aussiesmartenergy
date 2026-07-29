@@ -39,7 +39,6 @@ const ContactUs = () => {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -76,7 +75,6 @@ const ContactUs = () => {
         { icon: MapPin, title: 'Visit Us', value: '(Australia) Tarneit, VIC 3029', href: null, color: GREEN },
         { icon: Clock3, title: 'Working Hours', value: 'Mon-Fri, 9am - 5pm', href: null, color: NAVY }
     ];
-
     const faqs = [
         { q: 'How quickly will I hear back?', a: "Our team replies to every enquiry within one business day, and most people hear back the same afternoon." },
         { q: 'Do I need to have my details ready?', a: 'Just your address and a recent power bill help us give you an accurate quote faster, but they are not required to get started.' },
