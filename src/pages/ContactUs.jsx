@@ -58,7 +58,6 @@ const ContactUs = () => {
             setIsSubmitting(false);
         }
     };
-
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { staggerChildren: 0.12, duration: 0.5 } }
@@ -70,9 +69,11 @@ const ContactUs = () => {
     };
 
     const quickContact = [
-        { icon: Phone, title: 'Call Us', value: '0468 331 724', href: 'tel:0468331724', color: GREEN },
+        { icon: Phone, title: 'Call Us', value: '1300 959 170', href: 'tel:1300959170', color: GREEN },
         { icon: Mail, title: 'Email Us', value: 'info@aussiesmartenergy.com.au', href: 'mailto:info@aussiesmartenergy.com.au', color: NAVY },
-        { icon: MapPin, title: 'Visit Us', value: '(Australia) Tarneit, VIC 3029', href: null, color: GREEN },
+        { icon: MapPin, title: 'QLD Office', value: '29/97 Creek St, Brisbane', href: 'https://www.google.com/maps/place/29%2F97+Creek+St,+Brisbane+City+QLD+4000/@-27.4698,153.0251,17z', color: GREEN },
+        { icon: MapPin, title: 'NSW Office', value: '526/368 Sussex St, Sydney', href: 'https://www.google.com/maps/place/526%2F368+Sussex+St,+Sydney+NSW+2000/@-33.8733,151.2032,17z', color: NAVY },
+        { icon: MapPin, title: 'VIC Office', value: '117/530 Little Collins St, Melbourne', href: 'https://www.google.com/maps/place/117%2F530+Little+Collins+St,+Melbourne+VIC+3000/@-37.8155,144.9584,17z', color: GREEN },
         { icon: Clock3, title: 'Working Hours', value: 'Mon-Fri, 9am - 5pm', href: null, color: NAVY }
     ];
     const faqs = [
@@ -152,7 +153,7 @@ const ContactUs = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="bg-white rounded-2xl shadow-xl -mt-16 grid grid-cols-2 lg:grid-cols-4 divide-y divide-gray-100 lg:divide-y-0 lg:divide-x"
+                    className="bg-white rounded-2xl shadow-xl -mt-16 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 divide-y divide-gray-100 lg:divide-y-0 lg:divide-x"
                 >
                     {quickContact.map((item, i) => {
                         const Icon = item.icon;
@@ -381,22 +382,22 @@ const ContactUs = () => {
                                 className="text-4xl md:text-5xl font-extrabold mb-6"
                                 style={{ color: NAVY }}
                             >
-                                Our Location
+                                Our Locations
                             </motion.h2>
 
                             <motion.a
                                 href={MAP_LINK}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                aria-label="Open Aussie Smart Energy location in Google Maps"
+                                aria-label="Open Aussie Smart Energy locations in Google Maps"
                                 variants={itemVariants}
                                 whileHover={{ scale: 1.015 }}
                                 transition={{ duration: 0.3, ease: EASE }}
                                 className="relative rounded-2xl overflow-hidden shadow-lg block cursor-pointer group"
                             >
                                 <iframe
-                                    title="Aussie Smart Energy Location"
-                                    src="https://www.google.com/maps?q=Tarneit+VIC+3029+Australia&output=embed"
+                                    title="Aussie Smart Energy Locations"
+                                    src="https://www.google.com/maps?q=Australia&output=embed&z=5"
                                     className="w-full h-[420px] border-0"
                                     style={{ pointerEvents: 'none' }}
                                     loading="lazy"
@@ -417,19 +418,52 @@ const ContactUs = () => {
                                     <span className="text-xs font-bold" style={{ color: NAVY }}>Approved Seller</span>
                                 </motion.div>
 
+                                {/* QLD Address Chip */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.7, duration: 0.5, ease: EASE }}
+                                    whileHover={{ scale: 1.06 }}
+                                    className="absolute top-20 left-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-start gap-2"
+                                >
+                                    <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: GREEN }} />
+                                    <div className="flex flex-col">
+                                        <span className="text-xs font-bold" style={{ color: GREEN }}>QLD</span>
+                                        <span className="text-xs font-semibold" style={{ color: NAVY }}>29/97 Creek St, Brisbane City QLD 4000</span>
+                                    </div>
+                                </motion.div>
+
+                                {/* NSW Address Chip */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: 10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.8, duration: 0.5, ease: EASE }}
+                                    whileHover={{ scale: 1.06 }}
+                                    className="absolute top-4 right-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-start gap-2 max-w-[280px]"
+                                >
+                                    <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#3b82f6' }} />
+                                    <div className="flex flex-col">
+                                        <span className="text-xs font-bold text-blue-600">NSW</span>
+                                        <span className="text-xs font-semibold" style={{ color: NAVY }}>526/368 Sussex St, Sydney NSW 2000</span>
+                                    </div>
+                                </motion.div>
+
+                                {/* VIC Address Chip */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.7, duration: 0.5, ease: EASE }}
+                                    transition={{ delay: 0.9, duration: 0.5, ease: EASE }}
                                     whileHover={{ scale: 1.06 }}
-                                    className="absolute bottom-4 right-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-center gap-2"
+                                    className="absolute bottom-4 right-4 bg-white rounded-xl shadow-md px-4 py-2.5 flex items-start gap-2 max-w-[300px]"
                                 >
-                                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                                    <span className="text-xs font-bold" style={{ color: NAVY }}>(Australia) Tarneit, VIC 3029</span>
+                                    <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#ef4444' }} />
+                                    <div className="flex flex-col">
+                                        <span className="text-xs font-bold text-red-600">VIC</span>
+                                        <span className="text-xs font-semibold" style={{ color: NAVY }}>117/530 Little Collins St, Melbourne VIC 3000</span>
+                                    </div>
                                 </motion.div>
                             </motion.a>
                         </motion.div>
-
                     </div>
                 </div>
             </motion.section>
@@ -495,10 +529,10 @@ const ContactUs = () => {
                         </motion.a>
                     </motion.div>
                 </div>
-            </section>
+            </section >
 
             {/* FAQ Section */}
-            <section ref={faqRef} className="bg-gray-50 py-20">
+            < section ref={faqRef} className="bg-gray-50 py-20" >
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -553,9 +587,9 @@ const ContactUs = () => {
                         })}
                     </div>
                 </div>
-            </section>
+            </section >
 
-        </div>
+        </div >
     );
 };
 

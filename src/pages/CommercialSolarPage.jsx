@@ -60,7 +60,6 @@ const CommercialSolarPage = ({ systemId }) => {
             style={{ background: `linear-gradient(to top, ${theme.accent}, transparent)` }}
           />
         </div>
-
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.7 }}

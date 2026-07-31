@@ -59,21 +59,28 @@ const Navbar = () => {
     { name: 'Home', href: '/', hasDropdown: false, isRoute: true },
     { name: 'About Us', href: '/about', hasDropdown: false, isRoute: true },
     {
-      name: 'Residential Solar', href: '#residential', hasDropdown: true, isRoute: false,
+      name: 'Solar Batteries', href: '#batteries', hasDropdown: true, isRoute: false,
       dropdown: [
-        { label: '6.6kW System', href: '/solar/6.6kw' },
-        { label: '10.5kW System', href: '/solar/10.5kw' },
-        { label: '13.2kW System', href: '/solar/13.2kw' },
-        { label: '15kW System', href: '/solar/15kw' },
+        { label: 'Solar System with Batteries', href: '#' },
+        // { label: 'Off Grid Solar System', href: '#' },
+        // { label: 'Solar Battery Products', href: '#' },
+        { label: 'Fox ESS', href: '#' },
+        { label: 'ESY', href: '#' },
+        { label: 'Sigenergy', href: '#' },
+        // { label: 'Sungrow', href: '#' },
+        // { label: 'Swatten', href: '#' },
+        { label: 'Alpha ESS', href: '#' },
+        { label: 'Tesla PowerWall', href: '#' },
       ]
     },
     {
-      name: 'Commercial Solar', href: '#commercial', hasDropdown: true, isRoute: false,
+      name: 'Solar Packages', href: '#packages', hasDropdown: true, isRoute: false,
       dropdown: [
-        { label: '20 kW Solar System', href: '/solar/commercial/20kw' },
-        { label: '30 kW Solar System', href: '/solar/commercial/30kw' },
-        { label: '50 kW Solar System', href: '/solar/commercial/50kw' },
-        { label: '100 kW Solar System', href: '/solar/commercial/100kw' },
+        { label: '6.6kW Solar', subtitle: '14x475W panels • 5kW inverter', href: '/solar/6.6kw' },
+        { label: '10kW Solar', subtitle: '21x475W panels • 8kW inverter', href: '/solar/10kw' },
+        { label: '13.3kW Solar', subtitle: '28x475W panels • 10kW inverter', href: '/solar/13.3kw' },
+        { label: '20kW Solar', subtitle: '42x475W panels • 15kW inverter', href: '/solar/20kw' },
+        { label: '30kW Solar', subtitle: '62x475W panels • 25kW inverter', href: '/solar/30kw' },
       ]
     },
     { name: 'Contact Us', href: '/contact', hasDropdown: false, isRoute: true },
@@ -254,8 +261,9 @@ const Navbar = () => {
                             animate={{ opacity: 1, y: 0, scaleY: 1 }}
                             exit={{ opacity: 0, y: -6, scaleY: 0.92 }}
                             transition={{ duration: 0.22, ease: EASE }}
-                            className="absolute top-full left-0 mt-2 w-58 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[999] origin-top overflow-hidden"
-                            style={{ minWidth: '220px', boxShadow: '0 20px 50px -10px rgba(15,23,42,0.18), 0 4px 12px rgba(15,76,255,0.10)' }}
+                            className={`absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[999] origin-top overflow-hidden ${item.name === 'Solar Batteries' ? 'w-[520px]' : 'w-58 min-w-[220px]'
+                              }`}
+                            style={{ boxShadow: '0 20px 50px -10px rgba(15,23,42,0.18), 0 4px 12px rgba(15,76,255,0.10)' }}
                           >
                             <motion.ul
                               variants={{
@@ -264,7 +272,7 @@ const Navbar = () => {
                               }}
                               initial="hidden"
                               animate="visible"
-                              className="py-2"
+                              className={`py-2 ${item.name === 'Solar Batteries' ? 'grid grid-cols-2 gap-x-2' : ''}`}
                             >
                               {item.dropdown.map((sub, idx) => (
                                 <motion.li
@@ -278,9 +286,16 @@ const Navbar = () => {
                                     to={sub.href}
                                     className="group flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
                                   >
-                                    <span>{sub.label}</span>
+                                    <div className="flex flex-col">
+                                      <span>{sub.label}</span>
+                                      {sub.subtitle && (
+                                        <span className="text-xs text-slate-400 mt-0.5 font-normal">
+                                          {sub.subtitle}
+                                        </span>
+                                      )}
+                                    </div>
                                     <motion.span
-                                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+                                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0"
                                     >
                                       <ArrowRight size={13} />
                                     </motion.span>
@@ -440,7 +455,14 @@ const Navbar = () => {
                                   }}
                                   className="block py-2.5 px-3 text-sm text-slate-600 hover:text-[#0F4CFF] hover:bg-blue-50 rounded-lg transition-colors border-l-2 border-blue-300 ml-2"
                                 >
-                                  {sub.label}
+                                  <div className="flex flex-col">
+                                    <span>{sub.label}</span>
+                                    {sub.subtitle && (
+                                      <span className="text-xs text-slate-400 mt-0.5">
+                                        {sub.subtitle}
+                                      </span>
+                                    )}
+                                  </div>
                                 </Link>
                               </motion.div>
                             ))}

@@ -336,7 +336,7 @@ export default function Footer() {
               </div>
             </motion.div>
 
-            {/* -- Col 2: Phone + Email + Socials -- */}
+            {/* -- Col 2: Contact & Locations -- */}
             <motion.div variants={itemVariants} className="flex flex-col gap-6">
 
               {/* Phone */}
@@ -347,9 +347,9 @@ export default function Footer() {
                   </span>
                   Phone
                 </h4>
-                <a href="tel:0468331724" className="group flex items-center gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
+                <a href="tel:1300959170" className="group flex items-center gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
                   <span className="text-[#39b54a] font-bold">›</span>
-                  0468 331 724
+                  1300 959 170
                 </a>
               </div>
 
@@ -367,11 +367,34 @@ export default function Footer() {
                 </a>
               </div>
 
-              {/* Social icons */}
-              <div className="flex items-center gap-2.5">
-                <SocialBtn label="Facebook" color="#1877f2" bg="#e7f0fe">f</SocialBtn>
-                <SocialBtn label="YouTube" color="#ff0000" bg="#fee2e2">▶</SocialBtn>
-                <SocialBtn label="Instagram" color="#e1306c" bg="#fce7f3">◎</SocialBtn>
+              {/* Our Locations */}
+              <div>
+                <h4 className="text-white font-bold text-base tracking-wide mb-3 flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/25 flex items-center justify-center text-[#39b54a]">
+                    <MapPin size={13} />
+                  </span>
+                  Our Locations
+                </h4>
+                <ul className="space-y-3">
+                  <li className="group">
+                    <div className="flex items-start gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
+                      <span className="text-[#39b54a] font-bold text-xs mt-0.5 flex-shrink-0">QLD:</span>
+                      <span className="leading-relaxed">29/97 Creek St, Brisbane City QLD 4000</span>
+                    </div>
+                  </li>
+                  <li className="group">
+                    <div className="flex items-start gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
+                      <span className="text-[#39b54a] font-bold text-xs mt-0.5 flex-shrink-0">NSW:</span>
+                      <span className="leading-relaxed">526/368 Sussex St, Sydney NSW 2000</span>
+                    </div>
+                  </li>
+                  <li className="group">
+                    <div className="flex items-start gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
+                      <span className="text-[#39b54a] font-bold text-xs mt-0.5 flex-shrink-0">VIC:</span>
+                      <span className="leading-relaxed">117/530 Little Collins St, Melbourne VIC 3000</span>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </motion.div>
 
@@ -385,8 +408,8 @@ export default function Footer() {
                 <FooterLink href="/">Home</FooterLink>
                 <FooterLink href="/about">About Us</FooterLink>
                 <FooterLink href="/contact">Contact Us</FooterLink>
-                <FooterLink href="#residential">Residential Solar</FooterLink>
-                <FooterLink href="#commercial">Commercial Solar</FooterLink>
+                <FooterLink href="#batteries">Solar Batteries</FooterLink>
+                <FooterLink href="#packages">Solar Packages</FooterLink>
               </ul>
             </motion.div>
 
