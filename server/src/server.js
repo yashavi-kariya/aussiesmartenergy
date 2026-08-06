@@ -47,9 +47,11 @@ app.use('/login/admin', (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-await connectDB();
-
+// Start accepting HTTP traffic immediately so liveness checks work during startup.
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Connect to MongoDB after the server starts; readiness reports unavailable until connected.
+connectDB();
 
