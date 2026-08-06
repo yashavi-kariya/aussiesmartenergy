@@ -27,9 +27,9 @@ const ModernHeroSection = () => {
     { icon: Award, text: 'Competitive Pricing' },
     { icon: Zap, text: 'Flexible Finance Options' },
     { icon: Activity, text: 'Seamless Start To End Process' },
+    { icon: UserCheck, text: 'Reliable and Efficient' },
     { icon: Users, text: 'Customer Services and Support' },
     { icon: MapPin, text: '100% Australian Owned' },
-    { icon: UserCheck, text: 'Reliable and Efficient' },
     { icon: Award, text: 'Local "SAA" Accredited Installers' },
   ];
 

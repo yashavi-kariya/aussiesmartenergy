@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import connectDB from './config/db.js';
 import enquiryRoutes from './routes/enquiryRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import healthRoutes from './routes/healthRoutes.js';
 import errorHandler, { notFound } from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -35,10 +36,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/health', (req, res) => {
-    res.json({ success: true, message: 'Server is healthy' });
-});
-
+// Mount lightweight health endpoints before application routes and error handlers.
+app.use('/health', healthRoutes);
 app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/login/admin', (req, res) => {

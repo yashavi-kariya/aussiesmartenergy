@@ -18,6 +18,8 @@ import Solar100kw from './pages/Solar100kw'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import ProtectedRoute from './components/ProtectedRoute'
+import SolarBatteriesPage from './pages/SolarBatteriesPage'
+import EsyPage from './pages/Esy'
 
 function App() {
   const location = useLocation();
@@ -45,7 +47,11 @@ function App() {
         <Route path="/solar/commercial/30kw" element={<Solar30kw />} />
         <Route path="/solar/commercial/50kw" element={<Solar50kw />} />
         <Route path="/solar/commercial/100kw" element={<Solar100kw />} />
-        
+
+        {/* Battery Routes */}
+        <Route path="/batteries/solar-system-with-batteries" element={<SolarBatteriesPage />} />
+        <Route path="/batteries/esy" element={<EsyPage />} />
+
         {/* Admin Routes */}
         <Route path="/login/admin" element={<AdminLogin />} />
         <Route element={<ProtectedRoute />}>

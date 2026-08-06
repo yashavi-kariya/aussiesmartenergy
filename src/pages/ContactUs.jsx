@@ -10,10 +10,8 @@ const GREEN = '#39b54a';
 
 // Real business location — clicking the map opens this exact place in Google Maps
 const MAP_LINK = 'https://www.google.com/maps/place/Aussie+Smart+Energy/@-24.1501978,148.5507008,3254937m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!8m2!3d-24.1501978!4d148.5507008!16s%2Fg%2F11y8snbby8?entry=ttu&g_ep=EgoyMDI2MDcwNi4wIKXMDSoASAFQAw%3D%3D';
-
 // Shared elegant easing curve for a premium, unhurried feel
 const EASE = [0.22, 1, 0.36, 1];
-
 const ContactUs = () => {
     const heroRef = useRef(null);
     const formRef = useRef(null);
