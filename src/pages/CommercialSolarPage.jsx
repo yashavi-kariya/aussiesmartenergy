@@ -13,7 +13,7 @@ const CommercialSolarPage = ({ systemId }) => {
 
   if (!system) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 pt-20">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 pt-36 sm:pt-40 pb-20">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-[#1e2d53]">System Not Found</h2>
           <p className="text-slate-500 mt-2">The requested solar system page does not exist.</p>
@@ -42,9 +42,9 @@ const CommercialSolarPage = ({ systemId }) => {
   }));
 
   return (
-    <main className="min-h-screen text-[#1e2d53] pt-[70px]">
+    <main className="min-h-screen text-[#1e2d53] pt-0">
       {/* Hero Section */}
-      <section className="relative h-[300px] sm:h-[360px] md:h-[420px] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[360px] sm:min-h-[420px] md:min-h-[460px] pt-36 sm:pt-40 lg:pt-44 pb-12 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/src/assets/rooftopsolar.png"

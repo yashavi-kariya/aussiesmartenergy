@@ -1,216 +1,203 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Phone, Mail, MapPin, ArrowRight, ShieldCheck, Send } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Phone, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
+import { FaFacebookF, FaYoutube, FaInstagram } from 'react-icons/fa6';
 import logoImg from '../assets/Mainlogo.png';
 import bannerLogo from '../assets/banner-logo-1024x365.png';
 
 const EASE = [0.22, 1, 0.36, 1];
 
-/* -- Stagger variants -- */
+// Stagger animation container
 const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
 };
+
 const itemVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE },
+  },
 };
 
-/* -- Link row -- */
-const FooterLink = ({ children, href = '#' }) => (
-  <li>
-    <a
-      href={href}
-      className="group flex items-center gap-2.5 text-slate-400 text-sm py-1.5 hover:text-[#39b54a] transition-all duration-300"
-    >
-      <span className="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-[#39b54a] flex-shrink-0 transition-colors duration-300" />
-      <span className="relative group-hover:translate-x-1 transition-transform duration-300">
-        {children}
-        <span className="absolute -bottom-px left-0 h-px w-0 bg-[#39b54a] group-hover:w-full transition-all duration-300" />
-      </span>
-      <ArrowRight size={11} className="ml-auto opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-[#39b54a]" />
-    </a>
-  </li>
-);
+// Nav Link Component with smooth interactive hover
+const FooterNavLink = ({ href, children, isExternal = false }) => {
+  const isHash = href.startsWith('#');
+  const Component = isHash || isExternal ? 'a' : Link;
+  const linkProps = isHash || isExternal ? { href } : { to: href };
 
-/* -- Contact row -- */
-const ContactRow = ({ icon: Icon, children }) => (
-  <li className="flex items-start gap-3 group">
-    <span className="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center bg-[#39b54a]/10 border border-[#39b54a]/20 text-[#39b54a] group-hover:bg-[#39b54a]/20 transition-colors duration-300">
-      <Icon size={14} />
-    </span>
-    <span className="text-slate-400 text-sm leading-relaxed group-hover:text-slate-300 transition-colors duration-300">{children}</span>
-  </li>
-);
-
-/* -- Social button -- */
-const SocialBtn = ({ label, color, bg, children }) => (
-  <motion.a
-    href="#"
-    aria-label={label}
-    whileHover={{ scale: 1.15, y: -3 }}
-    whileTap={{ scale: 0.95 }}
-    transition={{ duration: 0.2 }}
-    className="relative w-9 h-9 rounded-full flex items-center justify-center text-xs font-extrabold overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300"
-    style={{ backgroundColor: bg, color }}
-  >
-    {children}
-  </motion.a>
-);
+  return (
+    <li>
+      <Component
+        {...linkProps}
+        className="group flex items-center gap-2.5 text-slate-400 text-sm py-2 hover:text-[#39b54a] transition-all duration-300"
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-slate-700 group-hover:bg-[#39b54a] group-hover:scale-125 transition-all duration-300" />
+        <span className="relative group-hover:translate-x-1 transition-transform duration-300 font-medium">
+          {children}
+        </span>
+        <ArrowRight
+          size={12}
+          className="ml-auto opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-[#39b54a]"
+        />
+      </Component>
+    </li>
+  );
+};
 
 export default function Footer() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.05 });
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    setSubscribed(true);
-    setEmail('');
-    setTimeout(() => setSubscribed(false), 4000);
-  };
-
-  const quickLinks = ['Solar Guide', 'About Us', 'Residential Solar', 'Commercial Solar', 'Blog', 'FAQ'];
-  const resources = ['Rebates & Incentives', 'Financing Options', 'Solar Calculator', 'Installation Guide', 'Warranty Info'];
+  const socialLinks = [
+    {
+      name: 'Facebook',
+      icon: FaFacebookF,
+      href: 'https://facebook.com',
+      color: '#1877F2',
+      bgHover: 'hover:bg-[#1877F2]/20 hover:border-[#1877F2]/40 hover:text-[#1877F2]',
+      shadow: 'hover:shadow-[0_0_16px_rgba(24,119,242,0.4)]',
+    },
+    {
+      name: 'YouTube',
+      icon: FaYoutube,
+      href: 'https://youtube.com',
+      color: '#FF0000',
+      bgHover: 'hover:bg-[#FF0000]/20 hover:border-[#FF0000]/40 hover:text-[#FF0000]',
+      shadow: 'hover:shadow-[0_0_16px_rgba(255,0,0,0.4)]',
+    },
+    {
+      name: 'Instagram',
+      icon: FaInstagram,
+      href: 'https://instagram.com',
+      color: '#E1306C',
+      bgHover: 'hover:bg-[#E1306C]/20 hover:border-[#E1306C]/40 hover:text-[#E1306C]',
+      shadow: 'hover:shadow-[0_0_16px_rgba(225,48,108,0.4)]',
+    },
+  ];
 
   return (
-    <>
+    <div className="relative w-full overflow-hidden bg-transparent">
       {/* -----------------------------------------------------------
-          WAVE SECTION � 4 distinct visible layers like the image:
-          white/page bg on top ? navy back ? navy mid ? green front
+          WAVE HEADER SECTION - Multi-layered animated organic waves
       ----------------------------------------------------------- */}
-      <div className="relative w-full overflow-hidden" style={{ height: 130, background: 'white' }}>
+      <div className="relative w-full overflow-hidden leading-none -mb-1" style={{ height: 110 }}>
         <svg
-          viewBox="0 0 1440 130"
+          viewBox="0 0 1440 120"
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute inset-0 w-full h-full"
-          style={{ display: 'block' }}
+          className="absolute bottom-0 w-full h-full"
         >
           <defs>
-            {/* Deep navy gradient � back layer */}
-            <linearGradient id="waveNavyDeep" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#061020" />
-              <stop offset="40%" stopColor="#0a1a35" />
-              <stop offset="100%" stopColor="#071525" />
+            {/* Deep Navy Gradient */}
+            <linearGradient id="footerNavyDeep" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#040b17" />
+              <stop offset="50%" stopColor="#07152a" />
+              <stop offset="100%" stopColor="#040b17" />
             </linearGradient>
 
-            {/* Mid navy gradient � slightly lighter */}
-            <linearGradient id="waveNavyMid" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#0d2040" />
-              <stop offset="50%" stopColor="#102848" />
-              <stop offset="100%" stopColor="#0d2040" />
+            {/* Mid Navy Gradient */}
+            <linearGradient id="footerNavyMid" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#0a1d38" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#0e284c" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#0a1d38" stopOpacity="0.8" />
             </linearGradient>
 
-            {/* Green gradient � front accent layer */}
-            <linearGradient id="waveGreen" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#1a5c28" stopOpacity="0.0" />
-              <stop offset="20%" stopColor="#22863a" stopOpacity="0.9" />
+            {/* Green Accent Ribbon Gradient */}
+            <linearGradient id="footerGreenRibbon" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#15803d" stopOpacity="0.1" />
+              <stop offset="25%" stopColor="#22c55e" stopOpacity="0.85" />
               <stop offset="50%" stopColor="#39b54a" stopOpacity="1" />
-              <stop offset="80%" stopColor="#4ade80" stopOpacity="0.85" />
-              <stop offset="100%" stopColor="#1a5c28" stopOpacity="0.0" />
+              <stop offset="75%" stopColor="#4ade80" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#15803d" stopOpacity="0.1" />
             </linearGradient>
 
-            {/* Glow filter for green stroke */}
-            <filter id="gGlow" x="-10%" y="-80%" width="120%" height="260%">
-              <feGaussianBlur stdDeviation="4" result="b" />
-              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            {/* Green Stroke Glow */}
+            <filter id="greenGlowEffect" x="-20%" y="-80%" width="140%" height="260%">
+              <feGaussianBlur stdDeviation="3.5" result="glow" />
+              <feMerge>
+                <feMergeNode in="glow" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
             </filter>
           </defs>
 
-          {/* -- LAYER 1 (deepest): large dark navy wave, slow morph -- */}
-          <path fill="url(#waveNavyDeep)">
+          {/* Layer 1: Deep Navy Background Wave */}
+          <path fill="url(#footerNavyDeep)">
             <animate
               attributeName="d"
-              dur="11s"
+              dur="12s"
               repeatCount="indefinite"
               calcMode="spline"
               keyTimes="0;0.5;1"
               keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
               values="
-                M0,55 C200,10 400,115 600,65 C800,15 1000,105 1200,60 C1320,38 1400,75 1440,55 L1440,130 L0,130 Z;
-                M0,65 C200,110 400,20 600,75 C800,130 1000,30 1200,70 C1320,90 1400,55 1440,65 L1440,130 L0,130 Z;
-                M0,55 C200,10 400,115 600,65 C800,15 1000,105 1200,60 C1320,38 1400,75 1440,55 L1440,130 L0,130 Z
+                M0,45 C240,10 480,95 720,50 C960,10 1200,85 1440,45 L1440,120 L0,120 Z;
+                M0,55 C240,90 480,15 720,60 C960,105 1200,25 1440,55 L1440,120 L0,120 Z;
+                M0,45 C240,10 480,95 720,50 C960,10 1200,85 1440,45 L1440,120 L0,120 Z
               "
             />
           </path>
 
-          {/* -- LAYER 2: mid navy wave, medium speed, offset phase -- */}
-          <path fill="url(#waveNavyMid)" opacity="0.85">
+          {/* Layer 2: Mid Navy Wave */}
+          <path fill="url(#footerNavyMid)">
             <animate
               attributeName="d"
-              dur="14s"
+              dur="15s"
               repeatCount="indefinite"
               calcMode="spline"
               keyTimes="0;0.5;1"
               keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
               values="
-                M0,75 C240,30 480,130 720,80 C960,30 1200,120 1440,75 L1440,130 L0,130 Z;
-                M0,85 C240,130 480,35 720,90 C960,145 1200,40 1440,85 L1440,130 L0,130 Z;
-                M0,75 C240,30 480,130 720,80 C960,30 1200,120 1440,75 L1440,130 L0,130 Z
+                M0,65 C260,25 520,105 780,65 C1040,25 1280,95 1440,65 L1440,120 L0,120 Z;
+                M0,75 C260,105 520,30 780,75 C1040,115 1280,35 1440,75 L1440,120 L0,120 Z;
+                M0,65 C260,25 520,105 780,65 C1040,25 1280,95 1440,65 L1440,120 L0,120 Z
               "
             />
           </path>
 
-          {/* -- LAYER 3: bright green ribbon � the key visual from image -- */}
-          <path fill="url(#waveGreen)" opacity="0.95">
+          {/* Layer 3: Vibrant Green Ribbon */}
+          <path fill="url(#footerGreenRibbon)">
             <animate
               attributeName="d"
-              dur="8s"
+              dur="9s"
               repeatCount="indefinite"
               calcMode="spline"
               keyTimes="0;0.5;1"
               keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
               values="
-                M0,60 C180,25 360,95 540,55 C720,15 900,85 1080,48 C1260,12 1380,65 1440,60 L1440,85 C1380,90 1260,55 1080,78 C900,100 720,45 540,82 C360,118 180,68 0,85 Z;
-                M0,70 C180,105 360,30 540,72 C720,112 900,38 1080,68 C1260,98 1380,52 1440,70 L1440,95 C1380,72 1260,108 1080,88 C900,68 720,118 540,88 C360,58 180,102 0,95 Z;
-                M0,60 C180,25 360,95 540,55 C720,15 900,85 1080,48 C1260,12 1380,65 1440,60 L1440,85 C1380,90 1260,55 1080,78 C900,100 720,45 540,82 C360,118 180,68 0,85 Z
+                M0,50 C200,20 400,85 600,48 C800,12 1000,75 1200,42 C1320,20 1400,55 1440,50 L1440,68 C1380,72 1260,42 1080,64 C900,85 720,35 540,70 C360,98 180,55 0,68 Z;
+                M0,60 C200,90 400,25 600,62 C800,98 1000,32 1200,58 C1320,80 1400,45 1440,60 L1440,78 C1380,62 1260,92 1080,76 C900,58 720,100 540,74 C360,48 180,88 0,78 Z;
+                M0,50 C200,20 400,85 600,48 C800,12 1000,75 1200,42 C1320,20 1400,55 1440,50 L1440,68 C1380,72 1260,42 1080,64 C900,85 720,35 540,70 C360,98 180,55 0,68 Z
               "
             />
           </path>
 
-          {/* -- LAYER 4: glowing green stroke on top of green ribbon -- */}
+          {/* Layer 4: Glowing Top Green Stroke */}
           <path
             fill="none"
             stroke="#4ade80"
-            strokeWidth="2.5"
-            filter="url(#gGlow)"
-            opacity="1"
+            strokeWidth="2.2"
+            filter="url(#greenGlowEffect)"
+            opacity="0.95"
           >
             <animate
               attributeName="d"
-              dur="8s"
+              dur="9s"
               repeatCount="indefinite"
               calcMode="spline"
               keyTimes="0;0.5;1"
               keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
               values="
-                M0,60 C180,25 360,95 540,55 C720,15 900,85 1080,48 C1260,12 1380,65 1440,60;
-                M0,70 C180,105 360,30 540,72 C720,112 900,38 1080,68 C1260,98 1380,52 1440,70;
-                M0,60 C180,25 360,95 540,55 C720,15 900,85 1080,48 C1260,12 1380,65 1440,60
-              "
-            />
-          </path>
-
-          {/* -- Thin navy-blue secondary stroke for extra depth -- */}
-          <path
-            fill="none"
-            stroke="#3b82f6"
-            strokeWidth="1.5"
-            opacity="0.45"
-          >
-            <animate
-              attributeName="d"
-              dur="13s"
-              repeatCount="indefinite"
-              calcMode="spline"
-              keyTimes="0;0.5;1"
-              keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
-              values="
-                M0,80 C240,42 480,118 720,78 C960,38 1200,108 1440,80;
-                M0,90 C240,128 480,48 720,88 C960,128 1200,58 1440,90;
-                M0,80 C240,42 480,118 720,78 C960,38 1200,108 1440,80
+                M0,50 C200,20 400,85 600,48 C800,12 1000,75 1200,42 C1320,20 1400,55 1440,50;
+                M0,60 C200,90 400,25 600,62 C800,98 1000,32 1200,58 C1320,80 1400,45 1440,60;
+                M0,50 C200,20 400,85 600,48 C800,12 1000,75 1200,42 C1320,20 1400,55 1440,50
               "
             />
           </path>
@@ -218,304 +205,248 @@ export default function Footer() {
       </div>
 
       {/* -----------------------------------------------------------
-          FOOTER BODY � dark navy, starts right below the wave
+          MAIN FOOTER BODY
       ----------------------------------------------------------- */}
       <footer
         ref={ref}
-        className="relative w-full text-white overflow-hidden"
-        style={{ background: '#0a1628' }}
         id="contact"
+        className="relative w-full text-white overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #040b17 0%, #07152a 40%, #030812 100%)',
+        }}
       >
-        {/* -- Animated dot grid � bottom-left (matches image) -- */}
-        <motion.div
-          animate={{ backgroundPosition: ['0px 0px', '20px 20px', '0px 0px'] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-          className="absolute bottom-0 left-0 w-72 h-72 pointer-events-none opacity-[0.12]"
+        {/* Background Dot Patterns for Depth */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.06]"
           style={{
-            backgroundImage: 'radial-gradient(circle, #60a5fa 1.2px, transparent 1.2px)',
-            backgroundSize: '18px 18px',
+            backgroundImage: 'radial-gradient(circle, #60a5fa 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
           }}
         />
 
-        {/* -- Animated dot grid � bottom-right -- */}
-        <motion.div
-          animate={{ backgroundPosition: ['0px 0px', '-20px -20px', '0px 0px'] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-          className="absolute bottom-0 right-0 w-72 h-72 pointer-events-none opacity-[0.08]"
+        {/* Ambient Glows */}
+        <div
+          className="absolute -top-24 left-1/4 w-96 h-96 pointer-events-none rounded-full"
           style={{
-            backgroundImage: 'radial-gradient(circle, #39b54a 1.2px, transparent 1.2px)',
-            backgroundSize: '18px 18px',
+            background: 'radial-gradient(circle, rgba(57,181,74,0.08) 0%, transparent 70%)',
+            filter: 'blur(50px)',
+          }}
+        />
+        <div
+          className="absolute bottom-10 right-10 w-96 h-96 pointer-events-none rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)',
+            filter: 'blur(60px)',
           }}
         />
 
-        {/* -- Radial glow behind logo -- */}
-        <motion.div
-          animate={{ opacity: [0.3, 0.6, 0.3], scale: [0.95, 1.08, 0.95] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute pointer-events-none"
-          style={{
-            top: '10%', left: '-4%',
-            width: 320, height: 320,
-            background: 'radial-gradient(circle, rgba(57,181,74,0.12) 0%, transparent 70%)',
-            filter: 'blur(30px)',
-          }}
-        />
-
-        {/* -- Top-right ambient glow -- */}
-        <motion.div
-          animate={{ opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute pointer-events-none"
-          style={{
-            top: '-10%', right: '5%',
-            width: 280, height: 280,
-            background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)',
-            filter: 'blur(40px)',
-          }}
-        />
-
-        {/* -- Main content -- */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-4 pb-0">
+        {/* Content Container */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8 pb-10">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 xl:gap-12"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-12"
           >
-
-            {/* -- Col 1: Brand -- */}
-            <motion.div variants={itemVariants} className="flex flex-col gap-5">
-              {/* Logo — white pill card so blue logo pops on dark bg */}
-              <div className="relative w-fit">
-                <motion.div
-                  animate={{ opacity: [0.5, 1, 0.5], scale: [0.95, 1.08, 0.95] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute -inset-3 rounded-2xl pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(ellipse, rgba(57,181,74,0.35) 0%, rgba(59,130,246,0.15) 50%, transparent 75%)',
-                    filter: 'blur(12px)',
-                  }}
-                />
-                <motion.div
-                  whileHover={{ scale: 1.03, boxShadow: '0 0 32px rgba(57,181,74,0.5), 0 0 12px rgba(59,130,246,0.3)' }}
-                  transition={{ duration: 0.3 }}
-                  className="relative rounded-2xl flex items-center justify-center px-5 py-3"
-                  style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)',
-                    boxShadow: '0 0 20px rgba(57,181,74,0.25), 0 0 8px rgba(59,130,246,0.2), inset 0 1px 0 rgba(255,255,255,0.9)',
-                    border: '1px solid rgba(57,181,74,0.3)',
-                  }}
-                >
-                  <motion.div
-                    animate={{ x: ['-120%', '220%'] }}
-                    transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
-                    className="absolute inset-y-0 w-1/3 pointer-events-none rounded-2xl"
-                    style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)', skewX: '-15deg' }}
+            {/* -----------------------------------------------------------
+                COL 1: BRAND & MISSION (Span 4 on lg)
+            ----------------------------------------------------------- */}
+            <motion.div variants={itemVariants} className="lg:col-span-4 flex flex-col items-start gap-5">
+              {/* Premium Logo Card */}
+              <Link to="/" className="group inline-block focus:outline-none">
+                <div className="relative rounded-2xl bg-white px-5 py-3.5 shadow-lg shadow-black/20 border border-white/20 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(57,181,74,0.25)] group-hover:border-[#39b54a]/40">
+                  <img
+                    src={logoImg}
+                    alt="Aussie Smart Energy"
+                    className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
                   />
-                  <img src={logoImg} alt="Aussie Smart Energy" className="relative h-16 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
-                </motion.div>
-                <motion.span
-                  animate={{ scale: [1, 1.4, 1], opacity: [0.8, 1, 0.8] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#39b54a] border-2 border-[#0a1628]"
-                  style={{ boxShadow: '0 0 8px rgba(57,181,74,0.8)' }}
-                />
-              </div>
+                </div>
+              </Link>
 
-              <p className="text-slate-400 text-sm leading-relaxed">
+              {/* Brand Description */}
+              <p className="text-slate-300/80 text-sm leading-relaxed max-w-md font-normal">
                 Solar panels provide excellent benefits for Australian homes and businesses.
                 They reduce energy bills, harnessing abundant sunlight for cost-effective power.
                 Government Incentives make solar systems more affordable — a smart investment for a greener future.
               </p>
 
-              {/* Social icons */}
-              <div className="flex items-center gap-2.5 mt-1">
-                <SocialBtn label="Facebook" color="#1877f2" bg="#e7f0fe">f</SocialBtn>
-                <SocialBtn label="YouTube" color="#ff0000" bg="#fee2e2">▶</SocialBtn>
-                <SocialBtn label="Instagram" color="#e1306c" bg="#fce7f3">◎</SocialBtn>
+              {/* Social Media Links */}
+              <div className="flex items-center gap-3 pt-1">
+                {socialLinks.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.name}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.name}
+                      whileHover={{ scale: 1.12, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 bg-white/[0.05] border border-white/10 transition-all duration-300 ${social.bgHover} ${social.shadow}`}
+                    >
+                      <Icon size={16} />
+                    </motion.a>
+                  );
+                })}
               </div>
             </motion.div>
 
-            {/* -- Col 2: Contact & Locations -- */}
-            <motion.div variants={itemVariants} className="flex flex-col gap-6">
+            {/* -----------------------------------------------------------
+                COL 2: QUICK LINKS / RESOURCES (Span 2 on lg)
+            ----------------------------------------------------------- */}
+            <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#39b54a]" />
+                <h4 className="text-white font-bold text-base tracking-wide font-outfit">Resources</h4>
+              </div>
+
+              <ul className="flex flex-col space-y-0.5">
+                <FooterNavLink href="/">Home</FooterNavLink>
+                <FooterNavLink href="/about">About Us</FooterNavLink>
+                <FooterNavLink href="/contact">Contact Us</FooterNavLink>
+                <FooterNavLink href="/batteries/solar-system-with-batteries">Solar Batteries</FooterNavLink>
+                <FooterNavLink href="/solar/6.6kw">Solar Packages</FooterNavLink>
+              </ul>
+            </motion.div>
+
+            {/* -----------------------------------------------------------
+                COL 3: CONTACT & LOCATIONS (Span 3 on lg)
+            ----------------------------------------------------------- */}
+            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col gap-5">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-400" />
+                <h4 className="text-white font-bold text-base tracking-wide font-outfit">Contact Us</h4>
+              </div>
 
               {/* Phone */}
-              <div>
-                <h4 className="text-white font-bold text-base tracking-wide mb-3 flex items-center gap-2">
-                  <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/25 flex items-center justify-center text-[#39b54a]">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Phone</span>
+                <a
+                  href="tel:1300959170"
+                  className="group inline-flex items-center gap-2.5 text-white/90 text-sm font-medium hover:text-[#39b54a] transition-colors duration-200"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/30 flex items-center justify-center text-[#39b54a] group-hover:bg-[#39b54a]/25 transition-colors">
                     <Phone size={13} />
                   </span>
-                  Phone
-                </h4>
-                <a href="tel:1300959170" className="group flex items-center gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
-                  <span className="text-[#39b54a] font-bold">›</span>
-                  1300 959 170
+                  <span>1300 959 170</span>
                 </a>
               </div>
 
               {/* Email */}
-              <div>
-                <h4 className="text-white font-bold text-base tracking-wide mb-3 flex items-center gap-2">
-                  <span className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Email</span>
+                <a
+                  href="mailto:info@aussiesmartenergy.com.au"
+                  className="group inline-flex items-center gap-2.5 text-white/90 text-sm font-medium hover:text-[#39b54a] transition-colors duration-200 break-all"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/25 transition-colors flex-shrink-0">
                     <Mail size={13} />
                   </span>
-                  Email
-                </h4>
-                <a href="mailto:info@aussiesmartenergy.com.au" className="group flex items-center gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200 break-all">
-                  <span className="text-[#39b54a] font-bold flex-shrink-0">›</span>
-                  info@aussiesmartenergy.com.au
+                  <span>info@aussiesmartenergy.com.au</span>
                 </a>
               </div>
 
               {/* Our Locations */}
-              <div>
-                <h4 className="text-white font-bold text-base tracking-wide mb-3 flex items-center gap-2">
-                  <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/25 flex items-center justify-center text-[#39b54a]">
-                    <MapPin size={13} />
-                  </span>
-                  Our Locations
-                </h4>
-                <ul className="space-y-3">
-                  <li className="group">
-                    <div className="flex items-start gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
-                      <span className="text-[#39b54a] font-bold text-xs mt-0.5 flex-shrink-0">QLD:</span>
-                      <span className="leading-relaxed">29/97 Creek St, Brisbane City QLD 4000</span>
-                    </div>
-                  </li>
-                  <li className="group">
-                    <div className="flex items-start gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
-                      <span className="text-[#39b54a] font-bold text-xs mt-0.5 flex-shrink-0">NSW:</span>
-                      <span className="leading-relaxed">526/368 Sussex St, Sydney NSW 2000</span>
-                    </div>
-                  </li>
-                  <li className="group">
-                    <div className="flex items-start gap-2 text-slate-400 text-sm hover:text-[#39b54a] transition-colors duration-200">
-                      <span className="text-[#39b54a] font-bold text-xs mt-0.5 flex-shrink-0">VIC:</span>
-                      <span className="leading-relaxed">117/530 Little Collins St, Melbourne VIC 3000</span>
-                    </div>
-                  </li>
-                </ul>
+              <div className="flex flex-col gap-2 pt-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <MapPin size={12} className="text-[#39b54a]" /> Our Locations
+                </span>
+
+                <div className="flex flex-col space-y-2.5">
+                  {/* QLD */}
+                  <div className="flex items-start gap-2.5 text-xs text-slate-300/90 leading-relaxed group">
+                    <span className="px-1.5 py-0.5 rounded bg-[#39b54a]/15 border border-[#39b54a]/30 text-[#39b54a] font-bold text-[11px] flex-shrink-0 mt-0.5">
+                      QLD
+                    </span>
+                    <span className="group-hover:text-white transition-colors">29/97 Creek St, Brisbane City QLD 4000</span>
+                  </div>
+
+                  {/* NSW */}
+                  <div className="flex items-start gap-2.5 text-xs text-slate-300/90 leading-relaxed group">
+                    <span className="px-1.5 py-0.5 rounded bg-blue-500/15 border border-blue-500/30 text-blue-400 font-bold text-[11px] flex-shrink-0 mt-0.5">
+                      NSW
+                    </span>
+                    <span className="group-hover:text-white transition-colors">526/368 Sussex St, Sydney NSW 2000</span>
+                  </div>
+
+                  {/* VIC */}
+                  <div className="flex items-start gap-2.5 text-xs text-slate-300/90 leading-relaxed group">
+                    <span className="px-1.5 py-0.5 rounded bg-purple-500/15 border border-purple-500/30 text-purple-400 font-bold text-[11px] flex-shrink-0 mt-0.5">
+                      VIC
+                    </span>
+                    <span className="group-hover:text-white transition-colors">117/530 Little Collins St, Melbourne VIC 3000</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
-            {/* -- Col 3: Resources -- */}
-            <motion.div variants={itemVariants} className="flex flex-col gap-4">
-              <h4 className="text-white font-bold text-base tracking-wide flex items-center gap-2">
-                <span className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400 text-xs">📖</span>
-                Resources
-              </h4>
-              <ul className="space-y-0.5">
-                <FooterLink href="/">Home</FooterLink>
-                <FooterLink href="/about">About Us</FooterLink>
-                <FooterLink href="/contact">Contact Us</FooterLink>
-                <FooterLink href="#batteries">Solar Batteries</FooterLink>
-                <FooterLink href="#packages">Solar Packages</FooterLink>
-              </ul>
-            </motion.div>
+            {/* -----------------------------------------------------------
+                COL 4: ACCREDITATIONS & CERTIFICATIONS (Span 3 on lg)
+            ----------------------------------------------------------- */}
+            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <h4 className="text-white font-bold text-base tracking-wide font-outfit">Accreditations</h4>
+              </div>
 
-            {/* -- Col 4: Subscribe + banner logo -- */}
-            <motion.div variants={itemVariants} className="flex flex-col gap-5">
-              {/* Floating solar icon */}
-              <motion.div
-                animate={{ y: [0, -8, 0], rotate: [0, 3, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute top-4 right-6 pointer-events-none opacity-10"
-              >
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#39b54a" strokeWidth="1.5">
-                  <rect x="6" y="16" width="36" height="22" rx="2" />
-                  <line x1="18" y1="16" x2="18" y2="38" /><line x1="30" y1="16" x2="30" y2="38" />
-                  <line x1="6" y1="27" x2="42" y2="27" />
-                  <line x1="24" y1="38" x2="24" y2="44" /><line x1="16" y1="44" x2="32" y2="44" />
-                </svg>
-              </motion.div>
-
-              <h4 className="text-white font-bold text-base tracking-wide flex items-center gap-2">
-                <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/25 flex items-center justify-center text-[#39b54a]">
-                  <Send size={13} />
-                </span>
-                Subscribe
-              </h4>
-
-              <p className="text-slate-500 text-xs -mt-2">Sign up for tips, updates and special offers on solar.</p>
-
-              {subscribed ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex items-center gap-2 text-[#39b54a] text-sm font-semibold py-2"
-                >
-                  <ShieldCheck size={16} /> Subscribed! Thank you.
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubscribe} className="flex gap-0 rounded-xl overflow-hidden border border-white/10 focus-within:border-[#39b54a]/50 transition-all duration-300 focus-within:shadow-[0_0_16px_rgba(57,181,74,0.2)]">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="Email Address"
-                    required
-                    className="flex-1 min-w-0 bg-white/5 text-white text-sm px-4 py-3 outline-none placeholder:text-slate-600"
+              {/* Accreditations Trust Card */}
+              <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4.5 backdrop-blur-sm hover:border-white/20 transition-all duration-300 group shadow-lg">
+                <div className="bg-white/95 rounded-xl p-3.5 flex items-center justify-center shadow-inner transition-transform duration-300 group-hover:scale-[1.01]">
+                  <img
+                    src={bannerLogo}
+                    alt="Clean Energy Council & NETCC Approved Seller"
+                    className="w-full h-auto max-h-24 object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
                   />
-                  <motion.button
-                    type="submit"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex-shrink-0 w-12 flex items-center justify-center text-white transition-all duration-300"
-                    style={{ background: 'linear-gradient(135deg, #39b54a, #2d9e3f)' }}
-                  >
-                    <ArrowRight size={16} />
-                  </motion.button>
-                </form>
-              )}
+                </div>
 
-              {/* Banner / certification logos */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.25 }}
-              >
-                <img
-                  src={bannerLogo}
-                  alt="Certifications"
-                  className="w-full max-w-[260px] h-auto object-contain rounded-xl"
-                  onError={(e) => { e.target.style.display = 'none'; }}
-                />
-              </motion.div>
+                <div className="mt-3.5 flex items-center gap-2 text-xs text-slate-400">
+                  <ShieldCheck size={14} className="text-[#39b54a] flex-shrink-0" />
+                  <span className="leading-tight">NETCC Approved Seller & CEC Solar Retailer</span>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
 
-          {/* -- Bottom bar -- */}
+          {/* -----------------------------------------------------------
+              BOTTOM BAR: COPYRIGHT & LEGAL
+          ----------------------------------------------------------- */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="mt-12 pt-5 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 pb-6"
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="mt-12 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-400"
           >
-            <div className="flex items-center gap-2 text-slate-500 text-sm">
-              <ShieldCheck size={14} className="text-[#39b54a]/70 flex-shrink-0" />
-              <span>� 2024 Aussie Smart Energy | All Rights Reserved</span>
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={15} className="text-[#39b54a] flex-shrink-0" />
+              <span>© 2024 Aussie Smart Energy | All Rights Reserved</span>
             </div>
-            <div className="flex items-center gap-4 text-slate-500 text-sm">
-              {['Privacy Policy', 'Terms of Use'].map((item, i) => (
-                <span key={item} className="flex items-center gap-4">
-                  {i > 0 && <span className="text-white/10">|</span>}
-                  <a href="#" className="relative group hover:text-[#39b54a] transition-colors duration-300">
-                    {item}
-                    <span className="absolute -bottom-px left-0 h-px w-0 bg-[#39b54a] group-hover:w-full transition-all duration-300" />
-                  </a>
-                </span>
-              ))}
+
+            <div className="flex items-center gap-4">
+              <Link
+                to="/contact"
+                className="hover:text-[#39b54a] transition-colors duration-200"
+              >
+                Privacy Policy
+              </Link>
+              <span className="text-white/20">•</span>
+              <Link
+                to="/contact"
+                className="hover:text-[#39b54a] transition-colors duration-200"
+              >
+                Terms of Use
+              </Link>
             </div>
           </motion.div>
         </div>
-
-        {/* Inline keyframe for gradient text shine */}
-        <style>{`
-          @keyframes gradShine {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-          }
-        `}</style>
       </footer>
-    </>
+    </div>
   );
 }

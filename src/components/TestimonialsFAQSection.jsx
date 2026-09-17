@@ -1,7 +1,8 @@
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { Plus, Minus, Star, Quote, Check, ArrowLeft, ArrowRight, ExternalLink, ShieldCheck } from 'lucide-react';
 import homeVideo from '../assets/home_slider.mp4';
+import GoogleReviews from './GoogleReviews';
 
 const TestimonialsFAQSection = () => {
   const ref = useRef(null);
@@ -33,10 +34,21 @@ const TestimonialsFAQSection = () => {
 
   return (
     <section ref={ref} id="faq" className="py-20 bg-gradient-to-br from-[#d7e1d7] via-[#a3c9e3] to-[#085984]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
 
-          {/* Left — Video (stretches to match FAQ column height) */}
+        {/* ── TOP SECTION: Dynamic Google Customer Reviews ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <GoogleReviews />
+        </motion.div>
+
+        {/* ── BOTTOM SECTION: Video + FAQ Side-by-Side (Fully Preserved) ── */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch pt-4">
+
+          {/* Left — Video */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -56,7 +68,7 @@ const TestimonialsFAQSection = () => {
             </div>
           </motion.div>
 
-          {/* Right — FAQ */}
+          {/* Right — FAQ Accordion */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -70,9 +82,8 @@ const TestimonialsFAQSection = () => {
               </h2>
             </div>
 
-            {/* Themed panel behind the accordion */}
+            {/* Accordion */}
             <div className="bg-white/95 rounded-3xl p-6 shadow-lg">
-              {/* Accordion */}
               <div className="space-y-3">
                 {faqs.map((faq, i) => {
                   const isOpen = openFAQ === i;
@@ -116,4 +127,5 @@ const TestimonialsFAQSection = () => {
     </section>
   );
 };
+
 export default TestimonialsFAQSection;

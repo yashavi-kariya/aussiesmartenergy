@@ -1,12 +1,14 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import api from '../utils/api';
 import {
   Shield, CheckCircle, ArrowRight, Users, Zap, Award, Activity,
   MapPin, UserCheck, Leaf
 } from 'lucide-react';
+import { getImageUrl } from '../utils/imageUrl';
 import rooftopSolarImg from '../assets/rooftopsolar.png';
 import bannerLogo from '../assets/banner-logo-1024x365.png';
+
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -21,6 +23,49 @@ const ModernHeroSection = () => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+
+  // Dynamic hero background banners
+  const [bannerImages, setBannerImages] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchHeroBanners = async () => {
+      try {
+        const res = await api.get('/banners');
+        if (res.data?.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          const urls = res.data.data.map(b => getImageUrl(b.imageUrl)).filter(Boolean);
+          if (isMounted && urls.length > 0) {
+            setBannerImages(urls);
+            // Preload images into browser memory to eliminate transition flicker
+            urls.forEach(url => {
+              const img = new Image();
+              img.src = url;
+            });
+          }
+        }
+      } catch (err) {
+        // Quietly fallback to static default image
+        console.log('Using default hero background banner:', err?.message || err);
+      }
+    };
+    fetchHeroBanners();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Compute active slides array (fallback to default rooftopSolarImg if none uploaded)
+  const slides = bannerImages.length > 0 ? bannerImages : [rooftopSolarImg];
+
+  // Auto transition slides every 3 seconds if multiple banners exist
+  useEffect(() => {
+    if (slides.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
 
   const bottomFeatures = [
     { icon: Shield, text: 'Proven Quality Products' },
@@ -85,33 +130,29 @@ const ModernHeroSection = () => {
   ];
 
   return (
-    <section ref={ref} id="home" className="relative min-h-screen flex flex-col pt-[96px] overflow-hidden" style={{ perspective: '1200px' }}>
+    <section ref={ref} id="home" className="relative min-h-screen flex flex-col pt-36 sm:pt-40 lg:pt-36 overflow-hidden" style={{ perspective: '1200px' }}>
 
-      {/* Background Image — 3D animated Ken Burns + tilt */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.div
-          initial={{ scale: 1.15, rotateZ: 0.6, rotateX: 2 }}
-          animate={{
-            scale: [1.15, 1.22, 1.15],
-            rotateZ: [0.6, -0.6, 0.6],
-            rotateX: [2, 0, 2],
-            x: [0, -18, 0],
-            y: [0, -10, 0],
-          }}
-          transition={{
-            duration: 22,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          style={{ transformStyle: 'preserve-3d', transformOrigin: 'center center' }}
-          className="w-full h-full"
-        >
-          <img
-            src={rooftopSolarImg}
-            alt="Solar Home"
-            className="w-full h-full object-cover object-center"
-          />
-        </motion.div>
+      {/* Dynamic Background Carousel Slider — Seamless hardware-accelerated cross-fade */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={slides[currentSlide] || currentSlide}
+            initial={{ opacity: 0, scale: 1.12 }}
+            animate={{ opacity: 1, scale: 1.18 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              opacity: { duration: 1.2, ease: 'easeInOut' },
+              scale: { duration: 6, ease: 'easeOut' },
+            }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <img
+              src={slides[currentSlide]}
+              alt="Solar Home"
+              className="w-full h-full object-cover object-center"
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {/* subtle floating light particles for depth */}
         {[...Array(6)].map((_, i) => (
@@ -177,29 +218,29 @@ const ModernHeroSection = () => {
             </motion.div>
 
             {/* H1 — animated word-by-word typography reveal */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight text-[#1e2d53]">
-              <span className="block overflow-hidden">
+            <h1 className="text-4xl sm:text-5xl lg:text-[58px] xl:text-[64px] font-black leading-[1.1] tracking-tight text-[#1e2d53]">
+              <span className="block overflow-hidden pb-1">
                 {line1Words.map((word, i) => (
                   <motion.span
                     key={i}
                     initial={{ y: '110%', rotateX: 60, opacity: 0 }}
                     animate={isInView ? { y: '0%', rotateX: 0, opacity: 1 } : {}}
                     transition={{ duration: 0.7, delay: 0.15 + i * 0.12, ease: EASE }}
-                    className="inline-block mr-3"
+                    className="inline-block mr-2.5 sm:mr-3.5"
                     style={{ transformOrigin: 'bottom', display: 'inline-block' }}
                   >
                     {word}
                   </motion.span>
                 ))}
               </span>
-              <span className="block overflow-hidden">
+              <span className="block overflow-hidden pb-1">
                 {line2Words.map((word, i) => (
                   <motion.span
                     key={i}
                     initial={{ y: '110%', rotateX: 60, opacity: 0 }}
                     animate={isInView ? { y: '0%', rotateX: 0, opacity: 1 } : {}}
                     transition={{ duration: 0.7, delay: 0.45 + i * 0.12, ease: EASE }}
-                    className={`inline-block mr-3 ${word === 'Smart' || word === 'Solar' ? 'text-[#39b54a]' : ''}`}
+                    className={`inline-block mr-2.5 sm:mr-3.5 ${word === 'Smart' || word === 'Solar' ? 'text-[#39b54a]' : ''}`}
                     style={{ transformOrigin: 'bottom', display: 'inline-block' }}
                   >
                     {word}
@@ -211,7 +252,7 @@ const ModernHeroSection = () => {
             {/* Description */}
             <motion.p
               variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
-              className="text-[#4a5568] text-base sm:text-lg font-medium leading-relaxed max-w-lg"
+              className="text-slate-600 text-base sm:text-lg font-normal leading-relaxed max-w-lg"
             >
               High performance solar solutions for homes and businesses. Lower energy bills, cleaner planet and a brighter future for generations.
             </motion.p>

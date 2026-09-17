@@ -1,8 +1,5 @@
 import ModernHeroSection from '../components/ModernHeroSection'
-import AboutSection from '../components/AboutSection'
-import CommercialResidentialSection from '../components/CommercialResidentialSection'
-import ProjectExecutionSection from '../components/ProjectExecutionSection'
-import TestimonialsSection from '../components/TestimonialsSection'
+import ProjectsSection from '../components/ProjectsSection'
 import SavingsPromoSection from '../components/SavingsPromoSection'
 import TestimonialsFAQSection from '../components/TestimonialsFAQSection'
 import BrandsSection from '../components/BrandsSection'
@@ -12,20 +9,15 @@ const Home = () => {
     <main>
       {/* 1. Hero with embedded dark feature banner */}
       <ModernHeroSection />
-      {/* 2. About */}
-      <AboutSection />
-      {/* 3. Solar Solutions toggle */}
-      <CommercialResidentialSection />
-      {/* 4. Our Process — 5 steps */}
-      <ProjectExecutionSection />
-      {/* 5. Savings promo — rebates + payment plans */}
+      {/* 2. Featured Projects */}
+      <ProjectsSection />
+      {/* 3. Savings promo — rebates + payment plans */}
       <SavingsPromoSection />
-      <TestimonialsSection />
-      {/* 6. FAQ + Video side-by-side */}
+      {/* 4. FAQ + Video side-by-side & Google Reviews */}
       <TestimonialsFAQSection />
-      {/* 7. Brands strip */}
+      {/* 5. Brands strip */}
       <BrandsSection />
     </main>
   )
 }
-export default Home
+export default Home;

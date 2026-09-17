@@ -1,834 +1,1141 @@
-import { motion, useInView, useScroll, useTransform, useMotionValue, animate } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { motion, useInView, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
-  Zap,
-  Leaf,
-  Users,
-  Award,
-  Target,
-  Heart,
-  Shield,
   Sun,
   Battery,
-  TrendingUp,
+  Zap,
+  Shield,
+  ShieldCheck,
+  Award,
+  Users,
+  Heart,
   CheckCircle,
-  Star,
+  CheckCircle2,
+  ArrowRight,
+  PhoneCall,
+  Sparkles,
+  Home,
+  Clock,
+  Compass,
+  FileText,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  MapPin,
+  ThumbsUp,
+  MessageSquare,
+  BadgeCheck,
+  Check,
+  Star
 } from 'lucide-react';
+
 import about1 from '../assets/about1.jpg';
 import about2 from '../assets/about2.jpg';
+import solarPayback from '../assets/solar_payback_house.jpg';
 
-// Shared elegant easing curve for a premium, unhurried feel
+// Premium spring & easing definitions
 const EASE = [0.22, 1, 0.36, 1];
 
-const CountUp = ({ value, inView, duration = 1.6, delay = 0 }) => {
-  const spanRef = useRef(null);
-  const hasRun = useRef(false);
-  const numeric = parseFloat(value) || 0;
-  const suffix = value.replace(/[0-9.]/g, '');
-
-  useEffect(() => {
-    if (!inView || hasRun.current || !spanRef.current) return;
-    hasRun.current = true;
-    const controls = animate(0, numeric, {
-      duration,
-      delay,
-      ease: EASE,
-      onUpdate(v) {
-        if (spanRef.current) {
-          spanRef.current.textContent = `${Math.round(v)}${suffix}`;
-        }
-      }
-    });
-    return () => controls.stop();
-  }, [inView]);
-
-  return <span ref={spanRef}>0{suffix}</span>;
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      duration: 0.6,
+      ease: EASE
+    }
+  }
 };
 
-const AboutUs = () => {
-  const heroRef = useRef(null);
-  const aboutRef = useRef(null);
-  const valuesRef = useRef(null);
-  const statsRef = useRef(null);
-  const storyRef = useRef(null);
-  const storyImgRef = useRef(null);
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE }
+  }
+};
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [autoScroll, setAutoScroll] = useState(true);
+// Interactive 3D Tilt Card
+const TiltCard = ({ children, className = '' }) => {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-  const aboutImages = [about1, about2];
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 25 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 25 });
 
-  const heroInView = useInView(heroRef, { once: true, threshold: 0.1 });
-  const aboutInView = useInView(aboutRef, { once: true, threshold: 0.1 });
-  const valuesInView = useInView(valuesRef, { once: true, threshold: 0.1 });
-  const statsInView = useInView(statsRef, { once: true, threshold: 0.1 });
-  const storyInView = useInView(storyRef, { once: true, threshold: 0.1 });
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['6deg', '-6deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-6deg', '6deg']);
 
-  // Subtle parallax on the story image as the section scrolls through view
-  const { scrollYProgress: storyScroll } = useScroll({
-    target: storyImgRef,
-    offset: ['start end', 'end start']
-  });
-  const storyImgY = useTransform(storyScroll, [0, 1], [30, -30]);
-
-  // Mouse-tracked parallax for the hero icons — drifts gently toward the cursor
-  const heroIconX = useMotionValue(0);
-  const heroIconY = useMotionValue(0);
-  const handleHeroMouseMove = (e) => {
+  const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const relX = (e.clientX - rect.left - rect.width / 2) / 25;
-    const relY = (e.clientY - rect.top - rect.height / 2) / 25;
-    animate(heroIconX, relX, { duration: 0.6, ease: EASE });
-    animate(heroIconY, relY, { duration: 0.6, ease: EASE });
-  };
-  const handleHeroMouseLeave = () => {
-    animate(heroIconX, 0, { duration: 0.8, ease: EASE });
-    animate(heroIconY, 0, { duration: 0.8, ease: EASE });
-  };
-
-  // Auto-scroll effect
-  useEffect(() => {
-    if (!autoScroll) return;
-
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % aboutImages.length);
-    }, 5000); // Change every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [autoScroll, aboutImages.length]);
-
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + aboutImages.length) % aboutImages.length);
-    setAutoScroll(false);
-    setTimeout(() => setAutoScroll(true), 8000);
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
   };
 
-  const handleNextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % aboutImages.length);
-    setAutoScroll(false);
-    setTimeout(() => setAutoScroll(true), 8000);
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
   };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        duration: 0.6
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
-    }
-  };
-
-  const slideInLeft = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-
-  const slideInRight = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-
-  // New: gentle fade+rise for achievement rows, with a bit of bounce
-  const achievementVariants = {
-    hidden: { opacity: 0, y: 16, scale: 0.96 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { delay: 0.6 + i * 0.12, duration: 0.55, ease: EASE }
-    })
-  };
-
-  // New: slow ambient float for hero background blobs
-  const floatBlob = {
-    animate: (custom) => ({
-      y: [0, custom, 0],
-      x: [0, custom / 2, 0],
-      transition: {
-        duration: 8 + Math.random() * 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    })
-  };
-
-  const values = [
-    {
-      icon: <Leaf className="w-8 h-8 text-[#39b54a]" />,
-      title: "Voluntary Sustainability",
-      description: "We see a world where energy flows in harmony with nature."
-    },
-    {
-      icon: <Star className="w-8 h-8 text-[#39b54a]" />,
-      title: "Elegant Innovation",
-      description: "Every solution we design is efficient, cutting-edge, and effortlessly stylish."
-    },
-    {
-      icon: <Users className="w-8 h-8 text-[#39b54a]" />,
-      title: "Empowered Communities",
-      description: "We believe solar energy isn’t just power—it’s possibility."
-    }
-  ];
-  const stats = [
-    {
-      icon: <Users className="w-12 h-12 text-white" />,
-      number: "2500+",
-      label: "consulted Clients",
-      color: "from-blue-500 to-blue-600"
-    },
-    {
-      icon: <Zap className="w-12 h-12 text-white" />,
-      number: "1800+",
-      label: "Project Success",
-      color: "from-green-500 to-green-600"
-    },
-    {
-      icon: <Award className="w-12 h-12 text-white" />,
-      number: "70+",
-      label: "Team Members",
-      color: "from-purple-500 to-purple-600"
-    },
-    {
-      icon: <TrendingUp className="w-12 h-12 text-white" />,
-      number: "99%",
-      label: "Client Satisfaction",
-      color: "from-orange-500 to-orange-600"
-    }
-  ];
-  const achievements = [
-    "Leading solar installer in Australia",
-    "Award-winning customer service",
-    "Certified Clean Energy Council installer",
-    // "25+ years combined industry experience",
-    "Premium Tier 1 solar panel partnerships",
-  ];
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6, ease: EASE }}
-      className="min-h-screen bg-white"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateY,
+        rotateX,
+        transformStyle: 'preserve-3d',
+      }}
+      className={`relative transition-all duration-200 ease-out ${className}`}
     >
+      <div style={{ transform: 'translateZ(20px)' }}>
+        {children}
+      </div>
+    </motion.div>
+  );
+};
 
-      {/* Hero Section */}
+const AboutUs = () => {
+  // Carousel State in Section 1
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  // Section Refs for scroll trigger animations
+  const heroRef = useRef(null);
+  const controlRef = useRef(null);
+  const experienceRef = useRef(null);
+  const netccRef = useRef(null);
+  const peopleRef = useRef(null);
+  const moreThanRef = useRef(null);
+  const whyChooseRef = useRef(null);
+  const promiseRef = useRef(null);
+
+  const heroInView = useInView(heroRef, { once: true, threshold: 0.1 });
+  const controlInView = useInView(controlRef, { once: true, threshold: 0.15 });
+  const experienceInView = useInView(experienceRef, { once: true, threshold: 0.15 });
+  const netccInView = useInView(netccRef, { once: true, threshold: 0.1 });
+  const peopleInView = useInView(peopleRef, { once: true, threshold: 0.15 });
+  const moreThanInView = useInView(moreThanRef, { once: true, threshold: 0.15 });
+  const whyChooseInView = useInView(whyChooseRef, { once: true, threshold: 0.1 });
+  const promiseInView = useInView(promiseRef, { once: true, threshold: 0.15 });
+
+  const controlImages = [
+    {
+      src: about1,
+      title: "Clean Residential Solar",
+      caption: "Tailored to your roof & lifestyle"
+    },
+    {
+      src: about2,
+      title: "Smart Battery Storage",
+      caption: "Power your home through the evening"
+    },
+    {
+      src: solarPayback,
+      title: "Sustainable Australian Homes",
+      caption: "Energy independence & long-term value"
+    }
+  ];
+
+  useEffect(() => {
+    if (!autoPlay) return;
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % controlImages.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [autoPlay, controlImages.length]);
+
+  const handlePrevSlide = () => {
+    setActiveSlide((prev) => (prev - 1 + controlImages.length) % controlImages.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 7000);
+  };
+
+  const handleNextSlide = () => {
+    setActiveSlide((prev) => (prev + 1) % controlImages.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 7000);
+  };
+
+  // What NETCC means for you list (exact user content)
+  const netccBenefits = [
+    {
+      title: "Clear and honest information",
+      description: "We aim to make the technical side of solar and batteries easier to understand, so you can make an informed decision.",
+      icon: FileText,
+      color: "text-emerald-600 bg-emerald-50 border-emerald-200"
+    },
+    {
+      title: "Responsible sales practices",
+      description: "We believe in recommending solutions based on your needs rather than using pressure to make a sale.",
+      icon: ShieldCheck,
+      color: "text-blue-600 bg-blue-50 border-blue-200"
+    },
+    {
+      title: "Transparent communication",
+      description: "We keep you informed about your system, installation requirements, pricing and the process from start to finish.",
+      icon: MessageSquare,
+      color: "text-teal-600 bg-teal-50 border-teal-200"
+    },
+    {
+      title: "Professional customer experience",
+      description: "From your first enquiry through to installation and beyond, we aim to treat every customer with respect and professionalism.",
+      icon: Award,
+      color: "text-amber-600 bg-amber-50 border-amber-200"
+    },
+    {
+      title: "Ongoing support",
+      description: "Our relationship doesn't end when the installer leaves. We're here to support you throughout your energy journey.",
+      icon: Clock,
+      color: "text-rose-600 bg-rose-50 border-rose-200"
+    }
+  ];
+
+  // Why choose points (exact user content)
+  const whyChoosePoints = [
+    { text: "NETCC Approved Seller", icon: Award, color: "text-[#39b54a]" },
+    { text: "CEC-accredited installation partners", icon: CheckCircle2, color: "text-emerald-500" },
+    { text: "Experienced solar industry professionals", icon: Users, color: "text-blue-500" },
+    { text: "SAA-certified installation partners", icon: ShieldCheck, color: "text-indigo-500" },
+    { text: "Quality solar and battery products", icon: Zap, color: "text-amber-500" },
+    { text: "Professional installation", icon: CheckCircle2, color: "text-[#39b54a]" },
+    { text: "Transparent advice and communication", icon: MessageSquare, color: "text-teal-500" },
+    { text: "Dedicated after-sales support", icon: Heart, color: "text-rose-500" },
+    { text: "Solutions designed around your energy needs", icon: Compass, color: "text-sky-500" },
+    { text: "Nationwide service across Australia", icon: MapPin, color: "text-emerald-600" }
+  ];
+
+  // 4 Focus Pillars (exact user content)
+  const focusPillars = [
+    {
+      title: "Quality products",
+      description: "Carefully selected Tier 1 panels, inverters & battery technologies built for Australian conditions.",
+      icon: Zap,
+      borderColor: "border-emerald-200 hover:border-emerald-400 hover:shadow-emerald-100",
+      iconColor: "text-emerald-600 bg-emerald-50"
+    },
+    {
+      title: "Professional installation",
+      description: "Executed by SAA-certified contractors & CEC-accredited installers adhering to strict safety codes.",
+      icon: ShieldCheck,
+      borderColor: "border-blue-200 hover:border-blue-400 hover:shadow-blue-100",
+      iconColor: "text-blue-600 bg-blue-50"
+    },
+    {
+      title: "Honest advice",
+      description: "Clear recommendations focused strictly on what makes financial and practical sense for your household.",
+      icon: ThumbsUp,
+      borderColor: "border-amber-200 hover:border-amber-400 hover:shadow-amber-100",
+      iconColor: "text-amber-600 bg-amber-50"
+    },
+    {
+      title: "Genuine support",
+      description: "Dedicated guidance before, during, and long after your system has begun generating green energy.",
+      icon: Heart,
+      borderColor: "border-rose-200 hover:border-rose-400 hover:shadow-rose-100",
+      iconColor: "text-rose-600 bg-rose-50"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-[#39b54a]/20 selection:text-[#1e2d53] overflow-hidden">
+
+      {/* =========================================================================
+          HERO SECTION: About Aussie Smart Energy & Introduction
+          ========================================================================= */}
       <section
         ref={heroRef}
-        onMouseMove={handleHeroMouseMove}
-        onMouseLeave={handleHeroMouseLeave}
-        className="relative pt-28 pb-16 bg-gradient-to-br from-[#1e2d53] via-[#2a3f6b] to-[#1e2d53] overflow-hidden"
+        className="relative pt-36 sm:pt-40 lg:pt-44 pb-20 lg:pb-28 bg-gradient-to-b from-white via-emerald-50/40 to-slate-50 overflow-hidden border-b border-slate-200/60"
       >
-        {/* Background Pattern */}
-        < div className="absolute inset-0 opacity-10" >
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-y-3"></div>
+        {/* Animated Radial Ambient Glows */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div
-            variants={floatBlob}
-            animate="animate"
-            custom={24}
-            className="absolute top-20 right-0 w-64 h-64 bg-[#39b54a]/20 rounded-full blur-3xl"
-          ></motion.div>
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.35, 0.55, 0.35],
+              x: [0, 30, 0],
+              y: [0, -20, 0]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -top-10 -right-10 w-[500px] h-[500px] bg-gradient-to-br from-[#39b54a]/20 via-teal-400/15 to-transparent rounded-full blur-3xl"
+          />
           <motion.div
-            variants={floatBlob}
-            animate="animate"
-            custom={-20}
-            className="absolute bottom-0 left-0 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl"
-          ></motion.div>
-        </div >
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={heroInView ? "visible" : "hidden"}
-            className="space-y-2"
-          >
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl md:text-7xl font-extrabold text-white leading-tight"
-            >
-              {"About Us".split("").map((char, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.15 + i * 0.03, duration: 0.5, ease: EASE }}
-                  className="inline-block"
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </motion.h1>
-            <motion.p
-              variants={itemVariants}
-              className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed"
-            >
-              {"Pioneering Australia's sustainable energy future with innovative solar solutions"
-                .split(" ")
-                .map((word, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.5 + i * 0.035, duration: 0.5, ease: EASE }}
-                    className="inline-block mr-[0.3em]"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-            </motion.p>
-            <motion.div
-              variants={itemVariants}
-              className="flex justify-center space-x-8 pt-8"
-              style={{ x: heroIconX, y: heroIconY }}
-            >
-              {[Sun, Zap, Battery].map((Icon, index) => (
-                <motion.div
-                  key={index}
-                  animate={{
-                    rotate: 360,
-                    scale: [1, 1.1, 1],
-                    boxShadow: [
-                      "0 0 0px rgba(57,181,74,0.0)",
-                      "0 0 18px rgba(57,181,74,0.45)",
-                      "0 0 0px rgba(57,181,74,0.0)"
-                    ]
-                  }}
-                  whileHover={{ scale: 1.25, backgroundColor: "rgba(57,181,74,0.35)" }}
-                  whileTap={{ scale: 0.9 }}
-                  transition={{
-                    rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 2, repeat: Infinity, delay: index * 0.5 },
-                    boxShadow: { duration: 2.4, repeat: Infinity, delay: index * 0.5, ease: "easeInOut" }
-                  }}
-                  className="w-16 h-16 bg-[#39b54a]/20 rounded-full flex items-center justify-center backdrop-blur-sm cursor-pointer"
-                >
-                  <Icon className="w-8 h-8 text-[#39b54a]" />
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
+            animate={{
+              scale: [1.1, 1, 1.1],
+              opacity: [0.25, 0.45, 0.25],
+              x: [0, -30, 0],
+              y: [0, 30, 0]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute bottom-0 -left-10 w-[550px] h-[550px] bg-gradient-to-tr from-sky-400/20 via-blue-400/10 to-transparent rounded-full blur-3xl"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(#0f766e0a_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
         </div>
-      </section >
 
-      {/* About Company Section */}
-      < section ref={aboutRef} className="py-20 bg-white" >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
 
-            {/* Left - Image Carousel */}
+            {/* Left Col: Main Page Headings & Story */}
             <motion.div
-              variants={slideInLeft}
+              variants={containerVariants}
               initial="hidden"
-              animate={aboutInView ? "visible" : "hidden"}
-              className="relative"
+              animate={heroInView ? "visible" : "hidden"}
+              className="lg:col-span-7 space-y-6 text-left"
             >
-              <motion.div
-                whileHover={{ scale: 1.01 }}
-                transition={{ duration: 0.4, ease: EASE }}
-                className="relative overflow-hidden rounded-3xl shadow-2xl h-[500px]"
+              {/* Badge */}
+              <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-200 text-[#1e7c2c] text-xs sm:text-sm font-bold shadow-sm">
+                <Sparkles className="w-4 h-4 text-[#39b54a]" />
+                <span>Australian Solar & Battery Specialists</span>
+              </motion.div>
+
+              {/* H1 Title */}
+              <motion.h1
+                variants={itemVariants}
+                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#1e2d53] leading-tight"
               >
-                {/* Image Carousel */}
-                <motion.div
-                  key={currentImageIndex}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.8, ease: EASE }}
-                  className="absolute inset-0"
-                >
-                  <motion.img
-                    src={aboutImages[currentImageIndex]}
-                    alt={`About us ${currentImageIndex + 1}`}
-                    className="w-full h-full object-cover"
-                    initial={{ scale: 1.15, x: 0, y: 0 }}
-                    animate={{ scale: [1.15, 1.05, 1.15], x: [0, -12, 0], y: [0, 8, 0] }}
-                    transition={{ duration: 9, ease: "easeInOut", repeat: Infinity }}
-                  />
-                </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2c8d39] via-[#39b54a] to-teal-600">Aussie Smart Energy</span>
+              </motion.h1>
 
-                {/* Navigation Buttons */}
-                <motion.button
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={aboutInView ? { opacity: 1, x: [0, -3, 0] } : {}}
-                  transition={{
-                    opacity: { delay: 0.4, duration: 0.5 },
-                    x: { delay: 1.2, duration: 2.2, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  whileHover={{ scale: 1.15, x: 0 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={handlePrevImage}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#1e2d53] p-3 rounded-full shadow-lg transition-all"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </motion.button>
+              {/* Subtitle */}
+              <motion.h3
+                variants={itemVariants}
+                className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-700 tracking-tight"
+              >
+                Smarter Energy. Better Choices. A Team You Can Trust.
+              </motion.h3>
 
-                <motion.button
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={aboutInView ? { opacity: 1, x: [0, 3, 0] } : {}}
-                  transition={{
-                    opacity: { delay: 0.4, duration: 0.5 },
-                    x: { delay: 1.2, duration: 2.2, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  whileHover={{ scale: 1.15, x: 0 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={handleNextImage}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#1e2d53] p-3 rounded-full shadow-lg transition-all"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </motion.button>
+              {/* Story Box */}
+              <motion.div
+                variants={itemVariants}
+                className="p-6 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-xl shadow-slate-200/50 space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed text-left"
+              >
+                <p className="text-lg sm:text-xl font-medium text-slate-900">
+                  At <strong className="text-[#39b54a] font-bold">Aussie Smart Energy</strong>, we understand that choosing a solar or battery system is a big decision.
+                </p>
+                <p>
+                  It’s not just about panels, batteries or inverters. It’s about your <strong className="text-slate-900 font-bold">home, your family, your energy bills and your future</strong>.
+                </p>
+                <p>
+                  That’s why we believe you deserve more than a salesperson who simply wants to sell you a system. You deserve someone who takes the time to <strong className="text-[#1e7c2c] font-bold">listen, explain your options clearly and recommend what genuinely makes sense for you</strong>.
+                </p>
 
-                {/* Dot Indicators */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
-                  {aboutImages.map((_, index) => (
-                    <motion.button
-                      key={index}
-                      onClick={() => {
-                        setCurrentImageIndex(index);
-                        setAutoScroll(false);
-                        setTimeout(() => setAutoScroll(true), 8000);
-                      }}
-                      layout
-                      transition={{ duration: 0.35, ease: EASE }}
-                      className={`w-3 h-3 rounded-full transition-colors ${index === currentImageIndex
-                        ? 'bg-white w-8'
-                        : 'bg-white/60 hover:bg-white/80'
-                        }`}
-                      whileHover={{ scale: 1.2 }}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between flex-wrap gap-3">
+                  <p className="text-[#2c8d39] font-bold text-base sm:text-lg italic">
+                    That is the difference we aim to make.
+                  </p>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-xs font-bold text-[#1e7c2c]">
+                    <ShieldCheck className="w-4 h-4 text-[#39b54a]" />
+                    <span>NETCC Approved Seller</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Action Buttons */}
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-wrap items-center gap-4 pt-2"
+              >
+                <Link
+                  to="/contact"
+                  className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#39b54a] to-[#2ea43e] hover:from-[#2fa03f] hover:to-[#268c34] text-white font-bold text-sm sm:text-base shadow-lg shadow-emerald-500/25 transition-all duration-300 flex items-center gap-2.5 group transform hover:-translate-y-0.5"
+                >
+                  <span>Talk With Our Team</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+
+                <a
+                  href="tel:1300986827"
+                  className="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm sm:text-base shadow-sm transition-all duration-300 flex items-center gap-2"
+                >
+                  <PhoneCall className="w-4 h-4 text-[#39b54a]" />
+                  <span>1300 986 827</span>
+                </a>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Col: 3D Tilt Visual Presentation Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              animate={heroInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
+              className="lg:col-span-5 relative"
+            >
+              <TiltCard className="w-full">
+                <div className="relative rounded-3xl overflow-hidden bg-white p-6 sm:p-7 shadow-2xl border border-slate-200/90 space-y-5">
+
+                  {/* Header Badge */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#39b54a] to-emerald-600 flex items-center justify-center text-white shadow-md">
+                        <Zap className="w-5 h-5 fill-current" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-xs font-black text-[#1e2d53]">AUSSIE SMART ENERGY</div>
+                        <div className="text-[11px] text-[#2c8d39] font-medium">Clean Energy Standards</div>
+                      </div>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-extrabold text-[#1e7c2c] uppercase tracking-wider">
+                      Verified
+                    </span>
+                  </div>
+
+                  {/* Image Carousel */}
+                  <div className="relative h-60 sm:h-64 rounded-2xl overflow-hidden border border-slate-100 shadow-inner group">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeSlide}
+                        initial={{ opacity: 0, scale: 1.05 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.96 }}
+                        transition={{ duration: 0.7, ease: EASE }}
+                        className="absolute inset-0"
+                      >
+                        <img
+                          src={controlImages[activeSlide].src}
+                          alt={controlImages[activeSlide].title}
+                          className="w-full h-full object-cover object-center"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#121c33]/90 via-[#121c33]/20 to-transparent" />
+
+                        {/* Slide Caption */}
+                        <div className="absolute bottom-4 left-4 right-4 text-left text-white">
+                          <h4 className="text-base sm:text-lg font-bold">
+                            {controlImages[activeSlide].title}
+                          </h4>
+                          <p className="text-xs text-slate-200 mt-0.5">
+                            {controlImages[activeSlide].caption}
+                          </p>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Navigation Dots */}
+                    <div className="absolute top-3 right-3 flex gap-1.5 z-20">
+                      {controlImages.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setActiveSlide(i)}
+                          className={`h-1.5 rounded-full transition-all duration-300 ${
+                            i === activeSlide ? 'w-5 bg-[#39b54a]' : 'w-1.5 bg-white/60'
+                          }`}
+                          aria-label={`Go to slide ${i + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 4 Feature Icons */}
+                  <div className="grid grid-cols-4 gap-2 pt-1 text-center">
+                    {[
+                      { icon: Sun, label: "Solar Energy" },
+                      { icon: Battery, label: "Smart Storage" },
+                      { icon: Zap, label: "Efficiency" },
+                      { icon: ShieldCheck, label: "CEC & SAA" }
+                    ].map((item, idx) => (
+                      <div key={idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex flex-col items-center gap-1">
+                        <item.icon className="w-5 h-5 text-[#39b54a]" />
+                        <span className="text-[10px] font-bold text-slate-700">{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+              </TiltCard>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 1: Helping Australians Take Control of Their Energy
+          ========================================================================= */}
+      <section ref={controlRef} className="py-20 lg:py-28 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left Content (7 Cols) */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={controlInView ? "visible" : "hidden"}
+              className="lg:col-span-7 space-y-6 text-left"
+            >
+              <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#2c8d39] text-xs font-bold uppercase tracking-wider">
+                <Sun className="w-3.5 h-3.5" />
+                <span>Our Purpose & Mission</span>
+              </motion.div>
+
+              <motion.h2
+                variants={itemVariants}
+                className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1e2d53] leading-tight"
+              >
+                Helping Australians Take Control of Their Energy
+              </motion.h2>
+
+              <motion.div variants={itemVariants} className="w-20 h-1.5 bg-gradient-to-r from-[#39b54a] to-emerald-400 rounded-full" />
+
+              <motion.div variants={itemVariants} className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed">
+                <p>
+                  We are an Australian solar and battery energy company helping homeowners and businesses take greater control of their energy through <strong className="text-[#1e2d53] font-semibold">solar power, battery storage and smart energy solutions</strong>.
+                </p>
+                <p>
+                  Every property is different. Every household uses energy differently. And every customer has different goals.
+                </p>
+                <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50/50 border-l-4 border-[#39b54a] shadow-sm text-slate-800">
+                  <p className="font-medium text-base sm:text-lg">
+                    Whether you want to reduce your electricity bills, become less dependent on the grid, store your solar energy for the evening or prepare your home for the future, <strong className="text-[#1e2d53] font-bold">our job is to help you find the right solution — not simply the biggest one.</strong>
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Quick Feature Checklist */}
+              <motion.div variants={itemVariants} className="grid sm:grid-cols-2 gap-3 pt-2">
+                {[
+                  "Tailored Rooftop Solar Layouts",
+                  "Smart Battery Backup Solutions",
+                  "Lower Energy Bill Strategies",
+                  "Future-Ready Scalable Systems"
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-sm">
+                    <CheckCircle className="w-5 h-5 text-[#39b54a] flex-shrink-0" />
+                    <span className="text-sm font-semibold text-slate-800">{item}</span>
+                  </div>
+                ))}
+              </motion.div>
+            </motion.div>
+
+            {/* Right Image Slider (5 Cols) */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={controlInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, ease: EASE }}
+              className="lg:col-span-5 relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 border-4 border-white h-[420px] sm:h-[460px]">
+                {controlImages.map((slide, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={false}
+                    animate={{
+                      opacity: idx === activeSlide ? 1 : 0,
+                      scale: idx === activeSlide ? 1 : 1.04
+                    }}
+                    transition={{ duration: 0.7, ease: EASE }}
+                    className={`absolute inset-0 ${idx === activeSlide ? 'pointer-events-auto' : 'pointer-events-none'}`}
+                  >
+                    <img
+                      src={slide.src}
+                      alt={slide.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#121c33]/90 via-[#121c33]/20 to-transparent" />
+
+                    <div className="absolute bottom-6 left-6 right-6 text-white text-left">
+                      <h4 className="text-xl font-bold mb-1">{slide.title}</h4>
+                      <p className="text-sm text-slate-200">{slide.caption}</p>
+                    </div>
+                  </motion.div>
+                ))}
+
+                {/* Slider Controls */}
+                <button
+                  onClick={handlePrevSlide}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-slate-900 flex items-center justify-center shadow-lg transition-all"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={handleNextSlide}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-slate-900 flex items-center justify-center shadow-lg transition-all"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+
+                {/* Dots */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+                  {controlImages.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveSlide(i)}
+                      className={`h-1.5 rounded-full transition-all ${i === activeSlide ? 'w-6 bg-[#39b54a]' : 'w-2 bg-white/60'}`}
+                      aria-label={`Slide ${i + 1}`}
                     />
                   ))}
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Floating Badge */}
+              {/* Floating Stat Pill */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                animate={aboutInView ? {
-                  opacity: 1,
-                  scale: 1,
-                  rotate: 0,
-                  y: [0, -8, 0]
-                } : {}}
-                transition={{
-                  opacity: { delay: 0.5, duration: 0.6, type: "spring" },
-                  scale: { delay: 0.5, duration: 0.6, type: "spring" },
-                  rotate: { delay: 0.5, duration: 0.6, type: "spring" },
-                  y: { delay: 1.2, duration: 3, repeat: Infinity, ease: "easeInOut" }
-                }}
-                whileHover={{ scale: 1.08 }}
-                className="absolute -top-6 -right-6 bg-red-500 text-white p-4 rounded-2xl shadow-xl"
+                initial={{ y: 20, opacity: 0 }}
+                animate={controlInView ? { y: 0, opacity: 1 } : {}}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="absolute -bottom-5 -left-5 bg-white p-4 sm:p-5 rounded-2xl shadow-xl border border-slate-200/80 flex items-center gap-4 text-left"
               >
-                <div className="text-center">
-                  <div className="text-xs font-bold uppercase tracking-wide">About Company</div>
-                  <motion.div
-                    className="w-8 h-1 bg-white/60 mx-auto mt-2 rounded-full"
-                    initial={{ scaleX: 0 }}
-                    animate={aboutInView ? { scaleX: 1 } : {}}
-                    transition={{ delay: 0.9, duration: 0.6, ease: EASE }}
-                  ></motion.div>
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-[#39b54a] flex-shrink-0">
+                  <Home className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Focus</div>
+                  <div className="text-sm sm:text-base font-extrabold text-[#1e2d53]">Your Home & Needs First</div>
                 </div>
               </motion.div>
             </motion.div>
-
-            {/* Right - Content */}
-            <motion.div
-              variants={slideInRight}
-              initial="hidden"
-              animate={aboutInView ? "visible" : "hidden"}
-              className="space-y-8"
-            >
-              <div>
-                <h2 className="text-4xl lg:text-5xl font-extrabold text-[#1e2d53] mb-6 leading-tight">
-                  Innovating for a
-                  <motion.span
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={aboutInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.4, duration: 0.6, ease: EASE }}
-                    className="text-[#39b54a] block"
-                  >
-                    Sustainable Future
-                  </motion.span>
-                </h2>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={aboutInView ? { opacity: 1 } : {}}
-                  transition={{ delay: 0.5, duration: 0.7 }}
-                  className="text-lg text-gray-600 leading-relaxed mb-6"
-                >
-                  At Aussie Smart Energy, we transform sunlight into opportunity. Guided by a vision of a cleaner, greener future, we create innovative solar solutions that empower homes, businesses, and communities to thrive sustainably.                </motion.p>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={aboutInView ? { opacity: 1 } : {}}
-                  transition={{ delay: 0.65, duration: 0.7 }}
-                  className="text-lg text-gray-600 leading-relaxed"
-                >
-                  Blending cutting-edge technology with elegant design, we deliver systems that reduce carbon footprints while enhancing energy independence. More than a solar company, we’re your partner in building a brighter, more sustainable world—one powered by the sun.
-                </motion.p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                {achievements.slice(0, 4).map((achievement, index) => (
-                  <motion.div
-                    key={index}
-                    custom={index}
-                    variants={achievementVariants}
-                    initial="hidden"
-                    animate={aboutInView ? "visible" : "hidden"}
-                    whileHover={{ x: 4 }}
-                    className="flex items-center space-x-3"
-                  >
-                    <motion.div
-                      whileHover={{
-                        scale: 1.3,
-                        rotate: 10,
-                        boxShadow: "0 0 0 6px rgba(57,181,74,0.15)"
-                      }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="rounded-full"
-                    >
-                      <CheckCircle className="w-5 h-5 text-[#39b54a] flex-shrink-0" />
-                    </motion.div>
-                    <span className="text-sm font-medium text-gray-700">{achievement}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
           </div>
         </div>
-      </section >
+      </section>
 
-      {/* Values Section */}
-      < section ref={valuesRef} className="py-20 bg-gradient-to-br from-gray-50 to-blue-50" >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={valuesInView ? "visible" : "hidden"}
-            className="text-center mb-16"
-          >
-            <motion.h2
-              variants={itemVariants}
-              className="text-4xl lg:text-5xl font-extrabold text-[#1e2d53] mb-6"
-            >
-              What Defines Us
-            </motion.h2>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={valuesInView ? { scaleX: 1 } : {}}
-              transition={{ delay: 0.3, duration: 0.7, ease: EASE }}
-              className="w-24 h-1 bg-red-500 mx-auto rounded-full mb-8 origin-center"
-            ></motion.div>
-            <motion.p
-              variants={itemVariants}
-              className="text-lg text-gray-600 max-w-3xl mx-auto"
-            >
-              {"At Aussie Smart Energy, we’re not just building solar systems—we’re illuminating the path to a more radiant future. Join us, and let’s create something extraordinary under the sun."
-                .split(" ")
-                .map((word, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={valuesInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.4 + i * 0.012, duration: 0.4, ease: EASE }}
-                    className="inline-block mr-[0.25em]"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={valuesInView ? "visible" : "hidden"}
-            className="grid md:grid-cols-3 gap-8"
-          >
-            {values.map((value, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.05, y: -10, boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
-                transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center group"
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.06, 1] }}
-                  transition={{ duration: 3.5, repeat: Infinity, delay: index * 0.4, ease: "easeInOut" }}
-                  whileHover={{ rotate: 360, scale: 1.15 }}
-                  className="w-20 h-20 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#39b54a]/10"
-                >
-                  {value.icon}
-                </motion.div>
-                <h3 className="text-xl font-bold text-[#1e2d53] mb-4">{value.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{value.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section >
-
-      {/* Stats Section */}
-      < section ref={statsRef} className="py-20 bg-gradient-to-br from-[#1e2d53] to-[#2a3f6b] relative overflow-hidden" >
-        {/* Background Pattern */}
-        < div className="absolute inset-0 opacity-10" >
-          <motion.div
-            variants={floatBlob}
-            animate="animate"
-            custom={18}
-            className="absolute top-0 right-0 w-96 h-96 bg-[#39b54a] rounded-full blur-3xl"
-          ></motion.div>
-          <motion.div
-            variants={floatBlob}
-            animate="animate"
-            custom={-16}
-            className="absolute bottom-0 left-0 w-80 h-80 bg-blue-400 rounded-full blur-3xl"
-          ></motion.div>
-        </div >
-
+      {/* =========================================================================
+          SECTION 2: Experience You Can Rely On
+          ========================================================================= */}
+      <section ref={experienceRef} className="py-20 lg:py-28 bg-slate-100/70 text-[#1e2d53] relative overflow-hidden border-y border-slate-200/80">
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            animate={statsInView ? "visible" : "hidden"}
-            className="grid md:grid-cols-4 gap-8"
+            animate={experienceInView ? "visible" : "hidden"}
+            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
           >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.05, y: -6 }}
-                className="text-center group"
-              >
-                <motion.div
-                  initial={{ scale: 0, rotate: -90 }}
-                  animate={statsInView ? {
-                    scale: [0, 1.1, 1],
-                    rotate: 0,
-                    boxShadow: [
-                      "0 10px 25px rgba(0,0,0,0.25)",
-                      "0 10px 35px rgba(255,255,255,0.25)",
-                      "0 10px 25px rgba(0,0,0,0.25)"
-                    ]
-                  } : {}}
-                  whileHover={{ rotate: 8, scale: 1.12 }}
-                  transition={{
-                    scale: { delay: index * 0.2, type: "spring", stiffness: 100 },
-                    rotate: { delay: index * 0.2, type: "spring", stiffness: 100 },
-                    boxShadow: { delay: index * 0.2 + 0.6, duration: 2.6, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  className={`w-24 h-24 bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:shadow-2xl transition-shadow duration-300`}
-                >
-                  {stat.icon}
-                </motion.div>
-                <motion.h3
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={statsInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: index * 0.2 + 0.3 }}
-                  className="text-4xl font-extrabold text-white mb-2"
-                >
-                  <CountUp value={stat.number} inView={statsInView} delay={index * 0.2 + 0.35} />
-                </motion.h3>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={statsInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: index * 0.2 + 0.4 }}
-                  className="text-blue-200 font-medium"
-                >
-                  {stat.label}
-                </motion.p>
-              </motion.div>
-            ))}
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-[#1e7c2c] text-xs font-bold uppercase tracking-wider border border-emerald-200">
+              <Award className="w-3.5 h-3.5 text-[#39b54a]" />
+              <span>Certified Expertise</span>
+            </motion.div>
+
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1e2d53] leading-tight"
+            >
+              Experience You Can Rely On
+            </motion.h2>
+
+            <motion.div variants={itemVariants} className="w-20 h-1.5 bg-[#39b54a] rounded-full mx-auto" />
+
+            <motion.p
+              variants={itemVariants}
+              className="text-base sm:text-lg text-slate-600 leading-relaxed"
+            >
+              With extensive experience in the solar industry, our team understands what matters beyond the sales conversation.
+            </motion.p>
+          </motion.div>
+
+          {/* Three Key Pillar Cards */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={experienceInView ? "visible" : "hidden"}
+            className="grid md:grid-cols-3 gap-8 text-left"
+          >
+            {/* Card 1: Certified Contractors */}
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -6 }}
+              className="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-[#39b54a] transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-[#39b54a]">
+                <ShieldCheck className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-bold text-[#1e2d53]">SAA & CEC Accreditations</h3>
+              <p className="text-slate-600 leading-relaxed">
+                We work with <strong className="text-slate-900 font-semibold">experienced SAA-certified contractors and CEC-accredited installers</strong>.
+              </p>
+            </motion.div>
+
+            {/* Card 2: Careful Product Selection */}
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -6 }}
+              className="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
+                <Sparkles className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-bold text-[#1e2d53]">Careful Product Selection</h3>
+              <p className="text-slate-600 leading-relaxed">
+                We carefully select products based on <strong className="text-slate-900 font-semibold">quality, safety, performance, reliability and long-term value</strong>.
+              </p>
+            </motion.div>
+
+            {/* Card 3: Complete Lifecycle Standard */}
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -6 }}
+              className="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-teal-500 transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600">
+                <CheckCircle2 className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-bold text-[#1e2d53]">End-to-End High Standards</h3>
+              <p className="text-slate-600 leading-relaxed">
+                From system design and product selection to installation and after-sales support, we believe every part of your experience should meet the same high standard.
+              </p>
+            </motion.div>
           </motion.div>
         </div>
-      </section >
+      </section>
 
-      {/* Story Section */}
-      < section ref={storyRef} className="py-20 bg-white" >
+      {/* =========================================================================
+          SECTION 3: NETCC Approved Seller & What This Means for You
+          ========================================================================= */}
+      <section ref={netccRef} className="py-20 lg:py-28 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-            {/* Left - Content */}
-            <motion.div
-              variants={slideInLeft}
-              initial="hidden"
-              animate={storyInView ? "visible" : "hidden"}
-              className="space-y-8"
+          {/* Section Header */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={netccInView ? "visible" : "hidden"}
+            className="max-w-4xl mx-auto text-center space-y-5 mb-16"
+          >
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-[#1e7c2c] text-xs font-bold uppercase tracking-wider border border-emerald-200">
+              <Shield className="w-4 h-4 text-[#39b54a]" />
+              <span>Consumer Protection & Trust</span>
+            </motion.div>
+
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1e2d53] leading-tight"
             >
-              <div>
+              NETCC Approved Seller
+            </motion.h2>
+
+            <motion.div variants={itemVariants} className="w-20 h-1.5 bg-[#39b54a] rounded-full mx-auto" />
+
+            <motion.div
+              variants={itemVariants}
+              className="p-6 sm:p-8 rounded-3xl bg-slate-50 shadow-md border border-slate-200 text-left space-y-3"
+            >
+              <p className="text-lg sm:text-xl font-bold text-[#1e2d53]">
+                Aussie Smart Energy is a New Energy Tech Approved Seller under the New Energy Tech Consumer Code (NETCC).
+              </p>
+              <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+                For us, being NETCC approved is about more than displaying a logo. It reflects our commitment to <strong className="text-slate-900 font-semibold">responsible selling, transparency and strong consumer protection standards</strong>.
+              </p>
+            </motion.div>
+          </motion.div>
+
+          {/* Subheading: What This Means for You */}
+          <div className="mb-10 text-center">
+            <h3 className="text-2xl sm:text-3xl font-black text-[#1e2d53] flex items-center justify-center gap-2">
+              <Sparkles className="w-6 h-6 text-[#39b54a]" />
+              What This Means for You
+            </h3>
+            <p className="text-slate-600 mt-2 text-base">
+              The 5 core pillars of our commitment to you as an NETCC Approved Seller:
+            </p>
+          </div>
+
+          {/* 5 Benefit Cards Grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={netccInView ? "visible" : "hidden"}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-left"
+          >
+            {netccBenefits.map((benefit, index) => {
+              const IconComp = benefit.icon;
+              return (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={storyInView ? { opacity: 1 } : {}}
-                  transition={{ duration: 0.5 }}
-                  className="text-red-500 text-sm font-bold uppercase tracking-wider mb-4"
+                  key={index}
+                  variants={itemVariants}
+                  whileHover={{ y: -6 }}
+                  className="p-7 rounded-2xl bg-white border border-slate-200/90 shadow-md hover:shadow-xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group"
                 >
-                  OUR EXPERIENCE
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className={`w-12 h-12 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform ${benefit.color}`}>
+                        <IconComp className="w-6 h-6" />
+                      </div>
+                      <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-slate-100 text-slate-600">
+                        0{index + 1}
+                      </span>
+                    </div>
+
+                    <h4 className="text-lg font-bold text-[#1e2d53] flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5 text-[#39b54a] flex-shrink-0" />
+                      <span>{benefit.title}</span>
+                    </h4>
+
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      {benefit.description}
+                    </p>
+                  </div>
                 </motion.div>
-                <motion.div
-                  initial={{ scaleX: 0 }}
-                  animate={storyInView ? { scaleX: 1 } : {}}
-                  transition={{ delay: 0.2, duration: 0.6, ease: EASE }}
-                  className="w-16 h-1 bg-red-500 rounded-full mb-8 origin-left"
-                ></motion.div>
+              );
+            })}
+
+            {/* Special Callout in 6th Slot */}
+            <motion.div
+              variants={itemVariants}
+              className="p-7 rounded-2xl bg-gradient-to-br from-[#12285a] to-[#0c1d42] text-white flex flex-col justify-center items-start shadow-xl space-y-4 border border-[#12285a]"
+            >
+              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-[#39b54a]">
+                <ShieldCheck className="w-7 h-7" />
+              </div>
+              <h4 className="text-xl font-bold">100% Protection Focused</h4>
+              <p className="text-slate-200 text-sm leading-relaxed">
+                Enjoy peace of mind knowing you are dealing with a verified, ethical, and code-compliant Australian provider.
+              </p>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#39b54a] hover:text-emerald-300 transition-colors"
+              >
+                <span>Ask our team a question</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 4: We're People Helping People
+          ========================================================================= */}
+      <section ref={peopleRef} className="py-20 lg:py-28 bg-slate-50 relative overflow-hidden border-t border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left Image / Visual Card (5 Cols) */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={peopleInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, ease: EASE }}
+              className="lg:col-span-5 relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                <img
+                  src="https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                  alt="Aussie Family at Home with Solar"
+                  className="w-full h-[460px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#121c33]/85 via-transparent to-transparent" />
+
+                <div className="absolute bottom-6 left-6 right-6 text-white space-y-2 text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#39b54a]/90 text-white text-xs font-bold uppercase tracking-wider">
+                    <Heart className="w-3.5 h-3.5 fill-current" />
+                    <span>Real Australian Homes</span>
+                  </div>
+                  <h4 className="text-xl font-bold">Australian Families First</h4>
+                  <p className="text-xs text-slate-200">
+                    Behind every installation is a real family and a real reason for switching.
+                  </p>
+                </div>
               </div>
 
-              <h2 className="text-4xl lg:text-5xl font-extrabold text-[#1e2d53] leading-tight">
-                <motion.span
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={storyInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.3, duration: 0.6, ease: EASE }}
-                  className="inline-block"
-                >
-                  Solar Passion
-                </motion.span>
-                <motion.span
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={storyInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.45, duration: 0.6, ease: EASE }}
-                  className="text-[#39b54a] block"
-                >
-                  Unveiled Our Story
-                </motion.span>
-              </h2>
-
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Our design philosophy is more than aesthetics; it’s a dynamic process That delves into the heart of each brand, understanding its story, Values, and aspirations. We believe in the
-              </p>
-
-              <div className="space-y-4">
-                <motion.div
-                  className="space-y-2"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={storyInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.5 }}
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-[#1e2d53] font-bold">Solar Panel</span>
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={storyInView ? { opacity: 1 } : {}}
-                      transition={{ delay: 1.6, duration: 0.3 }}
-                      className="text-[#1e2d53] font-bold"
-                    >
-                      90%
-                    </motion.span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <motion.div
-                      className="bg-red-500 h-2 rounded-full relative overflow-hidden"
-                      initial={{ width: 0 }}
-                      animate={storyInView ? { width: "90%" } : {}}
-                      transition={{ delay: 0.8, duration: 1, ease: EASE }}
-                    >
-                      <motion.div
-                        className="absolute inset-0 bg-white/30"
-                        initial={{ x: "-100%" }}
-                        animate={storyInView ? { x: "100%" } : {}}
-                        transition={{ delay: 1.8, duration: 0.8, ease: "easeInOut" }}
-                      />
-                    </motion.div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="space-y-2"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={storyInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.7 }}
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-[#1e2d53] font-bold">Storage Battery</span>
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={storyInView ? { opacity: 1 } : {}}
-                      transition={{ delay: 1.8, duration: 0.3 }}
-                      className="text-[#1e2d53] font-bold"
-                    >
-                      75%
-                    </motion.span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <motion.div
-                      className="bg-red-500 h-2 rounded-full relative overflow-hidden"
-                      initial={{ width: 0 }}
-                      animate={storyInView ? { width: "75%" } : {}}
-                      transition={{ delay: 1, duration: 1, ease: EASE }}
-                    >
-                      <motion.div
-                        className="absolute inset-0 bg-white/30"
-                        initial={{ x: "-100%" }}
-                        animate={storyInView ? { x: "100%" } : {}}
-                        transition={{ delay: 2, duration: 0.8, ease: "easeInOut" }}
-                      />
-                    </motion.div>
-                  </div>
-                </motion.div>
+              {/* Decorative badge */}
+              <div className="absolute -top-5 -right-5 bg-gradient-to-r from-[#39b54a] to-emerald-600 text-white p-4 rounded-2xl shadow-xl flex items-center gap-3">
+                <Users className="w-6 h-6" />
+                <span className="text-xs font-bold uppercase tracking-wider">Plain English Advice</span>
               </div>
             </motion.div>
 
-            {/* Right - Image */}
+            {/* Right Text Content (7 Cols) */}
             <motion.div
-              ref={storyImgRef}
-              variants={slideInRight}
+              variants={containerVariants}
               initial="hidden"
-              animate={storyInView ? "visible" : "hidden"}
-              className="relative"
+              animate={peopleInView ? "visible" : "hidden"}
+              className="lg:col-span-7 space-y-6 text-left"
             >
-              <motion.div
-                style={{ y: storyImgY, perspective: 1000 }}
-                whileHover={{ scale: 1.02, rotateX: -2, rotateY: 3 }}
-                transition={{ duration: 0.5, ease: EASE }}
-                className="relative overflow-hidden rounded-3xl shadow-2xl"
-              >
-                <motion.img
-                  src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
-                  alt="Solar installation aerial view"
-                  className="w-full h-[500px] object-cover"
-                  initial={{ scale: 1.1 }}
-                  animate={storyInView ? { scale: 1 } : {}}
-                  transition={{ duration: 1.2, ease: EASE }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+              <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-[#2c8d39] text-xs font-bold uppercase tracking-wider border border-emerald-200">
+                <Heart className="w-3.5 h-3.5" />
+                <span>Our Philosophy</span>
               </motion.div>
 
-              {/* Decorative Elements */}
-              <motion.div
-                variants={floatBlob}
-                animate="animate"
-                custom={14}
-                className="absolute -top-8 -left-8 w-24 h-24 bg-[#39b54a]/20 rounded-full blur-xl"
-              ></motion.div>
-              <motion.div
-                variants={floatBlob}
-                animate="animate"
-                custom={-12}
-                className="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-500/20 rounded-full blur-xl"
-              ></motion.div>
+              <motion.h2
+                variants={itemVariants}
+                className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1e2d53] leading-tight"
+              >
+                We're People Helping People
+              </motion.h2>
+
+              <motion.div variants={itemVariants} className="w-20 h-1.5 bg-[#39b54a] rounded-full" />
+
+              <motion.div variants={itemVariants} className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed">
+                <p>
+                  Behind every installation is a real Australian home, a real family and a real reason for making the switch to renewable energy.
+                </p>
+                <p>
+                  We understand that customers may have questions, concerns or even feel overwhelmed by the number of solar and battery options available.
+                </p>
+
+                {/* Highlight box */}
+                <div className="p-6 rounded-2xl bg-white border border-emerald-200 shadow-md space-y-3">
+                  <p className="text-lg sm:text-xl font-bold text-[#1e2d53]">
+                    That's okay — that's what we're here for.
+                  </p>
+                  <p className="text-slate-600">
+                    We'll take the time to explain things in plain English, answer your questions honestly and help you understand exactly what you're investing in.
+                  </p>
+                </div>
+
+                <p className="text-slate-800 font-semibold text-base sm:text-lg">
+                  We don't believe in complicated sales talk. <span className="text-[#2c8d39] font-bold">We believe in good advice, quality products and doing the right thing by our customers.</span>
+                </p>
+              </motion.div>
             </motion.div>
           </div>
         </div>
-      </section >
-    </motion.div >
+      </section>
+
+      {/* =========================================================================
+          SECTION 5: More Than Just an Installation
+          ========================================================================= */}
+      <section ref={moreThanRef} className="py-20 lg:py-28 bg-white relative overflow-hidden border-t border-slate-200/80">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={moreThanInView ? "visible" : "hidden"}
+            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
+          >
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#2c8d39] text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Dedicated Craftsmanship</span>
+            </motion.div>
+
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1e2d53] leading-tight"
+            >
+              More Than Just an Installation
+            </motion.h2>
+
+            <motion.div variants={itemVariants} className="w-20 h-1.5 bg-[#39b54a] rounded-full mx-auto" />
+
+            <motion.div variants={itemVariants} className="space-y-3 text-slate-700 text-base sm:text-lg leading-relaxed">
+              <p>
+                Our goal isn't simply to install another solar or battery system.
+              </p>
+              <p className="text-lg sm:text-xl font-bold text-[#1e7c2c]">
+                We want you to look back and feel that you made the <span className="underline decoration-[#39b54a] underline-offset-4">right decision with the right team</span>.
+              </p>
+              <p className="text-slate-600">
+                That's why we focus on:
+              </p>
+            </motion.div>
+          </motion.div>
+
+          {/* 4 Pillars Cards */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={moreThanInView ? "visible" : "hidden"}
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left"
+          >
+            {focusPillars.map((pillar, idx) => {
+              const PillarIcon = pillar.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  variants={itemVariants}
+                  whileHover={{ y: -6 }}
+                  className={`p-7 rounded-3xl bg-slate-50 border ${pillar.borderColor} transition-all duration-300 flex flex-col justify-between space-y-6 shadow-sm hover:shadow-xl`}
+                >
+                  <div className="space-y-4">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${pillar.iconColor}`}>
+                      <PillarIcon className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-xl font-bold text-[#1e2d53] capitalize">{pillar.title}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-slate-200/60 flex items-center gap-2 text-xs font-semibold text-[#2c8d39]">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>Standard on every job</span>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+
+          {/* Bottom Statement: And most importantly, your satisfaction */}
+          <motion.div
+            variants={itemVariants}
+            initial="hidden"
+            animate={moreThanInView ? "visible" : "hidden"}
+            className="mt-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-300 text-center max-w-2xl mx-auto shadow-md"
+          >
+            <p className="text-xl sm:text-2xl font-black text-[#1e2d53]">
+              And most importantly, <span className="text-[#2c8d39] uppercase tracking-wide">your satisfaction.</span>
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 6: Why Choose Aussie Smart Energy?
+          ========================================================================= */}
+      <section ref={whyChooseRef} className="py-20 lg:py-28 bg-slate-50 relative overflow-hidden border-t border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={whyChooseInView ? "visible" : "hidden"}
+            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
+          >
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-[#2c8d39] text-xs font-bold uppercase tracking-wider border border-emerald-200">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Why We Stand Out</span>
+            </motion.div>
+
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1e2d53] leading-tight"
+            >
+              Why Choose Aussie Smart Energy?
+            </motion.h2>
+
+            <motion.div variants={itemVariants} className="w-20 h-1.5 bg-[#39b54a] rounded-full mx-auto" />
+
+            <motion.p
+              variants={itemVariants}
+              className="text-slate-600 text-base sm:text-lg"
+            >
+              Here is what sets our service, team, and standards apart:
+            </motion.p>
+          </motion.div>
+
+          {/* 10 Checklist Points Grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={whyChooseInView ? "visible" : "hidden"}
+            className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto text-left"
+          >
+            {whyChoosePoints.map((point, index) => {
+              const PointIcon = point.icon;
+              return (
+                <motion.div
+                  key={index}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.02, x: 4 }}
+                  className="flex items-center gap-4 p-5 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 transition-all duration-300 shadow-sm hover:shadow-md"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center flex-shrink-0 shadow-sm border border-slate-100">
+                    <PointIcon className={`w-5 h-5 ${point.color}`} />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-[#39b54a] flex-shrink-0" />
+                    <span className="text-base sm:text-lg font-bold text-[#1e2d53]">
+                      {point.text}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 7: Our Promise to You (CTA / Closing Hero)
+          ========================================================================= */}
+      <section ref={promiseRef} className="py-20 lg:py-28 bg-gradient-to-br from-[#121c33] via-[#1e2d53] to-[#0f172a] text-white relative overflow-hidden">
+        {/* Ambient Glows */}
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 right-10 w-96 h-96 bg-[#39b54a]/20 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-0 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
+          />
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={promiseInView ? "visible" : "hidden"}
+            className="space-y-8"
+          >
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#6ee7b7] text-xs font-bold uppercase tracking-wider">
+              <Heart className="w-3.5 h-3.5" />
+              <span>Our Lifelong Commitment</span>
+            </motion.div>
+
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight"
+            >
+              Our Promise to You
+            </motion.h2>
+
+            <motion.div variants={itemVariants} className="w-24 h-1.5 bg-[#39b54a] rounded-full mx-auto" />
+
+            {/* Promise Copy Container */}
+            <motion.div
+              variants={itemVariants}
+              className="p-8 sm:p-10 rounded-3xl bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-2xl space-y-6 text-slate-200 text-base sm:text-lg leading-relaxed text-left max-w-4xl mx-auto"
+            >
+              <p>
+                We know that installing solar or a battery is an investment in your home and your future.
+              </p>
+              <p className="text-white font-bold text-lg sm:text-xl">
+                So we don't take your trust for granted.
+              </p>
+              <div className="p-6 rounded-2xl bg-white/[0.06] border border-[#39b54a]/40 text-emerald-200">
+                <p className="font-semibold text-lg sm:text-xl leading-relaxed text-white">
+                  We'll be there to answer your questions, guide you through the process and support you after installation — because our relationship with you shouldn't end when the system is switched on.
+                </p>
+              </div>
+
+              {/* 3 Step Triad */}
+              <div className="pt-4 grid grid-cols-3 gap-3 sm:gap-4 text-center border-t border-white/10">
+                <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10">
+                  <span className="text-sm sm:text-2xl font-black text-emerald-400 block">Your home.</span>
+                </div>
+                <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10">
+                  <span className="text-sm sm:text-2xl font-black text-teal-300 block">Your energy.</span>
+                </div>
+                <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10">
+                  <span className="text-sm sm:text-2xl font-black text-emerald-400 block">Your future.</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Closing Brand Tagline */}
+            <motion.div variants={itemVariants} className="space-y-4 pt-4">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-[#39b54a] to-teal-300">
+                Aussie Smart Energy — Powering a Smarter Future.
+              </h3>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap justify-center items-center gap-4 pt-4">
+                <Link
+                  to="/contact"
+                  className="px-8 py-4 rounded-xl bg-[#39b54a] hover:bg-[#2fa03f] text-white font-bold text-base sm:text-lg shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 flex items-center gap-3 group"
+                >
+                  <span>Get in Touch With Us</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/solar/6.6kw"
+                  className="px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base sm:text-lg backdrop-blur-sm transition-all duration-300 flex items-center gap-2"
+                >
+                  <Sun className="w-5 h-5 text-[#39b54a]" />
+                  <span>Explore Solar Systems</span>
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+    </div>
   );
 };
 

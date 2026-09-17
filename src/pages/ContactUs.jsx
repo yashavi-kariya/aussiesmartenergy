@@ -87,7 +87,7 @@ const ContactUs = () => {
             {/* Hero Banner */}
             <section
                 ref={heroRef}
-                className="relative h-[360px] flex items-center overflow-hidden"
+                className="relative min-h-[380px] sm:min-h-[400px] pt-36 sm:pt-40 lg:pt-44 pb-12 flex items-center overflow-hidden"
                 style={{ backgroundColor: NAVY }}
             >
                 <motion.img

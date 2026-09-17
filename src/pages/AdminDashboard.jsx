@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, RefreshCw, Filter, Trash2, Eye, LogOut, ChevronLeft,
   ChevronRight, Calendar, Mail, Phone, MapPin, MessageSquare,
-  FileText, Zap, ArrowUpDown, X, CheckSquare
+  FileText, Zap, ArrowUpDown, X, CheckSquare, Star, Image as ImageIcon, Megaphone
 } from 'lucide-react';
 import api from '../utils/api';
 
@@ -156,18 +156,72 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-          style={{
-            background: 'rgba(239,68,68,0.12)',
-            border: '1px solid rgba(239,68,68,0.25)',
-            color: '#fca5a5',
-          }}
-        >
-          <LogOut className="w-4 h-4" />
-          Logout
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate('/admin/projects')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+            style={{
+              background: 'rgba(59,130,246,0.12)',
+              border: '1px solid rgba(59,130,246,0.25)',
+              color: '#bfdbfe',
+            }}
+          >
+            <FileText className="w-4 h-4" />
+            Projects
+          </button>
+
+          <button
+            onClick={() => navigate('/admin/reviews')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+            style={{
+              background: 'rgba(250,204,21,0.12)',
+              border: '1px solid rgba(250,204,21,0.25)',
+              color: '#fef08a',
+            }}
+          >
+            <Star className="w-4 h-4 text-yellow-400" />
+            Reviews
+          </button>
+
+          <button
+            onClick={() => navigate('/admin/banners')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+            style={{
+              background: 'rgba(16,185,129,0.12)',
+              border: '1px solid rgba(16,185,129,0.25)',
+              color: '#a7f3d0',
+            }}
+          >
+            <ImageIcon className="w-4 h-4 text-emerald-400" />
+            Hero Banners
+          </button>
+
+          <button
+            onClick={() => navigate('/admin/headlines')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+            style={{
+              background: 'rgba(57,181,74,0.12)',
+              border: '1px solid rgba(57,181,74,0.25)',
+              color: '#bbf7d0',
+            }}
+          >
+            <Megaphone className="w-4 h-4 text-emerald-400" />
+            Headlines
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+            style={{
+              background: 'rgba(239,68,68,0.12)',
+              border: '1px solid rgba(239,68,68,0.25)',
+              color: '#fca5a5',
+            }}
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
+        </div>
       </header>
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">

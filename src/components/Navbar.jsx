@@ -3,10 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, ArrowRight, Phone } from 'lucide-react';
 import logoImg from '../assets/Mainlogo.png';
+import AnnouncementBar from './AnnouncementBar';
 
-// Shared elegant easing curve for a premium, unhurried feel
+// Shared elegant easing curve for a premium, unhurried 
 const EASE = [0.22, 1, 0.36, 1];
-
 const DOTS = {
   backgroundImage: 'radial-gradient(rgba(15,76,255,0.30) 1px, transparent 1px)',
   backgroundSize: '16px 16px',
@@ -17,10 +17,6 @@ const DOTS_LIGHT = {
   backgroundSize: '14px 14px',
 };
 
-// Inline-style safety net: guarantees the pill shape + shadow render even if
-// Tailwind's arbitrary-value classes get purged, and sidesteps a browser quirk
-// where a child clip-path can strip border-radius clipping off a transformed
-// (framer-motion) parent.
 const pillShapeStyle = {
   borderRadius: 9999,
   overflow: 'hidden',
@@ -45,15 +41,34 @@ const Navbar = () => {
   useEffect(() => {
     setIsOpen(false);
     setActiveDropdown(null);
+    setHoveredItem(null);
   }, [location.pathname]);
 
-  const routeDropdown = location.pathname.startsWith('/solar/commercial')
-    ? 'Commercial Solar'
-    : location.pathname.startsWith('/solar/')
-      ? 'Residential Solar'
-      : null;
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.navbar-container')) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
-  const openDropdown = activeDropdown || routeDropdown;
+  const isItemActive = (item) => {
+    if (item.isRoute) {
+      return item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href);
+    }
+    if (item.name === 'Commercial') {
+      return location.pathname.startsWith('/solar/commercial');
+    }
+    if (item.name === 'Solar Packages') {
+      return location.pathname.startsWith('/solar/') && !location.pathname.startsWith('/solar/commercial');
+    }
+    if (item.name === 'Solar Batteries') {
+      return location.pathname.startsWith('/batteries');
+    }
+    return false;
+  };
 
   const navItems = [
     { name: 'Home', href: '/', hasDropdown: false, isRoute: true },
@@ -62,15 +77,12 @@ const Navbar = () => {
       name: 'Solar Batteries', href: '#batteries', hasDropdown: true, isRoute: false,
       dropdown: [
         { label: 'Solar System with Batteries', href: '/batteries/solar-system-with-batteries' },
-        // { label: 'Off Grid Solar System', href: '#' },
-        // { label: 'Solar Battery Products', href: '#' },
-        { label: 'Fox ESS', href: '#' },
+        { label: 'Sigenergy', href: '/batteries/sigenergy' },
+        { label: 'Fox ESS', href: '/batteries/fox-ess' },
+        { label: 'Pylontech', href: '/batteries/pylontech' },
         { label: 'ESY', href: '/batteries/esy' },
-        { label: 'Sigenergy', href: '#' },
-        // { label: 'Sungrow', href: '#' },
-        // { label: 'Swatten', href: '#' },
-        { label: 'Alpha ESS', href: '#' },
-        { label: 'Tesla PowerWall', href: '#' },
+        { label: 'Sopher', href: '/batteries/sopher' },
+        { label: 'GoodWe', href: '/batteries/goodwe' },
       ]
     },
     {
@@ -81,6 +93,14 @@ const Navbar = () => {
         { label: '13.3kW Solar', subtitle: '28x475W panels • 10kW inverter', href: '/solar/13.3kw' },
         { label: '20kW Solar', subtitle: '42x475W panels • 15kW inverter', href: '/solar/20kw' },
         { label: '30kW Solar', subtitle: '62x475W panels • 25kW inverter', href: '/solar/30kw' },
+      ]
+    },
+    {
+      name: 'Commercial', href: '/solar/commercial', hasDropdown: true, isRoute: false,
+      dropdown: [
+        { label: 'Commercial Solar and Battery', href: '/solar/commercial' },
+        { label: 'Finance & $0 Upfront', href: '/solar/commercial#finance' },
+        { label: 'New South Wales Rebates', href: '/solar/commercial#rebates' },
       ]
     },
     { name: 'Contact Us', href: '/contact', hasDropdown: false, isRoute: true },
@@ -97,7 +117,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 overflow-visible">
+    <div className="fixed top-0 left-0 right-0 z-50 overflow-visible navbar-container">
+      {/* ============ Top Dynamic Announcement Bar ============ */}
+      <AnnouncementBar />
+
       {/* ============ Floating decorative backdrop ============ */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <motion.div
@@ -115,7 +138,7 @@ const Navbar = () => {
       {/* ============ Outer wrapper — full width, no rounding, no side/top gaps ============ */}
       <motion.div
         initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1, height: scrolled ? 76 : 96 }}
+        animate={{ y: 0, opacity: 1, height: scrolled ? 80 : 100 }}
         transition={{ duration: 0.5, ease: EASE }}
         className="relative w-full overflow-visible"
       >
@@ -132,15 +155,15 @@ const Navbar = () => {
           {/* ---- Logo panel ---- */}
           <Link
             to="/"
-            className="relative z-30 flex items-center bg-white pl-6 sm:pl-10 pr-4 sm:pr-8 flex-shrink-0"
+            className="relative z-30 flex items-center bg-white pl-4 sm:pl-8 pr-4 sm:pr-8 flex-shrink-0"
           >
             <motion.img
               src={logoImg}
               alt="Aussie Smart Energy"
-              animate={{ height: scrolled ? 60 : 76 }}
-              whileHover={{ scale: 1.05 }}
+              animate={{ height: scrolled ? 68 : 86 }}
+              whileHover={{ scale: 1.04 }}
               transition={{ duration: 0.3, ease: EASE }}
-              className="w-auto object-contain"
+              className="w-auto max-h-[90%] object-contain"
             />
           </Link>
 
@@ -164,7 +187,7 @@ const Navbar = () => {
                 style={{ boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6)' }}
               >
                 {navItems.map((item) => {
-                  const isActive = location.pathname === item.href;
+                  const isActive = isItemActive(item);
                   return (
                     <div
                       key={item.name}
@@ -203,7 +226,7 @@ const Navbar = () => {
                           <span className="relative">{item.name}</span>
                           {item.hasDropdown && (
                             <motion.span
-                              animate={{ rotate: openDropdown === item.name ? 180 : 0 }}
+                              animate={{ rotate: activeDropdown === item.name ? 180 : 0 }}
                               transition={{ duration: 0.25, ease: EASE }}
                               className="relative inline-flex"
                             >
@@ -226,20 +249,33 @@ const Navbar = () => {
                       ) : (
                         <button
                           onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                          className="flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative text-slate-700 hover:text-[#0F4CFF] cursor-pointer"
+                          className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative cursor-pointer ${
+                            isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
+                          }`}
                         >
-                          <span>{item.name}</span>
+                          {isActive && (
+                            <motion.span
+                              layoutId="navActivePill"
+                              transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                              className="absolute inset-0 rounded-full -z-10"
+                              style={{
+                                background: 'linear-gradient(90deg, #0f3095ff, #171267ff)',
+                                boxShadow: '0 0 18px rgba(23,32,130,0.91)',
+                              }}
+                            />
+                          )}
+                          <span className="relative">{item.name}</span>
                           {item.hasDropdown && (
                             <motion.span
-                              animate={{ rotate: openDropdown === item.name ? 180 : 0 }}
+                              animate={{ rotate: activeDropdown === item.name ? 180 : 0 }}
                               transition={{ duration: 0.25, ease: EASE }}
-                              className="inline-flex"
+                              className="relative inline-flex"
                             >
                               <ChevronDown size={13} />
                             </motion.span>
                           )}
                           <AnimatePresence>
-                            {hoveredItem === item.name && (
+                            {hoveredItem === item.name && !isActive && (
                               <motion.span
                                 layoutId="navHoverPill"
                                 initial={{ opacity: 0 }}
@@ -255,13 +291,13 @@ const Navbar = () => {
 
                       {/* Dropdown panel */}
                       <AnimatePresence>
-                        {item.hasDropdown && openDropdown === item.name && (
+                        {item.hasDropdown && activeDropdown === item.name && (
                           <motion.div
                             initial={{ opacity: 0, y: -6, scaleY: 0.92 }}
                             animate={{ opacity: 1, y: 0, scaleY: 1 }}
                             exit={{ opacity: 0, y: -6, scaleY: 0.92 }}
                             transition={{ duration: 0.22, ease: EASE }}
-                            className={`absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[999] origin-top overflow-hidden ${item.name === 'Solar Batteries' ? 'w-[520px]' : 'w-58 min-w-[220px]'
+                            className={`absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[999] origin-top overflow-hidden ${item.dropdownGroups ? 'w-[560px]' : item.name === 'Solar Batteries' ? 'w-[520px]' : item.name === 'Commercial' ? 'w-72 min-w-[280px]' : 'w-64 min-w-[240px]'
                               }`}
                             style={{ boxShadow: '0 20px 50px -10px rgba(15,23,42,0.18), 0 4px 12px rgba(15,76,255,0.10)' }}
                           >
@@ -272,36 +308,92 @@ const Navbar = () => {
                               }}
                               initial="hidden"
                               animate="visible"
-                              className={`py-2 ${item.name === 'Solar Batteries' ? 'grid grid-cols-2 gap-x-2' : ''}`}
+                              className={`py-2 ${item.dropdownGroups ? 'grid grid-cols-2 gap-x-4 px-3 py-3' : item.name === 'Solar Batteries' ? 'grid grid-cols-2 gap-x-2' : ''}`}
                             >
-                              {item.dropdown.map((sub, idx) => (
-                                <motion.li
-                                  key={sub.label}
-                                  variants={{
-                                    hidden: { opacity: 0, x: -12, y: 4 },
-                                    visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.25, ease: EASE } }
-                                  }}
-                                >
-                                  <Link
-                                    to={sub.href}
-                                    className="group flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
+                              {item.dropdownGroups ? (
+                                item.dropdownGroups.map((group) => (
+                                  <motion.li
+                                    key={group.title}
+                                    variants={{
+                                      hidden: { opacity: 0, x: -12, y: 4 },
+                                      visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.25, ease: EASE } }
+                                    }}
+                                    className="px-2"
                                   >
-                                    <div className="flex flex-col">
-                                      <span>{sub.label}</span>
-                                      {sub.subtitle && (
-                                        <span className="text-xs text-slate-400 mt-0.5 font-normal">
-                                          {sub.subtitle}
-                                        </span>
-                                      )}
+                                    <div className="px-4 pb-2">
+                                      <div className="text-sm font-semibold text-slate-700">{group.title}</div>
                                     </div>
-                                    <motion.span
-                                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0"
+                                    <div className="space-y-1">
+                                      {group.items.map((sub) => (
+                                        <Link
+                                          key={sub.label}
+                                          to={sub.href}
+                                          onClick={() => {
+                                            setActiveDropdown(null);
+                                            setHoveredItem(null);
+                                          }}
+                                          className="group block px-4 py-2 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
+                                        >
+                                          <div className="flex items-center justify-between">
+                                            <span>{sub.label}</span>
+                                            <motion.span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0">
+                                              <ArrowRight size={13} />
+                                            </motion.span>
+                                          </div>
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  </motion.li>
+                                ))
+                              ) : (
+                                item.dropdown.map((sub, idx) => (
+                                  <motion.li
+                                    key={sub.label}
+                                    variants={{
+                                      hidden: { opacity: 0, x: -12, y: 4 },
+                                      visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.25, ease: EASE } }
+                                    }}
+                                  >
+                                    <Link
+                                      to={sub.href}
+                                      onClick={() => {
+                                        setActiveDropdown(null);
+                                        setHoveredItem(null);
+                                      }}
+                                      className="group flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
                                     >
-                                      <ArrowRight size={13} />
-                                    </motion.span>
+                                      <div className="flex flex-col">
+                                        <span>{sub.label}</span>
+                                        {sub.subtitle && (
+                                          <span className="text-xs text-slate-400 mt-0.5 font-normal">
+                                            {sub.subtitle}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <motion.span
+                                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0"
+                                      >
+                                        <ArrowRight size={13} />
+                                      </motion.span>
+                                    </Link>
+                                  </motion.li>
+                                ))
+                              )}
+
+                              {item.customizeLink && (
+                                <motion.li key="customize" className="col-span-2 px-4 py-3">
+                                  <Link
+                                    to={item.customizeLink.href}
+                                    onClick={() => {
+                                      setActiveDropdown(null);
+                                      setHoveredItem(null);
+                                    }}
+                                    className="block w-full text-center py-2 bg-blue-50 text-[#0F4CFF] rounded-md font-semibold"
+                                  >
+                                    {item.customizeLink.label}
                                   </Link>
                                 </motion.li>
-                              ))}
+                              )}
                             </motion.ul>
                           </motion.div>
                         )}
@@ -440,32 +532,56 @@ const Navbar = () => {
                             transition={{ duration: 0.25, ease: EASE }}
                             className="pl-4 space-y-1 overflow-hidden"
                           >
-                            {item.dropdown.map((sub, subIndex) => (
-                              <motion.div
-                                key={sub.label}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: subIndex * 0.04, duration: 0.25, ease: EASE }}
-                              >
-                                <Link
-                                  to={sub.href}
-                                  onClick={() => {
-                                    setIsOpen(false);
-                                    setActiveDropdown(null);
-                                  }}
-                                  className="block py-2.5 px-3 text-sm text-slate-600 hover:text-[#0F4CFF] hover:bg-blue-50 rounded-lg transition-colors border-l-2 border-blue-300 ml-2"
+                            {item.dropdownGroups ? (
+                              item.dropdownGroups.map((group, gIdx) => (
+                                <motion.div key={group.title} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: gIdx * 0.04, duration: 0.25, ease: EASE }}>
+                                  <div className="text-sm font-semibold text-slate-700 py-2">{group.title}</div>
+                                  {group.items.map((sub, subIndex) => (
+                                    <motion.div key={sub.label} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: (gIdx + subIndex) * 0.03, duration: 0.25, ease: EASE }}>
+                                      <Link
+                                        to={sub.href}
+                                        onClick={() => {
+                                          setIsOpen(false);
+                                          setActiveDropdown(null);
+                                        }}
+                                        className="block py-2.5 px-3 text-sm text-slate-600 hover:text-[#0F4CFF] hover:bg-blue-50 rounded-lg transition-colors border-l-2 border-blue-300 ml-2"
+                                      >
+                                        <div className="flex flex-col">
+                                          <span>{sub.label}</span>
+                                        </div>
+                                      </Link>
+                                    </motion.div>
+                                  ))}
+                                </motion.div>
+                              ))
+                            ) : (
+                              item.dropdown.map((sub, subIndex) => (
+                                <motion.div
+                                  key={sub.label}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: subIndex * 0.04, duration: 0.25, ease: EASE }}
                                 >
-                                  <div className="flex flex-col">
-                                    <span>{sub.label}</span>
-                                    {sub.subtitle && (
-                                      <span className="text-xs text-slate-400 mt-0.5">
-                                        {sub.subtitle}
-                                      </span>
-                                    )}
-                                  </div>
-                                </Link>
-                              </motion.div>
-                            ))}
+                                  <Link
+                                    to={sub.href}
+                                    onClick={() => {
+                                      setIsOpen(false);
+                                      setActiveDropdown(null);
+                                    }}
+                                    className="block py-2.5 px-3 text-sm text-slate-600 hover:text-[#0F4CFF] hover:bg-blue-50 rounded-lg transition-colors border-l-2 border-blue-300 ml-2"
+                                  >
+                                    <div className="flex flex-col">
+                                      <span>{sub.label}</span>
+                                      {sub.subtitle && (
+                                        <span className="text-xs text-slate-400 mt-0.5">
+                                          {sub.subtitle}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </Link>
+                                </motion.div>
+                              ))
+                            )}
                           </motion.div>
                         )}
                       </AnimatePresence>
