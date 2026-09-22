@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
 import { FaFacebookF, FaYoutube, FaInstagram } from 'react-icons/fa6';
 import logoImg from '../assets/Mainlogo.png';
 import bannerLogo from '../assets/banner-logo-1024x365.png';
+import saaLogo from '../assets/saa-logo.png';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -36,14 +37,14 @@ const FooterNavLink = ({ href, children, isExternal = false }) => {
     <li>
       <Component
         {...linkProps}
-        className="group flex items-center gap-2.5 text-slate-400 text-sm py-2 hover:text-[#39b54a] transition-all duration-300"
+        className="group flex items-center gap-3 text-slate-300 text-base py-2.5 hover:text-[#39b54a] transition-all duration-300"
       >
-        <span className="w-1.5 h-1.5 rounded-full bg-slate-700 group-hover:bg-[#39b54a] group-hover:scale-125 transition-all duration-300" />
-        <span className="relative group-hover:translate-x-1 transition-transform duration-300 font-medium">
+        <span className="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-[#39b54a] group-hover:scale-125 transition-all duration-300" />
+        <span className="relative group-hover:translate-x-1.5 transition-transform duration-300 font-medium">
           {children}
         </span>
         <ArrowRight
-          size={12}
+          size={14}
           className="ml-auto opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-[#39b54a]"
         />
       </Component>
@@ -241,7 +242,7 @@ export default function Footer() {
         />
 
         {/* Content Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8 pb-10">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-12 pb-14">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -251,14 +252,14 @@ export default function Footer() {
             {/* -----------------------------------------------------------
                 COL 1: BRAND & MISSION (Span 4 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-4 flex flex-col items-start gap-5">
+            <motion.div variants={itemVariants} className="lg:col-span-4 flex flex-col items-start gap-6">
               {/* Premium Logo Card */}
               <Link to="/" className="group inline-block focus:outline-none">
-                <div className="relative rounded-2xl bg-white px-5 py-3.5 shadow-lg shadow-black/20 border border-white/20 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(57,181,74,0.25)] group-hover:border-[#39b54a]/40">
+                <div className="relative rounded-2xl bg-white px-6 py-4 shadow-lg shadow-black/20 border border-white/20 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(57,181,74,0.25)] group-hover:border-[#39b54a]/40">
                   <img
                     src={logoImg}
                     alt="Aussie Smart Energy"
-                    className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
@@ -267,14 +268,14 @@ export default function Footer() {
               </Link>
 
               {/* Brand Description */}
-              <p className="text-slate-300/80 text-sm leading-relaxed max-w-md font-normal">
+              <p className="text-slate-300 text-base leading-relaxed max-w-md font-normal">
                 Solar panels provide excellent benefits for Australian homes and businesses.
                 They reduce energy bills, harnessing abundant sunlight for cost-effective power.
                 Government Incentives make solar systems more affordable — a smart investment for a greener future.
               </p>
 
               {/* Social Media Links */}
-              <div className="flex items-center gap-3 pt-1">
+              <div className="flex items-center gap-3.5 pt-1">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
                   return (
@@ -287,9 +288,9 @@ export default function Footer() {
                       whileHover={{ scale: 1.12, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center text-slate-300 bg-white/[0.05] border border-white/10 transition-all duration-300 ${social.bgHover} ${social.shadow}`}
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center text-slate-200 bg-white/[0.06] border border-white/15 transition-all duration-300 ${social.bgHover} ${social.shadow}`}
                     >
-                      <Icon size={16} />
+                      <Icon size={18} />
                     </motion.a>
                   );
                 })}
@@ -299,13 +300,13 @@ export default function Footer() {
             {/* -----------------------------------------------------------
                 COL 2: QUICK LINKS / RESOURCES (Span 2 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#39b54a]" />
-                <h4 className="text-white font-bold text-base tracking-wide font-outfit">Resources</h4>
+            <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col gap-5">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#39b54a]" />
+                <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Resources</h4>
               </div>
 
-              <ul className="flex flex-col space-y-0.5">
+              <ul className="flex flex-col space-y-1">
                 <FooterNavLink href="/">Home</FooterNavLink>
                 <FooterNavLink href="/about">About Us</FooterNavLink>
                 <FooterNavLink href="/contact">Contact Us</FooterNavLink>
@@ -317,66 +318,66 @@ export default function Footer() {
             {/* -----------------------------------------------------------
                 COL 3: CONTACT & LOCATIONS (Span 3 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col gap-5">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-400" />
-                <h4 className="text-white font-bold text-base tracking-wide font-outfit">Contact Us</h4>
+            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col gap-6">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
+                <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Contact Us</h4>
               </div>
 
               {/* Phone */}
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Phone</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Phone</span>
                 <a
                   href="tel:1300959170"
-                  className="group inline-flex items-center gap-2.5 text-white/90 text-sm font-medium hover:text-[#39b54a] transition-colors duration-200"
+                  className="group inline-flex items-center gap-3 text-white text-base font-semibold hover:text-[#39b54a] transition-colors duration-200"
                 >
-                  <span className="w-7 h-7 rounded-lg bg-[#39b54a]/15 border border-[#39b54a]/30 flex items-center justify-center text-[#39b54a] group-hover:bg-[#39b54a]/25 transition-colors">
-                    <Phone size={13} />
+                  <span className="w-8 h-8 rounded-lg bg-[#39b54a]/20 border border-[#39b54a]/40 flex items-center justify-center text-[#39b54a] group-hover:bg-[#39b54a]/30 transition-colors">
+                    <Phone size={15} />
                   </span>
                   <span>1300 959 170</span>
                 </a>
               </div>
 
               {/* Email */}
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Email</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Email</span>
                 <a
                   href="mailto:info@aussiesmartenergy.com.au"
-                  className="group inline-flex items-center gap-2.5 text-white/90 text-sm font-medium hover:text-[#39b54a] transition-colors duration-200 break-all"
+                  className="group inline-flex items-center gap-3 text-white text-base font-semibold hover:text-[#39b54a] transition-colors duration-200 break-all"
                 >
-                  <span className="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/25 transition-colors flex-shrink-0">
-                    <Mail size={13} />
+                  <span className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/30 transition-colors flex-shrink-0">
+                    <Mail size={15} />
                   </span>
                   <span>info@aussiesmartenergy.com.au</span>
                 </a>
               </div>
 
               {/* Our Locations */}
-              <div className="flex flex-col gap-2 pt-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                  <MapPin size={12} className="text-[#39b54a]" /> Our Locations
+              <div className="flex flex-col gap-2.5 pt-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                  <MapPin size={14} className="text-[#39b54a]" /> Our Locations
                 </span>
 
-                <div className="flex flex-col space-y-2.5">
+                <div className="flex flex-col space-y-3">
                   {/* QLD */}
-                  <div className="flex items-start gap-2.5 text-xs text-slate-300/90 leading-relaxed group">
-                    <span className="px-1.5 py-0.5 rounded bg-[#39b54a]/15 border border-[#39b54a]/30 text-[#39b54a] font-bold text-[11px] flex-shrink-0 mt-0.5">
+                  <div className="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed group">
+                    <span className="px-2 py-0.5 rounded bg-[#39b54a]/20 border border-[#39b54a]/40 text-[#39b54a] font-extrabold text-xs flex-shrink-0 mt-0.5">
                       QLD
                     </span>
                     <span className="group-hover:text-white transition-colors">29/97 Creek St, Brisbane City QLD 4000</span>
                   </div>
 
                   {/* NSW */}
-                  <div className="flex items-start gap-2.5 text-xs text-slate-300/90 leading-relaxed group">
-                    <span className="px-1.5 py-0.5 rounded bg-blue-500/15 border border-blue-500/30 text-blue-400 font-bold text-[11px] flex-shrink-0 mt-0.5">
+                  <div className="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed group">
+                    <span className="px-2 py-0.5 rounded bg-blue-500/20 border border-blue-500/40 text-blue-400 font-extrabold text-xs flex-shrink-0 mt-0.5">
                       NSW
                     </span>
                     <span className="group-hover:text-white transition-colors">526/368 Sussex St, Sydney NSW 2000</span>
                   </div>
 
                   {/* VIC */}
-                  <div className="flex items-start gap-2.5 text-xs text-slate-300/90 leading-relaxed group">
-                    <span className="px-1.5 py-0.5 rounded bg-purple-500/15 border border-purple-500/30 text-purple-400 font-bold text-[11px] flex-shrink-0 mt-0.5">
+                  <div className="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed group">
+                    <span className="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-400 font-extrabold text-xs flex-shrink-0 mt-0.5">
                       VIC
                     </span>
                     <span className="group-hover:text-white transition-colors">117/530 Little Collins St, Melbourne VIC 3000</span>
@@ -388,28 +389,37 @@ export default function Footer() {
             {/* -----------------------------------------------------------
                 COL 4: ACCREDITATIONS & CERTIFICATIONS (Span 3 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-amber-400" />
-                <h4 className="text-white font-bold text-base tracking-wide font-outfit">Accreditations</h4>
+            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col gap-5">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Accreditations</h4>
               </div>
 
               {/* Accreditations Trust Card */}
-              <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4.5 backdrop-blur-sm hover:border-white/20 transition-all duration-300 group shadow-lg">
-                <div className="bg-white/95 rounded-xl p-3.5 flex items-center justify-center shadow-inner transition-transform duration-300 group-hover:scale-[1.01]">
+              <div className="rounded-2xl bg-white/[0.05] border border-white/15 p-5 backdrop-blur-sm hover:border-white/25 transition-all duration-300 group shadow-lg flex flex-col gap-3.5">
+                <div className="bg-white/95 rounded-xl p-4 flex flex-col gap-3 items-center justify-center shadow-inner transition-transform duration-300 group-hover:scale-[1.01]">
                   <img
                     src={bannerLogo}
                     alt="Clean Energy Council & NETCC Approved Seller"
-                    className="w-full h-auto max-h-24 object-contain"
+                    className="w-full h-auto max-h-20 object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                  <div className="w-full h-px bg-slate-200" />
+                  <img
+                    src={saaLogo}
+                    alt="Solar Accreditation Australia"
+                    className="w-full h-auto max-h-12 object-contain"
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
                   />
                 </div>
 
-                <div className="mt-3.5 flex items-center gap-2 text-xs text-slate-400">
-                  <ShieldCheck size={14} className="text-[#39b54a] flex-shrink-0" />
-                  <span className="leading-tight">NETCC Approved Seller & CEC Solar Retailer</span>
+                <div className="flex items-center gap-2.5 text-sm text-slate-300 font-medium">
+                  <ShieldCheck size={16} className="text-[#39b54a] flex-shrink-0" />
+                  <span className="leading-tight">NETCC Approved Seller, CEC & SAA Accredited</span>
                 </div>
               </div>
             </motion.div>
@@ -422,21 +432,21 @@ export default function Footer() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-12 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-400"
+            className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm sm:text-base text-slate-300"
           >
-            <div className="flex items-center gap-2">
-              <ShieldCheck size={15} className="text-[#39b54a] flex-shrink-0" />
+            <div className="flex items-center gap-2.5">
+              <ShieldCheck size={18} className="text-[#39b54a] flex-shrink-0" />
               <span>© 2024 Aussie Smart Energy | All Rights Reserved</span>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 font-medium">
               <Link
                 to="/contact"
                 className="hover:text-[#39b54a] transition-colors duration-200"
               >
                 Privacy Policy
               </Link>
-              <span className="text-white/20">•</span>
+              <span className="text-white/30">•</span>
               <Link
                 to="/contact"
                 className="hover:text-[#39b54a] transition-colors duration-200"

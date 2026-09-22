@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, ArrowRight, Phone } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight, Phone, ExternalLink, CreditCard, ShieldCheck } from 'lucide-react';
 import logoImg from '../assets/Mainlogo.png';
 import AnnouncementBar from './AnnouncementBar';
 
@@ -55,6 +55,7 @@ const Navbar = () => {
   }, []);
 
   const isItemActive = (item) => {
+    if (item.isExternal) return false;
     if (item.isRoute) {
       return item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href);
     }
@@ -81,7 +82,7 @@ const Navbar = () => {
         { label: 'Fox ESS', href: '/batteries/fox-ess' },
         { label: 'Pylontech', href: '/batteries/pylontech' },
         { label: 'ESY', href: '/batteries/esy' },
-        { label: 'Sopher', href: '/batteries/sopher' },
+        { label: 'SOFAR', href: '/batteries/SOFAR' },
         { label: 'GoodWe', href: '/batteries/goodwe' },
       ]
     },
@@ -100,10 +101,17 @@ const Navbar = () => {
       dropdown: [
         { label: 'Commercial Solar and Battery', href: '/solar/commercial' },
         { label: 'Finance & $0 Upfront', href: '/solar/commercial#finance' },
-        { label: 'New South Wales Rebates', href: '/solar/commercial#rebates' },
+        { label: 'New South Wales Rebates', href: '/solar/commercial/nsw-calculator' },
       ]
     },
     { name: 'Contact Us', href: '/contact', hasDropdown: false, isRoute: true },
+    {
+      name: 'Pay Online',
+      href: 'https://docs.anzworldline-solutions.com.au/en/index',
+      hasDropdown: false,
+      isRoute: false,
+      isExternal: true,
+    },
   ];
 
   const dropdownContainer = {
@@ -206,7 +214,18 @@ const Navbar = () => {
                         }
                       }}
                     >
-                      {item.isRoute ? (
+                      {item.isExternal ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full transition-all relative bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-sm shadow-emerald-500/20 border border-emerald-300/30 hover:scale-105 active:scale-95 ml-0.5"
+                        >
+                          <CreditCard size={11} className="text-emerald-100" />
+                          <span className="relative">{item.name}</span>
+                          <ExternalLink size={9} className="text-emerald-200" />
+                        </a>
+                      ) : item.isRoute ? (
                         <Link
                           to={item.href}
                           className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative ${isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
@@ -249,9 +268,8 @@ const Navbar = () => {
                       ) : (
                         <button
                           onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                          className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative cursor-pointer ${
-                            isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
-                          }`}
+                          className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative cursor-pointer ${isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
+                            }`}
                         >
                           {isActive && (
                             <motion.span
@@ -414,7 +432,7 @@ const Navbar = () => {
               </span>
               <div className="leading-tight whitespace-nowrap">
                 <p className="text-[11px] text-slate-500 font-medium">Call Us Today</p>
-                <p className="text-sm font-bold text-[#0F172A]">1300 123 456</p>
+                <p className="text-sm font-bold text-[#0F172A]">1300 959 170</p>
               </div>
             </a>
 
@@ -427,27 +445,29 @@ const Navbar = () => {
               }}
             >
               <div className="absolute inset-0 opacity-20" style={DOTS_LIGHT} />
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                className="relative flex items-center space-x-3 bg-white/15 hover:bg-white/25 text-white pl-5 pr-1.5 py-1.5 rounded-full font-semibold text-sm transition-all overflow-hidden group border border-white/30"
-              >
-                <motion.span
-                  initial={{ x: '-120%' }}
-                  whileHover={{ x: '220%' }}
-                  transition={{ duration: 0.7, ease: EASE }}
-                  className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-white/30 skew-x-[-20deg]"
-                />
-                <span className="relative whitespace-nowrap">Request a Quote</span>
+              <Link to="/contact">
                 <motion.div
-                  animate={{ x: [0, 3, 0] }}
-                  whileHover={{ rotate: 45, x: 0 }}
-                  transition={{ x: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 0.25, ease: EASE } }}
-                  className="relative w-8 h-8 bg-white text-[#0F4CFF] rounded-full flex items-center justify-center flex-shrink-0"
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="relative flex items-center space-x-3 bg-white/15 hover:bg-white/25 text-white pl-5 pr-1.5 py-1.5 rounded-full font-semibold text-sm transition-all overflow-hidden group border border-white/30 cursor-pointer"
                 >
-                  <ArrowRight size={15} />
+                  <motion.span
+                    initial={{ x: '-120%' }}
+                    whileHover={{ x: '220%' }}
+                    transition={{ duration: 0.7, ease: EASE }}
+                    className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-white/30 skew-x-[-20deg]"
+                  />
+                  <span className="relative whitespace-nowrap">Request a Quote</span>
+                  <motion.div
+                    animate={{ x: [0, 3, 0] }}
+                    whileHover={{ rotate: 45, x: 0 }}
+                    transition={{ x: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 0.25, ease: EASE } }}
+                    className="relative w-8 h-8 bg-white text-[#0F4CFF] rounded-full flex items-center justify-center flex-shrink-0"
+                  >
+                    <ArrowRight size={15} />
+                  </motion.div>
                 </motion.div>
-              </motion.button>
+              </Link>
             </div>
           </div>
 
@@ -499,7 +519,22 @@ const Navbar = () => {
                     visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE } }
                   }}
                 >
-                  {item.isRoute ? (
+                  {item.isExternal ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center justify-between py-3 px-3.5 bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 text-white rounded-xl font-bold text-sm shadow-md shadow-emerald-700/20 border border-emerald-400/30 active:scale-[0.98] transition-all my-1.5"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <CreditCard size={17} className="text-emerald-200" />
+                        <span>{item.name}</span>
+                        <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded text-emerald-100 font-semibold uppercase">Secure</span>
+                      </span>
+                      <ExternalLink size={14} className="text-emerald-200" />
+                    </a>
+                  ) : item.isRoute ? (
                     <Link
                       to={item.href}
                       onClick={() => setIsOpen(false)}
@@ -614,21 +649,26 @@ const Navbar = () => {
                 }}
                 className="pt-3 border-t border-slate-100"
               >
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-center space-x-2 text-white py-3 rounded-full font-semibold text-sm"
-                  style={{ background: 'linear-gradient(115deg, #0F4CFF 0%, #3B82F6 100%)' }}
+                <Link
+                  to="/contact"
+                  onClick={() => setIsOpen(false)}
                 >
-                  <span>Request a Quote</span>
-                  <motion.span
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                    className="inline-flex"
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full flex items-center justify-center space-x-2 text-white py-3 rounded-full font-semibold text-sm cursor-pointer"
+                    style={{ background: 'linear-gradient(115deg, #0F4CFF 0%, #3B82F6 100%)' }}
                   >
-                    <ArrowRight size={14} />
-                  </motion.span>
-                </motion.button>
+                    <span>Request a Quote</span>
+                    <motion.span
+                      animate={{ x: [0, 4, 0] }}
+                      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                      className="inline-flex"
+                    >
+                      <ArrowRight size={14} />
+                    </motion.span>
+                  </motion.div>
+                </Link>
               </motion.div>
             </motion.div>
           </motion.div>

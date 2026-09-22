@@ -38,7 +38,7 @@ const PackageCheck = ({ text }) => (
   </div>
 );
 
-const Sopher = () => {
+const Sofar = () => {
   const [activePackageTab, setActivePackageTab] = useState('solar-battery');
   const [activeFaq, setActiveFaq] = useState(0);
 
@@ -772,4 +772,4 @@ const Sopher = () => {
   );
 };
 
-export default Sopher;
+export default Sofar;

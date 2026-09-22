@@ -76,7 +76,7 @@ const TestimonialsFAQSection = () => {
             className="h-full flex flex-col justify-center space-y-6"
           >
             <div>
-              <span className="text-[#39b54a] text-xs font-extrabold tracking-widest uppercase">FAQ</span>
+              <span className="text-[#39b54a] text-sm sm:text-base font-extrabold tracking-widest uppercase">FAQ</span>
               <h2 className="mt-2 text-3xl lg:text-4xl font-extrabold text-[#1e2d53] leading-tight">
                 Frequently Asked<br />Questions
               </h2>

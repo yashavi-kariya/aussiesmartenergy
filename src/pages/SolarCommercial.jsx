@@ -577,7 +577,7 @@ const SolarCommercial = () => {
       {/* =========================================================================
           5. FINANCE SECTION (Four ways to pay for it. Three of them cost nothing upfront.)
           ========================================================================= */}
-      <section id="finance" className="py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 border-t border-slate-200/80">
+      <section id="finance" className="py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 border-t border-slate-200/80 scroll-mt-28 sm:scroll-mt-32">
         <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
           
           {/* Section Header */}
@@ -706,7 +706,7 @@ const SolarCommercial = () => {
       {/* =========================================================================
           6. REBATES & INCENTIVES SECTION (What a business can claim on commercial solar in 2026.)
           ========================================================================= */}
-      <section id="rebates" className="py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200/80">
+      <section id="rebates" className="py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200/80 scroll-mt-28 sm:scroll-mt-32">
         <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
           
           {/* Section Header */}

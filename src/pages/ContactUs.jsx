@@ -77,7 +77,7 @@ const ContactUs = () => {
     const faqs = [
         { q: 'How quickly will I hear back?', a: "Our team replies to every enquiry within one business day, and most people hear back the same afternoon." },
         { q: 'Do I need to have my details ready?', a: 'Just your address and a recent power bill help us give you an accurate quote faster, but they are not required to get started.' },
-        { q: 'Can I request a site visit instead?', a: "Yes — mention it in your message and we'll arrange a free, no-obligation site assessment at a time that suits you." },
+        { q: 'Can I request a site visit instead?', a: "Yes — mention it in your message and we'll arrange a free, no-obligation site assessment at a time that suits you (metro areas only)." },
         { q: 'Is there a call-out fee for a quote?', a: 'No. Every consultation and quote from Aussie Smart Energy is completely free, with no obligation to proceed.' }
     ];
 

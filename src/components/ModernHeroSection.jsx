@@ -8,6 +8,7 @@ import {
 import { getImageUrl } from '../utils/imageUrl';
 import rooftopSolarImg from '../assets/rooftopsolar.png';
 import bannerLogo from '../assets/banner-logo-1024x365.png';
+import saaLogo from '../assets/saa-logo.png';
 
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -257,19 +258,34 @@ const ModernHeroSection = () => {
               High performance solar solutions for homes and businesses. Lower energy bills, cleaner planet and a brighter future for generations.
             </motion.p>
 
-            {/* Certification Banner Image — bigger + hover animation */}
-            <motion.div
-              variants={{ hidden: { y: 20, opacity: 0, scale: 0.9 }, visible: { y: 0, opacity: 1, scale: 1 } }}
-              whileHover={{ scale: 1.08, rotate: [-1, 1, 0] }}
-              transition={{ duration: 0.4, ease: EASE }}
-              className="inline-block"
-            >
-              <img
-                src={bannerLogo}
-                alt="Aussie Smart Energy Certifications"
-                className="h-24 sm:h-28 w-auto object-contain drop-shadow-md"
-              />
-            </motion.div>
+            {/* Certification Logos — side-by-side in parallel */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1">
+              <motion.div
+                variants={{ hidden: { y: 20, opacity: 0, scale: 0.9 }, visible: { y: 0, opacity: 1, scale: 1 } }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="inline-block"
+              >
+                <img
+                  src={bannerLogo}
+                  alt="NETCC Approved Seller & CEC Solar Retailer"
+                  className="h-16 sm:h-20 lg:h-22 w-auto object-contain drop-shadow-md"
+                />
+              </motion.div>
+
+              <motion.div
+                variants={{ hidden: { y: 20, opacity: 0, scale: 0.9 }, visible: { y: 0, opacity: 1, scale: 1 } }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="inline-flex items-center bg-white/95 backdrop-blur-md rounded-2xl px-3.5 py-2 sm:px-4 sm:py-2.5 border border-slate-200/80 shadow-md shadow-slate-200/50"
+              >
+                <img
+                  src={saaLogo}
+                  alt="Solar Accreditation Australia"
+                  className="h-11 sm:h-14 lg:h-16 w-auto object-contain"
+                />
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Right Column — Rebate Form Card */}

@@ -41,9 +41,6 @@ const AdminProjects = () => {
     const navigate = useNavigate();
     const [projects, setProjects] = useState([]);
     const [counts, setCounts] = useState({ active: 0, deleted: 0 });
-
-
-    
     const [activeTab, setActiveTab] = useState('active'); // 'active' | 'deleted_from_admin'
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -351,8 +348,8 @@ const AdminProjects = () => {
                     <button
                         onClick={() => setActiveTab('active')}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'active'
-                                ? 'text-white shadow-lg'
-                                : 'text-white/50 hover:text-white hover:bg-white/5'
+                            ? 'text-white shadow-lg'
+                            : 'text-white/50 hover:text-white hover:bg-white/5'
                             }`}
                         style={activeTab === 'active' ? { background: `linear-gradient(135deg, ${NAVY_LIGHT}, ${NAVY_MID})`, border: `1px solid ${GREEN}50` } : {}}
                     >
@@ -366,8 +363,8 @@ const AdminProjects = () => {
                     <button
                         onClick={() => setActiveTab('deleted_from_admin')}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'deleted_from_admin'
-                                ? 'text-white shadow-lg'
-                                : 'text-white/50 hover:text-white hover:bg-white/5'
+                            ? 'text-white shadow-lg'
+                            : 'text-white/50 hover:text-white hover:bg-white/5'
                             }`}
                         style={activeTab === 'deleted_from_admin' ? { background: `linear-gradient(135deg, ${NAVY_LIGHT}, ${NAVY_MID})`, border: '1px solid rgba(239,68,68,0.4)' } : {}}
                     >
@@ -827,8 +824,8 @@ const AdminProjects = () => {
                                 <div
                                     onClick={() => setDeleteMode('admin_only')}
                                     className={`p-4 rounded-xl cursor-pointer border transition-all ${deleteMode === 'admin_only'
-                                            ? 'bg-blue-500/15 border-blue-400/60 shadow-lg'
-                                            : 'bg-white/5 border-white/10 hover:bg-white/8'
+                                        ? 'bg-blue-500/15 border-blue-400/60 shadow-lg'
+                                        : 'bg-white/5 border-white/10 hover:bg-white/8'
                                         }`}
                                 >
                                     <div className="flex items-start gap-3">
@@ -857,8 +854,8 @@ const AdminProjects = () => {
                                 <div
                                     onClick={() => setDeleteMode('both')}
                                     className={`p-4 rounded-xl cursor-pointer border transition-all ${deleteMode === 'both'
-                                            ? 'bg-red-500/15 border-red-500/60 shadow-lg'
-                                            : 'bg-white/5 border-white/10 hover:bg-white/8'
+                                        ? 'bg-red-500/15 border-red-500/60 shadow-lg'
+                                        : 'bg-white/5 border-white/10 hover:bg-white/8'
                                         }`}
                                 >
                                     <div className="flex items-start gap-3">

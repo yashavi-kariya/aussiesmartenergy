@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { Send, AlertCircle, CheckCircle2 } from 'lucide-react';
 import api from '../utils/api';
 import solarPanelImg from '../assets/solar_panel_6kw.jpg';
-import savingsImg from '../assets/solar_savings_piggybank.jpg';
+import savingsImg from '../assets/solar_savings_piggybank.png';
 import paybackImg from '../assets/solar_payback_house.jpg';
+import handshakeAgreementImg from '../assets/handshake_agreement.jpg';
 
 const Solar6kw = () => {
   useEffect(() => {
@@ -88,26 +89,39 @@ const Solar6kw = () => {
   return (
     <main className="min-h-screen bg-slate-50 text-[#1e2d53] pt-36 sm:pt-40 lg:pt-44 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
+
         {/* ── 1. Top Grid: Content & Form ──────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
+
           {/* Left Column: Provided Content */}
           <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-sm space-y-6 text-slate-700 leading-relaxed">
-            
-            <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-slate-100">
-              <img
-                src={solarPanelImg}
-                alt="6.6 kW Solar Panels"
-                className="w-40 sm:w-48 h-auto object-contain flex-shrink-0 drop-shadow-md"
-              />
+
+            {/* Header Box with System Details and Image */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-[#f0f9ff] border border-sky-100 rounded-3xl p-6 sm:p-8">
               <div className="space-y-3">
-                <p className="text-base sm:text-lg font-medium text-slate-800">
-                  A 6.6 kW solar system typically consists of 20–24 solar panels and can generate an average of 24-26 kWh of energy per day, depending on location and weather conditions.
+                <span className="inline-block px-3 py-1 bg-[#008de4]/10 text-[#008de4] rounded-full text-xs font-bold uppercase tracking-wider">
+                  Residential Solar System
+                </span>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-[#008de4] tracking-tight leading-tight">
+                  6.6kW Solar Panel System
+                </h1>
+                <div className="h-1 w-20 bg-[#008de4] rounded-full" />
+                <p className="text-base sm:text-lg font-medium text-slate-800 pt-1">
+                  A 6.6 kW solar system typically consists of 14 solar panels and can generate an average of 24-26 kwh of energy per day, depending on location and weather conditions.
                 </p>
                 <p className="text-base sm:text-lg font-semibold text-[#1e2d53]">
                   For a medium-sized household consuming around 18–20 kWh per day, this system is an ideal match.
                 </p>
+              </div>
+
+              <div className="w-full sm:w-56 md:w-64 flex-shrink-0 flex justify-center">
+                <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-white group">
+                  <img
+                    src={solarPanelImg}
+                    alt="6.6 kW Solar Panel System"
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
               </div>
             </div>
 
@@ -264,13 +278,13 @@ const Solar6kw = () => {
         {/* ── 2. SAVING WITH A SOLAR PANEL SYSTEM BANNER ───────────────────── */}
         <section className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-[#008de4] p-6 sm:p-10 md:p-14 shadow-xl text-white">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left Column: Image with layered stylized card background */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -top-3 -left-3 w-full h-full bg-[#38bdf8]/35 rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -right-3 w-full h-full bg-[#0284c7]/40 rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
-                
+
                 <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20">
                   <img
                     src={savingsImg}
@@ -295,7 +309,7 @@ const Solar6kw = () => {
 
               {/* Bullet Points */}
               <div className="space-y-4 text-sm sm:text-base text-white/95 leading-relaxed font-normal">
-                
+
                 <div className="flex items-start gap-3">
                   <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-white" />
@@ -352,7 +366,7 @@ const Solar6kw = () => {
         {/* ── 3. PAYBACK PERIOD OF 6.6kW SOLAR SECTION ─────────────────────── */}
         <section className="bg-white border border-slate-200/90 rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 md:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left Column: Heading & Bullet Points */}
             <div className="lg:col-span-7 space-y-6">
               <div>
@@ -366,7 +380,7 @@ const Solar6kw = () => {
               </div>
 
               <div className="space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
-                
+
                 <div className="flex items-start gap-3">
                   <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
@@ -392,7 +406,7 @@ const Solar6kw = () => {
                   <p>
                     Across Australian households, an average 6.6 kW residential setup typically pays for itself within approximately{' '}
                     <span className="text-[#008de4] font-bold underline decoration-amber-400 decoration-2 underline-offset-2">
-                      3–5 years.
+                      2-3 years.
                     </span>
                   </p>
                 </div>
@@ -402,7 +416,7 @@ const Solar6kw = () => {
                     <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
                   </div>
                   <p>
-                    In regions with higher electricity prices and optimal sun orientation, the payback period can be as short as 2–3 years.
+                    In regions with higher electricity prices and optimal sun orientation, the payback period can be as short as 1-2 years.
                   </p>
                 </div>
 
@@ -423,7 +437,7 @@ const Solar6kw = () => {
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -top-3 -right-3 w-full h-full bg-[#008de4] rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -left-3 w-full h-full bg-[#0284c7]/20 rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
-                
+
                 <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100">
                   <img
                     src={paybackImg}
@@ -440,13 +454,13 @@ const Solar6kw = () => {
         {/* ── 4. HOW MUCH DOES A 6.6kW SOLAR PANEL SYSTEM COST? ─────────────── */}
         <section className="bg-white border border-slate-200/90 rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 md:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left Column: Image with layered blue background */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -top-3 -left-3 w-full h-full bg-[#008de4] rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -right-3 w-full h-full bg-[#0284c7]/20 rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
-                
+
                 <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100">
                   <img
                     src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?auto=format&fit=crop&w=800&q=80"
@@ -473,7 +487,7 @@ const Solar6kw = () => {
               </div>
 
               <div className="space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
-                
+
                 <div className="flex items-start gap-3">
                   <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
@@ -519,7 +533,7 @@ const Solar6kw = () => {
         {/* ── 5. WHAT GOVERNMENT INCENTIVES CAN YOU GET? ───────────────────── */}
         <section className="bg-white border border-slate-200/90 rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 md:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left Column: Title & Bullets */}
             <div className="lg:col-span-7 space-y-6">
               <div>
@@ -533,7 +547,7 @@ const Solar6kw = () => {
               </div>
 
               <div className="space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
-                
+
                 <div className="flex items-start gap-3">
                   <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
@@ -587,15 +601,12 @@ const Solar6kw = () => {
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -top-3 -right-3 w-full h-full bg-[#008de4] rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -left-3 w-full h-full bg-[#0284c7]/20 rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
-                
+
                 <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100">
                   <img
-                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80"
+                    src={handshakeAgreementImg}
                     alt="Solar Installation Consultant and Homeowner Agreement"
                     className="w-full h-64 sm:h-80 object-cover"
-                    onError={(e) => {
-                      e.target.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80";
-                    }}
                   />
                 </div>
               </div>
@@ -607,13 +618,13 @@ const Solar6kw = () => {
         {/* ── 6. HOW MANY SOLAR PANELS DO I NEED? (BLUE BANNER) ────────────── */}
         <section className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-[#008de4] p-6 sm:p-10 md:p-14 shadow-xl text-white">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left Column: Image with layered frame */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -top-3 -left-3 w-full h-full bg-white/20 rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -right-3 w-full h-full bg-[#0284c7]/40 rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
-                
+
                 <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20">
                   <img
                     src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80"
@@ -640,7 +651,7 @@ const Solar6kw = () => {
               </div>
 
               <div className="space-y-4 text-sm sm:text-base text-white/95 leading-relaxed font-normal">
-                
+
                 <div className="flex items-start gap-3">
                   <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-white" />
@@ -655,7 +666,7 @@ const Solar6kw = () => {
                     <div className="w-1.5 h-1.5 rounded-full bg-white" />
                   </div>
                   <p>
-                    For example, combining 16 high-efficiency solar panels rated at 415W to 475W each delivers a combined system output of approximately 6,650 watts (6.6 kW).
+                    For example, combining 14 high-efficiency solar panels rated at 415W to 475W each delivers a combined system output of approximately 6,650 watts (6.6 kW).
                   </p>
                 </div>
 
@@ -686,13 +697,13 @@ const Solar6kw = () => {
         {/* ── 7. HOW MUCH ROOF SPACE DO YOU NEED? ──────────────────────────── */}
         <section className="bg-white border border-slate-200/90 rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 md:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left Column: Image with layered blue background */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -top-3 -left-3 w-full h-full bg-[#008de4] rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -right-3 w-full h-full bg-[#0284c7]/20 rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
-                
+
                 <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100">
                   <img
                     src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
@@ -719,13 +730,13 @@ const Solar6kw = () => {
               </div>
 
               <div className="space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
-                
+
                 <div className="flex items-start gap-3">
                   <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
                   </div>
                   <p>
-                    A 6.6 kW solar system usually requires between 30 to 45 square metres of clear, unshaded roof space, depending on panel wattage, efficiency, and the pitch of your roof planes.
+                    A 6.6 kW solar system usually requires between 25-35 square meter area, unshaded roof space, depending on panel wattage, efficiency, and the pitch of your roof planes.
                   </p>
                 </div>
 
@@ -747,13 +758,13 @@ const Solar6kw = () => {
         {/* ── 8. ELEVATE YOUR ENERGY EFFICIENCY WITH AUSSIE SMART ENERGY ────── */}
         <section className="bg-white border border-slate-200/90 rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 md:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left Column: Image with layered blue background */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -top-3 -left-3 w-full h-full bg-[#008de4] rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -right-3 w-full h-full bg-[#0284c7]/20 rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
-                
+
                 <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100">
                   <img
                     src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80"
@@ -780,7 +791,7 @@ const Solar6kw = () => {
               </div>
 
               <div className="space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
-                
+
                 <div className="flex items-start gap-3">
                   <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
@@ -795,7 +806,7 @@ const Solar6kw = () => {
                     <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
                   </div>
                   <p>
-                    Our Tier-1 solar modules generate 6650W of peak power capacity and come with an industry-leading 25-year performance warranty for enduring peace of mind.
+                    Our Tier-1 solar modules generate 6650W of peak power capacity and come with an industry-leading 30-year performance warranty for enduring peace of mind.
                   </p>
                 </div>
 
@@ -843,11 +854,11 @@ const Solar6kw = () => {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1e2d53]">
             Is a 6.6 kW solar system worth it?
           </h2>
-          
+
           <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
             A 6.6 kW solar system can generate enough electricity to power a regular Australian household.
           </p>
-          
+
           <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium">
             This means it can cut your energy bills and save you money over time. So yes they are worth it and here are the reasons why.
           </p>

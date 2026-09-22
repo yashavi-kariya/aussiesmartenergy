@@ -16,8 +16,8 @@ const BulletList = ({ items }) => (
   <ul className="mt-3 space-y-2.5 text-base text-slate-700">
     {items.map((item) => (
       <li key={item} className="flex items-center gap-2.5">
-        <span className="flex h-4 w-4 flex-none rounded-full border-2 border-[#ef4444] p-[2px]">
-          <span className="h-full w-full rounded-full bg-[#ef4444]" />
+        <span className="flex h-4 w-4 flex-none rounded-full border-2 border-[#39b54a] p-[2px]">
+          <span className="h-full w-full rounded-full bg-[#39b54a]" />
         </span>
         <span>{item}</span>
       </li>
@@ -66,7 +66,7 @@ const EsyPage = () => {
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute top-10 right-10 w-96 h-96 bg-red-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-10 right-10 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-500/25 rounded-full blur-3xl pointer-events-none" />
         <div
           className="absolute inset-0 opacity-20 pointer-events-none"
@@ -80,13 +80,13 @@ const EsyPage = () => {
             transition={{ duration: 0.6 }}
             className="max-w-[620px] space-y-4"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-red-200 text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-white/15">
-              <Sparkles className="w-3.5 h-3.5 text-red-400 animate-pulse" /> All-In-One Intelligent Storage
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-emerald-200 text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-white/15">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-pulse" /> All-In-One Intelligent Storage
             </div>
 
             <h1 className="text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-4xl lg:text-[42px]">
               Power Your Evenings, Not Just Your Daytime:{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-sky-200 to-white">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-sky-200 to-white">
                 ESY Sunhome Battery Australia
               </span>
             </h1>
@@ -100,19 +100,19 @@ const EsyPage = () => {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap items-center gap-3 pt-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold shadow-lg shadow-red-500/25 transition-all duration-200 transform hover:-translate-y-0.5 text-sm sm:text-base"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#39b54a] to-[#2ea13d] hover:from-[#2ea13d] hover:to-[#248232] text-white font-bold shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/35 transition-all duration-200 transform hover:-translate-y-0.5 text-xs sm:text-sm border border-emerald-400/20"
               >
                 Get A Free Proposal
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <a
                 href="tel:1300986827"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold border border-white/25 transition-all duration-200 text-sm sm:text-base backdrop-blur-sm"
+                className="inline-flex items-center justify-center gap-2 px-4.5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/25 hover:border-white/40 transition-all duration-200 text-xs sm:text-sm backdrop-blur-sm shadow-sm hover:-translate-y-0.5"
               >
-                <PhoneCall className="w-4 h-4 text-red-400" />
+                <PhoneCall className="w-3.5 h-3.5 text-emerald-300" />
                 1300 986 827
               </a>
             </div>
@@ -125,7 +125,7 @@ const EsyPage = () => {
             className="relative flex justify-center"
           >
             <div className="relative w-full max-w-sm rounded-3xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-6 border border-blue-400/30 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center">
-              <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-28 h-28 bg-blue-500/30 rounded-full blur-2xl pointer-events-none" />
 
               <motion.img
@@ -133,10 +133,10 @@ const EsyPage = () => {
                 transition={{ duration: 0.3 }}
                 src={esyBattery}
                 alt="ESY Sunhome battery"
-                className="relative z-10 h-auto w-56 max-w-[85%] object-contain drop-shadow-[0_18px_25px_rgba(239,68,68,0.3)]"
+                className="relative z-10 h-auto w-56 max-w-[85%] object-contain drop-shadow-[0_18px_25px_rgba(57,181,74,0.3)]"
               />
               <div className="mt-4 w-full bg-slate-950/80 rounded-xl p-3 text-center border border-blue-400/20">
-                <span className="text-xs font-bold text-red-300 uppercase tracking-wider">Modular Expandable</span>
+                <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">Modular Expandable</span>
                 <p className="text-white font-extrabold text-sm">5.12 kWh – 30.72 kWh</p>
               </div>
             </div>
@@ -161,7 +161,7 @@ const EsyPage = () => {
           className="flex justify-center"
         >
           <div className="relative w-full max-w-[375px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
             <img
               src={esySystem}
               alt="ESY Sunhome all-in-one battery system beside a solar-powered home"
@@ -180,7 +180,7 @@ const EsyPage = () => {
           <h2 className="text-3xl font-extrabold leading-tight text-[#006ab7] sm:text-4xl">
             What is an ESY Sunhome All-in-One<br className="hidden xl:block" /> Battery System?
           </h2>
-          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
 
           <p className="mt-3 text-base leading-relaxed text-slate-700">
             An ESY Sunhome all-in-one battery system is an integrated residential energy storage solution that combines:
@@ -214,7 +214,7 @@ const EsyPage = () => {
           <h2 className="text-3xl font-extrabold leading-tight text-[#006ab7] sm:text-4xl">
             Why More Australians Are Adding<br className="hidden xl:block" /> Battery Storage?
           </h2>
-          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
 
           <p className="mt-3 text-base leading-relaxed text-slate-700">
             A modern solar battery solution helps homeowners use more of the solar energy they generate rather than exporting excess electricity back to the grid.
@@ -245,7 +245,7 @@ const EsyPage = () => {
           className="flex justify-center lg:order-2"
         >
           <div className="relative w-full max-w-[375px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
             <img
               src={esyHomeBattery}
               alt="ESY Sunhome battery installed beside a solar-powered home"
@@ -256,7 +256,7 @@ const EsyPage = () => {
       </section>
 
       {/* ================= 4. SMART ENERGY MANAGEMENT ================= */}
-      <section className="bg-gradient-to-b from-blue-50/70 via-slate-50 to-red-50/40">
+      <section className="bg-gradient-to-b from-blue-50/70 via-slate-50 to-emerald-50/40">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-16 sm:px-10 lg:grid-cols-[375px_1fr] lg:gap-20 lg:px-16 lg:py-20">
           <motion.div
             initial={{ opacity: 0, x: -25 }}
@@ -266,7 +266,7 @@ const EsyPage = () => {
             className="flex justify-center"
           >
             <div className="relative w-full max-w-[375px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
-              <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
               <img
                 src={esyEnergyManagement}
                 alt="ESY smart energy management system and mobile monitoring app"
@@ -285,7 +285,7 @@ const EsyPage = () => {
             <h2 className="text-3xl font-extrabold leading-tight text-[#006ab7] sm:text-4xl">
               Smart Energy Management That<br className="hidden xl:block" /> Works Behind the Scenes
             </h2>
-            <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+            <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
 
             <p className="mt-3 text-base leading-relaxed text-slate-700">
               One of the standout features of an ESY Sunhome battery system is its intelligent energy management technology.
@@ -330,12 +330,12 @@ const EsyPage = () => {
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
               Battery Capacities Designed for Different Household Needs
             </h2>
-            <div className="mx-auto mt-4 h-[3px] w-14 bg-red-500 rounded-full" />
+            <div className="mx-auto mt-4 h-[3px] w-14 bg-[#39b54a] rounded-full" />
 
             <p className="mx-auto mt-3 max-w-5xl text-base leading-relaxed text-blue-100">
               Every household has different energy consumption patterns. ESY Sunhome offers scalable battery solutions to suit a wide range of property sizes and energy requirements.
             </p>
-            <p className="mt-4 text-base font-bold text-red-300">Available Battery Capacities</p>
+            <p className="mt-4 text-base font-bold text-emerald-300">Available Battery Capacities</p>
           </motion.div>
 
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
@@ -372,7 +372,7 @@ const EsyPage = () => {
           <h2 className="text-3xl font-extrabold leading-tight text-[#006ab7] sm:text-4xl">
             Monitor Your Energy Anytime,<br /> Anywhere
           </h2>
-          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
 
           <p className="mt-3 text-base leading-relaxed text-slate-700">
             Energy visibility is becoming increasingly important for Australian homeowners.
@@ -404,7 +404,7 @@ const EsyPage = () => {
           className="flex justify-center"
         >
           <div className="relative w-full max-w-[375px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
             <img
               src={esyEnergyManagement}
               alt="ESY energy monitoring application"
@@ -415,7 +415,7 @@ const EsyPage = () => {
       </section>
 
       {/* ================= 7. BUILT FOR THE CONNECTED HOME ================= */}
-      <section className="bg-gradient-to-b from-blue-50/70 via-slate-50 to-red-50/40">
+      <section className="bg-gradient-to-b from-blue-50/70 via-slate-50 to-emerald-50/40">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-16 sm:px-10 lg:grid-cols-[375px_1fr] lg:gap-20 lg:px-16 lg:py-20">
           <motion.div
             initial={{ opacity: 0, x: -25 }}
@@ -425,7 +425,7 @@ const EsyPage = () => {
             className="flex justify-center"
           >
             <div className="relative w-full max-w-[375px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
-              <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
               <img
                 src={esyConnectedHome}
                 alt="Connected home with rooftop solar"
@@ -444,7 +444,7 @@ const EsyPage = () => {
             <h2 className="text-3xl font-extrabold leading-tight text-[#006ab7] sm:text-4xl">
               Built for the Connected Home
             </h2>
-            <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+            <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
 
             <p className="mt-3 text-base leading-relaxed text-slate-700">
               Modern households increasingly rely on smart technologies to improve efficiency and convenience.
@@ -476,11 +476,11 @@ const EsyPage = () => {
           <h2 className="text-3xl font-extrabold leading-tight text-[#006ab7] sm:text-4xl">
             VPP Compatibility and Future Energy<br className="hidden xl:block" /> Opportunities
           </h2>
-          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+          <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
 
           <p className="mt-3 text-base leading-relaxed text-slate-700">
             As the solar battery Australia landscape evolves, many homeowners are exploring{' '}
-            <Link to="/contact" className="text-[#ef4444] font-semibold underline">Virtual Power Plant</Link>{' '}
+            <Link to="/contact" className="text-[#006ab7] font-semibold underline hover:text-[#39b54a]">Virtual Power Plant</Link>{' '}
             participation.
           </p>
           <p className="mt-3 text-base leading-relaxed text-slate-700">
@@ -499,7 +499,7 @@ const EsyPage = () => {
           className="flex justify-center"
         >
           <div className="relative w-full max-w-[375px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
             <img
               src={esyVpp}
               alt="Virtual power plant connected energy network"
@@ -510,7 +510,7 @@ const EsyPage = () => {
       </section>
 
       {/* ================= 9. WARRANTY SECTION ================= */}
-      <section className="bg-gradient-to-b from-blue-50/70 via-slate-50 to-red-50/40">
+      <section className="bg-gradient-to-b from-blue-50/70 via-slate-50 to-emerald-50/40">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-16 sm:px-10 lg:grid-cols-[375px_1fr] lg:gap-20 lg:px-16 lg:py-20">
           <motion.div
             initial={{ opacity: 0, x: -25 }}
@@ -520,7 +520,7 @@ const EsyPage = () => {
             className="flex justify-center"
           >
             <div className="relative w-full max-w-[375px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
-              <div className="absolute top-0 right-0 w-28 h-28 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
               <img
                 src={esyWarranty}
                 alt="ESY Sunhome battery warranty consultation"
@@ -539,7 +539,7 @@ const EsyPage = () => {
             <h2 className="text-3xl font-extrabold leading-tight text-[#006ab7] sm:text-4xl">
               Understanding the ESY Sunhome<br className="hidden xl:block" /> Battery Warranty
             </h2>
-            <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+            <div className="mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
 
             <p className="mt-3 text-base leading-relaxed text-slate-700">
               Battery reliability is one of the most important considerations when investing in energy storage. The ESY Sunhome battery warranty provides homeowners with confidence that their system is backed by manufacturer support and performance standards.
@@ -568,7 +568,7 @@ const EsyPage = () => {
           transition={{ duration: 0.5 }}
           className="mx-auto max-w-3xl rounded-3xl border border-white/20 bg-white/10 px-6 py-8 text-center shadow-2xl backdrop-blur-md sm:px-10"
         >
-          <span className="mx-auto mb-3 block h-1 w-12 rounded-full bg-red-500" />
+          <span className="mx-auto mb-3 block h-1 w-12 rounded-full bg-[#39b54a]" />
           <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Take Control of Your Energy Future</h2>
 
           <div className="mt-4 space-y-3 text-sm leading-relaxed sm:text-base text-blue-50">
@@ -577,12 +577,12 @@ const EsyPage = () => {
             </p>
             <p>
               Whether you&apos;re installing a new solar system or upgrading an existing one, an{' '}
-              <span className="font-bold text-red-300">ESY Sunhome battery</span> solution offers flexible capacity, intelligent monitoring, and scalable capacity options designed for modern households.
+              <span className="font-bold text-emerald-300">ESY Sunhome battery</span> solution offers flexible capacity, intelligent monitoring, and scalable capacity options designed for modern households.
             </p>
             <div className="pt-2">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold shadow-lg shadow-red-500/30 transition-all transform hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#39b54a] hover:bg-[#2ea13d] text-white font-extrabold shadow-lg shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5"
               >
                 Speak with the team today
                 <ArrowRight className="w-4 h-4" />
@@ -596,7 +596,7 @@ const EsyPage = () => {
       <section className="mx-auto max-w-5xl px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
         <div className="text-center">
           <h2 className="text-2xl font-extrabold text-[#006ab7] sm:text-3xl">Frequently Asked Questions</h2>
-          <div className="mx-auto mt-4 h-[3px] w-14 bg-gradient-to-r from-red-500 to-blue-500 rounded-full" />
+          <div className="mx-auto mt-4 h-[3px] w-14 bg-gradient-to-r from-[#006ab7] to-[#39b54a] rounded-full" />
         </div>
 
         <div className="mt-8 space-y-4">
@@ -620,7 +620,7 @@ const EsyPage = () => {
                   }`}
                 >
                   <span className="flex items-center gap-3 text-sm sm:text-base font-semibold">
-                    <span className={`font-bold text-base sm:text-lg ${isOpen ? 'text-red-400' : 'text-[#ef4444]'}`}>✓</span>
+                    <span className={`font-bold text-base sm:text-lg ${isOpen ? 'text-emerald-300' : 'text-[#39b54a]'}`}>✓</span>
                     <span>{faq.question}</span>
                   </span>
                   <ChevronDown

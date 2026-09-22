@@ -360,7 +360,7 @@ const Solar10kw = () => {
                   <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
                 </div>
                 <p>
-                  Typically, it requires approximately 50–70 square metres of roof space and around 22–26 solar panels, each measuring about 1.7 to 2 metres by 1 metre.
+                  Typically, it requires 45-50 square meter of roof space and around 22–26 solar panels, each measuring about 1.7 to 2 metres by 1 metre.
                 </p>
               </div>
 

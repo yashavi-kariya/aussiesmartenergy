@@ -25,7 +25,7 @@ import {
   FoxEss,
   Pylontech,
   Esy,
-  Sopher,
+  Sofar,
   GoodWe
 } from './pages/batteries'
 import ProjectDetails from './pages/ProjectDetails'
@@ -38,10 +38,28 @@ import CommercialCustomize from './pages/CommercialCustomize'
 function App() {
   const location = useLocation();
 
-  // Scroll to top on route change
+  // Scroll to top or anchor on route/hash change
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const scrollToHash = () => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      };
+      scrollToHash();
+      // Delay for dynamic/async page rendering
+      const timer = setTimeout(scrollToHash, 100);
+      const timer2 = setTimeout(scrollToHash, 300);
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(timer2);
+      };
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [location.pathname, location.hash, location.key]);
 
   const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/login/admin';
 
@@ -79,7 +97,9 @@ function App() {
         <Route path="/batteries/foxess" element={<FoxEss />} />
         <Route path="/batteries/pylontech" element={<Pylontech />} />
         <Route path="/batteries/esy" element={<Esy />} />
-        <Route path="/batteries/sopher" element={<Sopher />} />
+        <Route path="/batteries/sofar" element={<Sofar />} />
+        <Route path="/batteries/SOFAR" element={<Sofar />} />
+        <Route path="/batteries/sopher" element={<Sofar />} />
         <Route path="/batteries/goodwe" element={<GoodWe />} />
         <Route path="/commercial/customize" element={<CommercialCustomize />} />
         <Route path="/projects/:slug" element={<ProjectDetails />} />

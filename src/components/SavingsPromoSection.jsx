@@ -1,6 +1,8 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
+import plentiLogo from '../assets/plenti.png';
+import brighteLogo from '../assets/brighte.png';
 
 const SavingsPromoSection = () => {
   const ref = useRef(null);
@@ -129,7 +131,12 @@ const SavingsPromoSection = () => {
                   panel rebate now!
                 </motion.h3>
                 <motion.p variants={textItem} className="text-emerald-100 text-sm font-medium leading-relaxed">
-                  Solar panel rebates are available of $1,400 plus the option of an interest-free loan.
+                  Claim your state & Federal government solar panel rebate now!
+
+                  this option is only for VIC clients but we are in NSW & QLD as well.
+                  so make this line specifically for Victorian Households.
+
+                  State rebate for Commercial Solar Panels as well for NSW & VIC
                 </motion.p>
               </div>
               <motion.button
@@ -273,6 +280,19 @@ const SavingsPromoSection = () => {
                     </motion.li>
                   ))}
                 </ul>
+
+                {/* Finance Partner Logos */}
+                <motion.div
+                  variants={textItem}
+                  className="flex items-center gap-3 pt-3"
+                >
+                  <div className="bg-white px-4 py-2 rounded-xl shadow-md flex items-center justify-center h-12 hover:shadow-lg transition-all">
+                    <img src={plentiLogo} alt="Plenti" className="h-7 sm:h-8 w-auto object-contain" />
+                  </div>
+                  <div className="bg-white px-4 py-2 rounded-xl shadow-md flex items-center justify-center h-12 hover:shadow-lg transition-all">
+                    <img src={brighteLogo} alt="Brighte" className="h-7 sm:h-8 w-auto object-contain" />
+                  </div>
+                </motion.div>
               </div>
               <motion.button
                 variants={textItem}

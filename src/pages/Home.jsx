@@ -1,4 +1,5 @@
 import ModernHeroSection from '../components/ModernHeroSection'
+import ApprovedSellerBanner from '../components/ApprovedSellerBanner'
 import ProjectsSection from '../components/ProjectsSection'
 import SavingsPromoSection from '../components/SavingsPromoSection'
 import TestimonialsFAQSection from '../components/TestimonialsFAQSection'
@@ -9,13 +10,15 @@ const Home = () => {
     <main>
       {/* 1. Hero with embedded dark feature banner */}
       <ModernHeroSection />
-      {/* 2. Featured Projects */}
+      {/* 2. New Energy Tech Approved Seller Banner */}
+      <ApprovedSellerBanner />
+      {/* 3. Featured Projects */}
       <ProjectsSection />
-      {/* 3. Savings promo — rebates + payment plans */}
+      {/* 4. Savings promo — rebates + payment plans */}
       <SavingsPromoSection />
-      {/* 4. FAQ + Video side-by-side & Google Reviews */}
+      {/* 5. FAQ + Video side-by-side & Google Reviews */}
       <TestimonialsFAQSection />
-      {/* 5. Brands strip */}
+      {/* 6. Brands strip */}
       <BrandsSection />
     </main>
   )

@@ -7,12 +7,12 @@ import solarBatteries1 from '../../assets/solarbattries1.png';
 import solarBatteries2 from '../../assets/solarbattries2.png';
 import solarBatteries3 from '../../assets/solarbattries3.png';
 import esyHomeBattery from '../../assets/esy/esy2.webp';
-import esySystem from '../../assets/esy/esy1.webp';
+import esySystem from '../../assets/fox_ess_home_system.jpg';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
 import esyWarranty from '../../assets/esy/esy6.webp';
-import foxessGoldenSun from '../../assets/foxess_golden_sun.jpg';
+import foxessGoldenSun from '../../assets/fox-ess solar.png';
 
 const TargetBullet = ({ text, light = false }) => (
   <li className={`flex items-center gap-3 text-[15px] sm:text-base ${light ? 'text-white' : 'text-slate-700'}`}>
@@ -227,7 +227,7 @@ const FoxEss = () => {
                   <h2 className="text-2xl font-extrabold text-[#006ab7] text-center tracking-tight group-hover:text-[#ef4444] transition-colors duration-200">
                     {pkg.title}
                   </h2>
-                  
+
                   {/* Subtle Red/Blue gradient divider */}
                   <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#ef4444]/60 to-transparent mt-3 mb-6" />
 
@@ -770,27 +770,24 @@ const FoxEss = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
-                  isOpen ? 'border-[#006ab7] shadow-lg ring-1 ring-[#006ab7]/20 bg-white' : 'border-slate-200 bg-white hover:border-blue-300'
-                }`}
+                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${isOpen ? 'border-[#006ab7] shadow-lg ring-1 ring-[#006ab7]/20 bg-white' : 'border-slate-200 bg-white hover:border-blue-300'
+                  }`}
               >
                 {/* Accordion Header */}
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : index)}
-                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${
-                    isOpen
-                      ? 'bg-gradient-to-r from-[#003b73] to-[#006ab7] text-white font-bold'
-                      : 'bg-white text-slate-700 hover:bg-blue-50/40 font-medium'
-                  }`}
+                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${isOpen
+                    ? 'bg-gradient-to-r from-[#003b73] to-[#006ab7] text-white font-bold'
+                    : 'bg-white text-slate-700 hover:bg-blue-50/40 font-medium'
+                    }`}
                 >
                   <span className="flex items-center gap-3 text-sm sm:text-base">
                     <span className={`font-bold text-base sm:text-lg ${isOpen ? 'text-red-400' : 'text-[#006ab7]'}`}>✓</span>
                     <span>{faq.q}</span>
                   </span>
                   <svg
-                    className={`h-5 w-5 flex-shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-white' : 'text-slate-400'
-                    }`}
+                    className={`h-5 w-5 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-white' : 'text-slate-400'
+                      }`}
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
