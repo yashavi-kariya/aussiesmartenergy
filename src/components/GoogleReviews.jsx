@@ -11,62 +11,147 @@ import {
   Loader2,
   PenLine,
   MapPin,
+  Sparkles,
 } from 'lucide-react';
 import api from '../utils/api';
-import johnDoeImg from '../assets/johndoe.jpg';
-import lindaGeorgeImg from '../assets/linda george.jpg';
-import marindaWilsonImg from '../assets/marinda wilson.jpg';
 
 const AUSSIE_GOOGLE_MAPS_URL =
-  'https://www.google.com/maps/place/Aussie+Smart+Energy/@-22.6821199,150.7337371,4411103m/data=!3m1!1e3!4m8!3m7!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!8m2!3d-24.1501978!4d148.5507008!9m1!1b1!16s%2Fg%2F11y8snbby8?entry=ttu&g_ep=EgoyMDI2MDkxNC4wIKXMDSoASAFQAw%3D%3D';
+  'https://www.google.com/maps/place/Aussie+Smart+Energy/@-24.1501978,148.5507008,3254937m/data=!3m1!1e3!4m18!1m9!3m8!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!2sAussie+Smart+Energy!8m2!3d-24.1501978!4d148.5507008!9m1!1b1!16s%2Fg%2F11y8snbby8!3m7!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!8m2!3d-24.1501978!4d148.5507008!9m1!1b1!16s%2Fg%2F11y8snbby8?entry=ttu&g_ep=EgoyMDI2MDkyMC4wIKXMDSoASAFQAw%3D%3D';
 
 const DEFAULT_WRITE_REVIEW_URL =
-  'https://www.google.com/maps/place/Aussie+Smart+Energy/@-22.6821199,150.7337371,4411103m/data=!3m1!1e3!4m8!3m7!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!8m2!3d-24.1501978!4d148.5507008!9m1!1b1!16s%2Fg%2F11y8snbby8?entry=ttu&g_ep=EgoyMDI2MDkxNC4wIKXMDSoASAFQAw%3D%3D';
+  'https://search.google.com/local/writereview?cid=12102045691718893775';
+
+export const top10GoogleReviews = [
+  {
+    googleReviewId: 'aussie_gmap_01',
+    authorName: 'Akshay Jyani',
+    roleOrLocation: 'Local Guide · Australia',
+    rating: 5,
+    text: "I recently had a solar and battery system installed by Aussie Smart Energy, and I couldn't be happier with the entire experience. From the initial consultation through to installation and after-sales support, the process was smooth, professional, and well-organized. A special mention goes to John, who was outstanding throughout the journey. His knowledge, transparency, and willingness to explain every detail made a huge difference. He took the time to walk me through system options, performance expectations, and long-term benefits, ensuring I felt confident in my decision without any pressure. The installation itself was completed to a very high standard. The team was punctual, efficient, and maintained a clean and safe work environment. The system setup looks neat and well-planned, reflecting the quality of workmanship and attention to detail. Overall, I highly recommend Aussie Smart Energy to anyone considering solar and battery solutions. Their professionalism, customer service, and technical expertise truly set them apart. A big thank you again to John and the team for delivering such a great experience.",
+    relativeTime: '5 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: true,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_02',
+    authorName: 'Krystian Reyes',
+    roleOrLocation: 'Local Guide · Melbourne VIC',
+    rating: 5,
+    text: "Looking into and doing all the research when it comes to choosing and organising solar panels and batteries can be daunting, and it definitely was for me. John from Aussie Smart Energy was amazing, so helpful and accommodating. He was the first person I spoke to. He helped me assess our household energy usage and presented options best suited for our household. After my initial conversation, went out and did more research and more quotes and came back to John to 1) help me understand more of what I was seeking, and 2) to see what he could do about other offers that were presented to me. In the end he not only worked a better value package, but also presented better products for my solar and battery package (we went with a 6.6kw solar panel set up with a 30kw battery system and Wifi monitored inverter). John was amazing through the whole process including organising all the government rebate paperwork, financing for the system, and organising delivery and installation of the solar panel and battery system. I would definitely recommend John's customer service to anyone who is thinking about going down the solar power path!",
+    relativeTime: '6 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_03',
+    authorName: 'Rikin Ramani',
+    roleOrLocation: 'Homeowner, Australia',
+    rating: 5,
+    text: 'Exceptional service from Aussie Smart Energy- professional, transparent, and delivered beyond expectations! Highly recommend Aussie Smart Energy for anyone looking for reliable solar and battery solutions!',
+    relativeTime: '4 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_04',
+    authorName: 'Ihab Ibrahim',
+    roleOrLocation: 'Resident, Australia',
+    rating: 5,
+    text: 'Excellent experience with Aussie Smart Energy. The team was honest, professional and very efficient throughout the whole process. Their pricing was very reasonable, the installation was completed quickly, and everything was explained clearly. Our solar and battery system has been working perfectly from day one, with no issues at all. Very happy with the quality of the installation and the service provided. I would definitely recommend Aussie Smart Energy to anyone considering solar and battery installation. Thank you to the whole team for a great job!',
+    relativeTime: 'a month ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_05',
+    authorName: 'Steve King',
+    roleOrLocation: 'Local Guide · Victoria',
+    rating: 5,
+    text: 'I have just had a 21 kw battery system installed by Aussie Smart Energy. John was recommended by the people who installed our EV Charger and was very helpful from start to finish. The battery was installed over half a day at my convenience and showed a massive reduction (monitoring via PowerPal) in grid energy supply from the moment it was linked up. Price and service were within my budget, and I am so happy with my purchase and the service provided by John and the team.',
+    relativeTime: '9 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_06',
+    authorName: 'Bharat Bhalodi',
+    roleOrLocation: 'Local Guide · Australia',
+    rating: 5,
+    text: 'Aussie Smart Energy has done a fantastic job! I got the best price for solar panels and a storage battery after comparing multiple quotes. Their team was professional, efficient, and very prompt with the installation. The whole process was smooth from start to finish. Highly recommend Aussie Smart Energy for anyone looking to switch to solar.',
+    relativeTime: '1 year ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_07',
+    authorName: 'Mohit Patel',
+    roleOrLocation: 'Homeowner, Australia',
+    rating: 5,
+    text: 'Aussie Smart Energy provided an exceptional experience from start to finish, with John patiently guiding us to the right product. The installation team was punctual, tidy, and highly professional, even taking the time to fully set up the monitoring app before leaving. Highly recommended for a seamless and stress-free solar journey!',
+    relativeTime: '3 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_08',
+    authorName: 'Adelio Antonio',
+    roleOrLocation: 'Verified Customer',
+    rating: 5,
+    text: "Highly Recommend Aussie Smart Energy! I recently had a solar battery installed by the team at Aussie Smart Energy, and the experience was excellent. From the start, they were professional, took the time to understand my specific needs, and provided a solution perfectly tailored to our home's requirements. The installation was quick, tidy, and high-quality. What impressed me most was the after-care; they guided me through the app setup and clearly explained how to operate and monitor the unit. They ensured all my concerns were addressed promptly and thoroughly. If you're looking for a reliable solar solution, I highly recommend their services.",
+    relativeTime: '5 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_09',
+    authorName: 'Steffano Madafferi',
+    roleOrLocation: 'Verified Customer · Victoria',
+    rating: 5,
+    text: "Switching to Aussie Smart Energy was one of the easiest decisions I've made, and a huge part of that is thanks to John. As someone who carefully tracks rates, benefits, and the fine print to maximise value, I naturally had a lot of questions before signing up. John was incredibly patient and transparent, and he walked me through every detail of the plan without any pushy sales tactics. The rates are highly competitive, and the billing is straightforward with absolutely no hidden surprises. It's genuinely refreshing to deal with an energy company here in Victoria that actually delivers on its promises and makes managing your account effortless. I cannot recommend them highly enough to anyone looking for a reliable provider—definitely ask for John if you are thinking of making the switch!",
+    relativeTime: '5 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+  {
+    googleReviewId: 'aussie_gmap_10',
+    authorName: 'Sonali Bhoite',
+    roleOrLocation: 'Verified Customer',
+    rating: 5,
+    text: 'Great experience with Aussie smart energy. The team was easy to deal with. The installation was completed before time and the installation crew was top notch. Very happy with the installation and services so far. Highly recommend.',
+    relativeTime: '2 months ago',
+    authorUrl: AUSSIE_GOOGLE_MAPS_URL,
+    platform: 'google',
+    isGoogleFeatured: false,
+    isVerified: true,
+  },
+];
 
 const defaultFallbackData = {
   businessName: 'Aussie Smart Energy',
   rating: 4.9,
-  totalReviews: 47,
+  totalReviews: 79,
   placeUrl: AUSSIE_GOOGLE_MAPS_URL,
   writeReviewUrl: DEFAULT_WRITE_REVIEW_URL,
-  reviews: [
-    {
-      authorName: 'John Doe',
-      roleOrLocation: 'Homeowner, Sydney NSW',
-      authorPhoto: johnDoeImg,
-      authorUrl: AUSSIE_GOOGLE_MAPS_URL,
-      rating: 5,
-      text: 'Great to deal with from start to finish. Sales team and the installers were excellent. There was no dents on my color bond roof after the installation. Very Happy customer here. Would highly recommend Aussie Smart Energy to everyone.',
-      publishedAt: new Date().toISOString(),
-      relativeTime: '1 month ago',
-      platform: 'google',
-      isVerified: true,
-    },
-    {
-      authorName: 'Linda George',
-      roleOrLocation: 'Business Owner, Melbourne VIC',
-      authorPhoto: lindaGeorgeImg,
-      authorUrl: AUSSIE_GOOGLE_MAPS_URL,
-      rating: 5,
-      text: 'Very happy with the service provided by the whole team, Adam and John, patiently guided us to the right product, following up on time, tried their best to fulfill our needs, the installers are kind and professional as well, patiently answered our questions, help me set up the app while I had to hold my baby in arm, kids friendly and dog friendly also😊. Love the team!',
-      publishedAt: new Date().toISOString(),
-      relativeTime: '2 months ago',
-      platform: 'google',
-      isVerified: true,
-    },
-    {
-      authorName: 'Marinda Wilson',
-      roleOrLocation: 'Resident, Brisbane QLD',
-      authorPhoto: marindaWilsonImg,
-      authorUrl: AUSSIE_GOOGLE_MAPS_URL,
-      rating: 5,
-      text: 'Exceptional service from start to finish! Aussie Smart Energy has been fantastic, responding to all my queries promptly and professionally every step of the way. They went above and beyond by offering discounts wherever possible, which I truly appreciated. The installation process was seamless—quick, efficient, and handled with great expertise.',
-      publishedAt: new Date().toISOString(),
-      relativeTime: '3 months ago',
-      platform: 'google',
-      isVerified: true,
-    },
-  ],
+  featuredReview: top10GoogleReviews[0],
+  reviews: top10GoogleReviews,
 };
 
 const GoogleIcon = () => (
@@ -91,16 +176,13 @@ const GoogleIcon = () => (
 );
 
 const getAuthorImage = (review) => {
+  if (!review) return null;
   if (review.authorPhoto && review.authorPhoto.trim() !== '') {
     return review.authorPhoto;
   }
   if (review.authorImage && review.authorImage.trim() !== '') {
     return review.authorImage;
   }
-  const name = (review.authorName || '').toLowerCase();
-  if (name.includes('john')) return johnDoeImg;
-  if (name.includes('linda')) return lindaGeorgeImg;
-  if (name.includes('marinda')) return marindaWilsonImg;
   return null;
 };
 
@@ -119,31 +201,48 @@ const GoogleReviews = () => {
         const res = await api.get('/google-reviews');
         if (isMounted && res.data) {
           const apiData = res.data;
-          const reviewsList =
-            Array.isArray(apiData.reviews) && apiData.reviews.length > 0
-              ? apiData.reviews
-              : defaultFallbackData.reviews;
+          let reviewsList = Array.isArray(apiData.reviews) && apiData.reviews.length > 0
+            ? apiData.reviews
+            : top10GoogleReviews;
+
+          // Put featured review first if specified
+          const featured = apiData.featuredReview || null;
+          if (featured && reviewsList.length > 0) {
+            const index = reviewsList.findIndex(
+              (r) =>
+                (r._id && featured._id && r._id === featured._id) ||
+                (r.googleReviewId && featured.googleReviewId && r.googleReviewId === featured.googleReviewId) ||
+                (r.authorName === featured.authorName && (r.text === featured.text || r.reviewText === featured.reviewText))
+            );
+            if (index > 0) {
+              const reordered = [...reviewsList];
+              const [selectedItem] = reordered.splice(index, 1);
+              reviewsList = [selectedItem, ...reordered];
+            }
+          }
+
+          // Limit to first 10 reviews on user site
+          const displayedReviews = reviewsList.slice(0, 10);
 
           setData({
-            businessName: apiData.businessName || defaultFallbackData.businessName,
+            businessName: apiData.businessName || 'Aussie Smart Energy',
             rating:
               typeof apiData.rating === 'number' && apiData.rating > 0
                 ? apiData.rating
-                : defaultFallbackData.rating,
+                : 5.0,
             totalReviews:
               typeof apiData.totalReviews === 'number' && apiData.totalReviews > 0
                 ? apiData.totalReviews
-                : defaultFallbackData.totalReviews,
-            placeUrl: apiData.placeUrl || defaultFallbackData.placeUrl,
-            writeReviewUrl: apiData.writeReviewUrl || defaultFallbackData.writeReviewUrl,
-            reviews: reviewsList,
+                : 79,
+            placeUrl: apiData.placeUrl || AUSSIE_GOOGLE_MAPS_URL,
+            writeReviewUrl: apiData.writeReviewUrl || DEFAULT_WRITE_REVIEW_URL,
+            featuredReview: featured || (displayedReviews.length > 0 ? displayedReviews[0] : null),
+            reviews: displayedReviews,
           });
+          setCurrentIndex(0);
         }
       } catch (err) {
-        console.warn('Could not fetch live Google Reviews, using verified fallback reviews.', err);
-        if (isMounted) {
-          setData(defaultFallbackData);
-        }
+        console.warn('Could not fetch Google Reviews, using top 10 verified reviews.', err);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -164,31 +263,33 @@ const GoogleReviews = () => {
     if (!autoPlay || reviews.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % reviews.length);
-    }, 6000);
+    }, 7000);
     return () => clearInterval(timer);
   }, [autoPlay, reviews.length]);
 
   const nextReview = () => {
     setCurrentIndex((prev) => (prev + 1) % reviews.length);
     setAutoPlay(false);
-    setTimeout(() => setAutoPlay(true), 10000);
+    setTimeout(() => setAutoPlay(true), 12000);
   };
 
   const prevReview = () => {
     setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
     setAutoPlay(false);
-    setTimeout(() => setAutoPlay(true), 10000);
+    setTimeout(() => setAutoPlay(true), 12000);
   };
 
-  const activeReview = reviews[currentIndex] || reviews[0];
+  const activeReview = reviews[currentIndex] || reviews[0] || data.featuredReview;
   const activeImage = activeReview ? getAuthorImage(activeReview) : null;
   const targetLink =
     activeReview?.authorUrl ||
     activeReview?.reviewLink ||
+    activeReview?.googleMapsUri ||
     data.placeUrl ||
     AUSSIE_GOOGLE_MAPS_URL;
 
   const isGooglePlatform = !activeReview?.platform || activeReview?.platform === 'google';
+  const isSelectedFeatured = Boolean(activeReview?.isGoogleFeatured || (currentIndex === 0 && data.featuredReview));
 
   return (
     <div
@@ -263,10 +364,10 @@ const GoogleReviews = () => {
       </div>
 
       {/* ── Active Review Card / Loading State ── */}
-      {loading && reviews.length === 0 ? (
+      {loading ? (
         <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-white/80 shadow-xl p-10 flex flex-col items-center justify-center min-h-[260px] text-slate-500">
           <Loader2 className="w-8 h-8 animate-spin text-[#4285F4] mb-3" />
-          <p className="text-sm font-semibold">Loading Google Reviews...</p>
+          <p className="text-sm font-semibold">Loading Customer Reviews...</p>
         </div>
       ) : activeReview ? (
         <motion.div
@@ -277,31 +378,41 @@ const GoogleReviews = () => {
           transition={{ duration: 0.4 }}
           className="bg-white/95 backdrop-blur-md rounded-3xl border border-white/80 shadow-xl p-6 sm:p-8 space-y-5 relative overflow-hidden"
         >
-          {/* Header Inside Card */}
-          <div className="flex items-center justify-between">
+          {/* Top Row inside Card: Quote Icon + Platform & Featured Badges */}
+          <div className="flex items-center justify-between gap-2">
             <div className="text-[#39b54a]">
               <Quote size={36} className="fill-current opacity-20" />
             </div>
 
-            {/* Platform Badge */}
-            <div
-              className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold flex items-center gap-1.5 border shadow-xs ${
-                isGooglePlatform
-                  ? 'bg-blue-50/90 text-[#4285F4] border-blue-100'
-                  : 'bg-emerald-50 text-[#39b54a] border-emerald-100'
-              }`}
-            >
-              {isGooglePlatform ? (
-                <>
-                  <GoogleIcon />
-                  <span>Google Review</span>
-                </>
-              ) : (
-                <>
-                  <span className="w-2 h-2 rounded-full bg-[#39b54a]" />
-                  <span className="capitalize">{activeReview.platform || 'Customer Review'}</span>
-                </>
+            <div className="flex items-center gap-2">
+              {/* Featured Spotlight Badge if active review is the selected one */}
+              {isSelectedFeatured && (
+                <div className="px-3 py-1 rounded-full text-xs font-black bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1 shadow-xs">
+                  <Sparkles className="w-3 h-3 text-amber-500 fill-current" />
+                  <span>Featured Customer Story</span>
+                </div>
               )}
+
+              {/* Platform Badge */}
+              <div
+                className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold flex items-center gap-1.5 border shadow-xs ${
+                  isGooglePlatform
+                    ? 'bg-blue-50/90 text-[#4285F4] border-blue-100'
+                    : 'bg-emerald-50 text-[#39b54a] border-emerald-100'
+                }`}
+              >
+                {isGooglePlatform ? (
+                  <>
+                    <GoogleIcon />
+                    <span>Google Review</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="w-2 h-2 rounded-full bg-[#39b54a]" />
+                    <span className="capitalize">{activeReview.platform || 'Customer Review'}</span>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
@@ -395,45 +506,88 @@ const GoogleReviews = () => {
 
           {/* Carousel Navigation Buttons & Indicators */}
           {reviews.length > 1 && (
-            <div className="flex justify-center items-center gap-4 pt-4 border-t border-slate-100">
-              <button
-                onClick={prevReview}
-                aria-label="Previous review"
-                className="w-9 h-9 bg-slate-100 hover:bg-[#39b54a]/15 hover:text-[#39b54a] rounded-full flex items-center justify-center transition-colors shadow-xs"
-              >
-                <ArrowLeft className="w-4 h-4 text-slate-700" />
-              </button>
-
-              <div className="flex space-x-2 items-center">
-                {reviews.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      setCurrentIndex(index);
-                      setAutoPlay(false);
-                      setTimeout(() => setAutoPlay(true), 10000);
-                    }}
-                    aria-label={`Slide ${index + 1}`}
-                    className={`rounded-full transition-all duration-300 ${
-                      currentIndex === index
-                        ? 'bg-[#39b54a] w-5 h-2'
-                        : 'bg-slate-300 hover:bg-slate-400 w-2 h-2'
-                    }`}
-                  />
-                ))}
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 pt-4 border-t border-slate-100">
+              <div className="text-xs font-bold text-slate-500 flex items-center gap-1.5 order-2 sm:order-1">
+                <span className="px-2.5 py-1 rounded-full bg-slate-100 text-[#1e2d53] font-extrabold">
+                  Review {currentIndex + 1} of {reviews.length}
+                </span>
+                <span className="hidden md:inline text-slate-400 font-medium">· Verified 5-Star Rating</span>
               </div>
 
-              <button
-                onClick={nextReview}
-                aria-label="Next review"
-                className="w-9 h-9 bg-slate-100 hover:bg-[#39b54a]/15 hover:text-[#39b54a] rounded-full flex items-center justify-center transition-colors shadow-xs"
-              >
-                <ArrowRight className="w-4 h-4 text-slate-700" />
-              </button>
+              <div className="flex items-center gap-3 order-1 sm:order-2">
+                <button
+                  onClick={prevReview}
+                  aria-label="Previous review"
+                  className="w-9 h-9 bg-slate-100 hover:bg-[#39b54a]/15 hover:text-[#39b54a] rounded-full flex items-center justify-center transition-colors shadow-xs"
+                >
+                  <ArrowLeft className="w-4 h-4 text-slate-700 hover:text-[#39b54a]" />
+                </button>
+
+                <div className="flex space-x-1.5 items-center">
+                  {reviews.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setCurrentIndex(index);
+                        setAutoPlay(false);
+                        setTimeout(() => setAutoPlay(true), 12000);
+                      }}
+                      aria-label={`Go to review ${index + 1}`}
+                      title={`Review ${index + 1}`}
+                      className={`rounded-full transition-all duration-300 ${
+                        currentIndex === index
+                          ? 'bg-[#39b54a] w-6 h-2.5 shadow-xs'
+                          : 'bg-slate-200 hover:bg-slate-400 w-2.5 h-2.5'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={nextReview}
+                  aria-label="Next review"
+                  className="w-9 h-9 bg-slate-100 hover:bg-[#39b54a]/15 hover:text-[#39b54a] rounded-full flex items-center justify-center transition-colors shadow-xs"
+                >
+                  <ArrowRight className="w-4 h-4 text-slate-700 hover:text-[#39b54a]" />
+                </button>
+              </div>
             </div>
           )}
         </motion.div>
-      ) : null}
+      ) : (
+        /* Empty State when no reviews have been added yet */
+        <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-white/80 shadow-xl p-8 sm:p-12 text-center space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 text-[#4285F4] mx-auto flex items-center justify-center">
+            <GoogleIcon />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-xl font-extrabold text-[#1e2d53]">Rated 5.0 Stars on Google</h3>
+            <p className="text-sm text-slate-500 max-w-md mx-auto">
+              Read all verified Australian homeowner and commercial solar reviews directly on our official Google Business Profile.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a
+              href={data.placeUrl || AUSSIE_GOOGLE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1e2d53] hover:bg-[#39b54a] text-white text-xs font-bold transition shadow-md"
+            >
+              <span>Read Reviews on Google Maps</span>
+              <ExternalLink size={13} />
+            </a>
+            <a
+              href={data.writeReviewUrl || DEFAULT_WRITE_REVIEW_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#1e2d53] text-xs font-bold transition"
+            >
+              <PenLine size={13} />
+              <span>Leave a Google Review</span>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

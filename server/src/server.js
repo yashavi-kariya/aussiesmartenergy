@@ -13,6 +13,7 @@ import headlineRoutes from './routes/headlineRoutes.js';
 import googleReviewRoutes from './routes/googleReviewRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 import errorHandler, { notFound } from './middleware/errorHandler.js';
+import { startGoogleReviewsBackgroundSync } from './services/googleReviewSyncService.js';
 import path from 'path';
 
 // Load .env from both server folder and root directory
@@ -78,5 +79,7 @@ app.listen(PORT, () => {
 });
 
 // Connect to MongoDB after the server starts; readiness reports unavailable until connected.
-connectDB();
+connectDB().then(() => {
+    startGoogleReviewsBackgroundSync();
+});
 

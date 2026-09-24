@@ -1,59 +1,15 @@
 import Review from '../models/Review.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
+import { clearGoogleReviewsCache } from './googleReviewController.js';
 
 const DEFAULT_GOOGLE_MAPS_URL = 
     process.env.GOOGLE_BUSINESS_URL ||
-    'https://www.google.com/maps/place/Aussie+Smart+Energy/@-22.6821199,150.7337371,4411103m/data=!3m1!1e3!4m8!3m7!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!8m2!3d-24.1501978!4d148.5507008!9m1!1b1!16s%2Fg%2F11y8snbby8?entry=ttu&g_ep=EgoyMDI2MDkxNC4wIKXMDSoASAFQAw%3D%3D';
-
-// Initial default reviews seed
-const defaultReviews = [
-    {
-        authorName: 'John Doe',
-        roleOrLocation: 'Homeowner, Sydney NSW',
-        rating: 5,
-        reviewText: "Great to deal with from start to finish. Sales team and the installers were excellent. There was no dents on my color bond roof after the installation. Very Happy customer here. Would highly recommend Aussie Smart Energy to everyone.",
-        reviewDate: '1 month ago',
-        reviewLink: DEFAULT_GOOGLE_MAPS_URL,
-        platform: 'google',
-        isFeatured: true,
-        isVerified: true,
-        displayOrder: 1,
-    },
-    {
-        authorName: 'Linda George',
-        roleOrLocation: 'Business Owner, Melbourne VIC',
-        rating: 5,
-        reviewText: "Very happy with the service provided by the whole team, Adam and John, patiently guided us to the right product, following up on time, tried their best to fulfill our needs, the installers are kind and professional as well, patiently answered our questions, help me set up the app while I had to hold my baby in arm, kids friendly and dog friendly also😊. Love the team!",
-        reviewDate: '2 weeks ago',
-        reviewLink: DEFAULT_GOOGLE_MAPS_URL,
-        platform: 'google',
-        isFeatured: true,
-        isVerified: true,
-        displayOrder: 2,
-    },
-    {
-        authorName: 'Marinda Wilson',
-        roleOrLocation: 'Resident, Brisbane QLD',
-        rating: 5,
-        reviewText: "Exceptional service from start to finish! Aussie Smart Energy has been fantastic, responding to all my queries promptly and professionally every step of the way. They went above and beyond by offering discounts wherever possible, which I truly appreciated. The installation process was seamless—quick, efficient, and handled with great expertise.",
-        reviewDate: '3 weeks ago',
-        reviewLink: DEFAULT_GOOGLE_MAPS_URL,
-        platform: 'google',
-        isFeatured: true,
-        isVerified: true,
-        displayOrder: 3,
-    },
-];
+    'https://www.google.com/maps/place/Aussie+Smart+Energy/@-24.1501978,148.5507008,3254937m/data=!3m1!1e3!4m18!1m9!3m8!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!2sAussie+Smart+Energy!8m2!3d-24.1501978!4d148.5507008!9m1!1b1!16s%2Fg%2F11y8snbby8!3m7!1s0x6ad68f00519106fd:0xa7f31a6fee7380cf!8m2!3d-24.1501978!4d148.5507008!9m1!1b1!16s%2Fg%2F11y8snbby8?entry=ttu';
 
 export const getPublicReviews = async (req, res, next) => {
     try {
-        let count = await Review.countDocuments();
-        if (count === 0) {
-            await Review.insertMany(defaultReviews);
-        }
-
-        const reviews = await Review.find({ isFeatured: true })
-            .sort({ displayOrder: 1, createdAt: -1 });
+        const reviews = await Review.find({ isFeatured: true, rating: { $gte: 4 } })
+            .sort({ isGoogleFeatured: -1, displayOrder: 1, createdAt: -1 });
 
         return successResponse(res, reviews, 'Reviews retrieved successfully');
     } catch (error) {
@@ -84,7 +40,7 @@ export const getAllReviewsAdmin = async (req, res, next) => {
             query.isFeatured = false;
         }
 
-        const reviews = await Review.find(query).sort({ displayOrder: 1, createdAt: -1 });
+        const reviews = await Review.find(query).sort({ isGoogleFeatured: -1, displayOrder: 1, createdAt: -1 });
         return successResponse(res, reviews, 'Admin reviews retrieved');
     } catch (error) {
         next(error);
@@ -130,13 +86,15 @@ export const createReview = async (req, res, next) => {
             rating: Number(rating) || 5,
             reviewText: reviewText.trim(),
             reviewDate: reviewDate?.trim() || 'Recently',
-            reviewLink: reviewLink?.trim() || '',
+            reviewLink: reviewLink?.trim() || DEFAULT_GOOGLE_MAPS_URL,
             platform: platform || 'google',
             isFeatured: isFeatured === true || isFeatured === 'true',
             isVerified: isVerified === undefined ? true : (isVerified === true || isVerified === 'true'),
             authorImage: imagePath,
             displayOrder,
         });
+
+        clearGoogleReviewsCache();
 
         return successResponse(res, review, 'Review created successfully', 201);
     } catch (error) {
@@ -185,6 +143,8 @@ export const updateReview = async (req, res, next) => {
         }
 
         await review.save();
+        clearGoogleReviewsCache();
+
         return successResponse(res, review, 'Review updated successfully');
     } catch (error) {
         next(error);
@@ -198,6 +158,8 @@ export const deleteReview = async (req, res, next) => {
         if (!review) {
             return errorResponse(res, 'Review not found', 404);
         }
+
+        clearGoogleReviewsCache();
 
         return successResponse(res, null, 'Review deleted successfully');
     } catch (error) {

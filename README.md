@@ -6,13 +6,14 @@
 [![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
-**Aussie Smart Energy** is a full-stack web application designed for an Australian renewable energy provider. The platform delivers an engaging user experience for exploring residential and commercial solar installations, battery storage systems, and personalized quote enquiries, accompanied by an administrative portal for managing customer leads, project portfolios, and reviews.
+**Aussie Smart Energy** is a full-stack, enterprise-grade web platform and management system designed for an Australian clean energy and solar provider. The platform delivers a modern, high-performance customer experience for exploring residential and commercial solar installations, battery storage solutions, financial rebate calculators, and instant quote enquiries—backed by a comprehensive administrative portal for managing leads, portfolios, reviews, hero banners, and announcement tickers.
 
+---
 
 ## 📑 Table of Contents
 
 - [Features](#-features)
-  - [Customer-Facing Portal](#customer-facing-portal)
+  - [Customer-Facing Experience](#customer-facing-experience)
   - [Admin Management Portal](#admin-management-portal)
 - [Tech Stack](#-tech-stack)
 - [Project Architecture](#-project-architecture)
@@ -22,7 +23,17 @@
   - [2. Backend Setup](#2-backend-setup)
   - [3. Frontend Setup](#3-frontend-setup)
 - [Environment Variables](#-environment-variables)
-- [API Endpoints Overview](#-api-endpoints-overview)
+  - [Frontend (`.env`)](#frontend-env)
+  - [Backend (`server/.env`)](#backend-serverenv)
+- [API Endpoints Reference](#-api-endpoints-reference)
+  - [Health & Diagnostics](#health--diagnostics)
+  - [Admin Authentication](#admin-authentication)
+  - [Enquiries & Leads](#enquiries--leads)
+  - [Projects & Case Studies](#projects--case-studies)
+  - [Customer Reviews](#customer-reviews)
+  - [Google Reviews](#google-reviews)
+  - [Hero Banners](#hero-banners)
+  - [Headlines & Announcements](#headlines--announcements)
 - [Available Scripts](#-available-scripts)
 - [License](#-license)
 
@@ -30,42 +41,53 @@
 
 ## 🚀 Features
 
-### Customer-Facing Portal
-- **Residential Solar Systems**: Detailed system breakdowns and cost estimates for 6.6 kW, 10.5 kW, 13.2 kW, and 15 kW systems.
-- **Commercial Solar Systems**: Scalable business solutions for 20 kW, 30 kW, 50 kW, 100 kW, and custom commercial configurations.
-- **Battery Storage Solutions**: Dedicated showcases for solar battery solutions including **Pylontech** and **ESY Sunhome** battery storage.
-- **Interactive Enquiry & Quote System**: Real-time enquiry submission modals across product pages for quick customer quotation.
-- **Project Case Studies**: Showcase of completed residential and commercial solar installations.
-- **Interactive UI & Animations**: Built using Tailwind CSS, Framer Motion, and GSAP for responsive interactions.
+### Customer-Facing Experience
+- **Residential Solar Packages**: In-depth breakdowns, system specifications, and pricing for **6.6 kW**, **10.5 kW**, **13.2 kW**, and **15 kW** residential setups.
+- **Commercial Solar Systems**: High-yield commercial installations for **20 kW**, **30 kW**, **50 kW**, **100 kW**, and fully customized commercial solutions.
+- **Battery Storage Ecosystem**: Dedicated product pages and technical specs for tier-1 storage manufacturers:
+  - **Pylontech**
+  - **ESY Sunhome**
+  - **Fox ESS**
+  - **GoodWe**
+  - **Sigenergy**
+  - **Sofar Solar**
+- **NSW Solar & Battery Savings Calculator**: Interactive estimation tool calculating estimated yearly savings, battery ROI, and available government rebates.
+- **Live Google Reviews & Testimonials**: Real-time integration with Google Places API (New & Legacy endpoints) with intelligent in-memory caching and curated MongoDB fallbacks.
+- **Interactive Quote & Contact Modals**: Instant lead capture forms across all product pages with validation.
+- **Projects & Case Studies Gallery**: Visual showcase of completed solar installations across Australia with high-resolution image galleries and project specifications.
+- **Dynamic Hero Slider & Marquee Ticker**: Real-time admin-managed hero banner sliders and top announcement tickers.
+- **Responsive & Motion-Driven UI**: Built with Tailwind CSS, Framer Motion, and GSAP for animations and micro-interactions.
 
 ### Admin Management Portal
-- **Secure Authentication**: JWT-based authentication with bcrypt password hashing and route guards.
-- **Enquiry Management**: Track, view, and manage inbound customer quotation and contact requests.
-- **Projects Portfolio Manager**: Create, edit, upload images (`Multer`), and delete past installation case studies.
-- **Reviews & Testimonials Management**: Moderate and manage customer ratings and reviews.
-- **Health Monitoring**: Built-in `/health` readiness and liveness checks for deployment uptime tracking.
+- **Secure Authentication**: JWT-based authentication with bcrypt password hashing, input sanitization, and protected route guards.
+- **Lead & Enquiry Management**: View, filter, track status, and manage incoming customer quotation requests.
+- **Project Case Studies Manager**: Create, edit, soft-delete, and restore portfolio case studies with multi-image gallery uploads (`Multer`).
+- **Review Moderation & Google Reviews**: Manage custom testimonials, set featured reviews, order display priority, and sync Google ratings.
+- **Hero Banner Manager**: Upload hero slider images, adjust display order, and toggle active banners.
+- **Announcement Headlines Manager**: Add and manage promotional headline tickers with custom URLs and active status toggles.
+- **Health & Readiness Monitoring**: Multi-tier health endpoints (`/health`, `/health/live`, `/health/ready`) reporting Mongoose ready state, CPU/memory metrics, and system uptime.
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework**: React 19 + Vite
+- **Core**: React 19, Vite 8
 - **Routing**: React Router v7
-- **Styling**: Tailwind CSS, PostCSS, Autoprefixer
+- **Styling**: Tailwind CSS v3.4, PostCSS, Autoprefixer
 - **Animations**: Framer Motion, GSAP
 - **Icons**: Lucide React, React Icons
 - **HTTP Client**: Axios
-- **Linter**: Oxlint
+- **Linting & Quality**: Oxlint
 
 ### Backend
 - **Runtime**: Node.js (ES Modules)
-- **Framework**: Express.js
+- **Framework**: Express.js 4.x
 - **Database**: MongoDB with Mongoose ODM
-- **Security & Headers**: Helmet, CORS, Bcrypt.js, Express Validator
-- **File Uploads**: Multer
-- **Authentication**: JSON Web Tokens (JWT)
-- **Logging**: Morgan
+- **Authentication**: JSON Web Tokens (JWT) & Bcrypt.js
+- **Security & Headers**: Helmet, CORS, Express Validator
+- **File Uploads**: Multer (Local disk storage with static serving)
+- **Logging & Monitoring**: Morgan, custom health diagnostic utilities
 
 ---
 
@@ -73,31 +95,60 @@
 
 ```plaintext
 aussiesmartenergy/
-├── public/                 # Static public assets & logos
-├── src/                    # Frontend React source code
-│   ├── assets/             # Images, icons, and media files
-│   ├── components/         # Reusable UI components (Navbar, Footer, Modals, Sections)
-│   ├── data/               # Static system data, specifications & FAQs
-│   ├── pages/              # Page views (Home, Solar packages, Batteries, Admin, Projects)
-│   ├── utils/              # Frontend utilities and API handlers
-│   ├── App.jsx             # Root routing and application layout
-│   ├── index.css           # Tailwind CSS directives and custom classes
-│   └── main.jsx            # React DOM entry point
-├── server/                 # Backend Node/Express source code
+├── public/                     # Public static assets, favicon, brand assets
+├── src/                        # Frontend React source code
+│   ├── assets/                 # Brand images, illustrations, and logos
+│   ├── components/             # Reusable UI components
+│   │   ├── BrandsSection.jsx   # Solar & battery partner logos
+│   │   ├── GoogleReviews.jsx   # Live Google reviews component
+│   │   ├── HeroSlider.jsx      # Dynamic hero image carousel
+│   │   ├── MarqueeHeadline.jsx # Running announcement ticker
+│   │   ├── Navbar.jsx          # Primary navigation header
+│   │   ├── Footer.jsx          # Site footer with quick links
+│   │   └── ...                 # Modals, forms, and cards
+│   ├── data/                   # Static product data, pricing, specs, FAQs
+│   ├── pages/                  # Application views & routes
+│   │   ├── batteries/          # Dedicated battery manufacturer pages
+│   │   │   ├── Esy.jsx         # ESY Sunhome
+│   │   │   ├── FoxEss.jsx      # Fox ESS
+│   │   │   ├── GoodWe.jsx      # GoodWe
+│   │   │   ├── Pylontech.jsx   # Pylontech
+│   │   │   ├── Sigenergy.jsx   # Sigenergy
+│   │   │   └── Sofar.jsx       # Sofar Solar
+│   │   ├── AdminBanners.jsx    # Admin hero banner manager
+│   │   ├── AdminDashboard.jsx  # Admin enquiries dashboard
+│   │   ├── AdminHeadlines.jsx  # Admin ticker announcement manager
+│   │   ├── AdminLogin.jsx      # Admin login authentication view
+│   │   ├── AdminProjects.jsx   # Admin case studies CRUD
+│   │   ├── AdminReviews.jsx    # Admin reviews management
+│   │   ├── Home.jsx            # Landing page
+│   │   ├── NSWCalculator.jsx   # Solar savings & rebate calculator
+│   │   ├── ProjectDetails.jsx  # Individual case study view
+│   │   ├── SolarCommercial.jsx # Commercial solar packages
+│   │   ├── Solar6kw.jsx        # 6.6 kW residential package
+│   │   ├── Solar10kw.jsx       # 10.5 kW residential package
+│   │   ├── Solar13kw.jsx       # 13.2 kW residential package
+│   │   └── ...                 # Other product & info pages
+│   ├── utils/                  # API client, helpers, and formatters
+│   ├── App.jsx                 # Route definitions and layout wrapper
+│   ├── index.css               # Global Tailwind directives & design system
+│   └── main.jsx                # React root entry point
+├── server/                     # Backend Express server source code
 │   ├── src/
-│   │   ├── config/         # Database connection setup
-│   │   ├── controllers/    # Request handlers (Admin, Enquiry, Project, Review)
-│   │   ├── middleware/     # Auth, error handling, file upload middleware
-│   │   ├── models/         # Mongoose schemas (Admin, Enquiry, Project, Review)
-│   │   ├── routes/         # Express API route declarations
-│   │   ├── utils/          # Admin seeder & helper utilities
-│   │   ├── validation/     # Express validation schemas
-│   │   └── server.js       # Express server initialization
-│   ├── uploads/            # Uploaded media storage
-│   └── package.json        # Backend dependencies & scripts
-├── package.json            # Frontend dependencies & scripts
-├── tailwind.config.js      # Tailwind configuration & custom theme
-└── vite.config.js          # Vite bundler configuration
+│   │   ├── config/             # Database connection (MongoDB)
+│   │   ├── controllers/        # Request controllers (Admin, Banners, Enquiries, GoogleReviews, Headlines, Projects, Reviews)
+│   │   ├── middleware/         # JWT Auth, Error Handler, Multer file upload
+│   │   ├── models/             # Mongoose schemas (Admin, Banner, Enquiry, Headline, Project, Review)
+│   │   ├── routes/             # Express API route handlers
+│   │   ├── utils/              # Admin seeders & helper functions
+│   │   ├── validation/         # Express-validator schemas
+│   │   └── server.js           # Server bootstrap & middleware setup
+│   ├── uploads/                # Uploaded images (projects, banners, reviews)
+│   ├── .env.example            # Backend environment variable template
+│   └── package.json            # Backend package configuration & scripts
+├── package.json                # Frontend package configuration & scripts
+├── tailwind.config.js          # Tailwind CSS custom theme & plugins
+└── vite.config.js              # Vite configuration & build plugins
 ```
 
 ---
@@ -105,10 +156,9 @@ aussiesmartenergy/
 ## 🏁 Getting Started
 
 ### Prerequisites
-Make sure you have the following installed on your machine:
-- [Node.js](https://nodejs.org/) (v18.x or later)
-- [MongoDB](https://www.mongodb.com/) (Local instance or MongoDB Atlas URI)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [Node.js](https://nodejs.org/) (v18.x or later recommended)
+- [MongoDB](https://www.mongodb.com/) (Local Community Server or MongoDB Atlas cluster)
+- [npm](https://www.npmjs.com/) (v9.x or later)
 
 ---
 
@@ -119,36 +169,49 @@ git clone https://github.com/your-username/aussiesmartenergy.git
 cd aussiesmartenergy
 ```
 
+---
 
 ### 2. Backend Setup
 
-1. Navigate to the `server` folder:
+1. **Navigate to the server directory:**
    ```bash
    cd server
    ```
 
-2. Install dependencies:
+2. **Install backend dependencies:**
    ```bash
    npm install
    ```
 
-3. Create a `.env` file in the `server` directory:
+3. **Configure environment variables:**
+   Copy `.env.example` to create your `.env` file:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` with your MongoDB URI, JWT secret, and optional Google Places API credentials:
    ```env
    PORT=5000
-   MONGO_URI=mongodb://127.0.0.1:27017/aussiesmartenergy
-   JWT_SECRET=your_super_secret_jwt_key
+   MONGODB_URI=mongodb://127.0.0.1:27017/aussiesmartenergy
+   JWT_SECRET=your_jwt_secret_key_here
+   NODE_ENV=development
    FRONTEND_URL=http://localhost:5173
+
+   # Default Admin Credentials
    ADMIN_USERNAME=admin
    ADMIN_EMAIL=admin@aussiesmartenergy.com.au
    ADMIN_PASSWORD=AdminPassword123!
+
+   # Google Places API (Optional for live reviews sync)
+   GOOGLE_PLACES_API_KEY=your_google_places_api_key
+   GOOGLE_PLACE_ID=your_google_place_id
    ```
 
-4. *(Optional)* Seed the default admin user:
+4. **Seed the initial admin user:**
    ```bash
    npm run seed:admin
    ```
 
-5. Start the backend development server:
+5. **Start the backend development server:**
    ```bash
    npm run dev
    ```
@@ -158,87 +221,140 @@ cd aussiesmartenergy
 
 ### 3. Frontend Setup
 
-1. Open a new terminal in the project root directory (`aussiesmartenergy`):
+1. **Navigate to the root directory:**
+   ```bash
+   cd ..
+   ```
+
+2. **Install frontend dependencies:**
    ```bash
    npm install
    ```
 
-2. Create a `.env` file in the project root:
+3. **Configure frontend environment variables:**
+   Create a `.env` file in the root folder:
    ```env
    VITE_API_URL=http://localhost:5000/api
    ```
 
-3. Start the frontend development server:
+4. **Start the frontend development server:**
    ```bash
    npm run dev
    ```
-   The React application will be available at `http://localhost:5173`.
+   The application will be accessible at `http://localhost:5173`.
 
+---
 
 ## ⚙️ Environment Variables
 
 ### Frontend (`.env`)
-| Variable | Description | Default |
+
+| Variable | Description | Default / Example |
 | :--- | :--- | :--- |
-| `VITE_API_URL` | Base URL for backend API requests | `http://localhost:5000/api` |
+| `VITE_API_URL` | Base URL for backend Express API | `http://localhost:5000/api` |
 
 ### Backend (`server/.env`)
+
 | Variable | Description | Default / Example |
 | :--- | :--- | :--- |
 | `PORT` | Port number for Express server | `5000` |
-| `MONGO_URI` | MongoDB connection connection string | `mongodb://localhost:27017/aussiesmartenergy` |
-| `JWT_SECRET` | Secret key for signing auth tokens | `your_secret_key` |
-| `FRONTEND_URL` | Allowed CORS origin in production | `http://localhost:5173` |
-| `ADMIN_USERNAME`| Default username for seeder | `admin` |
-| `ADMIN_EMAIL` | Default email for seeder | `admin@aussiesmartenergy.com.au` |
-| `ADMIN_PASSWORD`| Default password for seeder | `Admin123!` |
+| `MONGODB_URI` | MongoDB connection URI string | `mongodb://127.0.0.1:27017/aussiesmartenergy` |
+| `JWT_SECRET` | Secret key used for signing JWT tokens | `your_secret_key_here` |
+| `NODE_ENV` | Application environment mode | `development` / `production` |
+| `FRONTEND_URL` | Frontend URL allowed by CORS | `http://localhost:5173` |
+| `ADMIN_USERNAME` | Default admin username for seeder | `admin` |
+| `ADMIN_EMAIL` | Default admin email for seeder | `admin@aussiesmartenergy.com.au` |
+| `ADMIN_PASSWORD` | Default admin password for seeder | `Admin123!` |
+| `GOOGLE_PLACES_API_KEY` | Google Places API key for reviews *(optional)* | `AIzaSy...` |
+| `GOOGLE_PLACE_ID` | Google Place ID for Aussie Smart Energy *(optional)* | `ChIJ...` |
+| `GOOGLE_BUSINESS_URL` | Direct Google Maps / Business URL *(optional)* | `https://www.google.com/maps/...` |
 
+---
 
-## 🔌 API Endpoints Overview
+## 🔌 API Endpoints Reference
 
-### Health
-- `GET /health` - Liveness & readiness health checks
+### Health & Diagnostics
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/health` | Public | Full health status, memory/CPU diagnostics, Mongoose status, uptime |
+| `GET` | `/health/live` | Public | Lightweight liveness probe for load balancers and orchestrators |
+| `GET` | `/health/ready` | Public | Readiness probe confirming database connectivity |
 
-### Admin & Auth
-- `POST /api/admin/login` - Admin login with email/username & password
-- `GET /api/admin/me` - Authenticated admin profile *(Protected)*
+### Admin Authentication
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/admin/login` | Public | Authenticate admin with username/email & password |
+| `GET` | `/api/admin/profile` | Protected (Admin) | Retrieve authenticated admin profile details |
 
-### Enquiries
-- `POST /api/enquiries` - Submit customer quote/contact enquiry
-- `GET /api/enquiries` - Retrieve enquiries *(Protected)*
-- `PATCH /api/enquiries/:id/status` - Update status (New, Contacted, Completed) *(Protected)*
-- `DELETE /api/enquiries/:id` - Delete enquiry *(Protected)*
+### Enquiries & Leads
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/enquiries` | Public | Submit a new quote or contact enquiry |
+| `GET` | `/api/enquiries` | Protected (Admin) | Fetch all customer enquiries |
+| `GET` | `/api/enquiries/:id` | Protected (Admin) | Fetch single enquiry details |
+| `DELETE` | `/api/enquiries/:id` | Protected (Admin) | Remove customer enquiry record |
 
-### Projects (Case Studies)
-- `GET /api/projects` - Get all published projects
-- `GET /api/projects/:slug` - Get single project details by slug
-- `POST /api/projects` - Create new project with image upload *(Protected)*
-- `PUT /api/projects/:id` - Update existing project *(Protected)*
-- `DELETE /api/projects/:id` - Remove project *(Protected)*
+### Projects & Case Studies
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/projects` | Public | Fetch all published projects |
+| `GET` | `/api/projects/:slug` | Public | Fetch single project by unique URL slug |
+| `POST` | `/api/projects` | Protected (Admin) | Create new project with main image & gallery upload |
+| `PUT` | `/api/projects/:id` | Protected (Admin) | Update existing project details & images |
+| `PATCH` | `/api/projects/:id/restore` | Protected (Admin) | Restore a soft-deleted project |
+| `DELETE` | `/api/projects/:id` | Protected (Admin) | Soft-delete project |
+| `DELETE` | `/api/projects/:id/gallery/:imageName` | Protected (Admin) | Delete specific gallery image |
 
-### Reviews
-- `GET /api/reviews` - Fetch customer reviews
-- `POST /api/reviews` - Submit review
-- `PATCH /api/reviews/:id/approve` - Moderate/approve review *(Protected)*
-- `DELETE /api/reviews/:id` - Remove review *(Protected)*
+### Customer Reviews
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/reviews` | Public | Fetch approved customer reviews |
+| `GET` | `/api/reviews/admin/all` | Protected (Admin) | Fetch all reviews including unapproved/draft |
+| `POST` | `/api/reviews` | Protected (Admin) | Create review with optional avatar upload |
+| `PUT` | `/api/reviews/:id` | Protected (Admin) | Update review details and featured status |
+| `DELETE` | `/api/reviews/:id` | Protected (Admin) | Delete customer review |
+
+### Google Reviews
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/google-reviews` | Public | Fetch live Google Reviews summary (cached, with DB/fallback support) |
+
+### Hero Banners
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/banners` | Public | Fetch active hero slider banners |
+| `GET` | `/api/banners/admin/all` | Protected (Admin) | Fetch all banners with administrative metadata |
+| `POST` | `/api/banners` | Protected (Admin) | Upload new hero banner images |
+| `PUT` | `/api/banners/order` | Protected (Admin) | Update banner display order |
+| `DELETE` | `/api/banners/:id` | Protected (Admin) | Remove hero banner |
+
+### Headlines & Announcements
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/headlines` | Public | Fetch active ticker headlines |
+| `GET` | `/api/headlines/admin/all` | Protected (Admin) | Fetch all headlines for admin management |
+| `POST` | `/api/headlines` | Protected (Admin) | Create new announcement headline |
+| `PUT` | `/api/headlines/:id` | Protected (Admin) | Update announcement headline and link |
+| `PATCH` | `/api/headlines/:id/toggle` | Protected (Admin) | Toggle active/inactive status |
+| `DELETE` | `/api/headlines/:id` | Protected (Admin) | Delete announcement headline |
 
 ---
 
 ## 📜 Available Scripts
 
 ### Root Directory (Frontend)
-- `npm run dev` — Starts the Vite development server.
-- `npm run build` — Builds the application for production to `dist/`.
-- `npm run preview` — Locally preview the production build.
-- `npm run lint` — Runs Oxlint to check code quality.
+- `npm run dev` — Starts the Vite development server with hot module replacement (HMR).
+- `npm run build` — Compiles and bundles production-ready frontend assets into `dist/`.
+- `npm run preview` — Locally previews the built production bundle.
+- `npm run lint` — Runs Oxlint for fast static code analysis.
 
 ### Server Directory (Backend)
-- `npm run dev` — Starts Express server with `nodemon` auto-reloading.
-- `npm start` — Runs the production Node.js server.
-- `npm run seed:admin` — Seeds the database with an initial administrator account.
+- `npm run dev` — Starts Express backend with `nodemon` auto-reloading on file change.
+- `npm start` — Runs the backend server in production mode using `node src/server.js`.
+- `npm run seed:admin` — Seeds the database with default administrator credentials from `.env`.
 
 ---
 
 ## 📄 License
 
-This project is proprietary and developed for Aussie Smart Energy. All rights reserved.
+This project is proprietary and developed for **Aussie Smart Energy**. All rights reserved.

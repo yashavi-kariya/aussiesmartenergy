@@ -41,6 +41,33 @@ const ReviewSchema = new mongoose.Schema({
         enum: ['google', 'solarquotes', 'productreview', 'trustpilot', 'website', 'other'],
         default: 'google',
     },
+    source: {
+        type: String,
+        enum: ['google', 'manual', 'synced'],
+        default: 'manual',
+    },
+    googleReviewId: {
+        type: String,
+        default: '',
+        index: true,
+    },
+    googlePlaceId: {
+        type: String,
+        default: '',
+    },
+    googleMapsUri: {
+        type: String,
+        default: '',
+    },
+    publishTime: {
+        type: String,
+        default: '',
+    },
+    isGoogleFeatured: {
+        type: Boolean,
+        default: false,
+        index: true,
+    },
     isFeatured: {
         type: Boolean,
         default: true,
