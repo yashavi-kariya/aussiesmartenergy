@@ -60,7 +60,7 @@ export default function Footer() {
     {
       name: 'Facebook',
       icon: FaFacebookF,
-      href: 'https://facebook.com',
+      href: 'https://www.facebook.com/aussiesmartenergy',
       color: '#1877F2',
       bgHover: 'hover:bg-[#1877F2]/20 hover:border-[#1877F2]/40 hover:text-[#1877F2]',
       shadow: 'hover:shadow-[0_0_16px_rgba(24,119,242,0.4)]',
@@ -76,7 +76,7 @@ export default function Footer() {
     {
       name: 'Instagram',
       icon: FaInstagram,
-      href: 'https://instagram.com',
+      href: 'https://www.instagram.com/aussiesmartenergy',
       color: '#E1306C',
       bgHover: 'hover:bg-[#E1306C]/20 hover:border-[#E1306C]/40 hover:text-[#E1306C]',
       shadow: 'hover:shadow-[0_0_16px_rgba(225,48,108,0.4)]',
@@ -436,7 +436,7 @@ export default function Footer() {
           >
             <div className="flex items-center gap-2.5">
               <ShieldCheck size={18} className="text-[#39b54a] flex-shrink-0" />
-              <span>© 2024 Aussie Smart Energy | All Rights Reserved</span>
+              <span>© 2026 Aussie Smart Energy | All Rights Reserved</span>
             </div>
 
             <div className="flex items-center gap-4 font-medium">

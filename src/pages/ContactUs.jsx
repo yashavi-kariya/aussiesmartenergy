@@ -487,7 +487,7 @@ const ContactUs = () => {
                             className="inline-flex items-center gap-2 bg-white font-bold py-2.5 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200"
                             style={{ color: GREEN }}
                         >
-                            0468 331 724
+                            1300 959 170
                             <motion.span
                                 animate={{ x: [0, 4, 0] }}
                                 transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}

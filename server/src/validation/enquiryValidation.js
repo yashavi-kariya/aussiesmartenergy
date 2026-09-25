@@ -11,6 +11,7 @@ export const validateEnquiry = [
         'hero', 'contact',
         'residential-6.6kw', 'residential-10.5kw', 'residential-13.2kw',
         'commercial-20kw', 'commercial-30kw', 'commercial-50kw', 'commercial-100kw',
+        'savings-check', 'finance-plan', 'general',
     ]).withMessage('Invalid form type'),
     (req, res, next) => {
         const errors = validationResult(req);

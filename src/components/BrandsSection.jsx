@@ -10,18 +10,26 @@ import brand7 from '../assets/brand/7.png';
 import brand8 from '../assets/brand/8.png';
 import brand9 from '../assets/brand/9.png';
 import brand10 from '../assets/brand/10.png';
+import alphaESS from '../assets/brand/alphaESS.jpg';
+import foxess from '../assets/brand/foxess.jpg';
+import longi from '../assets/brand/longi.svg';
+import sigenergy from '../assets/brand/sigenergy-logo.png';
 
 const brands = [
-  { id: 'brand1', image: brand1 },
-  { id: 'brand2', image: brand2 },
-  { id: 'brand3', image: brand3 },
-  { id: 'brand4', image: brand4 },
-  { id: 'brand5', image: brand5 },
-  { id: 'brand6', image: brand6 },
-  { id: 'brand7', image: brand7 },
-  { id: 'brand8', image: brand8 },
-  { id: 'brand9', image: brand9 },
-  { id: 'brand10', image: brand10 },
+  { id: 'brand1',    image: brand1    },
+  { id: 'brand2',    image: brand2    },
+  { id: 'brand3',    image: brand3    },
+  { id: 'brand4',    image: brand4    },
+  { id: 'brand5',    image: brand5    },
+  { id: 'brand6',    image: brand6    },
+  { id: 'brand7',    image: brand7    },
+  { id: 'brand8',    image: brand8    },
+  { id: 'brand9',    image: brand9    },
+  { id: 'brand10',   image: brand10   },
+  { id: 'alphaESS',  image: alphaESS  },
+  { id: 'foxess',    image: foxess    },
+  { id: 'longi',     image: longi     },
+  { id: 'sigenergy', image: sigenergy },
 ];
 
 const BrandsSection = () => {

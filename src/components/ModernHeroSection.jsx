@@ -70,7 +70,7 @@ const ModernHeroSection = () => {
 
   const bottomFeatures = [
     { icon: Shield, text: 'Proven Quality Products' },
-    { icon: Award, text: 'Competitive Pricing' },
+    { icon: Award, text: 'Free Holiday Promotion' },
     { icon: Zap, text: 'Flexible Finance Options' },
     { icon: Activity, text: 'Seamless Start To End Process' },
     { icon: UserCheck, text: 'Reliable and Efficient' },

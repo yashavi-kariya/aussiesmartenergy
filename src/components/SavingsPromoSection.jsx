@@ -1,13 +1,17 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import plentiLogo from '../assets/plenti.png';
+import EnquiryModal from './EnquiryModal';
 import brighteLogo from '../assets/brighte.png';
 
 const SavingsPromoSection = () => {
   const ref = useRef(null);
   // once: false → replays every time the section scrolls back into view
   const isInView = useInView(ref, { once: false, amount: 0.25 });
+
+  const [savingsModal, setSavingsModal] = useState(false);
+  const [financeModal, setFinanceModal] = useState(false);
 
   const textContainer = {
     hidden: { opacity: 0 },
@@ -141,6 +145,7 @@ const SavingsPromoSection = () => {
               </div>
               <motion.button
                 variants={textItem}
+                onClick={() => setSavingsModal(true)}
                 whileHover="hover"
                 whileTap={{ scale: 0.97 }}
                 className="mt-6 self-start flex items-center space-x-2 bg-white hover:bg-emerald-50 text-[#0e4a29] px-5 py-2.5 rounded-full font-bold text-sm shadow transition-all"
@@ -282,20 +287,70 @@ const SavingsPromoSection = () => {
                 </ul>
 
                 {/* Finance Partner Logos */}
-                <motion.div
-                  variants={textItem}
-                  className="flex items-center gap-3 pt-3"
-                >
-                  <div className="bg-white px-4 py-2 rounded-xl shadow-md flex items-center justify-center h-12 hover:shadow-lg transition-all">
-                    <img src={plentiLogo} alt="Plenti" className="h-7 sm:h-8 w-auto object-contain" />
-                  </div>
-                  <div className="bg-white px-4 py-2 rounded-xl shadow-md flex items-center justify-center h-12 hover:shadow-lg transition-all">
-                    <img src={brighteLogo} alt="Brighte" className="h-7 sm:h-8 w-auto object-contain" />
+                <motion.div variants={textItem} className="pt-4 space-y-2">
+                  <p className="text-indigo-300 text-[10px] font-bold uppercase tracking-widest">
+                    Our Finance Partners
+                  </p>
+                  <div className="flex items-center gap-4">
+
+                    {/* Plenti Logo Card */}
+                    <motion.div
+                      whileHover={{ scale: 1.07, y: -4 }}
+                      transition={{ type: 'spring', stiffness: 320, damping: 18 }}
+                      className="relative bg-white rounded-2xl flex flex-col items-center justify-center px-6 py-4 h-24 min-w-[130px] overflow-hidden cursor-pointer"
+                      style={{ boxShadow: '0 0 0 2px #6366f1, 0 8px 28px rgba(99,102,241,0.35)' }}
+                    >
+                      {/* Shimmer sweep */}
+                      <motion.div
+                        className="pointer-events-none absolute inset-0"
+                        style={{ background: 'linear-gradient(100deg, transparent 20%, rgba(99,102,241,0.12) 50%, transparent 80%)', skewX: '-12deg' }}
+                        initial={{ x: '-120%' }}
+                        animate={{ x: '220%' }}
+                        transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+                      />
+                      {/* Glow pulse behind logo */}
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl"
+                        animate={{ opacity: [0, 0.15, 0] }}
+                        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+                        style={{ background: 'radial-gradient(ellipse at center, #6366f1 0%, transparent 70%)' }}
+                      />
+                      <img src={plentiLogo} alt="Plenti" className="relative z-10 h-12 w-auto object-contain" />
+                      <span className="relative z-10 mt-1.5 text-[9px] font-bold text-indigo-400 uppercase tracking-widest">Trusted Partner</span>
+                    </motion.div>
+
+                    {/* Brighte Logo Card */}
+                    <motion.div
+                      whileHover={{ scale: 1.07, y: -4 }}
+                      transition={{ type: 'spring', stiffness: 320, damping: 18 }}
+                      className="relative bg-white rounded-2xl flex flex-col items-center justify-center px-6 py-4 h-24 min-w-[130px] overflow-hidden cursor-pointer"
+                      style={{ boxShadow: '0 0 0 2px #6366f1, 0 8px 28px rgba(99,102,241,0.35)' }}
+                    >
+                      {/* Shimmer sweep */}
+                      <motion.div
+                        className="pointer-events-none absolute inset-0"
+                        style={{ background: 'linear-gradient(100deg, transparent 20%, rgba(99,102,241,0.12) 50%, transparent 80%)', skewX: '-12deg' }}
+                        initial={{ x: '-120%' }}
+                        animate={{ x: '220%' }}
+                        transition={{ duration: 1.8, delay: 0.9, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+                      />
+                      {/* Glow pulse */}
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl"
+                        animate={{ opacity: [0, 0.15, 0] }}
+                        transition={{ duration: 2.4, delay: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+                        style={{ background: 'radial-gradient(ellipse at center, #6366f1 0%, transparent 70%)' }}
+                      />
+                      <img src={brighteLogo} alt="Brighte" className="relative z-10 h-12 w-auto object-contain" />
+                      <span className="relative z-10 mt-1.5 text-[9px] font-bold text-indigo-400 uppercase tracking-widest">Trusted Partner</span>
+                    </motion.div>
+
                   </div>
                 </motion.div>
               </div>
               <motion.button
                 variants={textItem}
+                onClick={() => setFinanceModal(true)}
                 whileHover="hover"
                 whileTap={{ scale: 0.97 }}
                 className="mt-6 self-start flex items-center space-x-2 bg-white hover:bg-indigo-50 text-[#1e1b4b] px-5 py-2.5 rounded-full font-bold text-sm shadow transition-all"
@@ -310,6 +365,26 @@ const SavingsPromoSection = () => {
 
         </div>
       </div>
+
+      {/* ── Savings Check Enquiry Modal ── */}
+      <EnquiryModal
+        isOpen={savingsModal}
+        onClose={() => setSavingsModal(false)}
+        formType="savings-check"
+        title="Check Your Savings"
+        subtitle="Tell us about your property and we'll calculate your potential solar savings & rebates."
+        accentColor="#1a7a44"
+      />
+
+      {/* ── Finance Plan Enquiry Modal ── */}
+      <EnquiryModal
+        isOpen={financeModal}
+        onClose={() => setFinanceModal(false)}
+        formType="finance-plan"
+        title="0% Interest Finance Plan"
+        subtitle="Interested in our 0% interest payment plan? Leave your details and we'll be in touch."
+        accentColor="#312e81"
+      />
     </section>
   );
 };
