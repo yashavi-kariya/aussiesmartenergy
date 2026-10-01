@@ -166,7 +166,7 @@ const AdminLogin = () => {
                   }}
                   onFocus={e => e.target.style.border = `1px solid ${GREEN}60`}
                   onBlur={e => e.target.style.border = '1px solid rgba(255,255,255,0.1)'}
-                  placeholder="admin or admin@aussiesmartenergy.com.au"
+                  placeholder="Enter username or email"
                   autoCapitalize="none"
                   autoCorrect="off"
                   spellCheck="false"
@@ -239,10 +239,7 @@ const AdminLogin = () => {
             </button>
           </form>
 
-          {/* Default credentials hint */}
-          <p className="text-center text-white/60 text-xs mt-6">
-            Default: <span className="font-mono text-white/80">admin</span> / <span className="font-mono text-white/80">Admin123!</span>
-          </p>
+          {/* Default credentials hint removed */}
         </div>
       </motion.div>
     </div>
