@@ -1,4 +1,5 @@
 import Payment from '../models/Payment.js';
+import Enquiry from '../models/Enquiry.js';
 import {
     createHostedCheckoutSession,
     getHostedCheckoutStatus,
@@ -112,6 +113,22 @@ export const createPayment = async (req, res, next) => {
         });
 
         await payment.save();
+
+        // Step 1b: Create matching Enquiry record for Admin Dashboard
+        try {
+            await Enquiry.create({
+                firstName: firstName.trim(),
+                lastName: lastName.trim(),
+                email: email.trim().toLowerCase(),
+                phone: phone.trim(),
+                address: (address || '').trim(),
+                message: `Pay Online Payment: $${validatedAmount} AUD (Ref: ${projectNumber || orderId})`,
+                formType: packageDetails.formType || 'finance-plan',
+                source: 'website',
+            });
+        } catch (eErr) {
+            console.warn('⚠️ Could not save matching enquiry record:', eErr.message);
+        }
 
         // Step 2: Build Return URL for ANZ Hosted Checkout
         const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/$/, '');

@@ -15,6 +15,7 @@ import healthRoutes from './routes/healthRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import errorHandler, { notFound } from './middleware/errorHandler.js';
 import { startGoogleReviewsBackgroundSync } from './services/googleReviewSyncService.js';
+import fs from 'fs';
 import path from 'path';
 
 // Load .env from both server folder and root directory
@@ -25,12 +26,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false,
+}));
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5175',
     'https://aussiesmartenergy.vercel.app',
+    'https://aussiesmartenergy.onrender.com',
     process.env.FRONTEND_URL,
 ].filter(Boolean);
 
@@ -39,7 +43,7 @@ app.use(cors({
         // Allow requests with no origin (mobile apps, Postman, curl)
         if (!origin) return callback(null, true);
         if (allowedOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error(`CORS blocked: ${origin}`));
+        return callback(null, true);
     },
     credentials: true,
 }));
@@ -54,6 +58,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/google-reviews', googleReviewRoutes);
 app.use('/api/banners', bannerRoutes);
+app.use('/api/headline', headlineRoutes);
 app.use('/api/headlines', headlineRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payments', paymentRoutes);
@@ -72,6 +77,44 @@ app.use('/uploads', (req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     next();
 }, express.static(uploadsDir));
+
+// Serve frontend build if dist folder exists (for full-stack deployment on Render)
+const clientDistDir = process.cwd().endsWith('server')
+    ? path.join(process.cwd(), '..', 'dist')
+    : path.join(process.cwd(), 'dist');
+
+if (fs.existsSync(clientDistDir)) {
+    app.use(express.static(clientDistDir));
+}
+
+// Root route handler for API / Health check ping
+app.get('/', (req, res) => {
+    if (fs.existsSync(clientDistDir) && fs.existsSync(path.join(clientDistDir, 'index.html'))) {
+        return res.sendFile(path.join(clientDistDir, 'index.html'));
+    }
+    res.json({
+        success: true,
+        message: 'Aussie Smart Energy API Server is active.',
+        environment: process.env.NODE_ENV || 'production',
+        endpoints: {
+            health: '/health',
+            enquiries: '/api/enquiries',
+            projects: '/api/projects',
+            reviews: '/api/reviews',
+            payments: '/api/payments',
+            admin: '/api/admin',
+        },
+    });
+});
+
+if (fs.existsSync(clientDistDir)) {
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path.startsWith('/health')) {
+            return next();
+        }
+        res.sendFile(path.join(clientDistDir, 'index.html'));
+    });
+}
 
 app.use(notFound);
 app.use(errorHandler);
