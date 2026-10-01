@@ -6,8 +6,8 @@ import EnquiryModal from '../../components/EnquiryModal';
 
 import solarBatteries4 from '../../assets/signenery/sigenergy1.jpeg';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
-import esySystem from '../../assets/signenery/Sigenergy.jpeg';
-import esyHomeBattery from '../../assets/signenery/Sigenergy.jpeg';
+import esySystem from '../../assets/signenery/sigenergy.jpeg';
+import esyHomeBattery from '../../assets/signenery/sigenergy.jpeg';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
 import esyWarranty from '../../assets/esy/esy6.webp';
