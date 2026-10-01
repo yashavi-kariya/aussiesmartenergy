@@ -4,7 +4,7 @@ import { Plus, Minus, Star, Quote, Check, ArrowLeft, ArrowRight, ExternalLink, S
 import homeVideo from '../assets/home_slider.mp4';
 import GoogleReviews from './GoogleReviews';
 
-const TestimonialsFAQSection = () => {
+const TestimonialsFAQSection = ({ onlyFAQ = false }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.05 });
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -64,37 +64,42 @@ const TestimonialsFAQSection = () => {
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
 
-        {/* ── TOP SECTION: Dynamic Google Customer Reviews ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <GoogleReviews />
-        </motion.div>
-
-        {/* ── BOTTOM SECTION: Video + FAQ Side-by-Side (Fully Preserved) ── */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch pt-4">
-
-          {/* Left — Video */}
+        {/* ── TOP SECTION: Dynamic Google Customer Reviews (only rendered if not onlyFAQ) ── */}
+        {!onlyFAQ && (
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="h-full flex"
+            id="reviews"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="w-full flex bg-gradient-to-br from-[#0d2260]/70 to-[#0b1d4d]/70 p-4 lg:p-6 rounded-2xl shadow-2xl border border-white/10 overflow-hidden backdrop-blur-sm">
-              <video
-                src={homeVideo}
-                className="w-full h-full object-cover rounded-md"
-                controls
-                playsInline
-                muted
-                loop
-                preload="metadata"
-              />
-            </div>
+            <GoogleReviews />
           </motion.div>
+        )}
+
+        {/* ── BOTTOM SECTION: Video + FAQ or FAQ only ── */}
+        <div className={onlyFAQ ? "max-w-4xl mx-auto" : "grid md:grid-cols-2 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch pt-4"}>
+
+          {/* Left — Video (only rendered if not onlyFAQ) */}
+          {!onlyFAQ && (
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="h-full flex"
+            >
+              <div className="w-full flex bg-gradient-to-br from-[#0d2260]/70 to-[#0b1d4d]/70 p-4 lg:p-6 rounded-2xl shadow-2xl border border-white/10 overflow-hidden backdrop-blur-sm">
+                <video
+                  src={homeVideo}
+                  className="w-full h-full object-cover rounded-md"
+                  controls
+                  playsInline
+                  muted
+                  loop
+                  preload="metadata"
+                />
+              </div>
+            </motion.div>
+          )}
 
           {/* Right — FAQ Accordion */}
           <motion.div

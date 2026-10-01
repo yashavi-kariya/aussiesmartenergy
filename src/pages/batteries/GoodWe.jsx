@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import EnquiryModal from '../../components/EnquiryModal';
 
 // Assets
-import solarBatteries1 from '../../assets/solarbattries1.png';
+import solarBatteries1 from '../../assets/goodwe/goodwe24kwh.jpg';
 import solarBatteries2 from '../../assets/solarbattries2.png';
-import solarBatteries3 from '../../assets/solarbattries3.png';
-import goodweEsaBattery from '../../assets/goodwe_esa_battery.jpg';
-import esySystem from '../../assets/esy/esy1.webp';
+import solarBatteries3 from '../../assets/goodwe/goodwe40kwh.jpg';
+import goodweEsaBattery from '../../assets/goodwe/goodwe2.jpeg';
+import esySystem from '../../assets/goodwe/goodwe1.jpg';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
-import esyEnergyManagement from '../../assets/esy/esy3.webp';
+import esyEnergyManagement from '../../assets/goodwe/goodwe.jpeg';
 import esyVpp from '../../assets/esy/esy5.webp';
-import esyWarranty from '../../assets/esy/esy6.webp';
+import esyWarranty from '../../assets/goodwe/goodwe3.webp';
 
 const TargetBullet = ({ text, light = false }) => (
   <li className={`flex items-center gap-3 text-[15px] sm:text-base ${light ? 'text-white' : 'text-slate-700'}`}>
@@ -40,6 +41,23 @@ const PackageCheck = ({ text }) => (
 const GoodWe = () => {
   const [activePackageTab, setActivePackageTab] = useState('solar-battery');
   const [activeFaq, setActiveFaq] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Get A FREE Quote');
+  const [modalSubtitle, setModalSubtitle] = useState("Fill in your details and our team will get back to you with a customized quote.");
+  const [formType, setFormType] = useState('free-quote');
+
+  const openQuoteModal = (packageTitle) => {
+    if (packageTitle) {
+      setModalTitle(`Get A FREE Quote - ${packageTitle}`);
+      setModalSubtitle(`Fill in your details to receive a custom quote for the ${packageTitle} package.`);
+      setFormType(`quote-${packageTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+    } else {
+      setModalTitle('Get A FREE Quote');
+      setModalSubtitle("Fill in your details and our team will get back to you with a customized quote.");
+      setFormType('free-quote');
+    }
+    setIsModalOpen(true);
+  };
 
   const packagesData = {
     'solar-battery': [
@@ -235,21 +253,19 @@ const GoodWe = () => {
           <div className="relative z-10 flex items-center bg-white/10 p-1.5 rounded-2xl backdrop-blur-md border border-white/20 self-stretch md:self-auto justify-center">
             <button
               onClick={() => setActivePackageTab('solar-battery')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${
-                activePackageTab === 'solar-battery'
-                  ? 'bg-gradient-to-r from-[#ef4444] to-[#dc2626] text-white shadow-md'
-                  : 'bg-transparent text-white hover:bg-white/10'
-              }`}
+              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${activePackageTab === 'solar-battery'
+                ? 'bg-gradient-to-r from-[#ef4444] to-[#dc2626] text-white shadow-md'
+                : 'bg-transparent text-white hover:bg-white/10'
+                }`}
             >
               Solar Battery Package
             </button>
             <button
               onClick={() => setActivePackageTab('solar-plus-battery')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${
-                activePackageTab === 'solar-plus-battery'
-                  ? 'bg-gradient-to-r from-[#ef4444] to-[#dc2626] text-white shadow-md'
-                  : 'bg-transparent text-white hover:bg-white/10'
-              }`}
+              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 ${activePackageTab === 'solar-plus-battery'
+                ? 'bg-gradient-to-r from-[#ef4444] to-[#dc2626] text-white shadow-md'
+                : 'bg-transparent text-white hover:bg-white/10'
+                }`}
             >
               Solar + Battery Packages
             </button>
@@ -304,13 +320,14 @@ const GoodWe = () => {
                 </div>
               </div>
 
-              <div className="p-6 pt-0">
-                <Link
-                  to="/contact"
-                  className="block w-full py-3.5 px-4 text-center rounded-xl bg-gradient-to-r from-[#ef4444] to-[#dc2626] hover:from-[#dc2626] hover:to-[#b91c1c] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all duration-200 transform hover:-translate-y-0.5"
+              <div className="p-6 pt-0 flex flex-col gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => openQuoteModal(pkg.title)}
+                  className="block w-full py-3 px-4 text-center rounded-xl bg-gradient-to-r from-[#003b73] via-[#006ab7] to-[#39b54a] hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-blue-500/25 transition-all duration-200 cursor-pointer"
                 >
                   Get A FREE Quote
-                </Link>
+                </button>
               </div>
             </motion.div>
           ))}
@@ -762,27 +779,24 @@ const GoodWe = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
-                  isOpen ? 'border-[#006ab7] shadow-lg ring-1 ring-[#006ab7]/20 bg-white' : 'border-slate-200 bg-white hover:border-blue-300'
-                }`}
+                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${isOpen ? 'border-[#006ab7] shadow-lg ring-1 ring-[#006ab7]/20 bg-white' : 'border-slate-200 bg-white hover:border-blue-300'
+                  }`}
               >
                 {/* Accordion Header */}
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : index)}
-                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${
-                    isOpen
-                      ? 'bg-gradient-to-r from-[#003b73] to-[#006ab7] text-white font-bold'
-                      : 'bg-white text-slate-700 hover:bg-blue-50/40 font-medium'
-                  }`}
+                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${isOpen
+                    ? 'bg-gradient-to-r from-[#003b73] to-[#006ab7] text-white font-bold'
+                    : 'bg-white text-slate-700 hover:bg-blue-50/40 font-medium'
+                    }`}
                 >
                   <span className="flex items-center gap-3 text-sm sm:text-base">
                     <span className={`font-bold text-base sm:text-lg ${isOpen ? 'text-red-400' : 'text-[#006ab7]'}`}>✓</span>
                     <span>{faq.q}</span>
                   </span>
                   <svg
-                    className={`h-5 w-5 flex-shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-white' : 'text-slate-400'
-                    }`}
+                    className={`h-5 w-5 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-white' : 'text-slate-400'
+                      }`}
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -831,12 +845,13 @@ const GoodWe = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                to="/contact"
-                className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#ef4444] via-[#dc2626] to-[#b91c1c] hover:from-[#dc2626] hover:to-[#991b1b] text-white font-extrabold text-sm sm:text-base shadow-xl shadow-red-600/30 transition-all block"
+              <button
+                type="button"
+                onClick={() => openQuoteModal()}
+                className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#ef4444] via-[#dc2626] to-[#b91c1c] hover:from-[#dc2626] hover:to-[#991b1b] text-white font-extrabold text-sm sm:text-base shadow-xl shadow-red-600/30 transition-all block cursor-pointer"
               >
                 Get Free Custom Proposal
-              </Link>
+              </button>
             </motion.div>
             <motion.a
               whileHover={{ scale: 1.05 }}
@@ -844,11 +859,21 @@ const GoodWe = () => {
               href="tel:1300986827"
               className="px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm sm:text-base border border-white/25 backdrop-blur-sm transition-all block"
             >
-              Call 1300 986 827
+              Call 1300 959 170
             </motion.a>
           </div>
         </div>
       </section>
+
+      {/* ── Quote / Inquiry Modal ── */}
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        formType={formType}
+        title={modalTitle}
+        subtitle={modalSubtitle}
+        accentColor="#ef4444"
+      />
     </main>
   );
 };

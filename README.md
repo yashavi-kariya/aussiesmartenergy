@@ -33,11 +33,13 @@
   - [Health & Diagnostics](#health--diagnostics)
   - [Admin Authentication](#admin-authentication)
   - [Enquiries & Leads](#enquiries--leads)
+  - [Payments & Hosted Checkout](#payments--hosted-checkout)
   - [Projects & Case Studies](#projects--case-studies)
   - [Customer Reviews](#customer-reviews)
   - [Google Reviews](#google-reviews)
   - [Hero Banners](#hero-banners)
   - [Headlines & Announcements](#headlines--announcements)
+- [ANZ Worldline Payment Integration](#-anz-worldline-payment-integration)
 - [Available Scripts](#-available-scripts)
 - [License](#-license)
 
@@ -426,15 +428,46 @@ The `GoogleReviewsWidget.jsx` component provides a live Google Reviews embed pow
 | `PUT` | `/api/banners/order` | Protected (Admin) | Update banner display order |
 | `DELETE` | `/api/banners/:id` | Protected (Admin) | Remove hero banner |
 
-### Headlines & Announcements
+### Payments & Hosted Checkout
 | Method | Endpoint | Access | Description |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/headlines` | Public | Fetch active ticker headlines |
-| `GET` | `/api/headlines/admin/all` | Protected (Admin) | Fetch all headlines for admin management |
-| `POST` | `/api/headlines` | Protected (Admin) | Create new announcement headline |
-| `PUT` | `/api/headlines/:id` | Protected (Admin) | Update announcement headline and link |
-| `PATCH` | `/api/headlines/:id/toggle` | Protected (Admin) | Toggle active/inactive status |
-| `DELETE` | `/api/headlines/:id` | Protected (Admin) | Delete announcement headline |
+| `POST` | `/api/payments/create` | Public | Create payment order & ANZ Hosted Checkout session |
+| `GET` | `/api/payments/:paymentId/status` | Public | Verify payment status via ANZ API & update database |
+| `POST` | `/api/payments/webhook` | Public | ANZ Worldline transaction feedback webhook |
+| `GET` | `/api/payments/admin/all` | Protected (Admin) | Fetch payment transactions list and revenue stats |
+
+---
+
+## 💳 ANZ Worldline Payment Integration
+
+### Overview & Account Setup
+The application integrates **ANZ Worldline Solutions Hosted Checkout** using the official `@onlinepayments/sdk-nodejs` (`onlinepayments-sdk-nodejs`) package.
+
+1. **Merchant Portal Credentials**:
+   - Log into your **ANZ Worldline Merchant Back Office**.
+   - Obtain your **Merchant ID**, **API Key ID**, and **Secret API Key**.
+   - Configure Webhook Notification URL to `https://your-domain.com/api/payments/webhook` and save `ANZ_WEBHOOK_SECRET`.
+
+2. **Environment Variables Configuration**:
+   ```env
+   # ANZ Worldline Payment Gateway Configuration
+   ANZ_MERCHANT_ID=your_anz_merchant_id
+   ANZ_API_KEY=your_anz_api_key
+   ANZ_API_SECRET=your_anz_api_secret
+   ANZ_API_ENDPOINT=payment.preprod.anzworldline-solutions.com.au
+   ANZ_ENVIRONMENT=sandbox
+   ANZ_WEBHOOK_SECRET=your_anz_webhook_secret
+   ```
+
+3. **Payment Security**:
+   - Private API credentials stay strictly on the Node.js Express backend.
+   - Raw card details (card number, CVV) are entered exclusively on ANZ Worldline Hosted Checkout and never touch our servers or database.
+   - Payment amounts are validated on the backend before checkout session creation.
+   - Payment success is verified directly via ANZ Worldline API status calls rather than frontend URL parameters alone.
+
+4. **Testing & Production**:
+   - Default environment endpoint: `payment.preprod.anzworldline-solutions.com.au` (Sandbox/Test).
+   - To switch to production, update `ANZ_ENVIRONMENT=production` and set `ANZ_API_ENDPOINT=payment.anzworldline-solutions.com.au` with your live credentials in `server/.env`.
 
 ---
 

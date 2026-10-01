@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, PhoneCall, Zap, ShieldCheck, Cpu, ChevronDown, CheckCircle2 } from 'lucide-react';
+import EnquiryModal from '../../components/EnquiryModal';
 
-import solarBatteries4 from '../../assets/solarbattries4.png';
+import solarBatteries4 from '../../assets/signenery/sigenergy1.jpeg';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
-import esySystem from '../../assets/esy/esy1.webp';
-import esyHomeBattery from '../../assets/esy/esy2.webp';
+import esySystem from '../../assets/signenery/Sigenergy.jpeg';
+import esyHomeBattery from '../../assets/signenery/Sigenergy.jpeg';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
 import esyWarranty from '../../assets/esy/esy6.webp';
@@ -18,8 +19,7 @@ const BulletPoint = ({ text }) => (
     </span>
     <span>{text}</span>
   </li>
-);
-
+)
 const TargetBullet = ({ text, light = false }) => (
   <li className={`flex items-center gap-3 text-[15px] sm:text-base ${light ? 'text-white/95' : 'text-slate-700'}`}>
     <span className={`flex h-4 w-4 flex-none items-center justify-center rounded-full border-2 ${light ? 'border-red-400' : 'border-[#ef4444]'}`}>
@@ -31,6 +31,23 @@ const TargetBullet = ({ text, light = false }) => (
 
 const Sigenergy = () => {
   const [activeFaq, setActiveFaq] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Get Free Custom Proposal');
+  const [modalSubtitle, setModalSubtitle] = useState("Fill in your details and our team will get back to you with a customized quote.");
+  const [formType, setFormType] = useState('custom-proposal');
+
+  const openQuoteModal = (packageTitle) => {
+    if (packageTitle) {
+      setModalTitle(`Get A FREE Quote - ${packageTitle}`);
+      setModalSubtitle(`Fill in your details to receive a custom quote for the ${packageTitle} package.`);
+      setFormType(`quote-${packageTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+    } else {
+      setModalTitle('Get Free Custom Proposal');
+      setModalSubtitle("Fill in your details and our team will get back to you with a customized quote.");
+      setFormType('custom-proposal');
+    }
+    setIsModalOpen(true);
+  };
 
   const faqs = [
     {
@@ -119,19 +136,20 @@ const Sigenergy = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-wrap gap-4 pt-4">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold shadow-lg shadow-red-500/25 transition-all duration-200 transform hover:-translate-y-0.5 text-sm sm:text-base"
+                <button
+                  type="button"
+                  onClick={() => openQuoteModal()}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold shadow-lg shadow-red-500/25 transition-all duration-200 transform hover:-translate-y-0.5 text-sm sm:text-base cursor-pointer"
                 >
                   Get A Free Custom Proposal
                   <ArrowRight className="w-4 h-4" />
-                </Link>
+                </button>
                 <a
                   href="tel:1300986827"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold border border-white/25 transition-all duration-200 text-sm sm:text-base backdrop-blur-sm"
                 >
                   <PhoneCall className="w-4 h-4 text-red-400" />
-                  1300 986 827
+                  1300 959 170
                 </a>
               </div>
             </motion.div>
@@ -331,7 +349,21 @@ const Sigenergy = () => {
                 className="flex min-w-[200px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-8 py-5 backdrop-blur-md shadow-xl"
               >
                 <span className="text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
+                <span className="mt-1 text-2xl sm:text-3xl font-black text-white">6 kWh</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -4 }}
+                className="flex min-w-[200px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-8 py-5 backdrop-blur-md shadow-xl"
+              >
+                <span className="text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
                 <span className="mt-1 text-2xl sm:text-3xl font-black text-white">8 kWh</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -4 }}
+                className="flex min-w-[200px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-8 py-5 backdrop-blur-md shadow-xl"
+              >
+                <span className="text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
+                <span className="mt-1 text-2xl sm:text-3xl font-black text-white">10 kWh</span>
               </motion.div>
             </div>
           </div>
@@ -347,21 +379,21 @@ const Sigenergy = () => {
                 className="flex flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 p-6 backdrop-blur-md shadow-xl"
               >
                 <span className="text-xs font-extrabold text-red-300 uppercase tracking-wider">Entry-Level Systems</span>
-                <span className="mt-2 text-2xl sm:text-3xl font-black text-white">5 kWh+</span>
+                <span className="mt-2 text-2xl sm:text-3xl font-black text-white">15 kWh</span>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.04, y: -4 }}
                 className="flex flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 p-6 backdrop-blur-md shadow-xl"
               >
                 <span className="text-xs font-extrabold text-red-300 uppercase tracking-wider">Mid-Size Systems</span>
-                <span className="mt-2 text-2xl sm:text-3xl font-black text-white">16 – 24 kWh</span>
+                <span className="mt-2 text-2xl sm:text-3xl font-black text-white">  24 – 30 kWh</span>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.04, y: -4 }}
                 className="flex flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 p-6 backdrop-blur-md shadow-xl"
               >
                 <span className="text-xs font-extrabold text-red-300 uppercase tracking-wider">Large Residential Systems</span>
-                <span className="mt-2 text-2xl sm:text-3xl font-black text-white">48 kWh+</span>
+                <span className="mt-2 text-2xl sm:text-3xl font-black text-white">40 -50 kWh</span>
               </motion.div>
             </div>
           </div>
@@ -691,20 +723,18 @@ const Sigenergy = () => {
               >
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : index)}
-                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${
-                    isOpen
-                      ? 'bg-gradient-to-r from-blue-900 to-[#003b73] text-white font-semibold'
-                      : 'bg-white text-slate-700 hover:bg-slate-50 font-normal'
-                  }`}
+                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${isOpen
+                    ? 'bg-gradient-to-r from-blue-900 to-[#003b73] text-white font-semibold'
+                    : 'bg-white text-slate-700 hover:bg-slate-50 font-normal'
+                    }`}
                 >
                   <span className="flex items-center gap-3 text-sm sm:text-base font-semibold">
                     <span className={`font-bold text-base sm:text-lg ${isOpen ? 'text-red-400' : 'text-[#ef4444]'}`}>✓</span>
                     <span>{faq.q}</span>
                   </span>
                   <ChevronDown
-                    className={`h-5 w-5 flex-none transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-white' : 'text-slate-500'
-                    }`}
+                    className={`h-5 w-5 flex-none transition-transform duration-200 ${isOpen ? 'rotate-180 text-white' : 'text-slate-500'
+                      }`}
                   />
                 </button>
 
@@ -743,21 +773,32 @@ const Sigenergy = () => {
             Speak with our Clean Energy Council (CEC) accredited solar specialists today for a free custom quote and rebate assessment.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <Link
-              to="/contact"
-              className="px-8 py-3.5 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-500/30 transition-all transform hover:-translate-y-0.5"
+            <button
+              type="button"
+              onClick={() => openQuoteModal()}
+              className="px-8 py-3.5 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer"
             >
               Get Free Custom Proposal
-            </Link>
+            </button>
             <a
               href="tel:1300986827"
               className="px-8 py-3.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm sm:text-base border border-white/30 backdrop-blur-sm transition-all"
             >
-              Call 1300 986 827
+              Call 1300 959 170
             </a>
           </div>
         </motion.div>
       </section>
+
+      {/* ── Quote / Inquiry Modal ── */}
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        formType={formType}
+        title={modalTitle}
+        subtitle={modalSubtitle}
+        accentColor="#ef4444"
+      />
     </main>
   );
 };

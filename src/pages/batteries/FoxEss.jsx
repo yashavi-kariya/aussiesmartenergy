@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import EnquiryModal from '../../components/EnquiryModal';
 
 // Assets
-import solarBatteries1 from '../../assets/solarbattries1.png';
-import solarBatteries2 from '../../assets/solarbattries2.png';
-import solarBatteries3 from '../../assets/solarbattries3.png';
+import solarBatteries1 from '../../assets/foxess/foxess1.jpeg';
+import solarBatteries2 from '../../assets/foxess/foxess2.jpeg';
+import solarBatteries3 from '../../assets/foxess/foxess3.jpeg';
 import esyHomeBattery from '../../assets/esy/esy2.webp';
 import esySystem from '../../assets/fox_ess_home_system.jpg';
-import esyEnergyManagement from '../../assets/esy/esy3.webp';
+import esyEnergyManagement from '../../assets/foxess/foxess8.jpeg';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
-import esyWarranty from '../../assets/esy/esy6.webp';
+import esyWarranty from '../../assets/esy/esy4.jpeg';
 import foxessGoldenSun from '../../assets/fox-ess solar.png';
 
 const TargetBullet = ({ text, light = false }) => (
@@ -49,6 +50,23 @@ const BatteryIcon = () => (
 
 const FoxEss = () => {
   const [activeFaq, setActiveFaq] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Get A FREE Quote');
+  const [modalSubtitle, setModalSubtitle] = useState("Fill in your details and our team will get back to you with a customized quote.");
+  const [formType, setFormType] = useState('free-quote');
+
+  const openQuoteModal = (packageTitle) => {
+    if (packageTitle) {
+      setModalTitle(`Get A FREE Quote - ${packageTitle}`);
+      setModalSubtitle(`Fill in your details to receive a custom quote for the ${packageTitle} package.`);
+      setFormType(`quote-${packageTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+    } else {
+      setModalTitle('Get A FREE Quote');
+      setModalSubtitle("Fill in your details and our team will get back to you with a customized quote.");
+      setFormType('free-quote');
+    }
+    setIsModalOpen(true);
+  };
 
   const solarPackages = [
     {
@@ -181,12 +199,13 @@ const FoxEss = () => {
           </div>
 
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative z-10">
-            <Link
-              to="/contact"
-              className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#ef4444] via-[#dc2626] to-[#b91c1c] hover:from-[#dc2626] hover:to-[#991b1b] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-600/30 transition-all duration-200 self-stretch md:self-auto text-center whitespace-nowrap block"
+            <button
+              type="button"
+              onClick={() => openQuoteModal()}
+              className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#ef4444] via-[#dc2626] to-[#b91c1c] hover:from-[#dc2626] hover:to-[#991b1b] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-600/30 transition-all duration-200 self-stretch md:self-auto text-center whitespace-nowrap block cursor-pointer"
             >
               Get Custom Quote
-            </Link>
+            </button>
           </motion.div>
         </motion.div>
 
@@ -254,12 +273,13 @@ const FoxEss = () => {
 
               {/* Action Button */}
               <div className="p-6 pt-0">
-                <Link
-                  to="/contact"
-                  className="block w-full py-3.5 px-4 text-center rounded-xl bg-gradient-to-r from-[#ef4444] to-[#dc2626] hover:from-[#dc2626] hover:to-[#b91c1c] text-white font-extrabold text-sm shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all duration-200 transform hover:-translate-y-0.5"
+                <button
+                  type="button"
+                  onClick={() => openQuoteModal(pkg.title)}
+                  className="block w-full py-3.5 px-4 text-center rounded-xl bg-gradient-to-r from-[#ef4444] to-[#dc2626] hover:from-[#dc2626] hover:to-[#b91c1c] text-white font-extrabold text-sm shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
                 >
                   Get A FREE Quote
-                </Link>
+                </button>
               </div>
             </motion.div>
           ))}
@@ -530,7 +550,6 @@ const FoxEss = () => {
             <p className="mt-3 text-sm sm:text-base font-bold text-slate-700">
               Monitor:
             </p>
-
             <ul className="mt-3 space-y-2.5">
               {[
                 'Battery charge levels',
@@ -836,12 +855,13 @@ const FoxEss = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                to="/contact"
-                className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#ef4444] via-[#dc2626] to-[#b91c1c] hover:from-[#dc2626] hover:to-[#991b1b] text-white font-extrabold text-sm sm:text-base shadow-xl shadow-red-600/30 transition-all block"
+              <button
+                type="button"
+                onClick={() => openQuoteModal()}
+                className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#ef4444] via-[#dc2626] to-[#b91c1c] hover:from-[#dc2626] hover:to-[#991b1b] text-white font-extrabold text-sm sm:text-base shadow-xl shadow-red-600/30 transition-all block cursor-pointer"
               >
                 Get Free Custom Proposal
-              </Link>
+              </button>
             </motion.div>
             <motion.a
               whileHover={{ scale: 1.05 }}
@@ -849,11 +869,21 @@ const FoxEss = () => {
               href="tel:1300986827"
               className="px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm sm:text-base border border-white/25 backdrop-blur-sm transition-all block"
             >
-              Call 1300 986 827
+              Call 1300 959 170
             </motion.a>
           </div>
         </div>
       </section>
+
+      {/* ── Quote / Inquiry Modal ── */}
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        formType={formType}
+        title={modalTitle}
+        subtitle={modalSubtitle}
+        accentColor="#ef4444"
+      />
     </main>
   );
 };

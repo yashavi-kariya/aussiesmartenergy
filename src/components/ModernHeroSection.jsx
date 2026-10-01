@@ -84,7 +84,20 @@ const ModernHeroSection = () => {
   const line2Words = ['with', 'Smart', 'Solar'];
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    if (name === 'firstName' || name === 'lastName') {
+      value = value.replace(/[0-9]/g, '');
+    } else if (name === 'phone') {
+      let clean = value.replace(/[^\d+]/g, '');
+      if (clean.startsWith('+61')) {
+        clean = '0' + clean.slice(3);
+      } else if (clean.startsWith('61') && clean.length > 10) {
+        clean = '0' + clean.slice(2);
+      }
+      value = clean.replace(/\D/g, '').slice(0, 10);
+    }
+
     setFormState(prev => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
@@ -95,11 +108,20 @@ const ModernHeroSection = () => {
     if (!formState.firstName) newErrors.firstName = true;
     if (!formState.lastName) newErrors.lastName = true;
     if (!formState.email) newErrors.email = true;
-    if (!formState.phone) newErrors.phone = true;
+    
+    if (!formState.phone) {
+      newErrors.phone = true;
+    } else {
+      const digits = formState.phone.replace(/\D/g, '');
+      if (digits.length !== 10 || !/^(0[23478]\d{8}|1[38]00\d{6}|0\d{9})$/.test(digits)) {
+        newErrors.phone = true;
+      }
+    }
+    
     if (!formState.address) newErrors.address = true;
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      setError('Please complete all required fields.');
+      setError('Please check your entries. Phone number must be a 10-digit Australian number.');
       return;
     }
 

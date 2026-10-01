@@ -22,7 +22,7 @@ import api from '../utils/api';
    recreates the component function on re-renders —
    keeping keyboard focus stable while the user types.
 ───────────────────────────────────────────────────────── */
-const Field = ({ id, label, icon: Icon, type = 'text', placeholder, required, textarea, value, onChange, error, accentColor }) => (
+const Field = ({ id, label, icon: Icon, type = 'text', placeholder, required, textarea, value, onChange, error, accentColor, maxLength }) => (
   <div className="flex flex-col gap-1">
     <label htmlFor={id} className="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
       <Icon className="w-3.5 h-3.5" style={{ color: accentColor }} />
@@ -47,6 +47,7 @@ const Field = ({ id, label, icon: Icon, type = 'text', placeholder, required, te
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        maxLength={maxLength}
         className={`w-full px-3 py-2 rounded-xl border text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all
           focus:ring-2 focus:border-transparent
           ${error ? 'border-rose-400 bg-rose-50 focus:ring-rose-300' : 'border-slate-200 bg-slate-50 focus:bg-white'}`}
@@ -97,12 +98,38 @@ const EnquiryModal = ({
     if (!form.lastName.trim())  e.lastName  = 'Last name is required';
     if (!form.email.trim())     e.email     = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = 'Enter a valid email';
-    if (!form.phone.trim())     e.phone     = 'Phone number is required';
+
+    if (!form.phone.trim()) {
+      e.phone = 'Phone number is required';
+    } else {
+      const digits = form.phone.replace(/\D/g, '');
+      if (digits.length !== 10) {
+        e.phone = 'Phone number must be a 10-digit Australian number';
+      } else if (!/^(0[23478]\d{8}|1[38]00\d{6}|0\d{9})$/.test(digits)) {
+        e.phone = 'Please enter a valid 10-digit Australian phone number (e.g. 04XX XXX XXX)';
+      }
+    }
     return e;
   };
 
   const handleChange = (field) => (e) => {
-    setForm(f => ({ ...f, [field]: e.target.value }));
+    let rawVal = e.target.value;
+
+    if (field === 'firstName' || field === 'lastName') {
+      // Disallow numeric input for First Name & Last Name
+      rawVal = rawVal.replace(/[0-9]/g, '');
+    } else if (field === 'phone') {
+      // Allow only numeric input, normalize +61 to 0, and limit to 10 digits
+      let clean = rawVal.replace(/[^\d+]/g, '');
+      if (clean.startsWith('+61')) {
+        clean = '0' + clean.slice(3);
+      } else if (clean.startsWith('61') && clean.length > 10) {
+        clean = '0' + clean.slice(2);
+      }
+      rawVal = clean.replace(/\D/g, '').slice(0, 10);
+    }
+
+    setForm(f => ({ ...f, [field]: rawVal }));
     if (errors[field]) setErrors(er => ({ ...er, [field]: '' }));
   };
 
@@ -174,7 +201,7 @@ const EnquiryModal = ({
             </div>
 
             {/* ── Body ── */}
-            <div className="px-6 py-5 max-h-[70vh] overflow-y-auto">
+            <div className="px-4 sm:px-6 py-4 sm:py-5 max-h-[75vh] sm:max-h-[80vh] overflow-y-auto">
               <AnimatePresence mode="wait">
 
                 {/* SUCCESS state */}
@@ -226,13 +253,13 @@ const EnquiryModal = ({
                     noValidate
                   >
                     {/* Name row */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <Field id="firstName" label="First Name" icon={User}           placeholder="John"                  required accentColor={accentColor} value={form.firstName} onChange={handleChange('firstName')} error={errors.firstName} />
                       <Field id="lastName"  label="Last Name"  icon={User}           placeholder="Smith"                 required accentColor={accentColor} value={form.lastName}  onChange={handleChange('lastName')}  error={errors.lastName} />
                     </div>
 
                     <Field id="email"   label="Email Address" icon={Mail}   type="email" placeholder="john@example.com"    required accentColor={accentColor} value={form.email}   onChange={handleChange('email')}   error={errors.email} />
-                    <Field id="phone"   label="Phone Number"  icon={Phone}  type="tel"   placeholder="04XX XXX XXX"         required accentColor={accentColor} value={form.phone}   onChange={handleChange('phone')}   error={errors.phone} />
+                    <Field id="phone"   label="Phone Number"  icon={Phone}  type="tel"   placeholder="04XX XXX XXX"         required accentColor={accentColor} value={form.phone}   onChange={handleChange('phone')}   error={errors.phone} maxLength={10} />
                     <Field id="address" label="Address"       icon={MapPin}              placeholder="Your suburb / postcode"         accentColor={accentColor} value={form.address} onChange={handleChange('address')} error={errors.address} />
                     <Field id="message" label="Message"       icon={MessageSquare}       placeholder="Any additional details..." textarea accentColor={accentColor} value={form.message} onChange={handleChange('message')} error={errors.message} />
 

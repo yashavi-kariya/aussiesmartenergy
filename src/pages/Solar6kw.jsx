@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Send, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Send, AlertCircle, CheckCircle2, Zap, Sun, ShieldCheck, Sparkles, Maximize2, X, Star, ArrowRight } from 'lucide-react';
 import api from '../utils/api';
 import solarPanelImg from '../assets/solar_panel_6kw.jpg';
+import heroBannerImg from '../assets/solar_6kw_hero_banner.jpg';
 import savingsImg from '../assets/solar_savings_piggybank.png';
+import savingsNewImg from '../assets/solar_savings_banner_new.jpg';
 import paybackImg from '../assets/solar_payback_house.jpg';
 import handshakeAgreementImg from '../assets/handshake_agreement.jpg';
 
@@ -24,6 +26,8 @@ const Solar6kw = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [activeModalTab, setActiveModalTab] = useState('hero'); // 'hero' or 'spec'
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -94,57 +98,82 @@ const Solar6kw = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* Left Column: Provided Content */}
-          <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-sm space-y-6 text-slate-700 leading-relaxed">
+          <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-sm space-y-8 text-slate-700 leading-relaxed">
 
-            {/* Header Box with System Details and Image */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-[#f0f9ff] border border-sky-100 rounded-3xl p-6 sm:p-8">
-              <div className="space-y-3">
-                <span className="inline-block px-3 py-1 bg-[#008de4]/10 text-[#008de4] rounded-full text-xs font-bold uppercase tracking-wider">
-                  Residential Solar System
-                </span>
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-[#008de4] tracking-tight leading-tight">
+            {/* Header Box with System Details and Highlighted Featured Image */}
+            <div className="space-y-6 bg-gradient-to-br from-[#f0f9ff] via-[#e6f4ff] to-sky-50 border border-sky-100 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-sm">
+              {/* Background ambient light */}
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-sky-200/40 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="relative z-10 space-y-3">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#008de4]/10 text-[#008de4] border border-[#008de4]/20 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <Sun className="w-3.5 h-3.5 text-[#008de4]" />
+                    Residential Solar System
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded-full text-xs font-bold">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    Most Popular System
+                  </span>
+                </div>
+
+                <h1 className="text-3xl sm:text-4xl lg:text-4xl font-extrabold text-[#008de4] tracking-tight leading-tight">
                   6.6kW Solar Panel System
                 </h1>
-                <div className="h-1 w-20 bg-[#008de4] rounded-full" />
-                <p className="text-base sm:text-lg font-medium text-slate-800 pt-1">
-                  A 6.6 kW solar system typically consists of 14 solar panels and can generate an average of 24-26 kwh of energy per day, depending on location and weather conditions.
+                <div className="h-1.5 w-24 bg-gradient-to-r from-[#008de4] to-sky-400 rounded-full" />
+                
+                <p className="text-base sm:text-lg font-medium text-slate-800 pt-1 leading-relaxed">
+                  A 6.6 kW solar system typically consists of 14 solar panels and can generate an average of 24-26 kWh of energy per day, depending on location and weather conditions.
                 </p>
                 <p className="text-base sm:text-lg font-semibold text-[#1e2d53]">
                   For a medium-sized household consuming around 18–20 kWh per day, this system is an ideal match.
                 </p>
               </div>
 
-              <div className="w-full sm:w-56 md:w-64 flex-shrink-0 flex justify-center">
-                <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-white group">
+              {/* Highlighted Featured Showcase Card */}
+              <div className="relative pt-2">
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#008de4] via-sky-400 to-blue-600 rounded-3xl blur-md opacity-30 group-hover:opacity-60 transition duration-500" />
+                
+                <div 
+                  onClick={() => setIsImageModalOpen(true)}
+                  className="relative rounded-2xl overflow-hidden border-2 border-white/90 shadow-xl bg-slate-900 group cursor-pointer"
+                >
                   <img
-                    src={solarPanelImg}
-                    alt="6.6 kW Solar Panel System"
-                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                    src={heroBannerImg}
+                    alt="6.6 kW Solar Panel System Showcase"
+                    className="w-full h-60 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
+                  
+                  {/* Subtle Dark Gradient Overlay for text contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-300" />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-2">
+                    <span className="px-3 py-1 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-lg">
+                      <Zap className="w-3.5 h-3.5 text-amber-400" />
+                      6.6 kW High Output
+                    </span>
+                  </div>
+
+                  {/* Zoom Button */}
+                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2.5 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white rounded-xl group-hover:bg-[#008de4] transition-all duration-300 shadow-lg">
+                    <Maximize2 className="w-4 h-4" />
+                  </div>
+
+                  {/* Bottom Highlight Details Bar */}
+                  <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 flex items-center justify-between text-white">
+                    <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-100">
+                      <ShieldCheck className="w-4.5 h-4.5 text-sky-400 flex-shrink-0" />
+                      <span>14 Tier-1 Panels • 24–26 kWh Daily Yield</span>
+                    </div>
+                    <span className="text-xs font-bold text-amber-300 bg-amber-400/20 backdrop-blur-md px-3 py-1 rounded-lg border border-amber-400/30 hidden sm:inline-block">
+                      Click to Expand Graphic
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-3">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#1e2d53]">
-                Now, when we say "medium-sized household," what exactly does that mean?
-              </h2>
-              <p className="text-base text-slate-700">
-                It depends on factors like the number of people, home size, and appliance usage. In general, a 3 to 4 person household falls into this category.
-              </p>
-            </div>
-
-            <div className="space-y-3 pt-2">
-              <p className="text-base text-slate-700">
-                With a 6.6kW solar system, you can power all your essential appliances, from the fridge and lights to TVs, computers, and even larger units like air conditioners and washing machines.
-              </p>
-            </div>
-
-            <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl">
-              <p className="text-sm text-slate-600 italic">
-                However, it's important to note that the actual amount of energy generated by solar panels will vary throughout the day and year, depending on factors such as the time of day, season, and weather conditions.
-              </p>
-            </div>
 
           </div>
 
@@ -276,21 +305,33 @@ const Solar6kw = () => {
         </div>
 
         {/* ── 2. SAVING WITH A SOLAR PANEL SYSTEM BANNER ───────────────────── */}
-        <section className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-[#008de4] p-6 sm:p-10 md:p-14 shadow-xl text-white">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <section className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-gradient-to-br from-[#0077c8] via-[#008de4] to-[#02599c] p-6 sm:p-10 md:p-14 shadow-2xl text-white">
+          {/* Subtle Ambient Glow Effect */}
+          <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-sky-300/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -left-20 -top-20 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Left Column: Image with layered stylized card background */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+            {/* Left Column: Premium Image with Glassmorphic Card Frame */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm sm:max-w-md">
-                <div className="absolute -top-3 -left-3 w-full h-full bg-[#38bdf8]/35 rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
-                <div className="absolute -bottom-3 -right-3 w-full h-full bg-[#0284c7]/40 rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
+              <div className="relative w-full max-w-sm sm:max-w-md group">
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-sky-300/50 via-white/40 to-amber-300/50 rounded-3xl blur-md opacity-75 group-hover:opacity-100 transition duration-500" />
 
-                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20">
+                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/40 bg-slate-950">
                   <img
-                    src={savingsImg}
-                    alt="Solar Panel Savings with Piggy Bank and Calculator"
-                    className="w-full h-64 sm:h-80 object-cover"
+                    src={savingsNewImg}
+                    alt="Solar Panel System Energy Savings Overview"
+                    className="w-full h-64 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80" />
+                  
+                  {/* Floating Highlight Badge */}
+                  <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-2.5 bg-slate-900/80 backdrop-blur-md border border-white/20 rounded-xl text-white flex items-center justify-between text-xs sm:text-sm font-semibold">
+                    <span className="flex items-center gap-1.5 text-amber-300">
+                      <Sparkles className="w-4 h-4" /> High Return Investment
+                    </span>
+                    <span className="text-emerald-300 font-bold">$25,500+ Lifetime Savings</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -298,21 +339,21 @@ const Solar6kw = () => {
             {/* Right Column: Title, Bullet Points & CTA */}
             <div className="lg:col-span-7 space-y-6">
               <div>
-                <p className="text-lg sm:text-xl font-medium text-white/90">
+                <p className="text-lg sm:text-xl font-medium text-sky-100 uppercase tracking-wider text-xs">
                   Saving with a
                 </p>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mt-0.5">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mt-1">
                   Solar Panel System
                 </h2>
-                <div className="h-1 w-24 bg-white rounded-full mt-3" />
+                <div className="h-1.5 w-24 bg-gradient-to-r from-amber-400 to-sky-200 rounded-full mt-3" />
               </div>
 
               {/* Bullet Points */}
               <div className="space-y-4 text-sm sm:text-base text-white/95 leading-relaxed font-normal">
 
                 <div className="flex items-start gap-3">
-                  <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                  <div className="w-5 h-5 rounded-full bg-white/20 border border-white/40 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                    <div className="w-2 h-2 rounded-full bg-amber-300" />
                   </div>
                   <p>
                     Assuming that energy prices remain stable, you could save anywhere from $25,500 to $33,000 on electricity over the lifetime of your system.
@@ -320,17 +361,17 @@ const Solar6kw = () => {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                  <div className="w-5 h-5 rounded-full bg-white/20 border border-white/40 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                    <div className="w-2 h-2 rounded-full bg-amber-300" />
                   </div>
-                  <p className="font-medium">
+                  <p className="font-semibold text-amber-200">
                     Wait, that’s not all.
                   </p>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                  <div className="w-5 h-5 rounded-full bg-white/20 border border-white/40 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                    <div className="w-2 h-2 rounded-full bg-amber-300" />
                   </div>
                   <p>
                     The cost of solar panels has also significantly reduced over the past decade, with reductions of 64%, 69%, and 82% for residential, commercial rooftop, and utility-scale PV systems, respectively.
@@ -338,8 +379,8 @@ const Solar6kw = () => {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                  <div className="w-5 h-5 rounded-full bg-white/20 border border-white/40 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                    <div className="w-2 h-2 rounded-full bg-amber-300" />
                   </div>
                   <p>
                     This means more savings and higher returns at a fraction of the cost.
@@ -348,13 +389,15 @@ const Solar6kw = () => {
 
               </div>
 
-              {/* Yellow CTA Button */}
+              {/* Red CTA Button (redirects to home page reviews section /#reviews) */}
               <div className="pt-2">
                 <Link
-                  to="/about"
-                  className="inline-block px-6 sm:px-8 py-3.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold rounded-xl shadow-lg hover:shadow-red-600/30 transition-all duration-200 text-sm sm:text-base text-center"
+                  to="/#reviews"
+                  className="inline-flex items-center justify-center gap-2.5 px-6 sm:px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 active:from-red-700 text-white font-bold rounded-2xl shadow-xl hover:shadow-red-600/40 transition-all duration-300 text-sm sm:text-base text-center group border border-red-500/50"
                 >
-                  See What Our Customers Say About Their Savings
+                  <Star className="w-4.5 h-4.5 text-amber-300 fill-amber-300 group-hover:scale-110 transition-transform" />
+                  <span>See What Our Customers Say About Their Savings</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
@@ -865,6 +908,82 @@ const Solar6kw = () => {
         </div>
 
       </div>
+
+      {/* ── Image Lightbox Modal ────────────────────────────────────────────── */}
+      {isImageModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 transition-all duration-300 animate-fadeIn"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          <div 
+            className="relative max-w-4xl w-full bg-slate-900 border border-slate-700/80 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/60">
+              <div className="flex items-center gap-3">
+                <Sun className="w-5 h-5 text-[#008de4]" />
+                <h3 className="text-base sm:text-lg font-bold text-white">6.6 kW Solar Panel System</h3>
+              </div>
+
+              {/* Tab selector */}
+              <div className="flex items-center gap-2 bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+                <button
+                  onClick={() => setActiveModalTab('hero')}
+                  className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                    activeModalTab === 'hero' ? 'bg-[#008de4] text-white shadow' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  System Showcase
+                </button>
+                <button
+                  onClick={() => setActiveModalTab('spec')}
+                  className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                    activeModalTab === 'spec' ? 'bg-[#008de4] text-white shadow' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Detailed Infographic
+                </button>
+              </div>
+
+              <button
+                onClick={() => setIsImageModalOpen(false)}
+                className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            {/* Modal Body */}
+            <div className="p-4 sm:p-6 bg-slate-950 flex items-center justify-center overflow-y-auto flex-1">
+              {activeModalTab === 'hero' ? (
+                <img
+                  src={heroBannerImg}
+                  alt="6.6 kW Solar System Showcase Banner"
+                  className="max-h-[70vh] w-auto object-contain rounded-2xl shadow-2xl border border-slate-800"
+                />
+              ) : (
+                <img
+                  src={solarPanelImg}
+                  alt="6.6 kW Solar System Infographic"
+                  className="max-h-[70vh] w-auto object-contain rounded-2xl shadow-2xl border border-slate-800"
+                />
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-6 py-3 bg-slate-950 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+              <span>High-Resolution System Graphic</span>
+              <button
+                onClick={() => setIsImageModalOpen(false)}
+                className="text-[#008de4] hover:underline font-semibold"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

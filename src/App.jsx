@@ -33,7 +33,11 @@ import AdminProjects from './pages/AdminProjects'
 import AdminReviews from './pages/AdminReviews'
 import AdminBanners from './pages/AdminBanners'
 import AdminHeadlines from './pages/AdminHeadlines'
+import AdminPayments from './pages/AdminPayments'
+import PaymentResult from './pages/PaymentResult'
+import ANZWorldlineHostedCheckoutSimulator from './pages/ANZWorldlineHostedCheckoutSimulator'
 import CommercialCustomize from './pages/CommercialCustomize'
+import PayOnline from './pages/PayOnline'
 
 function App() {
   const location = useLocation();
@@ -61,7 +65,7 @@ function App() {
     }
   }, [location.pathname, location.hash, location.key]);
 
-  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/login/admin';
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/login/admin' || location.pathname.startsWith('/hostedcheckout');
 
   return (
     <div className="min-h-screen">
@@ -103,6 +107,11 @@ function App() {
         <Route path="/batteries/goodwe" element={<GoodWe />} />
         <Route path="/commercial/customize" element={<CommercialCustomize />} />
         <Route path="/projects/:slug" element={<ProjectDetails />} />
+        <Route path="/payment/result" element={<PaymentResult />} />
+        <Route path="/payment/status" element={<PaymentResult />} />
+        <Route path="/pay-online" element={<PayOnline />} />
+        <Route path="/make-payment" element={<PayOnline />} />
+        <Route path="/hostedcheckout/HostedCheckout/:sessionId" element={<ANZWorldlineHostedCheckoutSimulator />} />
 
         {/* Admin Routes */}
         <Route path="/login/admin" element={<AdminLogin />} />
@@ -112,8 +121,10 @@ function App() {
           <Route path="/admin/reviews" element={<AdminReviews />} />
           <Route path="/admin/banners" element={<AdminBanners />} />
           <Route path="/admin/headlines" element={<AdminHeadlines />} />
+          <Route path="/admin/payments" element={<AdminPayments />} />
         </Route>
       </Routes>
+
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <ScrollToTopButton />}
     </div>

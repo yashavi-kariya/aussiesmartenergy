@@ -364,7 +364,7 @@ const AboutUs = () => {
                   className="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm sm:text-base shadow-sm transition-all duration-300 flex items-center gap-2"
                 >
                   <PhoneCall className="w-4 h-4 text-[#39b54a]" />
-                  <span>1300 986 827</span>
+                  <span>1300 959 170</span>
                 </a>
               </motion.div>
             </motion.div>
@@ -431,9 +431,8 @@ const AboutUs = () => {
                         <button
                           key={i}
                           onClick={() => setActiveSlide(i)}
-                          className={`h-1.5 rounded-full transition-all duration-300 ${
-                            i === activeSlide ? 'w-5 bg-[#39b54a]' : 'w-1.5 bg-white/60'
-                          }`}
+                          className={`h-1.5 rounded-full transition-all duration-300 ${i === activeSlide ? 'w-5 bg-[#39b54a]' : 'w-1.5 bg-white/60'
+                            }`}
                           aria-label={`Go to slide ${i + 1}`}
                         />
                       ))}

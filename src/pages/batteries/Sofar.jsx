@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, PhoneCall, ShieldCheck, Zap, ChevronDown, CheckCircle2 } from 'lucide-react';
+import EnquiryModal from '../../components/EnquiryModal';
 
 // Assets
 import solarBatteries1 from '../../assets/solarbattries1.png';
 import solarBatteries2 from '../../assets/solarbattries2.png';
 import solarBatteries3 from '../../assets/solarbattries3.png';
-import sofarBtsBattery from '../../assets/sofar_bts_battery.jpg';
+import sofarBtsBattery from '../../assets/sofar/sofar.jpeg';
 import esySystem from '../../assets/esy/esy1.webp';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
@@ -41,6 +42,23 @@ const PackageCheck = ({ text }) => (
 const Sofar = () => {
   const [activePackageTab, setActivePackageTab] = useState('solar-battery');
   const [activeFaq, setActiveFaq] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Get A FREE Quote');
+  const [modalSubtitle, setModalSubtitle] = useState("Fill in your details and our team will get back to you with a customized quote.");
+  const [formType, setFormType] = useState('free-quote');
+
+  const openQuoteModal = (packageTitle) => {
+    if (packageTitle) {
+      setModalTitle(`Get A FREE Quote - ${packageTitle}`);
+      setModalSubtitle(`Fill in your details to receive a custom quote for the ${packageTitle} package.`);
+      setFormType(`quote-${packageTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+    } else {
+      setModalTitle('Get A FREE Quote');
+      setModalSubtitle("Fill in your details and our team will get back to you with a customized quote.");
+      setFormType('free-quote');
+    }
+    setIsModalOpen(true);
+  };
 
   const packagesData = {
     'solar-battery': [
@@ -236,21 +254,19 @@ const Sofar = () => {
           <div className="flex items-center bg-slate-900/60 p-1.5 rounded-xl border border-white/20 self-stretch md:self-auto justify-center backdrop-blur-md">
             <button
               onClick={() => setActivePackageTab('solar-battery')}
-              className={`px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 ${
-                activePackageTab === 'solar-battery'
-                  ? 'bg-[#ef4444] text-white shadow-lg shadow-red-500/30'
-                  : 'bg-transparent text-blue-100 hover:text-white'
-              }`}
+              className={`px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 ${activePackageTab === 'solar-battery'
+                ? 'bg-[#ef4444] text-white shadow-lg shadow-red-500/30'
+                : 'bg-transparent text-blue-100 hover:text-white'
+                }`}
             >
               Solar Battery Package
             </button>
             <button
               onClick={() => setActivePackageTab('solar-plus-battery')}
-              className={`px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 ${
-                activePackageTab === 'solar-plus-battery'
-                  ? 'bg-[#ef4444] text-white shadow-lg shadow-red-500/30'
-                  : 'bg-transparent text-blue-100 hover:text-white'
-              }`}
+              className={`px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 ${activePackageTab === 'solar-plus-battery'
+                ? 'bg-[#ef4444] text-white shadow-lg shadow-red-500/30'
+                : 'bg-transparent text-blue-100 hover:text-white'
+                }`}
             >
               Solar + Battery Packages
             </button>
@@ -306,12 +322,13 @@ const Sofar = () => {
               </div>
 
               <div className="p-6 pt-0">
-                <Link
-                  to="/contact"
-                  className="block w-full py-3.5 px-4 text-center rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-500/25 transition-all duration-200 transform hover:-translate-y-0.5"
+                <button
+                  type="button"
+                  onClick={() => openQuoteModal(pkg.title)}
+                  className="block w-full py-3.5 px-4 text-center rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-500/25 transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
                 >
                   Get A FREE Quote
-                </Link>
+                </button>
               </div>
             </motion.div>
           ))}
@@ -700,20 +717,18 @@ const Sofar = () => {
                 {/* Accordion Header */}
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : index)}
-                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${
-                    isOpen
-                      ? 'bg-gradient-to-r from-blue-900 to-[#003b73] text-white font-semibold'
-                      : 'bg-white text-slate-700 hover:bg-slate-50 font-normal'
-                  }`}
+                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${isOpen
+                    ? 'bg-gradient-to-r from-blue-900 to-[#003b73] text-white font-semibold'
+                    : 'bg-white text-slate-700 hover:bg-slate-50 font-normal'
+                    }`}
                 >
                   <span className="flex items-center gap-3 text-sm sm:text-base font-semibold">
                     <span className={`font-bold text-base sm:text-lg ${isOpen ? 'text-red-400' : 'text-[#ef4444]'}`}>✓</span>
                     <span>{faq.q}</span>
                   </span>
                   <ChevronDown
-                    className={`h-5 w-5 flex-none transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-white' : 'text-slate-500'
-                    }`}
+                    className={`h-5 w-5 flex-none transition-transform duration-200 ${isOpen ? 'rotate-180 text-white' : 'text-slate-500'
+                      }`}
                   />
                 </button>
 
@@ -753,21 +768,32 @@ const Sofar = () => {
             Speak with our Clean Energy Council (CEC) accredited solar experts today for a free custom quote and rebate assessment.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <Link
-              to="/contact"
-              className="px-8 py-3.5 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-500/30 transition-all transform hover:-translate-y-0.5"
+            <button
+              type="button"
+              onClick={() => openQuoteModal()}
+              className="px-8 py-3.5 rounded-xl bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-red-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer"
             >
               Get Free Custom Proposal
-            </Link>
+            </button>
             <a
               href="tel:1300986827"
               className="px-8 py-3.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-sm sm:text-base border border-white/30 backdrop-blur-sm transition-all"
             >
-              Call 1300 986 827
+              Call 1300 959 170
             </a>
           </div>
         </motion.div>
       </section>
+
+      {/* ── Quote / Inquiry Modal ── */}
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        formType={formType}
+        title={modalTitle}
+        subtitle={modalSubtitle}
+        accentColor="#ef4444"
+      />
     </main>
   );
 };

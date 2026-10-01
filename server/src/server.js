@@ -12,6 +12,7 @@ import bannerRoutes from './routes/bannerRoutes.js';
 import headlineRoutes from './routes/headlineRoutes.js';
 import googleReviewRoutes from './routes/googleReviewRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 import errorHandler, { notFound } from './middleware/errorHandler.js';
 import { startGoogleReviewsBackgroundSync } from './services/googleReviewSyncService.js';
 import path from 'path';
@@ -55,6 +56,8 @@ app.use('/api/google-reviews', googleReviewRoutes);
 app.use('/api/banners', bannerRoutes);
 app.use('/api/headlines', headlineRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payments', paymentRoutes);
+
 app.use('/login/admin', (req, res) => {
     res.json({ success: true, message: 'Use the admin login endpoint at /api/admin/login' });
 });

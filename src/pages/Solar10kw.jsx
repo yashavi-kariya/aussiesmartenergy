@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Send, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Send, AlertCircle, CheckCircle2, Users, Building2, Sparkles, Sun, ShieldCheck, Check } from 'lucide-react';
 import api from '../utils/api';
-import solarPanelImg from '../assets/solar_panel_6kw.jpg';
+import solarPanel10kwImg from '../assets/solar_10kw_hero_banner.jpg';
+import realInstallationImg from '../assets/solar_10kw_real_installation.jpg';
 
 const Solar10kw = () => {
   useEffect(() => {
@@ -94,9 +95,17 @@ const Solar10kw = () => {
             {/* Left Column: Heading & Content */}
             <div className="lg:col-span-7 space-y-6">
               <div>
-                <p className="text-xl sm:text-2xl font-bold text-[#008de4]">
-                  Understanding
-                </p>
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#008de4]/10 text-[#008de4] border border-[#008de4]/20 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <Sun className="w-3.5 h-3.5 text-[#008de4]" />
+                    High Output System
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded-full text-xs font-bold">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    Perfect for Large Families & Small Businesses
+                  </span>
+                </div>
+                
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#008de4] tracking-tight mt-0.5">
                   10.45kW Solar Systems
                 </h1>
@@ -116,6 +125,17 @@ const Solar10kw = () => {
                   That world is possible with a 10.45kW solar system.
                 </p>
 
+                {/* Highlight callout box for Large Families & Small Businesses */}
+                <div className="p-4 bg-sky-50 border border-sky-200/80 rounded-2xl space-y-2">
+                  <div className="flex items-center gap-2 text-[#008de4] font-bold text-sm sm:text-base">
+                    <Users className="w-4.5 h-4.5" />
+                    <span>Designed for High Energy Demand</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    A 10.45kW system is the ideal power choice for <strong>large families (5+ members)</strong> with high appliance usage and <strong>small commercial businesses</strong> looking to eliminate heavy daytime power bills.
+                  </p>
+                </div>
+
                 <p>
                   In this guide, we'll take you on a journey to learn everything you need to know about 10.45 kW solar systems.
                 </p>
@@ -124,15 +144,15 @@ const Solar10kw = () => {
 
             {/* Right Column: Solar Panel Image with Layered Background */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm sm:max-w-md">
+              <div className="relative w-full max-w-sm sm:max-w-md group">
                 <div className="absolute -top-3 -right-3 w-full h-full bg-[#008de4] rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -left-3 w-full h-full bg-[#0284c7]/20 rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
 
-                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100 bg-slate-50 flex items-center justify-center p-6">
+                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100 bg-slate-900">
                   <img
-                    src={solarPanelImg}
-                    alt="10.45 kW Solar Panels"
-                    className="h-64 sm:h-80 object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+                    src={solarPanel10kwImg}
+                    alt="10.45 kW Solar Panel System Showcase"
+                    className="w-full h-64 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
               </div>
@@ -211,21 +231,21 @@ const Solar10kw = () => {
               </div>
             </div>
 
-            {/* Right Column: Custom Modern Rooftop Solar Home Image */}
+            {/* Right Column: Real 10.45kW Rooftop Installation Image */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm sm:max-w-md">
+              <div className="relative w-full max-w-sm sm:max-w-md group">
                 <div className="absolute -top-3 -right-3 w-full h-full bg-[#008de4] rounded-2xl sm:rounded-3xl transform rotate-2 pointer-events-none" />
                 <div className="absolute -bottom-3 -left-3 w-full h-full bg-[#0284c7]/20 rounded-2xl sm:rounded-3xl transform -rotate-2 pointer-events-none" />
 
-                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100 bg-slate-50">
+                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-100 bg-slate-900">
                   <img
-                    src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=800&q=80"
-                    alt="Rooftop Solar Array Generating Daily Electricity"
-                    className="w-full h-64 sm:h-80 object-cover hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.target.src = "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80";
-                    }}
+                    src={realInstallationImg}
+                    alt="Real 10.45kW Rooftop Solar Installation"
+                    className="w-full h-64 sm:h-80 object-cover hover:scale-105 transition-transform duration-500"
                   />
+                  <div className="absolute bottom-3 left-3 right-3 px-3 py-1.5 bg-slate-900/80 backdrop-blur-md rounded-xl text-white text-xs font-medium text-center border border-white/20">
+                    Real 10.45 kW Rooftop Solar Installation
+                  </div>
                 </div>
               </div>
             </div>
@@ -251,11 +271,11 @@ const Solar10kw = () => {
 
             {/* Middle Column: Solar Panel Graphic */}
             <div className="lg:col-span-3 flex justify-center py-2">
-              <div className="relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-white/30 bg-slate-900 group max-w-xs w-full">
                 <img
-                  src={solarPanelImg}
+                  src={solarPanel10kwImg}
                   alt="10.45kW Solar Panels Setup"
-                  className="h-52 sm:h-64 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300"
+                  className="w-full h-48 sm:h-56 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>
@@ -295,7 +315,7 @@ const Solar10kw = () => {
           </div>
         </section>
 
-        {/* ── 4. IS 10.45kW SUITABLE FOR MY HOUSE? ─────────────────────────── */}
+        {/* ── 4. IS 10.45kW SUITABLE FOR MY HOUSE OR SMALL BUSINESS? ───────── */}
         <section className="bg-white border border-slate-200/90 rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 md:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
@@ -304,10 +324,10 @@ const Solar10kw = () => {
               <div className="w-full max-w-sm bg-[#008de4] rounded-3xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden flex flex-col justify-between">
                 <div>
                   <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                    Is 10.45 Kw suitable
+                    Is 10.45 kW suitable
                   </h2>
                   <p className="text-lg sm:text-xl font-medium text-white/90 mt-1">
-                    for my house?
+                    for my house or business?
                   </p>
                   <div className="h-1 w-16 bg-white rounded-full mt-3 mb-6" />
                 </div>
@@ -325,52 +345,53 @@ const Solar10kw = () => {
               </div>
             </div>
 
-            {/* Right Column: Suitability Bullets & Yellow CTA */}
-            <div className="lg:col-span-7 space-y-5 text-sm sm:text-base text-slate-700 leading-relaxed">
+            {/* Right Column: Suitability Breakdown for Large Families & Small Businesses */}
+            <div className="lg:col-span-7 space-y-6 text-sm sm:text-base text-slate-700 leading-relaxed">
 
-              <div className="flex items-start gap-3">
-                <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
-                </div>
-                <p>
-                  Deciding if a 10.45kW solar panel system is right for your residence involves considering your daily electricity consumption.
+              <div className="space-y-3">
+                <p className="text-base sm:text-lg font-semibold text-[#1e2d53]">
+                  Deciding if a 10.45kW solar panel system is right for your property involves considering your daily electricity consumption.
+                </p>
+                <p className="text-slate-600">
+                  Generating around 40 kWh of energy per day, this system is engineered specifically for properties with high daytime energy demands:
                 </p>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
+              {/* Large Family Feature Card */}
+              <div className="p-4 bg-sky-50/80 border border-sky-200/80 rounded-2xl flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#008de4] text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                  <Users className="w-5 h-5" />
                 </div>
-                <p>
-                  These systems are best suited for homes or businesses with substantial daytime energy usage, exceeding 40 kWh per day.
-                </p>
+                <div>
+                  <h3 className="font-bold text-[#1e2d53] text-base">Ideal for Large Families (5+ Members)</h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-1">
+                    Perfect for power-heavy households running ducted air conditioning, electric vehicle (EV) chargers, swimming pool pumps, and multiple home offices simultaneously.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
+              {/* Small Business Feature Card */}
+              <div className="p-4 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                  <Building2 className="w-5 h-5" />
                 </div>
-                <p>
-                  Regardless of your location, a 10.45kW solar system is generally installable.
-                </p>
+                <div>
+                  <h3 className="font-bold text-slate-900 text-base">Ideal for Small Commercial Businesses</h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-1">
+                    Provides daytime self-consumption power for retail stores, offices, cafes, and light industrial workshops, delivering fast commercial ROI.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
+              <div className="space-y-3 pt-1">
+                <div className="flex items-start gap-3">
+                  <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
+                  </div>
+                  <p>
+                    Typically requires 45-50 square meters of unshaded roof space for around 22–26 solar panels (1.8m x 1m each).
+                  </p>
                 </div>
-                <p>
-                  Typically, it requires 45-50 square meter of roof space and around 22–26 solar panels, each measuring about 1.7 to 2 metres by 1 metre.
-                </p>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-4 h-4 rounded-full border-2 border-[#008de4] flex items-center justify-center flex-shrink-0 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#008de4]" />
-                </div>
-                <p>
-                  Ensuring your roof has sufficient space is crucial for accommodating the solar panels effectively.
-                </p>
               </div>
 
               <div className="pt-2">

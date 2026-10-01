@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, RefreshCw, Filter, Trash2, Eye, LogOut, ChevronLeft,
   ChevronRight, Calendar, Mail, Phone, MapPin, MessageSquare,
-  FileText, Zap, ArrowUpDown, X, CheckSquare, Star, Image as ImageIcon, Megaphone
+  FileText, Zap, ArrowUpDown, X, CheckSquare, Star, Image as ImageIcon, Megaphone, CreditCard, ShieldCheck
 } from 'lucide-react';
 import api from '../utils/api';
 
@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const [enquiries, setEnquiries] = useState([]);
-  const [stats, setStats] = useState({ total: 0, hero: 0, contact: 0, residential: 0, commercial: 0 });
+  const [stats, setStats] = useState({ total: 0, hero: 0, contact: 0, residential: 0, commercial: 0, totalRevenue: 0 });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -70,20 +70,30 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const totalRes = await api.get('/enquiries', { params: { limit: 1000 } });
+      const [totalRes, paymentRes] = await Promise.all([
+        api.get('/enquiries', { params: { limit: 1000 } }),
+        api.get('/payments/admin/all', { params: { limit: 1 } }).catch(() => ({ data: null })),
+      ]);
       if (totalRes.data && totalRes.data.success) {
         const list = totalRes.data.data.enquiries;
+        const totalRev = paymentRes?.data?.data?.stats?.totalRevenue || 0;
         setStats({
           total: list.length,
           hero: list.filter(e => e.formType === 'hero').length,
           contact: list.filter(e => e.formType === 'contact').length,
           residential: list.filter(e => e.formType?.startsWith('residential')).length,
           commercial: list.filter(e => e.formType?.startsWith('commercial')).length,
+          totalRevenue: totalRev,
         });
       }
     } catch (err) {
       console.error('Error fetching statistics', err);
     }
+  };
+
+  const formatCurrency = (val) => {
+    const num = Number(val) || 0;
+    return `$${num.toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
   useEffect(() => { fetchEnquiries(); }, [page, limit, debouncedSearch, formType, category, sortBy, sortOrder]);
@@ -182,7 +192,6 @@ const AdminDashboard = () => {
             <Star className="w-4 h-4 text-yellow-400" />
             Reviews
           </button>
-
           <button
             onClick={() => navigate('/admin/banners')}
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
@@ -210,6 +219,18 @@ const AdminDashboard = () => {
           </button>
 
           <button
+            onClick={() => navigate('/admin/payments')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+            style={{
+              background: 'rgba(59,130,246,0.12)',
+              border: '1px solid rgba(59,130,246,0.25)',
+              color: '#bfdbfe',
+            }}
+          >
+            <CreditCard className="w-4 h-4 text-blue-400" />
+            Payments
+          </button>
+          <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
             style={{
@@ -227,35 +248,45 @@ const AdminDashboard = () => {
       <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            { label: 'Total Enquiries', value: stats.total, icon: FileText, color: '#60a5fa' },
-            { label: 'Hero Form', value: stats.hero, icon: CheckSquare, color: GREEN },
-            { label: 'Contact Form', value: stats.contact, icon: MessageSquare, color: '#f97316' },
-            { label: 'Residential', value: stats.residential, icon: FileText, color: '#a78bfa' },
-            { label: 'Commercial', value: stats.commercial, icon: Zap, color: '#34d399' },
+            { label: 'Total Enquiries', value: Number(stats.total || 0).toLocaleString('en-AU'), subtitle: 'All time customer enquiries', icon: FileText, color: '#60a5fa' },
+            { label: 'Total Revenue', value: formatCurrency(stats.totalRevenue), subtitle: 'Total payment amount', icon: ShieldCheck, color: GREEN, highlight: true },
+            { label: 'Hero Form', value: Number(stats.hero || 0).toLocaleString('en-AU'), subtitle: 'Homepage hero banner leads', icon: CheckSquare, color: '#34d399' },
+            { label: 'Contact Form', value: Number(stats.contact || 0).toLocaleString('en-AU'), subtitle: 'Contact Us page enquiries', icon: MessageSquare, color: '#f97316' },
+            { label: 'Residential', value: Number(stats.residential || 0).toLocaleString('en-AU'), subtitle: 'Residential solar quotes', icon: FileText, color: '#a78bfa' },
+            { label: 'Commercial', value: Number(stats.commercial || 0).toLocaleString('en-AU'), subtitle: 'Commercial solar quotes', icon: Zap, color: '#eab308' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="p-5 rounded-2xl flex items-center justify-between"
+              className={`p-5 rounded-2xl flex items-center justify-between min-w-0 transition-all ${
+                stat.highlight ? 'ring-1 ring-emerald-500/40 shadow-lg shadow-emerald-500/10' : ''
+              }`}
               style={{
-                background: `linear-gradient(135deg, ${NAVY_LIGHT}80, ${NAVY_MID}80)`,
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: stat.highlight
+                  ? `linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, ${NAVY_MID}99 100%)`
+                  : `linear-gradient(135deg, ${NAVY_LIGHT}80, ${NAVY_MID}80)`,
+                border: stat.highlight ? '1px solid rgba(57, 181, 74, 0.35)' : '1px solid rgba(255,255,255,0.08)',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
               }}
             >
-              <div>
-                <p className="text-white/50 text-sm font-medium">{stat.label}</p>
-                <h3 className="text-3xl font-extrabold text-white mt-1">{stat.value}</h3>
+              <div className="min-w-0 flex-1 mr-3 overflow-hidden">
+                <p className="text-white/60 text-xs font-bold uppercase tracking-wider">{stat.label}</p>
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-1 tracking-tight break-all leading-snug">
+                  {stat.value}
+                </h3>
+                {stat.subtitle && (
+                  <p className="text-white/40 text-[11px] font-medium mt-1 truncate">{stat.subtitle}</p>
+                )}
               </div>
               <div
-                className="p-4 rounded-xl"
-                style={{ background: `${stat.color}15`, border: `1px solid ${stat.color}25` }}
+                className="p-3 sm:p-3.5 rounded-xl flex-shrink-0 self-start mt-0.5"
+                style={{ background: `${stat.color}18`, border: `1px solid ${stat.color}30` }}
               >
-                <stat.icon className="w-6 h-6" style={{ color: stat.color }} />
+                <stat.icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: stat.color }} />
               </div>
             </motion.div>
           ))}
@@ -714,7 +745,6 @@ const AdminDashboard = () => {
                   placeholder="DELETE"
                 />
               </div>
-
               <div className="flex justify-end gap-3 pt-1">
                 <button
                   onClick={() => { setDeleteId(null); setDeleteConfirmText(''); }}

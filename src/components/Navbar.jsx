@@ -75,19 +75,19 @@ const Navbar = () => {
     { name: 'Home', href: '/', hasDropdown: false, isRoute: true },
     { name: 'About Us', href: '/about', hasDropdown: false, isRoute: true },
     {
-      name: 'Solar Batteries', href: '#batteries', hasDropdown: true, isRoute: false,
+      name: 'Solar Batteries', href: '/batteries/solar-system-with-batteries', hasDropdown: true, isRoute: true,
       dropdown: [
         { label: 'Solar System with Batteries', href: '/batteries/solar-system-with-batteries' },
         { label: 'Sigenergy', href: '/batteries/sigenergy' },
         { label: 'Fox ESS', href: '/batteries/fox-ess' },
         { label: 'Pylontech', href: '/batteries/pylontech' },
         { label: 'ESY', href: '/batteries/esy' },
-        { label: 'SOFAR', href: '/batteries/SOFAR' },
+        { label: 'SOFAR', href: '/batteries/sofar' },
         { label: 'GoodWe', href: '/batteries/goodwe' },
       ]
     },
     {
-      name: 'Solar Packages', href: '#packages', hasDropdown: true, isRoute: false,
+      name: 'Solar Packages', href: '/solar/6.6kw', hasDropdown: true, isRoute: true,
       dropdown: [
         { label: '6.6kW Solar', subtitle: '14x475W panels • 5kW inverter', href: '/solar/6.6kw' },
         { label: '10kW Solar', subtitle: '21x475W panels • 8kW inverter', href: '/solar/10kw' },
@@ -97,7 +97,7 @@ const Navbar = () => {
       ]
     },
     {
-      name: 'Commercial', href: '/solar/commercial', hasDropdown: true, isRoute: false,
+      name: 'Commercial', href: '/solar/commercial', hasDropdown: true, isRoute: true,
       dropdown: [
         { label: 'Commercial Solar and Battery', href: '/solar/commercial' },
         { label: 'Finance & $0 Upfront', href: '/solar/commercial#finance' },
@@ -107,10 +107,10 @@ const Navbar = () => {
     { name: 'Contact Us', href: '/contact', hasDropdown: false, isRoute: true },
     {
       name: 'Pay Online',
-      href: 'https://docs.anzworldline-solutions.com.au/en/index',
+      href: '/pay-online',
       hasDropdown: false,
-      isRoute: false,
-      isExternal: true,
+      isRoute: true,
+      isHighlight: true,
     },
   ];
 
@@ -199,13 +199,12 @@ const Navbar = () => {
                   return (
                     <div
                       key={item.name}
-                      className="relative"
+                      className="relative py-2"
                       onMouseEnter={() => {
                         setHoveredItem(item.name);
                         if (item.hasDropdown) setActiveDropdown(item.name);
                       }}
                       onMouseLeave={(e) => {
-                        // Only close if the mouse is not moving into the dropdown panel itself
                         if (item.hasDropdown) {
                           const related = e.relatedTarget;
                           if (!e.currentTarget.contains(related)) {
@@ -214,7 +213,16 @@ const Navbar = () => {
                         }
                       }}
                     >
-                      {item.isExternal ? (
+                      {item.isHighlight ? (
+                        <Link
+                          to={item.href}
+                          className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-black rounded-full transition-all relative bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 border border-emerald-300/40 hover:scale-105 active:scale-95 ml-1 cursor-pointer"
+                        >
+                          <CreditCard size={13} className="text-emerald-100" />
+                          <span className="relative tracking-wide font-extrabold">{item.name}</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse ml-0.5" />
+                        </Link>
+                      ) : item.isExternal ? (
                         <a
                           href={item.href}
                           target="_blank"
@@ -225,11 +233,17 @@ const Navbar = () => {
                           <span className="relative">{item.name}</span>
                           <ExternalLink size={9} className="text-emerald-200" />
                         </a>
-                      ) : item.isRoute ? (
+                      ) : (
                         <Link
                           to={item.href}
-                          className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative ${isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
-                            }`}
+                          onClick={() => {
+                            if (item.hasDropdown) {
+                              setActiveDropdown(activeDropdown === item.name ? null : item.name);
+                            }
+                          }}
+                          className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative cursor-pointer ${
+                            isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
+                          }`}
                         >
                           {isActive && (
                             <motion.span
@@ -247,7 +261,7 @@ const Navbar = () => {
                             <motion.span
                               animate={{ rotate: activeDropdown === item.name ? 180 : 0 }}
                               transition={{ duration: 0.25, ease: EASE }}
-                              className="relative inline-flex"
+                              className="relative inline-flex ml-0.5"
                             >
                               <ChevronDown size={13} />
                             </motion.span>
@@ -265,154 +279,119 @@ const Navbar = () => {
                             )}
                           </AnimatePresence>
                         </Link>
-                      ) : (
-                        <button
-                          onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                          className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative cursor-pointer ${isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
-                            }`}
-                        >
-                          {isActive && (
-                            <motion.span
-                              layoutId="navActivePill"
-                              transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                              className="absolute inset-0 rounded-full -z-10"
-                              style={{
-                                background: 'linear-gradient(90deg, #0f3095ff, #171267ff)',
-                                boxShadow: '0 0 18px rgba(23,32,130,0.91)',
-                              }}
-                            />
-                          )}
-                          <span className="relative">{item.name}</span>
-                          {item.hasDropdown && (
-                            <motion.span
-                              animate={{ rotate: activeDropdown === item.name ? 180 : 0 }}
-                              transition={{ duration: 0.25, ease: EASE }}
-                              className="relative inline-flex"
-                            >
-                              <ChevronDown size={13} />
-                            </motion.span>
-                          )}
-                          <AnimatePresence>
-                            {hoveredItem === item.name && !isActive && (
-                              <motion.span
-                                layoutId="navHoverPill"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="absolute inset-0 bg-blue-50 rounded-full -z-10"
-                              />
-                            )}
-                          </AnimatePresence>
-                        </button>
                       )}
 
-                      {/* Dropdown panel */}
+                      {/* Dropdown panel with seamless top padding bridge */}
                       <AnimatePresence>
                         {item.hasDropdown && activeDropdown === item.name && (
                           <motion.div
-                            initial={{ opacity: 0, y: -6, scaleY: 0.92 }}
+                            initial={{ opacity: 0, y: -4, scaleY: 0.95 }}
                             animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                            exit={{ opacity: 0, y: -6, scaleY: 0.92 }}
-                            transition={{ duration: 0.22, ease: EASE }}
-                            className={`absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[999] origin-top overflow-hidden ${item.dropdownGroups ? 'w-[560px]' : item.name === 'Solar Batteries' ? 'w-[520px]' : item.name === 'Commercial' ? 'w-72 min-w-[280px]' : 'w-64 min-w-[240px]'
-                              }`}
-                            style={{ boxShadow: '0 20px 50px -10px rgba(15,23,42,0.18), 0 4px 12px rgba(15,76,255,0.10)' }}
+                            exit={{ opacity: 0, y: -4, scaleY: 0.95 }}
+                            transition={{ duration: 0.2, ease: EASE }}
+                            className={`absolute top-full left-0 pt-2 z-[999] origin-top ${
+                              item.dropdownGroups ? 'w-[560px]' : item.name === 'Solar Batteries' ? 'w-[520px]' : item.name === 'Commercial' ? 'w-72 min-w-[280px]' : 'w-64 min-w-[240px]'
+                            }`}
                           >
-                            <motion.ul
-                              variants={{
-                                hidden: { opacity: 0 },
-                                visible: { opacity: 1, transition: { staggerChildren: 0.055, delayChildren: 0.04 } }
-                              }}
-                              initial="hidden"
-                              animate="visible"
-                              className={`py-2 ${item.dropdownGroups ? 'grid grid-cols-2 gap-x-4 px-3 py-3' : item.name === 'Solar Batteries' ? 'grid grid-cols-2 gap-x-2' : ''}`}
+                            <div
+                              className="bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden"
+                              style={{ boxShadow: '0 20px 50px -10px rgba(15,23,42,0.18), 0 4px 12px rgba(15,76,255,0.10)' }}
                             >
-                              {item.dropdownGroups ? (
-                                item.dropdownGroups.map((group) => (
-                                  <motion.li
-                                    key={group.title}
-                                    variants={{
-                                      hidden: { opacity: 0, x: -12, y: 4 },
-                                      visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.25, ease: EASE } }
-                                    }}
-                                    className="px-2"
-                                  >
-                                    <div className="px-4 pb-2">
-                                      <div className="text-sm font-semibold text-slate-700">{group.title}</div>
-                                    </div>
-                                    <div className="space-y-1">
-                                      {group.items.map((sub) => (
-                                        <Link
-                                          key={sub.label}
-                                          to={sub.href}
-                                          onClick={() => {
-                                            setActiveDropdown(null);
-                                            setHoveredItem(null);
-                                          }}
-                                          className="group block px-4 py-2 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
+                              <motion.ul
+                                variants={{
+                                  hidden: { opacity: 0 },
+                                  visible: { opacity: 1, transition: { staggerChildren: 0.045, delayChildren: 0.02 } }
+                                }}
+                                initial="hidden"
+                                animate="visible"
+                                className={`py-2 ${item.dropdownGroups ? 'grid grid-cols-2 gap-x-4 px-3 py-3' : item.name === 'Solar Batteries' ? 'grid grid-cols-2 gap-x-2' : ''}`}
+                              >
+                                {item.dropdownGroups ? (
+                                  item.dropdownGroups.map((group) => (
+                                    <motion.li
+                                      key={group.title}
+                                      variants={{
+                                        hidden: { opacity: 0, x: -12, y: 4 },
+                                        visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.22, ease: EASE } }
+                                      }}
+                                      className="px-2"
+                                    >
+                                      <div className="px-4 pb-2">
+                                        <div className="text-sm font-semibold text-slate-700">{group.title}</div>
+                                      </div>
+                                      <div className="space-y-1">
+                                        {group.items.map((sub) => (
+                                          <Link
+                                            key={sub.label}
+                                            to={sub.href}
+                                            onClick={() => {
+                                              setActiveDropdown(null);
+                                              setHoveredItem(null);
+                                            }}
+                                            className="group block px-4 py-2 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
+                                          >
+                                            <div className="flex items-center justify-between">
+                                              <span>{sub.label}</span>
+                                              <motion.span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0">
+                                                <ArrowRight size={13} />
+                                              </motion.span>
+                                            </div>
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </motion.li>
+                                  ))
+                                ) : (
+                                  item.dropdown.map((sub) => (
+                                    <motion.li
+                                      key={sub.label}
+                                      variants={{
+                                        hidden: { opacity: 0, x: -12, y: 4 },
+                                        visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.22, ease: EASE } }
+                                      }}
+                                    >
+                                      <Link
+                                        to={sub.href}
+                                        onClick={() => {
+                                          setActiveDropdown(null);
+                                          setHoveredItem(null);
+                                        }}
+                                        className="group flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
+                                      >
+                                        <div className="flex flex-col">
+                                          <span>{sub.label}</span>
+                                          {sub.subtitle && (
+                                            <span className="text-xs text-slate-400 mt-0.5 font-normal">
+                                              {sub.subtitle}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <motion.span
+                                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0"
                                         >
-                                          <div className="flex items-center justify-between">
-                                            <span>{sub.label}</span>
-                                            <motion.span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0">
-                                              <ArrowRight size={13} />
-                                            </motion.span>
-                                          </div>
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  </motion.li>
-                                ))
-                              ) : (
-                                item.dropdown.map((sub, idx) => (
-                                  <motion.li
-                                    key={sub.label}
-                                    variants={{
-                                      hidden: { opacity: 0, x: -12, y: 4 },
-                                      visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.25, ease: EASE } }
-                                    }}
-                                  >
+                                          <ArrowRight size={13} />
+                                        </motion.span>
+                                      </Link>
+                                    </motion.li>
+                                  ))
+                                )}
+
+                                {item.customizeLink && (
+                                  <motion.li key="customize" className="col-span-2 px-4 py-3">
                                     <Link
-                                      to={sub.href}
+                                      to={item.customizeLink.href}
                                       onClick={() => {
                                         setActiveDropdown(null);
                                         setHoveredItem(null);
                                       }}
-                                      className="group flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-[#0F4CFF] font-medium transition-all duration-150 border-l-2 border-transparent hover:border-[#0F4CFF] hover:pl-5"
+                                      className="block w-full text-center py-2 bg-blue-50 text-[#0F4CFF] rounded-md font-semibold"
                                     >
-                                      <div className="flex flex-col">
-                                        <span>{sub.label}</span>
-                                        {sub.subtitle && (
-                                          <span className="text-xs text-slate-400 mt-0.5 font-normal">
-                                            {sub.subtitle}
-                                          </span>
-                                        )}
-                                      </div>
-                                      <motion.span
-                                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0"
-                                      >
-                                        <ArrowRight size={13} />
-                                      </motion.span>
+                                      {item.customizeLink.label}
                                     </Link>
                                   </motion.li>
-                                ))
-                              )}
-
-                              {item.customizeLink && (
-                                <motion.li key="customize" className="col-span-2 px-4 py-3">
-                                  <Link
-                                    to={item.customizeLink.href}
-                                    onClick={() => {
-                                      setActiveDropdown(null);
-                                      setHoveredItem(null);
-                                    }}
-                                    className="block w-full text-center py-2 bg-blue-50 text-[#0F4CFF] rounded-md font-semibold"
-                                  >
-                                    {item.customizeLink.label}
-                                  </Link>
-                                </motion.li>
-                              )}
-                            </motion.ul>
+                                )}
+                              </motion.ul>
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -424,7 +403,7 @@ const Navbar = () => {
 
             {/* ---- Phone (desktop only, sits quietly in the glass zone) ---- */}
             <a
-              href="tel:1300123456"
+              href="tel:1300959170"
               className="hidden xl:flex items-center gap-2.5 pr-3"
             >
               <span className="w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-white/70 text-[#0F4CFF] flex items-center justify-center flex-shrink-0 shadow-sm">
@@ -436,7 +415,7 @@ const Navbar = () => {
               </div>
             </a>
 
-            {/* ---- CTA: angled diagonal blue panel, gentler cut so it reads as one smooth sweep ---- */}
+            {/* ---- CTA: angled diagonal blue panel ---- */}
             <div
               className="hidden lg:flex items-center pl-14 pr-2 relative overflow-hidden"
               style={{
@@ -500,7 +479,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="lg:hidden relative w-full bg-white border-b border-slate-100 shadow-xl overflow-hidden"
+            className="lg:hidden relative w-full bg-white border-b border-slate-100 shadow-xl overflow-hidden max-h-[calc(100vh-80px)] overflow-y-auto"
           >
             <motion.div
               variants={{
@@ -519,7 +498,20 @@ const Navbar = () => {
                     visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE } }
                   }}
                 >
-                  {item.isExternal ? (
+                  {item.isHighlight ? (
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center justify-between py-3 px-3.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white rounded-xl font-bold text-sm shadow-md shadow-emerald-700/20 border border-emerald-400/30 active:scale-[0.98] transition-all my-1.5"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <CreditCard size={17} className="text-emerald-200" />
+                        <span>{item.name}</span>
+                        <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded text-emerald-100 font-semibold uppercase">Secure</span>
+                      </span>
+                      <ArrowRight size={14} className="text-emerald-200" />
+                    </Link>
+                  ) : item.isExternal ? (
                     <a
                       href={item.href}
                       target="_blank"
@@ -534,30 +526,37 @@ const Navbar = () => {
                       </span>
                       <ExternalLink size={14} className="text-emerald-200" />
                     </a>
-                  ) : item.isRoute ? (
+                  ) : !item.hasDropdown ? (
                     <Link
                       to={item.href}
                       onClick={() => setIsOpen(false)}
                       className="flex items-center justify-between py-3 px-3 text-slate-700 hover:text-[#0F4CFF] hover:bg-blue-50 rounded-xl font-medium text-sm transition-colors"
                     >
                       <span>{item.name}</span>
-                      {item.hasDropdown && <ChevronDown size={14} />}
                     </Link>
                   ) : (
                     <>
-                      <button
-                        onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                        className="w-full flex items-center justify-between py-3 px-3 text-slate-700 hover:text-[#0F4CFF] hover:bg-blue-50 rounded-xl font-medium text-sm transition-colors"
-                      >
-                        <span>{item.name}</span>
-                        <motion.span
-                          animate={{ rotate: activeDropdown === item.name ? 180 : 0 }}
-                          transition={{ duration: 0.25, ease: EASE }}
-                          className="inline-flex"
+                      <div className="flex items-center justify-between py-1 px-1">
+                        <Link
+                          to={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex-1 py-2 px-2 text-slate-800 font-bold text-sm hover:text-[#0F4CFF] transition-colors"
                         >
-                          <ChevronDown size={14} />
-                        </motion.span>
-                      </button>
+                          {item.name}
+                        </Link>
+                        <button
+                          onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                          className="p-2 text-slate-500 hover:text-[#0F4CFF] rounded-lg transition-colors cursor-pointer"
+                        >
+                          <motion.span
+                            animate={{ rotate: activeDropdown === item.name ? 180 : 0 }}
+                            transition={{ duration: 0.25, ease: EASE }}
+                            className="inline-flex"
+                          >
+                            <ChevronDown size={16} />
+                          </motion.span>
+                        </button>
+                      </div>
                       <AnimatePresence>
                         {activeDropdown === item.name && item.hasDropdown && (
                           <motion.div
@@ -626,7 +625,7 @@ const Navbar = () => {
               ))}
 
               <motion.a
-                href="tel:1300123456"
+                href="tel:1300959170"
                 variants={{
                   hidden: { opacity: 0, x: -16 },
                   visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: EASE } }
@@ -638,7 +637,7 @@ const Navbar = () => {
                 </span>
                 <div className="leading-tight">
                   <p className="text-[11px] text-slate-500 font-medium">Call Us Today</p>
-                  <p className="text-sm font-bold text-[#0F172A]">1300 123 456</p>
+                  <p className="text-sm font-bold text-[#0F172A]">1300 959 170</p>
                 </div>
               </motion.a>
 

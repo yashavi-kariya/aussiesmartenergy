@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, PhoneCall, ShieldCheck, Zap, ChevronDown, CheckCircle2 } from 'lucide-react';
+import EnquiryModal from '../../components/EnquiryModal';
 
 import esyBattery from '../../assets/esy1.webp';
-import esySystem from '../../assets/esy/esy1.webp';
-import esyHomeBattery from '../../assets/esy/esy2.webp';
-import esyEnergyManagement from '../../assets/esy/esy3.webp';
+import esySystem from '../../assets/esy/esy1.jpeg';
+import esyHomeBattery from '../../assets/esy/esy2.jpeg';
+import esyEnergyManagement from '../../assets/esy/esy3.jpeg';
+
 import esyConnectedHome from '../../assets/esy/esy4.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
 import esyWarranty from '../../assets/esy/esy6.webp';
@@ -54,6 +56,23 @@ const faqs = [
 
 const EsyPage = () => {
   const [activeFaq, setActiveFaq] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Get A Free Proposal');
+  const [modalSubtitle, setModalSubtitle] = useState("Fill in your details and our team will get back to you with a customized quote.");
+  const [formType, setFormType] = useState('free-proposal');
+
+  const openQuoteModal = (packageTitle) => {
+    if (packageTitle) {
+      setModalTitle(`Get A FREE Quote - ${packageTitle}`);
+      setModalSubtitle(`Fill in your details to receive a custom quote for the ${packageTitle} package.`);
+      setFormType(`quote-${packageTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+    } else {
+      setModalTitle('Get A Free Proposal');
+      setModalSubtitle("Fill in your details and our team will get back to you with a customized quote.");
+      setFormType('free-proposal');
+    }
+    setIsModalOpen(true);
+  };
 
   return (
     <main className="overflow-hidden bg-white pt-0">
@@ -101,23 +120,23 @@ const EsyPage = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 pt-3">
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#39b54a] to-[#2ea13d] hover:from-[#2ea13d] hover:to-[#248232] text-white font-bold shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/35 transition-all duration-200 transform hover:-translate-y-0.5 text-xs sm:text-sm border border-emerald-400/20"
+              <button
+                type="button"
+                onClick={() => openQuoteModal()}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#39b54a] to-[#2ea13d] hover:from-[#2ea13d] hover:to-[#248232] text-white font-bold shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/35 transition-all duration-200 transform hover:-translate-y-0.5 text-xs sm:text-sm border border-emerald-400/20 cursor-pointer"
               >
                 Get A Free Proposal
                 <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              </button>
               <a
                 href="tel:1300986827"
                 className="inline-flex items-center justify-center gap-2 px-4.5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/25 hover:border-white/40 transition-all duration-200 text-xs sm:text-sm backdrop-blur-sm shadow-sm hover:-translate-y-0.5"
               >
                 <PhoneCall className="w-3.5 h-3.5 text-emerald-300" />
-                1300 986 827
+                1300 959 170
               </a>
             </div>
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -580,13 +599,14 @@ const EsyPage = () => {
               <span className="font-bold text-emerald-300">ESY Sunhome battery</span> solution offers flexible capacity, intelligent monitoring, and scalable capacity options designed for modern households.
             </p>
             <div className="pt-2">
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#39b54a] hover:bg-[#2ea13d] text-white font-extrabold shadow-lg shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5"
+              <button
+                type="button"
+                onClick={() => openQuoteModal()}
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#39b54a] hover:bg-[#2ea13d] text-white font-extrabold shadow-lg shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer"
               >
                 Speak with the team today
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </button>
             </div>
           </div>
         </motion.div>
@@ -613,20 +633,18 @@ const EsyPage = () => {
               >
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : index)}
-                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${
-                    isOpen
-                      ? 'bg-gradient-to-r from-blue-900 to-[#003b73] text-white font-semibold'
-                      : 'bg-white text-slate-700 hover:bg-slate-50 font-normal'
-                  }`}
+                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${isOpen
+                    ? 'bg-gradient-to-r from-blue-900 to-[#003b73] text-white font-semibold'
+                    : 'bg-white text-slate-700 hover:bg-slate-50 font-normal'
+                    }`}
                 >
                   <span className="flex items-center gap-3 text-sm sm:text-base font-semibold">
                     <span className={`font-bold text-base sm:text-lg ${isOpen ? 'text-emerald-300' : 'text-[#39b54a]'}`}>✓</span>
                     <span>{faq.question}</span>
                   </span>
                   <ChevronDown
-                    className={`h-5 w-5 flex-none transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-white' : 'text-slate-500'
-                    }`}
+                    className={`h-5 w-5 flex-none transition-transform duration-200 ${isOpen ? 'rotate-180 text-white' : 'text-slate-500'
+                      }`}
                   />
                 </button>
 
@@ -648,6 +666,15 @@ const EsyPage = () => {
           })}
         </div>
       </section>
+      {/* ── Quote / Inquiry Modal ── */}
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        formType={formType}
+        title={modalTitle}
+        subtitle={modalSubtitle}
+        accentColor="#39b54a"
+      />
     </main>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Send, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Send, AlertCircle, CheckCircle2, Zap, Sun, ShieldCheck, Sparkles, Maximize2, X } from 'lucide-react';
 import api from '../utils/api';
-import solarPanelImg from '../assets/solar_panel_6kw.jpg';
+import solarPanel13kwImg from '../assets/solar_13kw_hero_banner.jpg';
 import paybackImg from '../assets/solar_payback_house.jpg';
 
 const Solar13kw = () => {
@@ -22,6 +22,7 @@ const Solar13kw = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -95,24 +96,68 @@ const Solar13kw = () => {
             {/* Left Column: Heading, Solar Panel Image & Bullets */}
             <div className="lg:col-span-7 space-y-6">
               
-              {/* Header Box with Image */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-[#f0f9ff] border border-sky-100 rounded-3xl p-6 sm:p-8">
-                <div>
+              {/* Header Box with System Details & Highlighted Image */}
+              <div className="space-y-6 bg-gradient-to-br from-[#f0f9ff] via-[#e6f4ff] to-sky-50 border border-sky-100 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-sm">
+                <div className="absolute -top-12 -right-12 w-48 h-48 bg-sky-200/40 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative z-10 space-y-3">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#008de4]/10 text-[#008de4] border border-[#008de4]/20 rounded-full text-xs font-bold uppercase tracking-wider">
+                      <Sun className="w-3.5 h-3.5 text-[#008de4]" />
+                      Residential Solar System
+                    </span>
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded-full text-xs font-bold">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      High Capacity Choice
+                    </span>
+                  </div>
+
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#008de4] tracking-tight leading-tight">
-                    13.3kW Solar Panel
+                    13.3kW Solar Panel System
                   </h1>
-                  <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#008de4] tracking-tight mt-1">
-                    System
-                  </p>
-                  <div className="h-1 w-20 bg-[#008de4] rounded-full mt-3" />
+                  <div className="h-1.5 w-24 bg-gradient-to-r from-[#008de4] to-sky-400 rounded-full" />
                 </div>
 
-                <div className="w-36 sm:w-44 flex-shrink-0 flex justify-center">
-                  <img
-                    src={solarPanelImg}
-                    alt="13.3 kW Solar Panels"
-                    className="h-44 sm:h-52 object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300"
-                  />
+                {/* Highlighted Featured Showcase Card */}
+                <div className="relative pt-2">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#008de4] via-sky-400 to-blue-600 rounded-3xl blur-md opacity-30 group-hover:opacity-60 transition duration-500" />
+                  
+                  <div 
+                    onClick={() => setIsImageModalOpen(true)}
+                    className="relative rounded-2xl overflow-hidden border-2 border-white/90 shadow-xl bg-slate-900 group cursor-pointer"
+                  >
+                    <img
+                      src={solarPanel13kwImg}
+                      alt="13.3 kW Solar Panel System Showcase"
+                      className="w-full h-60 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    />
+                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-300" />
+
+                    {/* Top Badges */}
+                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-2">
+                      <span className="px-3 py-1 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-lg">
+                        <Zap className="w-3.5 h-3.5 text-amber-400" />
+                        13.3 kW High Capacity
+                      </span>
+                    </div>
+
+                    {/* Zoom Button */}
+                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2.5 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white rounded-xl group-hover:bg-[#008de4] transition-all duration-300 shadow-lg">
+                      <Maximize2 className="w-4 h-4" />
+                    </div>
+
+                    {/* Bottom Highlight Details Bar */}
+                    <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 flex items-center justify-between text-white">
+                      <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-100">
+                        <ShieldCheck className="w-4.5 h-4.5 text-sky-400 flex-shrink-0" />
+                        <span>28–32 Tier-1 Panels • 40–52 kWh Daily Yield</span>
+                      </div>
+                      <span className="text-xs font-bold text-amber-300 bg-amber-400/20 backdrop-blur-md px-3 py-1 rounded-lg border border-amber-400/30 hidden sm:inline-block">
+                        Click to Expand Graphic
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -609,6 +654,53 @@ const Solar13kw = () => {
         </section>
 
       </div>
+
+      {/* ── Image Lightbox Modal ────────────────────────────────────────────── */}
+      {isImageModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 transition-all duration-300"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          <div 
+            className="relative max-w-4xl w-full bg-slate-900 border border-slate-700/80 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/60">
+              <div className="flex items-center gap-3">
+                <Sun className="w-5 h-5 text-[#008de4]" />
+                <h3 className="text-base sm:text-lg font-bold text-white">13.3 kW Solar Panel System Showcase</h3>
+              </div>
+              <button
+                onClick={() => setIsImageModalOpen(false)}
+                className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            {/* Modal Body */}
+            <div className="p-4 sm:p-6 bg-slate-950 flex items-center justify-center overflow-y-auto flex-1">
+              <img
+                src={solarPanel13kwImg}
+                alt="13.3 kW Solar System Showcase Banner"
+                className="max-h-[70vh] w-auto object-contain rounded-2xl shadow-2xl border border-slate-800"
+              />
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-6 py-3 bg-slate-950 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+              <span>High-Resolution 13.3 kW System Graphic</span>
+              <button
+                onClick={() => setIsImageModalOpen(false)}
+                className="text-[#008de4] hover:underline font-semibold"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
