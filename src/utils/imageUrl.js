@@ -1,3 +1,5 @@
+import { getApiBaseUrl } from './api';
+
 /**
  * Utility to safely resolve uploaded media URLs from the backend.
  * Handles full URLs (localhost or production domain), relative /uploads paths,
@@ -11,7 +13,7 @@ export const getImageUrl = (url) => {
     const uploadIdx = url.indexOf('/uploads/');
     if (uploadIdx !== -1) {
         const relativePath = url.substring(uploadIdx);
-        const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        const apiBase = getApiBaseUrl();
         const backendOrigin = apiBase.replace(/\/api\/?$/, '');
         return `${backendOrigin}${relativePath}`;
     }

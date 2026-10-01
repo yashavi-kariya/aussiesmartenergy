@@ -180,7 +180,7 @@ const PayOnline = () => {
       console.error('Pay Online submission error:', err);
       setStatus('error');
       if (!err.response) {
-        setServerMsg('Backend server connection error. Ensure the backend server is running on http://localhost:5000.');
+        setServerMsg('Unable to connect to payment server. Please check your internet connection and try again.');
       } else {
         setServerMsg(err?.response?.data?.message || 'Payment initiation failed. Please try again.');
       }
