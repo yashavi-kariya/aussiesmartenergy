@@ -119,9 +119,12 @@ if (fs.existsSync(clientDistDir)) {
 app.use(notFound);
 app.use(errorHandler);
 
+import { verifyAnzWorldlineConfig } from './services/anzWorldlineService.js';
+
 // Start accepting HTTP traffic immediately so liveness checks work during startup.
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    verifyAnzWorldlineConfig();
 });
 
 // Connect to MongoDB after the server starts; readiness reports unavailable until connected.

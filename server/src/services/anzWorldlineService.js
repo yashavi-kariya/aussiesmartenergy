@@ -8,33 +8,96 @@ import onlinePaymentsSdk from 'onlinepayments-sdk-nodejs';
 
 let sdkClient = null;
 
-const isPlaceholder = (val) => {
+/**
+ * Mask credential string for safe diagnostic logging
+ */
+export const maskCredential = (val) => {
+    if (!val) return '[NOT CONFIGURED]';
+    const trimmed = String(val).trim();
+    if (trimmed.length <= 8) return '****';
+    return `${trimmed.substring(0, 4)}...${trimmed.substring(trimmed.length - 4)}`;
+};
+
+export const isPlaceholder = (val) => {
     if (!val) return true;
-    const lower = val.trim().toLowerCase();
+    const lower = String(val).trim().toLowerCase();
     return (
+        lower === '' ||
         lower === 'your_anz_api_key' ||
         lower === 'your_api_key_id' ||
+        lower === 'your_api_key_here' ||
         lower === 'sandbox_api_key' ||
         lower === 'your_merchant_id' ||
+        lower === 'your_merchant_id_here' ||
         lower === 'sandbox_merchant_id' ||
         lower === 'your_anz_merchant_id' ||
         lower === 'your_secret_api_key' ||
+        lower === 'your_api_secret_here' ||
         lower === 'sandbox_api_secret' ||
         lower === 'your_anz_api_secret'
     );
 };
 
-const getCredentials = () => {
-    const apiKeyId = process.env.ANZ_WORLDLINE_API_KEY || process.env.ANZ_API_KEY;
-    const secretApiKey = process.env.ANZ_WORLDLINE_API_SECRET || process.env.ANZ_API_SECRET;
-    const merchantId = process.env.ANZ_WORLDLINE_MERCHANT_ID || process.env.ANZ_MERCHANT_ID || 'test_merchant_id';
-    const host = (
-        process.env.ANZ_WORLDLINE_API_ENDPOINT ||
-        process.env.ANZ_API_ENDPOINT ||
-        'payment.preprod.anzworldline-solutions.com.au'
-    ).replace(/^https?:\/\//, '').replace(/\/$/, '');
+export const getCredentials = () => {
+    const env = (process.env.ANZ_ENV || process.env.ANZ_WORLDLINE_ENVIRONMENT || 'production').trim().toLowerCase();
+    const apiKeyId = process.env.ANZ_API_KEY || process.env.ANZ_WORLDLINE_API_KEY;
+    const secretApiKey = process.env.ANZ_API_SECRET || process.env.ANZ_WORLDLINE_API_SECRET;
+    const merchantId = process.env.ANZ_MERCHANT_ID || process.env.ANZ_WORLDLINE_MERCHANT_ID;
+    const rawEndpoint = process.env.ANZ_API_ENDPOINT || process.env.ANZ_WORLDLINE_API_ENDPOINT || 'https://payment.anzworldline-solutions.com.au/';
 
-    return { apiKeyId, secretApiKey, merchantId, host };
+    const host = rawEndpoint
+        .replace(/^https?:\/\//i, '')
+        .replace(/\/.*$/, '')
+        .trim();
+
+    return { env, apiKeyId, secretApiKey, merchantId, rawEndpoint, host };
+};
+
+/**
+ * Perform safe server-side verification of ANZ Worldline environment variables
+ */
+export const verifyAnzWorldlineConfig = () => {
+    const { env, apiKeyId, secretApiKey, merchantId, rawEndpoint, host } = getCredentials();
+    const missingOrInvalid = [];
+
+    if (!merchantId || isPlaceholder(merchantId)) {
+        missingOrInvalid.push('ANZ_MERCHANT_ID');
+    }
+    if (!apiKeyId || isPlaceholder(apiKeyId)) {
+        missingOrInvalid.push('ANZ_API_KEY');
+    }
+    if (!secretApiKey || isPlaceholder(secretApiKey)) {
+        missingOrInvalid.push('ANZ_API_SECRET');
+    }
+    if (!rawEndpoint || isPlaceholder(rawEndpoint)) {
+        missingOrInvalid.push('ANZ_API_ENDPOINT');
+    }
+
+    if (missingOrInvalid.length > 0) {
+        console.error(`❌ [ANZ Worldline Config Error] Missing or unconfigured environment variable(s): ${missingOrInvalid.join(', ')}`);
+        return {
+            isValid: false,
+            missingVars: missingOrInvalid,
+            message: `ANZ Worldline configuration error: Missing required environment variable(s): ${missingOrInvalid.join(', ')}.`
+        };
+    }
+
+    const expectedProdHost = 'payment.anzworldline-solutions.com.au';
+    const isProdHost = host.toLowerCase() === expectedProdHost;
+
+    if (env === 'production' && !isProdHost) {
+        console.warn(`⚠️ [ANZ Worldline Config Warning] Configured ANZ_ENV is 'production', but endpoint '${host}' does not match official ANZ Worldline production endpoint 'https://${expectedProdHost}/'.`);
+    }
+
+    console.log(`🔒 [ANZ Worldline Config Verified] Environment: ${env} | Endpoint: https://${host}/ | Merchant ID: ${maskCredential(merchantId)} | API Key: ${maskCredential(apiKeyId)} | API Secret: [MASKED]`);
+
+    return {
+        isValid: true,
+        env,
+        host,
+        merchantIdMasked: maskCredential(merchantId),
+        apiKeyIdMasked: maskCredential(apiKeyId),
+    };
 };
 
 /**
@@ -43,10 +106,11 @@ const getCredentials = () => {
 const getSdkClient = () => {
     if (sdkClient) return sdkClient;
 
-    const { apiKeyId, secretApiKey, merchantId, host } = getCredentials();
+    const { env, apiKeyId, secretApiKey, merchantId, host } = getCredentials();
+    const verification = verifyAnzWorldlineConfig();
 
-    if (isPlaceholder(apiKeyId) || isPlaceholder(secretApiKey) || isPlaceholder(merchantId)) {
-        console.warn('⚠️ [ANZ Worldline] Placeholder credentials in .env. Test Hosted Checkout simulator active.');
+    if (!verification.isValid) {
+        console.warn(`⚠️ [ANZ Worldline SDK] Client initialization skipped due to missing environment variables: ${verification.missingVars.join(', ')}`);
         return null;
     }
 
@@ -57,9 +121,10 @@ const getSdkClient = () => {
             secretApiKey,
             integrator: 'AussieSmartEnergy',
         });
+        console.log(`✅ [ANZ Worldline SDK] Client initialized successfully for host https://${host}/ (Merchant: ${maskCredential(merchantId)})`);
         return sdkClient;
     } catch (err) {
-        console.error('❌ [ANZ Worldline] Failed to initialize SDK client:', err.message);
+        console.error('❌ [ANZ Worldline SDK] Failed to initialize SDK client:', err.message);
         return null;
     }
 };
@@ -116,7 +181,7 @@ export const createHostedCheckoutSession = async ({
 
     if (client) {
         try {
-            console.log(`📡 [ANZ Worldline] Executing hostedCheckout.createHostedCheckout for Merchant ${merchantId}...`);
+            console.log(`📡 [ANZ Worldline] Executing hostedCheckout.createHostedCheckout for Merchant ${maskCredential(merchantId)}...`);
             const response = await client.hostedCheckout.createHostedCheckout(
                 merchantId,
                 createHostedCheckoutRequest,
