@@ -22,7 +22,6 @@ const AdminPayments = () => {
   const [stats, setStats] = useState({ total: 0, success: 0, pending: 0, failed: 0, cancelled: 0, totalRevenue: 0 });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -237,9 +236,8 @@ const AdminPayments = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className={`p-5 rounded-2xl flex items-center justify-between min-w-0 transition-all ${
-                stat.highlight ? 'ring-1 ring-emerald-500/40 shadow-lg shadow-emerald-500/10' : ''
-              }`}
+              className={`p-5 rounded-2xl flex items-center justify-between min-w-0 transition-all ${stat.highlight ? 'ring-1 ring-emerald-500/40 shadow-lg shadow-emerald-500/10' : ''
+                }`}
               style={{
                 background: stat.highlight
                   ? `linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, ${NAVY_MID}99 100%)`

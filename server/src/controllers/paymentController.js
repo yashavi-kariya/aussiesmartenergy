@@ -15,6 +15,8 @@ const PACKAGE_PRICES = {
     '10kw-32kwh': 6999,
     '13.3kw-40kwh': 8999,
     'goodwe-24kwh': 2499,
+    'goodwe-32kwh': 3499,
+    'goodwe-40kwh': 4499,
 };
 
 /**
@@ -66,9 +68,11 @@ export const createPayment = async (req, res, next) => {
         }
 
         // Server-side amount validation
-        let validatedAmount = Number(amount);
+        let rawAmount = amount !== undefined && amount !== null && amount !== '' ? amount : packageDetails.price;
+        let validatedAmount = Number(rawAmount);
+
         const pkgId = (packageDetails.packageId || '').toLowerCase();
-        if (PACKAGE_PRICES[pkgId]) {
+        if (pkgId && PACKAGE_PRICES[pkgId]) {
             validatedAmount = PACKAGE_PRICES[pkgId];
         }
 
@@ -165,8 +169,11 @@ export const createPayment = async (req, res, next) => {
             },
         });
     } catch (error) {
-        console.error('❌ Error creating payment:', error);
-        next(error);
+        console.error('❌ Error creating payment:', error?.message || error);
+        return res.status(400).json({
+            success: false,
+            message: error.message || 'Payment initiation failed. Please verify gateway configuration.',
+        });
     }
 };
 
@@ -184,8 +191,17 @@ export const getPaymentStatus = async (req, res, next) => {
             payment = await Payment.findById(paymentId);
         }
 
-        if (!payment && queryCheckoutId) {
-            payment = await Payment.findOne({ hostedCheckoutId: queryCheckoutId });
+        if (!payment) {
+            const lookupId = queryCheckoutId || paymentId;
+            if (lookupId && lookupId !== 'undefined') {
+                payment = await Payment.findOne({
+                    $or: [
+                        { hostedCheckoutId: lookupId },
+                        { orderId: lookupId },
+                        { projectNumber: lookupId },
+                    ],
+                });
+            }
         }
 
         if (!payment) {
@@ -250,18 +266,20 @@ export const handleWebhook = async (req, res, next) => {
         const hostedCheckoutId = event.hostedCheckoutId || event.payment?.hostedCheckoutId;
         const merchantOrderId = event.payment?.paymentOutput?.references?.merchantOrderId || event.merchantOrderId;
 
-        if (hostedCheckoutId || merchantOrderId) {
-            const payment = await Payment.findOne({
-                $or: [
-                    { hostedCheckoutId: hostedCheckoutId },
-                    { orderId: merchantOrderId },
-                ],
-            });
+        const orConditions = [];
+        if (hostedCheckoutId) orConditions.push({ hostedCheckoutId });
+        if (merchantOrderId) {
+            orConditions.push({ orderId: merchantOrderId });
+            orConditions.push({ projectNumber: merchantOrderId });
+        }
+
+        if (orConditions.length > 0) {
+            const payment = await Payment.findOne({ $or: orConditions });
 
             if (payment) {
                 const eventType = event.type || event.payment?.statusOutput?.status;
                 if (eventType) {
-                    if (eventType.includes('PAID') || eventType.includes('CAPTURED')) {
+                    if (eventType.includes('PAID') || eventType.includes('CAPTURED') || eventType === '9') {
                         payment.status = 'SUCCESS';
                     } else if (eventType.includes('CANCELLED')) {
                         payment.status = 'CANCELLED';
@@ -323,19 +341,52 @@ export const getAdminPayments = async (req, res, next) => {
 
         const sort = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
 
-        const [payments, total] = await Promise.all([
+        const [payments, total, statsAgg] = await Promise.all([
             Payment.find(filter).sort(sort).skip(skip).limit(limitNum),
             Payment.countDocuments(filter),
+            Payment.aggregate([
+                {
+                    $group: {
+                        _id: '$status',
+                        count: { $sum: 1 },
+                        revenue: {
+                            $sum: {
+                                $cond: [{ $eq: ['$status', 'SUCCESS'] }, '$amount', 0]
+                            }
+                        }
+                    }
+                }
+            ])
         ]);
 
-        const allPayments = await Payment.find({});
+        let totalCount = 0;
+        let successCount = 0;
+        let pendingCount = 0;
+        let failedCount = 0;
+        let cancelledCount = 0;
+        let totalRevenue = 0;
+
+        statsAgg.forEach(s => {
+            totalCount += s.count;
+            if (s._id === 'SUCCESS') {
+                successCount = s.count;
+                totalRevenue = s.revenue;
+            } else if (s._id === 'PENDING') {
+                pendingCount = s.count;
+            } else if (s._id === 'FAILED') {
+                failedCount = s.count;
+            } else if (s._id === 'CANCELLED') {
+                cancelledCount = s.count;
+            }
+        });
+
         const stats = {
-            total: allPayments.length,
-            success: allPayments.filter(p => p.status === 'SUCCESS').length,
-            pending: allPayments.filter(p => p.status === 'PENDING').length,
-            failed: allPayments.filter(p => p.status === 'FAILED').length,
-            cancelled: allPayments.filter(p => p.status === 'CANCELLED').length,
-            totalRevenue: allPayments.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0),
+            total: totalCount,
+            success: successCount,
+            pending: pendingCount,
+            failed: failedCount,
+            cancelled: cancelledCount,
+            totalRevenue,
         };
 
         res.json({
@@ -363,3 +414,4 @@ export default {
     handleWebhook,
     getAdminPayments,
 };
+

@@ -39,25 +39,41 @@ export const isPlaceholder = (val) => {
 };
 
 export const getCredentials = () => {
-    const env = (process.env.ANZ_ENV || process.env.ANZ_WORLDLINE_ENVIRONMENT || 'production').trim().toLowerCase();
+    const paymentMode = (process.env.PAYMENT_MODE || '').trim().toLowerCase();
+    const env = (
+        process.env.ANZ_ENV ||
+        process.env.ANZ_ENVIRONMENT ||
+        process.env.ANZ_WORLDLINE_ENVIRONMENT ||
+        (paymentMode === 'production' ? 'production' : 'sandbox')
+    ).trim().toLowerCase();
+
     const apiKeyId = process.env.ANZ_API_KEY || process.env.ANZ_WORLDLINE_API_KEY;
     const secretApiKey = process.env.ANZ_API_SECRET || process.env.ANZ_WORLDLINE_API_SECRET;
     const merchantId = process.env.ANZ_MERCHANT_ID || process.env.ANZ_WORLDLINE_MERCHANT_ID;
-    const rawEndpoint = process.env.ANZ_API_ENDPOINT || process.env.ANZ_WORLDLINE_API_ENDPOINT || 'https://payment.anzworldline-solutions.com.au/';
+
+    const isProd = env === 'production' || env === 'prod' || paymentMode === 'production';
+    const isSimulation = paymentMode === 'simulation' && !isProd;
+
+    const defaultEndpoint = isProd
+        ? 'payment.anzworldline-solutions.com.au'
+        : 'payment.preprod.anzworldline-solutions.com.au';
+
+    const configuredEndpoint = process.env.ANZ_API_ENDPOINT || process.env.ANZ_WORLDLINE_API_ENDPOINT;
+    let rawEndpoint = configuredEndpoint ? configuredEndpoint : defaultEndpoint;
 
     const host = rawEndpoint
         .replace(/^https?:\/\//i, '')
         .replace(/\/.*$/, '')
         .trim();
 
-    return { env, apiKeyId, secretApiKey, merchantId, rawEndpoint, host };
+    return { env, paymentMode, isProd, isSimulation, apiKeyId, secretApiKey, merchantId, rawEndpoint, host };
 };
 
 /**
  * Perform safe server-side verification of ANZ Worldline environment variables
  */
 export const verifyAnzWorldlineConfig = () => {
-    const { env, apiKeyId, secretApiKey, merchantId, rawEndpoint, host } = getCredentials();
+    const { env, isProd, isSimulation, apiKeyId, secretApiKey, merchantId, host } = getCredentials();
     const missingOrInvalid = [];
 
     if (!merchantId || isPlaceholder(merchantId)) {
@@ -69,32 +85,34 @@ export const verifyAnzWorldlineConfig = () => {
     if (!secretApiKey || isPlaceholder(secretApiKey)) {
         missingOrInvalid.push('ANZ_API_SECRET');
     }
-    if (!rawEndpoint || isPlaceholder(rawEndpoint)) {
-        missingOrInvalid.push('ANZ_API_ENDPOINT');
-    }
 
     if (missingOrInvalid.length > 0) {
-        console.error(`❌ [ANZ Worldline Config Error] Missing or unconfigured environment variable(s): ${missingOrInvalid.join(', ')}`);
+        if (isProd) {
+            console.error(`❌ [ANZ Worldline Production Error] Missing or unconfigured required production environment variable(s): ${missingOrInvalid.join(', ')}`);
+        } else {
+            console.warn(`⚠️ [ANZ Worldline Config Notice] Unconfigured environment variable(s): ${missingOrInvalid.join(', ')}.`);
+        }
         return {
             isValid: false,
             missingVars: missingOrInvalid,
-            message: `ANZ Worldline configuration error: Missing required environment variable(s): ${missingOrInvalid.join(', ')}.`
+            message: `ANZ Worldline Gateway Configuration Error: Missing required environment variable(s): ${missingOrInvalid.join(', ')}. Please update server/.env with valid credentials.`
         };
     }
 
     const expectedProdHost = 'payment.anzworldline-solutions.com.au';
     const isProdHost = host.toLowerCase() === expectedProdHost;
 
-    if (env === 'production' && !isProdHost) {
-        console.warn(`⚠️ [ANZ Worldline Config Warning] Configured ANZ_ENV is 'production', but endpoint '${host}' does not match official ANZ Worldline production endpoint 'https://${expectedProdHost}/'.`);
+    if (isProd && !isProdHost) {
+        console.warn(`⚠️ [ANZ Worldline Config Warning] Production mode active, but endpoint '${host}' does not match official ANZ Worldline production endpoint 'https://${expectedProdHost}/'.`);
     }
 
-    console.log(`🔒 [ANZ Worldline Config Verified] Environment: ${env} | Endpoint: https://${host}/ | Merchant ID: ${maskCredential(merchantId)} | API Key: ${maskCredential(apiKeyId)} | API Secret: [MASKED]`);
+    console.log(`🔒 [ANZ Worldline Config Verified] Mode: ${isProd ? 'PRODUCTION' : (isSimulation ? 'SIMULATION' : 'SANDBOX')} | Environment: ${env} | Endpoint: https://${host}/ | Merchant ID: ${maskCredential(merchantId)} | API Key: ${maskCredential(apiKeyId)}`);
 
     return {
         isValid: true,
         env,
         host,
+        isProd,
         merchantIdMasked: maskCredential(merchantId),
         apiKeyIdMasked: maskCredential(apiKeyId),
     };
@@ -106,11 +124,13 @@ export const verifyAnzWorldlineConfig = () => {
 const getSdkClient = () => {
     if (sdkClient) return sdkClient;
 
-    const { env, apiKeyId, secretApiKey, merchantId, host } = getCredentials();
+    const { isProd, apiKeyId, secretApiKey, merchantId, host } = getCredentials();
     const verification = verifyAnzWorldlineConfig();
 
     if (!verification.isValid) {
-        console.warn(`⚠️ [ANZ Worldline SDK] Client initialization skipped due to missing environment variables: ${verification.missingVars.join(', ')}`);
+        if (isProd) {
+            console.error(`❌ [ANZ Worldline SDK] Failed to initialize client in production mode due to unconfigured variables: ${verification.missingVars.join(', ')}`);
+        }
         return null;
     }
 
@@ -121,7 +141,7 @@ const getSdkClient = () => {
             secretApiKey,
             integrator: 'AussieSmartEnergy',
         });
-        console.log(`✅ [ANZ Worldline SDK] Client initialized successfully for host https://${host}/ (Merchant: ${maskCredential(merchantId)})`);
+        console.log(`✅ [ANZ Worldline SDK] Client initialized for https://${host}/ (Merchant: ${maskCredential(merchantId)})`);
         return sdkClient;
     } catch (err) {
         console.error('❌ [ANZ Worldline SDK] Failed to initialize SDK client:', err.message);
@@ -141,7 +161,14 @@ export const createHostedCheckoutSession = async ({
     packageDetails = {},
     projectNumber = '',
 }) => {
-    const { merchantId, host } = getCredentials();
+    const { isProd, isSimulation, merchantId, host } = getCredentials();
+    const verification = verifyAnzWorldlineConfig();
+
+    // In Production mode, configuration MUST be valid
+    if (!verification.isValid && !isSimulation) {
+        throw new Error(verification.message);
+    }
+
     const client = getSdkClient();
 
     const formattedProjectNumber = projectNumber || orderId;
@@ -157,15 +184,19 @@ export const createHostedCheckoutSession = async ({
                     emailAddress: customer.email || '',
                     phoneNumber: customer.phone || '',
                 },
+                personalInformation: {
+                    name: {
+                        firstName: customer.firstName || 'Customer',
+                        surname: customer.lastName || 'Valued',
+                    },
+                },
                 billingAddress: {
-                    firstName: customer.firstName || 'Customer',
-                    lastName: customer.lastName || 'Valued',
                     countryCode: customer.countryCode || 'AU',
                     street: customer.address || 'Australian Address',
                 },
             },
             references: {
-                merchantOrderId: formattedProjectNumber.substring(0, 50),
+                merchantReference: formattedProjectNumber.substring(0, 50),
             },
         },
         hostedCheckoutSpecificInput: {
@@ -181,51 +212,73 @@ export const createHostedCheckoutSession = async ({
 
     if (client) {
         try {
-            console.log(`📡 [ANZ Worldline] Executing hostedCheckout.createHostedCheckout for Merchant ${maskCredential(merchantId)}...`);
+            console.log(`📡 [ANZ Worldline API] Requesting createHostedCheckout for Merchant ${maskCredential(merchantId)} on host ${host}...`);
             const response = await client.hostedCheckout.createHostedCheckout(
                 merchantId,
                 createHostedCheckoutRequest,
                 null
             );
 
-            console.log('✅ [ANZ Worldline] CreateHostedCheckout API Response:', JSON.stringify(response, null, 2));
+            console.log('✅ [ANZ Worldline API] CreateHostedCheckout Response:', JSON.stringify(response, null, 2));
 
-            let redirectUrl = response.redirectUrl || response.hostedCheckoutRedirectUrl;
-            if (!redirectUrl && response.partialRedirectUrl) {
-                redirectUrl = `https://${host}/${response.partialRedirectUrl.replace(/^\//, '')}`;
-            } else if (redirectUrl && !redirectUrl.startsWith('http')) {
-                redirectUrl = `https://${host}/${redirectUrl.replace(/^\//, '')}`;
+            if (response && (response.redirectUrl || response.hostedCheckoutRedirectUrl || response.hostedCheckoutId)) {
+                let redirectUrl = response.redirectUrl || response.hostedCheckoutRedirectUrl;
+                if (!redirectUrl && response.partialRedirectUrl) {
+                    redirectUrl = `https://${host}/${response.partialRedirectUrl.replace(/^\//, '')}`;
+                } else if (redirectUrl && !redirectUrl.startsWith('http')) {
+                    redirectUrl = `https://${host}/${redirectUrl.replace(/^\//, '')}`;
+                }
+
+                return {
+                    hostedCheckoutId: response.hostedCheckoutId,
+                    partialRedirectUrl: response.partialRedirectUrl || '',
+                    redirectUrl,
+                    RETURNMAC: response.RETURNMAC || '',
+                    isMock: false,
+                    raw: response,
+                };
             }
 
-            return {
-                hostedCheckoutId: response.hostedCheckoutId,
-                partialRedirectUrl: response.partialRedirectUrl || '',
-                redirectUrl,
-                RETURNMAC: response.RETURNMAC || '',
-                isMock: false,
-                raw: response,
-            };
+            const apiErrMsg = response?.body?.errors?.[0]?.message || response?.body?.errors?.[0]?.id || `ANZ Worldline API Error (Status ${response?.status || 403})`;
+            
+            // In Production or real API mode, NEVER fall back to simulator
+            if (!isSimulation) {
+                throw new Error(`ANZ Worldline API Gateway Error: ${apiErrMsg}`);
+            }
+
+            console.warn(`⚠️ [ANZ Worldline Development Notice] Gateway returned ${apiErrMsg}. Development simulation active.`);
         } catch (error) {
-            console.error('❌ [ANZ Worldline] CreateHostedCheckout API Error:', error?.response || error?.message || error);
-            throw new Error(error?.message || 'ANZ Worldline Hosted Checkout API call failed.');
+            console.error('❌ [ANZ Worldline API] CreateHostedCheckout Exception:', error?.response || error?.message || error);
+            
+            // If NOT explicitly in PAYMENT_MODE=simulation, rethrow the error
+            if (!isSimulation) {
+                throw new Error(error?.message || 'ANZ Worldline Payment Gateway communication failed.');
+            }
         }
+    } else if (!isSimulation) {
+        // SDK Client is null and not in simulation mode
+        throw new Error(`ANZ Worldline Payment Gateway is unavailable. ${verification.message}`);
     }
 
-    // Local Test Simulation Mode when credentials are not active yet
-    const mockHostedCheckoutId = `hc_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-    const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/$/, '');
-    const amountVal = (amountInCents / 100).toFixed(2);
-    const constructedRedirectUrl = `${frontendUrl}/hostedcheckout/HostedCheckout/${mockHostedCheckoutId}?returnUrl=${encodeURIComponent(returnUrl)}&amount=${amountVal}&projectNumber=${encodeURIComponent(formattedProjectNumber)}&email=${encodeURIComponent(customer.email || '')}`;
+    // Local Test Simulation Mode - ONLY allowed if PAYMENT_MODE=simulation in local dev
+    if (isSimulation) {
+        const mockHostedCheckoutId = `hc_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/$/, '');
+        const amountVal = (amountInCents / 100).toFixed(2);
+        const constructedRedirectUrl = `${frontendUrl}/hostedcheckout/HostedCheckout/${mockHostedCheckoutId}?returnUrl=${encodeURIComponent(returnUrl)}&amount=${amountVal}&projectNumber=${encodeURIComponent(formattedProjectNumber)}&email=${encodeURIComponent(customer.email || '')}`;
 
-    console.log(`ℹ️ [ANZ Worldline Test Mode] Hosted Checkout Redirect URL: ${constructedRedirectUrl}`);
+        console.log(`ℹ️ [Development Simulation Mode] Hosted Checkout Redirect URL: ${constructedRedirectUrl}`);
 
-    return {
-        hostedCheckoutId: mockHostedCheckoutId,
-        partialRedirectUrl: `hostedcheckout/HostedCheckout/${mockHostedCheckoutId}`,
-        redirectUrl: constructedRedirectUrl,
-        RETURNMAC: 'test_return_mac',
-        isMock: true,
-    };
+        return {
+            hostedCheckoutId: mockHostedCheckoutId,
+            partialRedirectUrl: `hostedcheckout/HostedCheckout/${mockHostedCheckoutId}`,
+            redirectUrl: constructedRedirectUrl,
+            RETURNMAC: 'test_return_mac',
+            isMock: true,
+        };
+    }
+
+    throw new Error('ANZ Worldline Payment Gateway could not initialize session.');
 };
 
 /**
@@ -236,32 +289,41 @@ export const getHostedCheckoutStatus = async (hostedCheckoutId, queryParams = {}
         throw new Error('Hosted Checkout ID is required to fetch status.');
     }
 
-    const { merchantId } = getCredentials();
+    const { isSimulation, merchantId } = getCredentials();
     const client = getSdkClient();
 
-    // Check if query params indicate explicit status override (e.g. from return URL)
-    if (queryParams.status === 'CANCELLED') {
-        return {
-            status: 'CANCELLED',
-            statusOutput: { statusCode: 0, statusCategory: 'CANCELLED' },
-            transactionId: `txn_cancel_${Date.now()}`,
-            isMock: true,
-        };
+    // Query param override & mock check are strictly forbidden unless PAYMENT_MODE=simulation
+    if (isSimulation) {
+        if (queryParams.status) {
+            const qStatus = String(queryParams.status).toUpperCase();
+            if (['CANCELLED', 'FAILED', 'SUCCESS', 'PENDING'].includes(qStatus)) {
+                return {
+                    status: qStatus,
+                    statusOutput: { statusCode: qStatus === 'SUCCESS' ? 9 : 0, statusCategory: qStatus },
+                    transactionId: `txn_sim_${qStatus.toLowerCase()}_${Date.now()}`,
+                    isMock: true,
+                };
+            }
+        }
+
+        if (hostedCheckoutId.startsWith('hc_')) {
+            return {
+                status: 'SUCCESS',
+                statusOutput: { statusCode: 9, statusCategory: 'COMPLETED' },
+                transactionId: `txn_sim_${Date.now()}`,
+                isMock: true,
+            };
+        }
     }
 
-    if (hostedCheckoutId.startsWith('hc_') || !client) {
-        return {
-            status: 'SUCCESS',
-            statusOutput: { statusCode: 9, statusCategory: 'COMPLETED' },
-            transactionId: `txn_anz_${Date.now()}`,
-            isMock: true,
-        };
+    if (!client) {
+        throw new Error('ANZ Worldline Gateway client is not configured on backend.');
     }
 
     try {
         const response = await client.hostedCheckout.getHostedCheckout(merchantId, hostedCheckoutId);
         
-        console.log(`✅ [ANZ Worldline] GetHostedCheckout Status Response for ${hostedCheckoutId}:`, JSON.stringify(response, null, 2));
+        console.log(`✅ [ANZ Worldline API] GetHostedCheckout Status for ${hostedCheckoutId}:`, JSON.stringify(response, null, 2));
 
         const rawStatus = response.status || response.createdPaymentOutput?.payment?.statusOutput?.status || '';
         const mappedStatus = mapWorldlineStatusToInternal(rawStatus, response);
@@ -275,8 +337,8 @@ export const getHostedCheckoutStatus = async (hostedCheckoutId, queryParams = {}
             isMock: false,
         };
     } catch (error) {
-        console.error('❌ [ANZ Worldline] GetHostedCheckout Status Error:', error?.message || error);
-        throw new Error('Failed to retrieve ANZ Worldline Hosted Checkout status.');
+        console.error('❌ [ANZ Worldline API] GetHostedCheckout Error:', error?.message || error);
+        throw new Error(`Failed to retrieve ANZ Worldline transaction status: ${error?.message || 'Gateway API unreachable'}`);
     }
 };
 
@@ -314,10 +376,15 @@ export const mapWorldlineStatusToInternal = (rawStatus, responseObj = {}) => {
  * Verify ANZ Worldline Webhook signature
  */
 export const verifyWebhookSignature = (req) => {
+    const { isProd } = getCredentials();
     const signature = req.headers['x-gcs-signature'] || req.headers['x-anz-signature'];
     const webhookSecret = process.env.ANZ_WORLDLINE_WEBHOOK_SECRET || process.env.ANZ_WEBHOOK_SECRET;
 
     if (!signature || !webhookSecret) {
+        if (isProd) {
+            console.warn('⚠️ [ANZ Webhook Rejected] Missing signature header or secret key in production mode.');
+            return false;
+        }
         return true;
     }
 
@@ -327,10 +394,11 @@ export const verifyWebhookSignature = (req) => {
                 getSecretKey: async () => webhookSecret,
             },
         });
-        return webhooksHelper.unmarshal(req.body, req.headers);
-    } catch (err) {
-        console.warn('⚠️ Webhook verification warning:', err.message);
+        webhooksHelper.unmarshal(req.body, req.headers);
         return true;
+    } catch (err) {
+        console.warn('⚠️ [ANZ Webhook Rejected] Signature verification failed:', err.message);
+        return false;
     }
 };
 
@@ -340,3 +408,4 @@ export default {
     mapWorldlineStatusToInternal,
     verifyWebhookSignature,
 };
+

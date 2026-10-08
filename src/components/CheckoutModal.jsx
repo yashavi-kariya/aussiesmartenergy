@@ -229,7 +229,7 @@ const CheckoutModal = ({
               </div>
 
               <Field id="email" label="Email Address" icon={Mail} type="email" placeholder="john.smith@example.com" required value={form.email} onChange={handleChange('email')} error={errors.email} />
-              <Field id="phone" label="Phone Number" icon={Phone} type="tel" placeholder="04XX XXX XXX" required value={form.phone} onChange={handleChange('phone')} error={errors.phone} maxLength={10} />
+              <Field id="phone" label="Phone Number" icon={Phone} type="tel" placeholder="04XX XXX XXX" required value={form.phone} onChange={handleChange('phone')} error={errors.phone} maxLength={16} />
               <Field id="address" label="Installation Address" icon={MapPin} placeholder="Street address, suburb, state" value={form.address} onChange={handleChange('address')} error={errors.address} />
 
               {status === 'error' && (

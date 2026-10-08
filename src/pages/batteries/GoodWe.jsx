@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CreditCard } from 'lucide-react';
 import EnquiryModal from '../../components/EnquiryModal';
+import CheckoutModal from '../../components/CheckoutModal';
 
 // Assets
 import solarBatteries1 from '../../assets/goodwe/goodwe24kwh.jpg';
@@ -46,6 +48,9 @@ const GoodWe = () => {
   const [modalSubtitle, setModalSubtitle] = useState("Fill in your details and our team will get back to you with a customized quote.");
   const [formType, setFormType] = useState('free-quote');
 
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [selectedCheckoutPackage, setSelectedCheckoutPackage] = useState(null);
+
   const openQuoteModal = (packageTitle) => {
     if (packageTitle) {
       setModalTitle(`Get A FREE Quote - ${packageTitle}`);
@@ -59,10 +64,23 @@ const GoodWe = () => {
     setIsModalOpen(true);
   };
 
+  const openCheckout = (pkg) => {
+    setSelectedCheckoutPackage({
+      title: pkg.title,
+      price: pkg.price || 2499,
+      currency: 'AUD',
+      subtitle: pkg.subtitle,
+      packageId: pkg.id,
+      formType: 'goodwe-package',
+    });
+    setIsCheckoutOpen(true);
+  };
+
   const packagesData = {
     'solar-battery': [
       {
-        id: '24kwh',
+        id: 'goodwe-24kwh',
+        price: 2499,
         badge: 'BEST FOR ESSENTIALS',
         badgeBg: 'bg-gradient-to-r from-red-600 to-rose-600',
         title: '24kWh Solar Battery',
@@ -76,7 +94,8 @@ const GoodWe = () => {
         ],
       },
       {
-        id: '32kwh',
+        id: 'goodwe-32kwh',
+        price: 3499,
         badge: 'BEST FOR GROWING FAMILIES',
         badgeBg: 'bg-gradient-to-r from-[#006ab7] to-blue-700',
         title: '32kWh Solar Battery',
@@ -90,7 +109,8 @@ const GoodWe = () => {
         ],
       },
       {
-        id: '40kwh',
+        id: 'goodwe-40kwh',
+        price: 4499,
         badge: 'BEST FOR MAXIMUM SAVINGS',
         badgeBg: 'bg-gradient-to-r from-red-600 to-blue-700',
         title: '40kWh Solar Battery',
@@ -107,6 +127,7 @@ const GoodWe = () => {
     'solar-plus-battery': [
       {
         id: '6.6kw-24kwh',
+        price: 4999,
         badge: 'BEST FOR ESSENTIALS',
         badgeBg: 'bg-gradient-to-r from-red-600 to-rose-600',
         title: '6.6kW Solar + 24kWh Battery',
@@ -121,6 +142,7 @@ const GoodWe = () => {
       },
       {
         id: '10kw-32kwh',
+        price: 6999,
         badge: 'BEST FOR GROWING FAMILIES',
         badgeBg: 'bg-gradient-to-r from-[#006ab7] to-blue-700',
         title: '10kW Solar + 32kWh Battery',
@@ -135,6 +157,7 @@ const GoodWe = () => {
       },
       {
         id: '13.3kw-40kwh',
+        price: 8999,
         badge: 'BEST FOR MAXIMUM SAVINGS',
         badgeBg: 'bg-gradient-to-r from-red-600 to-blue-700',
         title: '13.3kW Solar + 40kWh Battery',
@@ -323,10 +346,18 @@ const GoodWe = () => {
               <div className="p-6 pt-0 flex flex-col gap-2.5">
                 <button
                   type="button"
-                  onClick={() => openQuoteModal(pkg.title)}
-                  className="block w-full py-3 px-4 text-center rounded-xl bg-gradient-to-r from-[#003b73] via-[#006ab7] to-[#39b54a] hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-blue-500/25 transition-all duration-200 cursor-pointer"
+                  onClick={() => openCheckout(pkg)}
+                  className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:opacity-95 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-emerald-600/25 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
                 >
-                  Get A FREE Quote
+                  <CreditCard className="w-4 h-4 text-emerald-100" />
+                  <span>Pay Now with ANZ Worldline (${(pkg.price || 2499).toLocaleString('en-AU')})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openQuoteModal(pkg.title)}
+                  className="w-full py-2.5 px-4 text-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer"
+                >
+                  Request FREE Custom Quote
                 </button>
               </div>
             </motion.div>
@@ -873,6 +904,13 @@ const GoodWe = () => {
         title={modalTitle}
         subtitle={modalSubtitle}
         accentColor="#ef4444"
+      />
+
+      {/* ── ANZ Worldline Checkout Modal ── */}
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        packageDetails={selectedCheckoutPackage || undefined}
       />
     </main>
   );

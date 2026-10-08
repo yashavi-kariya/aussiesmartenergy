@@ -10,11 +10,12 @@ Add the following environment variables to your backend `.env` file (`server/.en
 
 ```env
 # ANZ Worldline Payment Gateway Configuration
+PAYMENT_MODE=production
+ANZ_ENVIRONMENT=production
 ANZ_MERCHANT_ID=your_anz_merchant_id
 ANZ_API_KEY=your_anz_api_key
 ANZ_API_SECRET=your_anz_api_secret
-ANZ_API_ENDPOINT=payment.preprod.anzworldline-solutions.com.au
-ANZ_ENVIRONMENT=sandbox
+ANZ_API_ENDPOINT=payment.anzworldline-solutions.com.au
 ANZ_WEBHOOK_SECRET=your_anz_webhook_secret
 ```
 
