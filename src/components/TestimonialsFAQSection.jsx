@@ -24,14 +24,17 @@ const TestimonialsFAQSection = ({ onlyFAQ = false }) => {
     },
     {
       q: 'How long does installation take?',
-      a: 'Most residential solar installations are completed within 1–2 days. Connection approvals and paperwork take 2–4 weeks, which our team manages entirely on your behalf.'
+      a: 'Most residential solar installations  takes up to 10 hrs  or just one day. Connection approvals and paperwork take 2–4 weeks, which our team manages entirely on your behalf.'
     },
     {
       q: 'Is my roof suitable for solar?',
       a: 'Most roofs in good structural condition are suitable. North-facing roofs perform best, but east/west-facing roofs also work well. We conduct a free site assessment to determine suitability.'
     },
+    {
+      q: 'Can I add a solar battery if I already have solar panels installed?',
+      a: `Yes, absolutely. You can install a storage battery to an existing solar setup, but your options will depend heavily on the type of inverter your system currently uses.`
+    }
   ];
-
   return (
     <section
       ref={ref}
@@ -117,11 +120,13 @@ const TestimonialsFAQSection = ({ onlyFAQ = false }) => {
                   border: '1.5px solid rgba(57,181,74,0.55)',
                   boxShadow: '0 0 18px rgba(57,181,74,0.35), inset 0 0 12px rgba(57,181,74,0.08)',
                 }}
-                animate={{ boxShadow: [
-                  '0 0 12px rgba(57,181,74,0.3), inset 0 0 10px rgba(57,181,74,0.06)',
-                  '0 0 28px rgba(57,181,74,0.6), inset 0 0 16px rgba(57,181,74,0.12)',
-                  '0 0 12px rgba(57,181,74,0.3), inset 0 0 10px rgba(57,181,74,0.06)',
-                ]}}
+                animate={{
+                  boxShadow: [
+                    '0 0 12px rgba(57,181,74,0.3), inset 0 0 10px rgba(57,181,74,0.06)',
+                    '0 0 28px rgba(57,181,74,0.6), inset 0 0 16px rgba(57,181,74,0.12)',
+                    '0 0 12px rgba(57,181,74,0.3), inset 0 0 10px rgba(57,181,74,0.06)',
+                  ]
+                }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
               >
                 {/* Shimmer sweep */}
