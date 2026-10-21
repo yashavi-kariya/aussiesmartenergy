@@ -13,25 +13,8 @@ import { protectAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Ensure upload directory exists
-const baseUploadsDir = process.cwd().endsWith('server')
-    ? path.join(process.cwd(), 'uploads')
-    : path.join(process.cwd(), 'server', 'uploads');
-const uploadDir = path.join(baseUploadsDir, 'reviews');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        const name = path.basename(file.originalname, ext).replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        cb(null, `avatar-${name}-${Date.now()}${ext}`);
-    }
-});
+// Use memory storage for direct cloud upload
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage,

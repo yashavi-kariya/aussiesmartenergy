@@ -1,7 +1,7 @@
-import fs from 'fs';
 import path from 'path';
 import Banner from '../models/Banner.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
+import { uploadImageBuffer, deleteImage } from '../config/cloudinary.js';
 
 const MAX_BANNERS = 10;
 
@@ -29,12 +29,6 @@ export const uploadBanners = async (req, res, next) => {
         const currentCount = await Banner.countDocuments({});
 
         if (currentCount >= MAX_BANNERS) {
-            // Clean up uploaded temp files if any
-            if (req.files && req.files.length > 0) {
-                req.files.forEach(file => {
-                    if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
-                });
-            }
             return errorResponse(res, `Maximum limit of ${MAX_BANNERS} hero banner images has already been reached.`, 400);
         }
 
@@ -45,14 +39,9 @@ export const uploadBanners = async (req, res, next) => {
 
         if (currentCount + files.length > MAX_BANNERS) {
             const availableSlots = MAX_BANNERS - currentCount;
-            // Clean up uploaded temp files
-            files.forEach(file => {
-                if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
-            });
             return errorResponse(res, `Cannot upload ${files.length} images. Only ${availableSlots} slot(s) remaining (Max: ${MAX_BANNERS}).`, 400);
         }
 
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
         const createdBanners = [];
 
         // Find highest existing display order
@@ -60,7 +49,11 @@ export const uploadBanners = async (req, res, next) => {
         let nextOrder = lastBanner ? lastBanner.displayOrder + 1 : 1;
 
         for (const file of files) {
-            const imageUrl = `${baseUrl}/uploads/banners/${file.filename}`;
+            const imageUrl = await uploadImageBuffer(file.buffer, {
+                folder: 'aussiesmartenergy/banners',
+                originalname: file.originalname,
+                req,
+            });
             const title = path.parse(file.originalname).name;
             const newBanner = await Banner.create({
                 imageUrl,
@@ -73,12 +66,6 @@ export const uploadBanners = async (req, res, next) => {
 
         return successResponse(res, createdBanners, `${createdBanners.length} banner image(s) uploaded successfully.`, 201);
     } catch (error) {
-        // Clean up files on unexpected error
-        if (req.files && req.files.length > 0) {
-            req.files.forEach(file => {
-                if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
-            });
-        }
         next(error);
     }
 };
@@ -92,23 +79,8 @@ export const deleteBanner = async (req, res, next) => {
             return errorResponse(res, 'Banner image not found.', 404);
         }
 
-        // Extract filename and delete from server storage if exists
-        try {
-            if (banner.imageUrl) {
-                const urlParts = banner.imageUrl.split('/uploads/banners/');
-                if (urlParts.length > 1) {
-                    const filename = urlParts[1];
-                    const baseUploadsDir = process.cwd().endsWith('server')
-                        ? path.join(process.cwd(), 'uploads')
-                        : path.join(process.cwd(), 'server', 'uploads');
-                    const filePath = path.join(baseUploadsDir, 'banners', filename);
-                    if (fs.existsSync(filePath)) {
-                        fs.unlinkSync(filePath);
-                    }
-                }
-            }
-        } catch (fsErr) {
-            console.error('Error removing banner file from disk:', fsErr);
+        if (banner.imageUrl) {
+            await deleteImage(banner.imageUrl);
         }
 
         await Banner.findByIdAndDelete(id);

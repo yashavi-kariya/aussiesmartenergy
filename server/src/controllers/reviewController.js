@@ -1,6 +1,7 @@
 import Review from '../models/Review.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 import { clearGoogleReviewsCache } from './googleReviewController.js';
+import { uploadImageBuffer, deleteImage } from '../config/cloudinary.js';
 
 const DEFAULT_GOOGLE_MAPS_URL = 
     process.env.GOOGLE_BUSINESS_URL ||
@@ -72,8 +73,11 @@ export const createReview = async (req, res, next) => {
 
         let imagePath = authorImage || '';
         if (req.file) {
-            const baseUrl = `${req.protocol}://${req.get('host')}`;
-            imagePath = `${baseUrl}/uploads/reviews/${req.file.filename}`;
+            imagePath = await uploadImageBuffer(req.file.buffer, {
+                folder: 'aussiesmartenergy/reviews',
+                originalname: req.file.originalname,
+                req,
+            });
         }
 
         // Calculate next display order
@@ -136,8 +140,14 @@ export const updateReview = async (req, res, next) => {
         if (displayOrder !== undefined) review.displayOrder = Number(displayOrder);
 
         if (req.file) {
-            const baseUrl = `${req.protocol}://${req.get('host')}`;
-            review.authorImage = `${baseUrl}/uploads/reviews/${req.file.filename}`;
+            if (review.authorImage) {
+                await deleteImage(review.authorImage);
+            }
+            review.authorImage = await uploadImageBuffer(req.file.buffer, {
+                folder: 'aussiesmartenergy/reviews',
+                originalname: req.file.originalname,
+                req,
+            });
         } else if (authorImage !== undefined) {
             review.authorImage = authorImage;
         }
@@ -154,11 +164,16 @@ export const updateReview = async (req, res, next) => {
 export const deleteReview = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const review = await Review.findByIdAndDelete(id);
+        const review = await Review.findById(id);
         if (!review) {
             return errorResponse(res, 'Review not found', 404);
         }
 
+        if (review.authorImage) {
+            await deleteImage(review.authorImage);
+        }
+
+        await Review.findByIdAndDelete(id);
         clearGoogleReviewsCache();
 
         return successResponse(res, null, 'Review deleted successfully');

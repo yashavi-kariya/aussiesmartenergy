@@ -1,7 +1,6 @@
-import fs from 'fs';
-import path from 'path';
 import Project from '../models/Project.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
+import { uploadImageBuffer, deleteImage } from '../config/cloudinary.js';
 
 const makeSlug = async (name) => {
     const base = name.toString().toLowerCase().trim()
@@ -24,14 +23,27 @@ export const createProject = async (req, res, next) => {
 
         const slug = await makeSlug(name);
 
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
-        const mainImage = req.files && req.files.mainImage && req.files.mainImage[0]
-            ? `${baseUrl}/uploads/projects/${req.files.mainImage[0].filename}`
-            : '';
+        let mainImage = '';
+        if (req.files && req.files.mainImage && req.files.mainImage[0]) {
+            mainImage = await uploadImageBuffer(req.files.mainImage[0].buffer, {
+                folder: 'aussiesmartenergy/projects',
+                originalname: req.files.mainImage[0].originalname,
+                req,
+            });
+        }
 
-        const gallery = (req.files && req.files.gallery)
-            ? req.files.gallery.map(f => `${baseUrl}/uploads/projects/${f.filename}`)
-            : [];
+        let gallery = [];
+        if (req.files && req.files.gallery && req.files.gallery.length > 0) {
+            gallery = await Promise.all(
+                req.files.gallery.map(f =>
+                    uploadImageBuffer(f.buffer, {
+                        folder: 'aussiesmartenergy/projects',
+                        originalname: f.originalname,
+                        req,
+                    })
+                )
+            );
+        }
 
         // New projects should be on top — use auto-increment integer (LIFO: sort DESC)
         const lastProject = await Project.findOne({}).sort({ displayOrder: -1 }).select('displayOrder');
@@ -87,26 +99,29 @@ export const updateProject = async (req, res, next) => {
         if (shortDescription !== undefined) project.shortDescription = shortDescription;
         if (longDescription !== undefined) project.longDescription = longDescription;
 
-        const baseUploadsDir = process.cwd().endsWith('server')
-            ? path.join(process.cwd(), 'uploads')
-            : path.join(process.cwd(), 'server', 'uploads');
-
         // mainImage replacement
         if (req.files && req.files.mainImage && req.files.mainImage[0]) {
-            // delete old mainImage file if present
             if (project.mainImage) {
-                const parts = project.mainImage.split('/uploads/projects/');
-                if (parts.length > 1) {
-                    const oldPath = path.join(baseUploadsDir, 'projects', parts[1]);
-                    try { if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath); } catch (e) { }
-                }
+                await deleteImage(project.mainImage);
             }
-            project.mainImage = `${req.protocol}://${req.get('host')}/uploads/projects/${req.files.mainImage[0].filename}`;
+            project.mainImage = await uploadImageBuffer(req.files.mainImage[0].buffer, {
+                folder: 'aussiesmartenergy/projects',
+                originalname: req.files.mainImage[0].originalname,
+                req,
+            });
         }
 
         // add new gallery files
-        if (req.files && req.files.gallery) {
-            const newGallery = req.files.gallery.map(f => `${req.protocol}://${req.get('host')}/uploads/projects/${f.filename}`);
+        if (req.files && req.files.gallery && req.files.gallery.length > 0) {
+            const newGallery = await Promise.all(
+                req.files.gallery.map(f =>
+                    uploadImageBuffer(f.buffer, {
+                        folder: 'aussiesmartenergy/projects',
+                        originalname: f.originalname,
+                        req,
+                    })
+                )
+            );
             project.gallery = project.gallery.concat(newGallery);
         }
 
@@ -130,26 +145,12 @@ export const deleteProject = async (req, res, next) => {
             return successResponse(res, project, 'Project deleted from admin only');
         }
 
-        // delete files
-        const baseUploadsDir = process.cwd().endsWith('server')
-            ? path.join(process.cwd(), 'uploads')
-            : path.join(process.cwd(), 'server', 'uploads');
-
+        // Delete cloud or local files
         if (project.mainImage) {
-            const parts = project.mainImage.split('/uploads/projects/');
-            if (parts.length > 1) {
-                const oldPath = path.join(baseUploadsDir, 'projects', parts[1]);
-                try { if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath); } catch (e) { }
-            }
+            await deleteImage(project.mainImage);
         }
         if (project.gallery && project.gallery.length) {
-            for (const g of project.gallery) {
-                const parts = g.split('/uploads/projects/');
-                if (parts.length > 1) {
-                    const pth = path.join(baseUploadsDir, 'projects', parts[1]);
-                    try { if (fs.existsSync(pth)) fs.unlinkSync(pth); } catch (e) { }
-                }
-            }
+            await Promise.all(project.gallery.map(g => deleteImage(g)));
         }
 
         await Project.findByIdAndDelete(req.params.id);
@@ -178,18 +179,11 @@ export const deleteGalleryImage = async (req, res, next) => {
         const project = await Project.findById(id);
         if (!project) return errorResponse(res, 'Project not found', 404);
 
-        const imagePath = project.gallery.find(g => g.endsWith(imageName));
+        const imagePath = project.gallery.find(g => g.endsWith(imageName) || g.includes(imageName));
         if (!imagePath) return errorResponse(res, 'Image not found in gallery', 404);
 
-        // remove file
-        const baseUploadsDir = process.cwd().endsWith('server')
-            ? path.join(process.cwd(), 'uploads')
-            : path.join(process.cwd(), 'server', 'uploads');
-        const parts = imagePath.split('/uploads/projects/');
-        if (parts.length > 1) {
-            const pth = path.join(baseUploadsDir, 'projects', parts[1]);
-            try { if (fs.existsSync(pth)) fs.unlinkSync(pth); } catch (e) { }
-        }
+        // Remove from storage (Cloudinary or local)
+        await deleteImage(imagePath);
 
         project.gallery = project.gallery.filter(g => g !== imagePath);
         await project.save();

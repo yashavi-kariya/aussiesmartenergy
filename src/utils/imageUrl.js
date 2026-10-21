@@ -8,6 +8,7 @@ import { getApiBaseUrl } from './api';
 export const getImageUrl = (url) => {
     if (!url || typeof url !== 'string') return '';
     if (url.startsWith('data:') || url.startsWith('blob:')) return url;
+    if (url.includes('cloudinary.com')) return url;
 
     // Extract the /uploads/... relative path if present
     const uploadIdx = url.indexOf('/uploads/');

@@ -6,26 +6,12 @@ import { protectAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// ensure upload directory
-const baseUploadsDir = process.cwd().endsWith('server')
-    ? path.join(process.cwd(), 'uploads')
-    : path.join(process.cwd(), 'server', 'uploads');
-const uploadDir = path.join(baseUploadsDir, 'projects');
-import fs from 'fs';
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        const name = path.basename(file.originalname, ext).replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        cb(null, `${name}-${Date.now()}${ext}`);
-    }
+// Use memory storage for direct cloud upload
+const storage = multer.memoryStorage();
+const upload = multer({
+    storage,
+    limits: { fileSize: 15 * 1024 * 1024 } // 15MB max file size
 });
-
-const upload = multer({ storage });
 
 // Public
 router.get('/', getAllProjects);
