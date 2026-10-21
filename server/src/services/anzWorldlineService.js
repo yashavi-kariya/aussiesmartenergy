@@ -171,7 +171,13 @@ export const createHostedCheckoutSession = async ({
 
     const client = getSdkClient();
 
-    const formattedProjectNumber = projectNumber || orderId;
+    let merchantReference = orderId;
+    if (projectNumber && projectNumber.trim() && projectNumber.trim() !== orderId) {
+        // Include both Project Ref and Order ID so searching for either in the ANZ Portal finds this transaction
+        merchantReference = `${projectNumber.trim()} - ${orderId}`.substring(0, 50);
+    } else {
+        merchantReference = (orderId || '').substring(0, 50);
+    }
 
     const createHostedCheckoutRequest = {
         order: {
@@ -196,7 +202,7 @@ export const createHostedCheckoutSession = async ({
                 },
             },
             references: {
-                merchantReference: formattedProjectNumber.substring(0, 50),
+                merchantReference,
             },
         },
         cardPaymentMethodSpecificInput: {
