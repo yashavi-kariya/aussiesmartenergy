@@ -8,6 +8,19 @@ server/.env
 server/.env.local
 server/.env.production
 
+# ─── Database Dumps & Exports (Sensitive Customer & Admin Data) ─────
+database_seed.json
+database_export.json
+seed_data.json
+seed_data_no_ids.json
+*.seed.json
+database_exports/
+seeds/
+server/exports/
+server/uploads/
+seedTargetDatabase.js
+PAYMENT_INTEGRATION.md
+
 # ─── Dependencies ──────────────────────────────────────────────────
 node_modules/
 server/node_modules/
