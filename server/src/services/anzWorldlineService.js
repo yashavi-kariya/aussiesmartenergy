@@ -199,6 +199,9 @@ export const createHostedCheckoutSession = async ({
                 merchantReference: formattedProjectNumber.substring(0, 50),
             },
         },
+        cardPaymentMethodSpecificInput: {
+            authorizationMode: 'SALE',
+        },
         hostedCheckoutSpecificInput: {
             locale: 'en_AU',
             returnUrl,
@@ -327,9 +330,22 @@ export const getHostedCheckoutStatus = async (hostedCheckoutId, queryParams = {}
         console.log(`✅ [ANZ Worldline API] GetHostedCheckout Status for ${hostedCheckoutId}:`, JSON.stringify(response, null, 2));
 
         const body = response?.body || response;
-        const rawStatus = body.status || body.createdPaymentOutput?.payment?.statusOutput?.status || response.status || '';
+        const createdPayment = body.createdPaymentOutput?.payment;
+        const transactionId = createdPayment?.id || body.paymentId || hostedCheckoutId;
+
+        // Auto-capture safety check: if payment is authorized but in PENDING_CAPTURE, trigger capture so funds settle
+        if (client && createdPayment?.id && createdPayment?.status === 'PENDING_CAPTURE' && createdPayment?.statusOutput?.isAuthorized) {
+            try {
+                console.log(`⚡ [ANZ Worldline API] Auto-capturing authorized payment ${createdPayment.id}...`);
+                const capRes = await client.payments.capturePayment(merchantId, createdPayment.id, { isFinal: true });
+                console.log(`✅ [ANZ Worldline API] Auto-capture successful:`, capRes?.body?.status);
+            } catch (capErr) {
+                console.warn(`⚠️ [ANZ Worldline API] Auto-capture note:`, capErr.message);
+            }
+        }
+
+        const rawStatus = createdPayment?.status || body.createdPaymentOutput?.paymentStatusCategory || body.status || '';
         const mappedStatus = mapWorldlineStatusToInternal(rawStatus, body);
-        const transactionId = body.createdPaymentOutput?.payment?.id || body.paymentId || hostedCheckoutId;
 
         return {
             status: mappedStatus,
@@ -348,14 +364,32 @@ export const getHostedCheckoutStatus = async (hostedCheckoutId, queryParams = {}
  * Map ANZ Worldline status strings to internal system payment status
  */
 export const mapWorldlineStatusToInternal = (rawStatus, responseObj = {}) => {
-    if (!rawStatus) {
-        if (responseObj.createdPaymentOutput) return 'SUCCESS';
-        return 'PENDING';
+    // 1. Check top-level paymentStatusCategory
+    const category = (
+        responseObj.createdPaymentOutput?.paymentStatusCategory ||
+        responseObj.paymentStatusCategory ||
+        ''
+    ).toUpperCase();
+
+    if (category === 'SUCCESSFUL') {
+        return 'SUCCESS';
     }
 
-    const statusUpper = rawStatus.toUpperCase();
+    // 2. Check inner payment object
+    const createdPayment = responseObj.createdPaymentOutput?.payment;
+    if (createdPayment) {
+        const pStatus = (createdPayment.status || '').toUpperCase();
+        if (['PAID', 'CAPTURED', 'CAPTURE_REQUESTED', 'PENDING_CAPTURE', '9', '91', 'COMPLETED'].includes(pStatus)) {
+            return 'SUCCESS';
+        }
+        if (createdPayment.statusOutput?.isAuthorized) {
+            return 'SUCCESS';
+        }
+    }
 
-    if (['PAID', 'CAPTURED', 'CAPTURE_REQUESTED', '9', 'PAYMENT_CREATED_SUCCESS', 'COMPLETED'].includes(statusUpper)) {
+    const statusUpper = (rawStatus || '').toUpperCase();
+
+    if (['PAID', 'CAPTURED', 'CAPTURE_REQUESTED', 'PENDING_CAPTURE', '9', '91', 'PAYMENT_CREATED_SUCCESS', 'COMPLETED'].includes(statusUpper)) {
         return 'SUCCESS';
     }
     if (['CANCELLED', 'CANCELLED_BY_CONSUMER', 'CANCELLED_BY_MERCHANT'].includes(statusUpper)) {
@@ -367,7 +401,7 @@ export const mapWorldlineStatusToInternal = (rawStatus, responseObj = {}) => {
     if (['REFUNDED', 'REFUND_REQUESTED'].includes(statusUpper)) {
         return 'REFUNDED';
     }
-    if (['IN_PROGRESS', 'PAYMENT_CREATED', 'PENDING_PAYMENT', 'WAITING_FOR_PAYMENT'].includes(statusUpper)) {
+    if (['IN_PROGRESS', 'PAYMENT_CREATED', 'PENDING_PAYMENT', 'WAITING_FOR_PAYMENT', 'REDIRECTED'].includes(statusUpper)) {
         return 'PENDING';
     }
 

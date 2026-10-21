@@ -33,6 +33,23 @@ const AdminPayments = () => {
   const [totalItems, setTotalItems] = useState(0);
 
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const [syncing, setSyncing] = useState(false);
+
+  const handleSyncPayment = async (payment) => {
+    if (!payment) return;
+    setSyncing(true);
+    try {
+      const res = await api.post(`/payments/${payment._id}/sync`);
+      if (res.data?.success && res.data.data) {
+        setSelectedPayment(res.data.data);
+        fetchPayments();
+      }
+    } catch (err) {
+      console.error('Error syncing payment with ANZ:', err);
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -515,7 +532,18 @@ const AdminPayments = () => {
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end">
+              <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={() => handleSyncPayment(selectedPayment)}
+                  disabled={syncing}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-sm disabled:opacity-50"
+                  style={{ background: 'linear-gradient(135deg, #003b73 0%, #006ab7 100%)' }}
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
+                  {syncing ? 'Checking with ANZ...' : 'Sync Status with ANZ Bank'}
+                </button>
+
                 <button onClick={() => setSelectedPayment(null)} className="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 font-bold text-slate-700 text-sm">
                   Close
                 </button>

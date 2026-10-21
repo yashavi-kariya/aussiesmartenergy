@@ -469,7 +469,7 @@ const AdminProjects = () => {
                                         className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-lg text-xs font-bold flex items-center gap-1"
                                         style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)' }}
                                     >
-                                        <Hash className="w-3 h-3" />{p.displayOrder}
+                                        <Hash className="w-3 h-3" />{idx + 1}
                                     </div>
                                     {/* Status Badge */}
                                     {p.deletedFromAdmin ? (

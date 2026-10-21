@@ -420,10 +420,49 @@ export const getAdminPayments = async (req, res, next) => {
     }
 };
 
+/**
+ * Admin: Synchronize payment status directly with ANZ Worldline
+ * @route POST /api/payments/:paymentId/sync
+ */
+export const syncPaymentStatus = async (req, res, next) => {
+    try {
+        const { paymentId } = req.params;
+        const payment = await Payment.findById(paymentId);
+        if (!payment) {
+            return res.status(404).json({ success: false, message: 'Payment record not found.' });
+        }
+
+        if (payment.hostedCheckoutId) {
+            try {
+                const statusResult = await getHostedCheckoutStatus(payment.hostedCheckoutId);
+                payment.status = statusResult.status;
+                if (statusResult.transactionId) {
+                    payment.transactionId = statusResult.transactionId;
+                }
+                if (statusResult.response) {
+                    payment.rawResponse = statusResult.response;
+                }
+                await payment.save();
+            } catch (err) {
+                console.warn('⚠️ Could not sync with ANZ API:', err.message);
+            }
+        }
+
+        return res.json({
+            success: true,
+            message: `Payment status synchronized: ${payment.status}`,
+            data: payment,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export default {
     createPayment,
     getPaymentStatus,
     handleWebhook,
     getAdminPayments,
+    syncPaymentStatus,
 };
 

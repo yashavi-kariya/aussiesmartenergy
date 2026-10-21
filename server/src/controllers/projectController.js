@@ -154,9 +154,24 @@ export const deleteProject = async (req, res, next) => {
         }
 
         await Project.findByIdAndDelete(req.params.id);
+        await reindexProjects();
         return successResponse(res, null, 'Project permanently deleted from admin and database');
     } catch (error) {
         next(error);
+    }
+};
+
+const reindexProjects = async () => {
+    try {
+        const remaining = await Project.find({}).sort({ displayOrder: 1, createdAt: 1 });
+        for (let i = 0; i < remaining.length; i++) {
+            if (remaining[i].displayOrder !== i + 1) {
+                remaining[i].displayOrder = i + 1;
+                await remaining[i].save();
+            }
+        }
+    } catch (err) {
+        console.error('Error re-indexing projects:', err);
     }
 };
 
@@ -167,6 +182,7 @@ export const restoreProject = async (req, res, next) => {
 
         project.deletedFromAdmin = false;
         await project.save();
+        await reindexProjects();
         return successResponse(res, project, 'Project restored to admin');
     } catch (error) {
         next(error);
