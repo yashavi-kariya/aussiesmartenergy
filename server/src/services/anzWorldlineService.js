@@ -221,26 +221,27 @@ export const createHostedCheckoutSession = async ({
 
             console.log('✅ [ANZ Worldline API] CreateHostedCheckout Response:', JSON.stringify(response, null, 2));
 
-            if (response && (response.redirectUrl || response.hostedCheckoutRedirectUrl || response.hostedCheckoutId)) {
-                let redirectUrl = response.redirectUrl || response.hostedCheckoutRedirectUrl;
-                if (!redirectUrl && response.partialRedirectUrl) {
-                    redirectUrl = `https://${host}/${response.partialRedirectUrl.replace(/^\//, '')}`;
+            const body = response?.body || response;
+            if (body && (body.redirectUrl || body.hostedCheckoutRedirectUrl || body.hostedCheckoutId || body.partialRedirectUrl)) {
+                let redirectUrl = body.redirectUrl || body.hostedCheckoutRedirectUrl;
+                if (!redirectUrl && body.partialRedirectUrl) {
+                    redirectUrl = `https://${host}/${body.partialRedirectUrl.replace(/^\//, '')}`;
                 } else if (redirectUrl && !redirectUrl.startsWith('http')) {
                     redirectUrl = `https://${host}/${redirectUrl.replace(/^\//, '')}`;
                 }
 
                 return {
-                    hostedCheckoutId: response.hostedCheckoutId,
-                    partialRedirectUrl: response.partialRedirectUrl || '',
+                    hostedCheckoutId: body.hostedCheckoutId,
+                    partialRedirectUrl: body.partialRedirectUrl || '',
                     redirectUrl,
-                    RETURNMAC: response.RETURNMAC || '',
+                    RETURNMAC: body.RETURNMAC || '',
                     isMock: false,
                     raw: response,
                 };
             }
 
             const apiErrMsg = response?.body?.errors?.[0]?.message || response?.body?.errors?.[0]?.id || `ANZ Worldline API Error (Status ${response?.status || 403})`;
-            
+
             // In Production or real API mode, NEVER fall back to simulator
             if (!isSimulation) {
                 throw new Error(`ANZ Worldline API Gateway Error: ${apiErrMsg}`);
@@ -249,7 +250,7 @@ export const createHostedCheckoutSession = async ({
             console.warn(`⚠️ [ANZ Worldline Development Notice] Gateway returned ${apiErrMsg}. Development simulation active.`);
         } catch (error) {
             console.error('❌ [ANZ Worldline API] CreateHostedCheckout Exception:', error?.response || error?.message || error);
-            
+
             // If NOT explicitly in PAYMENT_MODE=simulation, rethrow the error
             if (!isSimulation) {
                 throw new Error(error?.message || 'ANZ Worldline Payment Gateway communication failed.');
@@ -322,12 +323,13 @@ export const getHostedCheckoutStatus = async (hostedCheckoutId, queryParams = {}
 
     try {
         const response = await client.hostedCheckout.getHostedCheckout(merchantId, hostedCheckoutId);
-        
+
         console.log(`✅ [ANZ Worldline API] GetHostedCheckout Status for ${hostedCheckoutId}:`, JSON.stringify(response, null, 2));
 
-        const rawStatus = response.status || response.createdPaymentOutput?.payment?.statusOutput?.status || '';
-        const mappedStatus = mapWorldlineStatusToInternal(rawStatus, response);
-        const transactionId = response.createdPaymentOutput?.payment?.id || response.paymentId || hostedCheckoutId;
+        const body = response?.body || response;
+        const rawStatus = body.status || body.createdPaymentOutput?.payment?.statusOutput?.status || response.status || '';
+        const mappedStatus = mapWorldlineStatusToInternal(rawStatus, body);
+        const transactionId = body.createdPaymentOutput?.payment?.id || body.paymentId || hostedCheckoutId;
 
         return {
             status: mappedStatus,

@@ -3,7 +3,7 @@ import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   CheckCircle2, XCircle, AlertTriangle, RefreshCw,
-  Home, PhoneCall, Copy, Check
+  Home, PhoneCall, Copy, Check, Clock
 } from 'lucide-react';
 import api from '../utils/api';
 
@@ -252,6 +252,42 @@ const PaymentResult = () => {
                   className="flex-1 py-3 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-sm shadow-md transition-all text-center cursor-pointer"
                 >
                   Retry Payment
+                </button>
+                <Link
+                  to="/"
+                  className="flex-1 py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all text-center"
+                >
+                  Back to Home
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Verified PENDING State */}
+        {!loading && !error && payment && payment.status === 'PENDING' && (
+          <div>
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 text-center text-white">
+              <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-4 border border-white/30">
+                <Clock className="w-10 h-10 text-white" />
+              </div>
+              <h1 className="text-2xl font-black">Payment Pending Confirmation</h1>
+              <p className="text-blue-100 text-sm mt-1">
+                Your payment reference {payment.orderId} is being processed.
+              </p>
+            </div>
+
+            <div className="p-6 sm:p-8 space-y-6">
+              <div className="rounded-2xl bg-blue-50 border border-blue-200 p-4 text-xs text-blue-900 leading-relaxed text-center">
+                We are currently awaiting final confirmation from the ANZ Worldline Gateway. If your account was charged, your receipt will be updated shortly.
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => window.location.reload()}
+                  className="flex-1 py-3 px-4 rounded-xl bg-[#003b73] hover:bg-[#002850] text-white font-extrabold text-sm shadow-md transition-all text-center cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <RefreshCw className="w-4 h-4" /> Check Status Again
                 </button>
                 <Link
                   to="/"

@@ -657,6 +657,29 @@ const AdminDashboard = () => {
                   </div>
                 </div>
 
+                {selectedEnquiry.consent !== undefined && (
+                  <div
+                    className="p-3.5 rounded-xl flex items-center justify-between"
+                    style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
+                  >
+                    <div>
+                      <p className="text-xs text-white/50 font-medium">VEU Scheme Marketing Consent</p>
+                      <p className="text-sm text-white mt-0.5">
+                        {selectedEnquiry.consent ? 'Consent Granted (24 Months)' : 'No Consent Recorded'}
+                      </p>
+                    </div>
+                    <span
+                      className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                        selectedEnquiry.consent
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                          : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                      }`}
+                    >
+                      {selectedEnquiry.consent ? 'Consented' : 'Not Given'}
+                    </span>
+                  </div>
+                )}
+
                 <div
                   className="p-4 rounded-xl"
                   style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}

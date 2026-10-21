@@ -74,7 +74,7 @@ const EnquiryModal = ({
   subtitle = 'Fill in your details and our team will get back to you shortly.',
   accentColor = '#1a7a44',
 }) => {
-  const empty = { firstName: '', lastName: '', email: '', phone: '', address: '', message: '' };
+  const empty = { firstName: '', lastName: '', email: '', phone: '', address: '', message: '', consent: false };
   const [form, setForm]       = useState(empty);
   const [errors, setErrors]   = useState({});
   const [status, setStatus]   = useState('idle'); // idle | loading | success | error
@@ -109,7 +109,18 @@ const EnquiryModal = ({
         e.phone = 'Please enter a valid 10-digit Australian phone number (e.g. 04XX XXX XXX)';
       }
     }
+
+    if (!form.consent) {
+      e.consent = 'Please check the box to consent to the terms before submitting';
+    }
+
     return e;
+  };
+
+  const handleConsentChange = (e) => {
+    const isChecked = e.target.checked;
+    setForm(f => ({ ...f, consent: isChecked }));
+    if (errors.consent) setErrors(er => ({ ...er, consent: '' }));
   };
 
   const handleChange = (field) => (e) => {
@@ -262,6 +273,53 @@ const EnquiryModal = ({
                     <Field id="phone"   label="Phone Number"  icon={Phone}  type="tel"   placeholder="04XX XXX XXX"         required accentColor={accentColor} value={form.phone}   onChange={handleChange('phone')}   error={errors.phone} maxLength={10} />
                     <Field id="address" label="Address"       icon={MapPin}              placeholder="Your suburb / postcode"         accentColor={accentColor} value={form.address} onChange={handleChange('address')} error={errors.address} />
                     <Field id="message" label="Message"       icon={MessageSquare}       placeholder="Any additional details..." textarea accentColor={accentColor} value={form.message} onChange={handleChange('message')} error={errors.message} />
+
+                    {/* VEU Marketing Consent & Privacy Disclaimer */}
+                    <div className="flex flex-col gap-2 pt-1 pb-1">
+                      <label
+                        htmlFor="consent"
+                        className="flex items-start gap-2.5 cursor-pointer text-left select-none group"
+                      >
+                        <input
+                          id="consent"
+                          type="checkbox"
+                          checked={form.consent}
+                          onChange={handleConsentChange}
+                          className="mt-0.5 h-4 w-4 rounded border-slate-300 cursor-pointer shrink-0 transition-colors"
+                          style={{ accentColor }}
+                        />
+                        <span className={`text-[11px] sm:text-xs leading-relaxed transition-colors ${
+                          errors.consent ? 'text-rose-600 font-medium' : 'text-slate-600 group-hover:text-slate-800'
+                        }`}>
+                          By checking this box, you consent to receiving marketing communications and discussing our energy-efficient products and services that may fall under Government Schemes such as the VEU for the next 24 months with Energy Makeovers, Optimise Plumbing; Melbourne Gas Group; Electrify Me. These products include but are not limited to: air-conditioners, hot water systems, lighting, weather seals, showerheads and energy monitors.<span className="text-rose-500 font-bold ml-0.5">*</span>
+                        </span>
+                      </label>
+
+                      {errors.consent && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-[11px] text-rose-500 font-medium flex items-center gap-1 pl-[26px]"
+                        >
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          {errors.consent}
+                        </motion.p>
+                      )}
+
+                      <p className="text-[11px] sm:text-xs leading-relaxed text-slate-500 pl-[26px]">
+                        You have the right to opt out of receiving marketing communications from us at any time and your personal information will be handled in accordance with Energy Makeovers' Privacy Policy available at{' '}
+                        <a
+                          href="https://www.energymakeovers.com.au"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline hover:text-slate-900 transition-colors font-medium break-all"
+                          style={{ color: accentColor }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          www.energymakeovers.com.au
+                        </a>
+                      </p>
+                    </div>
 
                     {/* Server error */}
                     {status === 'error' && (

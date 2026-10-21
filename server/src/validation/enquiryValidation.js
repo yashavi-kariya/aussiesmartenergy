@@ -22,6 +22,7 @@ export const validateEnquiry = [
         }),
     body('address').optional({ values: 'falsy' }).trim(),
     body('message').optional({ values: 'falsy' }).trim(),
+    body('consent').optional().isBoolean(),
     body('formType').optional().isIn([
         'hero', 'contact',
         'residential-6.6kw', 'residential-10.5kw', 'residential-13.2kw',

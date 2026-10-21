@@ -10,7 +10,6 @@ import rooftopSolarImg from '../assets/rooftopsolar.png';
 import bannerLogo from '../assets/banner-logo-1024x365.png';
 import saaLogo from '../assets/saa-logo.png';
 
-
 const EASE = [0.22, 1, 0.36, 1];
 
 const ModernHeroSection = () => {
@@ -108,7 +107,7 @@ const ModernHeroSection = () => {
     if (!formState.firstName) newErrors.firstName = true;
     if (!formState.lastName) newErrors.lastName = true;
     if (!formState.email) newErrors.email = true;
-    
+
     if (!formState.phone) {
       newErrors.phone = true;
     } else {
@@ -117,7 +116,7 @@ const ModernHeroSection = () => {
         newErrors.phone = true;
       }
     }
-    
+
     if (!formState.address) newErrors.address = true;
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

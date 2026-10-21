@@ -8,6 +8,7 @@ const enquirySchema = new mongoose.Schema(
         phone: { type: String, required: true, trim: true },
         address: { type: String, trim: true, default: '' },
         message: { type: String, trim: true, default: '' },
+        consent: { type: Boolean, default: false },
         formType: {
             type: String,
             enum: [

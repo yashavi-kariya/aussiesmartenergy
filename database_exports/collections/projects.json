@@ -1,0 +1,49 @@
+[
+  {
+    "_id": "6aabc0955099b4bd62817953",
+    "name": "Parkdale",
+    "shortDescription": "",
+    "longDescription": "",
+    "mainImage": "http://localhost:5000/uploads/projects/2_parkdale_vic__3195-1789640853074.jpg",
+    "gallery": [],
+    "slug": "parkdale",
+    "displayOrder": 1,
+    "deletedFromAdmin": false,
+    "createdAt": "2026-09-17T10:27:33.132Z",
+    "updatedAt": "2026-09-17T10:27:33.132Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aabc0b85099b4bd6281795b",
+    "name": "Shepparton",
+    "shortDescription": "",
+    "longDescription": "",
+    "mainImage": "http://localhost:5000/uploads/projects/shepparton_vic_3630-1789640888004.jpg",
+    "gallery": [
+      "http://localhost:5000/uploads/projects/2_shepparton_vic_3630-1789640888006.jpg"
+    ],
+    "slug": "shepparton",
+    "displayOrder": 2,
+    "deletedFromAdmin": false,
+    "createdAt": "2026-09-17T10:28:08.100Z",
+    "updatedAt": "2026-09-17T10:28:08.100Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aabc0eb5099b4bd62817963",
+    "name": "Springvale",
+    "shortDescription": "",
+    "longDescription": "",
+    "mainImage": "http://localhost:5000/uploads/projects/springvale__vic_3171-1789640939205.jpg",
+    "gallery": [
+      "http://localhost:5000/uploads/projects/3_springvale__vic_3171-1789640939228.jpg",
+      "http://localhost:5000/uploads/projects/2_springvale__vic_3171-1789640939247.jpg"
+    ],
+    "slug": "springvale",
+    "displayOrder": 3,
+    "deletedFromAdmin": false,
+    "createdAt": "2026-09-17T10:28:59.331Z",
+    "updatedAt": "2026-09-17T10:28:59.331Z",
+    "__v": 0
+  }
+]
