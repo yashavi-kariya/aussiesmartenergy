@@ -135,7 +135,19 @@ export const createPayment = async (req, res, next) => {
         }
 
         // Step 2: Build Return URL for ANZ Hosted Checkout
-        const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/$/, '');
+        // Auto-detect frontend domain from request origin/referer or FRONTEND_URL env
+        const reqOrigin = req.get('origin') || req.get('referer');
+        let frontendUrl = process.env.FRONTEND_URL;
+        if (!frontendUrl && reqOrigin) {
+            try {
+                const parsed = new URL(reqOrigin);
+                frontendUrl = `${parsed.protocol}//${parsed.host}`;
+            } catch (_) {}
+        }
+        if (!frontendUrl) {
+            frontendUrl = 'http://localhost:5173';
+        }
+        frontendUrl = frontendUrl.replace(/\/$/, '');
         const returnUrl = `${frontendUrl}/payment/result?paymentId=${payment._id}`;
 
         // Step 3: Create Hosted Checkout Session via ANZ Worldline Service
