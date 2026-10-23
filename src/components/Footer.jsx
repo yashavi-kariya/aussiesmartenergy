@@ -244,7 +244,7 @@ export default function Footer() {
         />
 
         {/* Content Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-10 sm:pt-12 pb-12 sm:pb-14">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-10 sm:pt-12 pb-5 sm:pb-6">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -492,21 +492,36 @@ export default function Footer() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm md:text-base text-slate-300 pb-16 sm:pb-4 pr-0 sm:pr-20 lg:pr-24"
+            className="mt-6 pt-6 border-t border-white/10 flex flex-col items-center justify-center gap-2.5 text-center pb-1 px-4"
           >
-            <div className="flex items-center gap-2.5">
-              <ShieldCheck size={18} className="text-[#39b54a] flex-shrink-0" />
-              <span>© 2026 Aussie Smart Energy | All Rights Reserved</span>
+            <div className="flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-3 gap-y-1.5 text-xs sm:text-sm font-medium tracking-wide uppercase text-slate-300">
+              <span>© COPYRIGHT 2026</span>
+              <span className="text-white/30 font-light">|</span>
+              <span className="text-white font-semibold tracking-wider">AUSSIE SMART ENERGY</span>
+              <span className="text-white/30 font-light">|</span>
+              <span>ALL RIGHTS RESERVED</span>
+              <span className="text-white/30 font-light">|</span>
+              <span>
+                DEVELOPED BY{' '}
+                <a
+                  href="https://technoadviser.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#39b54a] hover:text-[#4ade80] underline-offset-4 hover:underline transition-colors font-bold"
+                >
+                  TECHNOADVISER
+                </a>
+              </span>
             </div>
 
-            <div className="flex items-center gap-4 font-medium">
+            <div className="flex items-center justify-center gap-4 text-xs text-slate-400 font-medium pt-1">
               <Link
                 to="/contact"
                 className="hover:text-[#39b54a] transition-colors duration-200"
               >
                 Privacy Policy
               </Link>
-              <span className="text-white/30">•</span>
+              <span className="text-white/20">•</span>
               <Link
                 to="/contact"
                 className="hover:text-[#39b54a] transition-colors duration-200"
