@@ -221,6 +221,7 @@ const ProjectDetails = () => {
                     margin: 0 auto;
                     padding: 0 32px 48px;
                 }
+                @media (max-width: 640px) { .pd-hero-content { padding: 0 16px 32px; } }
                 .pd-breadcrumb {
                     display: inline-block;
                     color: rgba(255,255,255,0.65);
@@ -333,6 +334,7 @@ const ProjectDetails = () => {
                     padding: 48px 40px;
                     text-align: center;
                 }
+                @media (max-width: 640px) { .pd-cta-box { padding: 32px 18px; border-radius: 16px; } }
                 .pd-cta-box h3 {
                     font-size: 1.6rem;
                     font-weight: 800;

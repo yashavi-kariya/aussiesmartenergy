@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const ApprovedSellerBadge = ({ className = "w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36" }) => (
+const ApprovedSellerBadge = ({ className = "w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36" }) => (
   <svg
     viewBox="0 0 200 200"
     className={`${className} drop-shadow-md select-none`}
@@ -103,9 +103,9 @@ const ApprovedSellerBanner = () => {
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="flex flex-col md:flex-row items-center gap-5 sm:gap-7 lg:gap-10"
+          className="flex flex-col md:flex-row items-center gap-4 sm:gap-7 lg:gap-10"
         >
           {/* Badge Icon on Left */}
           <div className="flex-shrink-0">
@@ -113,20 +113,20 @@ const ApprovedSellerBanner = () => {
           </div>
 
           {/* Text Content on Right */}
-          <div className="flex-1 text-center md:text-left">
-            <h2 className="text-xl sm:text-2xl lg:text-[26px] font-extrabold text-[#0a385c] tracking-tight leading-tight">
+          <div className="flex-1 text-center md:text-left w-full">
+            <h2 className="text-lg sm:text-2xl lg:text-[26px] font-extrabold text-[#0a385c] tracking-tight leading-tight">
               Proud to be a New Energy Tech Approved Seller
             </h2>
-            <p className="text-sm sm:text-base font-semibold text-[#2572a7] mt-1 mb-4">
+            <p className="text-xs sm:text-base font-semibold text-[#2572a7] mt-1 mb-3 sm:mb-4">
               Committed to Consumer Protection Standards
             </p>
 
-            {/* 3 Checkpoints Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 pt-1">
+            {/* 3 Checkpoints Grid - neatly aligned on mobile and across 3 columns on tablet/desktop */}
+            <div className="max-w-sm sm:max-w-none mx-auto grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 lg:gap-6 pt-1">
               {points.map((point, index) => (
                 <div
                   key={index}
-                  className="flex items-start justify-center md:justify-start gap-2.5"
+                  className="flex items-start justify-start gap-2.5 text-left"
                 >
                   <CheckCircleIcon />
                   <span className="text-xs sm:text-[13.5px] font-medium text-[#1a3854] leading-snug">

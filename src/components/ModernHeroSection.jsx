@@ -240,7 +240,7 @@ const ModernHeroSection = () => {
             </motion.div>
 
             {/* H1 — animated word-by-word typography reveal */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[58px] xl:text-[64px] font-black leading-[1.1] tracking-tight text-[#1e2d53]">
+            <h1 className="text-3xl sm:text-5xl lg:text-[58px] xl:text-[64px] font-black leading-[1.15] tracking-tight text-[#1e2d53]">
               <span className="block overflow-hidden pb-1">
                 {line1Words.map((word, i) => (
                   <motion.span
@@ -568,8 +568,8 @@ const ModernHeroSection = () => {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="bg-[#0f1f3d] w-full"
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-2">
               {bottomFeatures.map((feat, idx) => (
                 <motion.div
                   key={idx}
@@ -577,19 +577,19 @@ const ModernHeroSection = () => {
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.6 + (idx * 0.1), ease: 'easeOut' }}
                   whileHover="hover"
-                  className="flex items-center space-x-2.5 px-3 py-3 cursor-pointer group rounded-xl"
+                  className="flex items-center space-x-2 sm:space-x-2.5 px-2 py-2 sm:px-3 sm:py-3 cursor-pointer group rounded-xl min-w-0"
                 >
                   <motion.div
                     variants={{ hover: { rotate: 360, backgroundColor: 'rgba(201, 11, 11, 0.2)' } }}
                     transition={{ duration: 0.6, ease: EASE }}
-                    className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    className="w-8 h-8 sm:w-9 sm:h-9 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0"
                   >
                     <feat.icon className="w-4 h-4 text-[#39b54a] group-hover:text-[#4dd865] transition-colors" />
                   </motion.div>
                   <motion.span
                     variants={{ hover: { x: 3, color: '#ffffff' } }}
                     transition={{ duration: 0.3, ease: EASE }}
-                    className="text-xs font-bold text-white/90 leading-tight"
+                    className="text-[11px] sm:text-xs font-bold text-white/90 leading-tight min-w-0 break-words"
                   >
                     {feat.text}
                   </motion.span>

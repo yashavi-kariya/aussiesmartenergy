@@ -212,14 +212,14 @@ Comments: ${formData.comments || 'None'}`,
           </div>
 
           {/* Calculator Card */}
-          <div className="bg-white rounded-[28px] border border-slate-200/80 shadow-xl shadow-slate-200/60 p-6 sm:p-8 space-y-6">
+          <div className="bg-white rounded-2xl sm:rounded-[28px] border border-slate-200/80 shadow-xl shadow-slate-200/60 p-4 sm:p-8 space-y-5 sm:space-y-6">
             
             {/* Site Selection Tabs */}
             <div className="space-y-3">
               <label className="block text-xs font-bold text-[#0a2540]">
                 What is the site?
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-slate-100/90 rounded-2xl border border-slate-200/60">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-1.5 p-1 bg-slate-100/90 rounded-2xl border border-slate-200/60">
                 {SITE_OPTIONS.map((site) => {
                   const isActive = selectedSite.id === site.id;
                   return (
@@ -502,7 +502,7 @@ Comments: ${formData.comments || 'None'}`,
           </div>
 
           {/* Finance Card */}
-          <div className="bg-white rounded-[28px] border border-slate-200/80 shadow-xl shadow-slate-200/60 p-6 sm:p-8 space-y-6">
+          <div className="bg-white rounded-2xl sm:rounded-[28px] border border-slate-200/80 shadow-xl shadow-slate-200/60 p-4 sm:p-8 space-y-5 sm:space-y-6">
             
             {/* 2x2 Finance Inputs */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">

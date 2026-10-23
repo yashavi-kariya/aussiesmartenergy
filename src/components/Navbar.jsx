@@ -204,15 +204,16 @@ const Navbar = () => {
           {/* ---- Logo panel ---- */}
           <Link
             to="/"
-            className="relative z-20 flex items-center bg-white pl-3.5 sm:pl-4 xl:pl-5 pr-2.5 xl:pr-3 flex-shrink-0"
+            className="relative z-20 flex items-center bg-white pl-4 sm:pl-6 pr-4 sm:pr-6 flex-shrink-0 lg:border-r lg:border-slate-200/70 lg:shadow-[3px_0_16px_-3px_rgba(15,76,255,0.08)] group transition-all"
           >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-50/60 via-sky-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             <motion.img
               src={logoImg}
               alt="Aussie Smart Energy"
-              animate={{ height: scrolled ? 42 : 52 }}
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3, ease: EASE }}
-              className="w-auto max-h-[88%] object-contain"
+              animate={{ height: scrolled ? 48 : 62 }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.25, ease: EASE }}
+              className="relative z-10 w-auto max-h-[92%] object-contain filter drop-shadow-[0_2px_8px_rgba(15,76,255,0.12)] group-hover:drop-shadow-[0_4px_16px_rgba(15,76,255,0.28)] transition-all duration-300"
             />
           </Link>
 

@@ -148,6 +148,12 @@ const ProjectsSection = () => {
                 @media (max-width: 900px) {
                     .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
                 }
+                @media (max-width: 640px) {
+                    .projects-section { padding: 48px 0; }
+                    .projects-container { padding: 0 16px; }
+                    .projects-header { margin-bottom: 32px; }
+                    .project-card-img-wrap { height: 190px; }
+                }
                 @media (max-width: 580px) {
                     .projects-grid { grid-template-columns: 1fr; gap: 18px; }
                 }

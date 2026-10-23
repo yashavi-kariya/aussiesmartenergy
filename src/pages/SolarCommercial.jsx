@@ -221,7 +221,7 @@ const SolarCommercial = () => {
       {/* =========================================================================
           1. HERO SECTION (Commercial Solar & Battery + Proposal Form)
           ========================================================================= */}
-      <section className="bg-[#002b5c] text-white pt-36 sm:pt-40 lg:pt-44 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8">
+      <section className="bg-[#002b5c] text-white pt-36 sm:pt-40 lg:pt-44 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="max-w-7xl w-full mx-auto">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             

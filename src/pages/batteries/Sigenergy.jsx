@@ -119,18 +119,18 @@ const Sigenergy = () => {
               </div>
 
               {/* Quick Specs Badges */}
-              <div className="grid grid-cols-3 gap-3 pt-3">
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/15 text-center shadow-md">
-                  <div className="text-xs text-blue-200 font-medium">Switchover Time</div>
-                  <div className="text-lg sm:text-xl font-extrabold text-white mt-0.5">0 ms UPS</div>
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-3">
+                <div className="bg-white/10 backdrop-blur-md rounded-xl p-2 sm:p-3 border border-white/15 text-center shadow-md">
+                  <div className="text-[10px] sm:text-xs text-blue-200 font-medium">Switchover</div>
+                  <div className="text-sm sm:text-xl font-extrabold text-white mt-0.5">0 ms UPS</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/15 text-center shadow-md">
-                  <div className="text-xs text-blue-200 font-medium">Scalable Storage</div>
-                  <div className="text-lg sm:text-xl font-extrabold text-red-300 mt-0.5">8 - 48 kWh</div>
+                <div className="bg-white/10 backdrop-blur-md rounded-xl p-2 sm:p-3 border border-white/15 text-center shadow-md">
+                  <div className="text-[10px] sm:text-xs text-blue-200 font-medium">Scalable Storage</div>
+                  <div className="text-sm sm:text-xl font-extrabold text-red-300 mt-0.5">8 - 48 kWh</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/15 text-center shadow-md">
-                  <div className="text-xs text-blue-200 font-medium">Warranty Support</div>
-                  <div className="text-lg sm:text-xl font-extrabold text-white mt-0.5">10 Years</div>
+                <div className="bg-white/10 backdrop-blur-md rounded-xl p-2 sm:p-3 border border-white/15 text-center shadow-md">
+                  <div className="text-[10px] sm:text-xs text-blue-200 font-medium">Warranty Support</div>
+                  <div className="text-sm sm:text-xl font-extrabold text-white mt-0.5">10 Years</div>
                 </div>
               </div>
 
@@ -336,33 +336,33 @@ const Sigenergy = () => {
             <h3 className="text-sm font-bold uppercase tracking-wider text-red-300">
               Available Battery Module Sizes
             </h3>
-            <div className="mt-4 flex flex-wrap justify-center gap-5">
+            <div className="mt-4 flex flex-wrap justify-center gap-3 sm:gap-5">
               <motion.div
                 whileHover={{ scale: 1.05, y: -4 }}
-                className="flex min-w-[200px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-8 py-5 backdrop-blur-md shadow-xl"
+                className="flex flex-1 min-w-[130px] sm:min-w-[180px] max-w-[240px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-4 sm:px-8 py-4 sm:py-5 backdrop-blur-md shadow-xl"
               >
-                <span className="text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
+                <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
                 <span className="mt-1 text-2xl sm:text-3xl font-black text-white">5 kWh</span>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05, y: -4 }}
-                className="flex min-w-[200px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-8 py-5 backdrop-blur-md shadow-xl"
+                className="flex flex-1 min-w-[130px] sm:min-w-[180px] max-w-[240px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-4 sm:px-8 py-4 sm:py-5 backdrop-blur-md shadow-xl"
               >
-                <span className="text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
+                <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
                 <span className="mt-1 text-2xl sm:text-3xl font-black text-white">6 kWh</span>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05, y: -4 }}
-                className="flex min-w-[200px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-8 py-5 backdrop-blur-md shadow-xl"
+                className="flex flex-1 min-w-[130px] sm:min-w-[180px] max-w-[240px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-4 sm:px-8 py-4 sm:py-5 backdrop-blur-md shadow-xl"
               >
-                <span className="text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
+                <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
                 <span className="mt-1 text-2xl sm:text-3xl font-black text-white">8 kWh</span>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05, y: -4 }}
-                className="flex min-w-[200px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-8 py-5 backdrop-blur-md shadow-xl"
+                className="flex flex-1 min-w-[130px] sm:min-w-[180px] max-w-[240px] flex-col items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-4 sm:px-8 py-4 sm:py-5 backdrop-blur-md shadow-xl"
               >
-                <span className="text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
+                <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-red-300">Module</span>
                 <span className="mt-1 text-2xl sm:text-3xl font-black text-white">10 kWh</span>
               </motion.div>
             </div>

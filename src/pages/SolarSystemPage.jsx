@@ -372,7 +372,7 @@ const SolarSystemPage = ({ systemId }) => {
       {/* ── 3. Inclusions Timeline ──────────────────────────────────────────── */}
       <section
         id="inclusions"
-        className="py-16"
+        className="py-12 sm:py-16 overflow-hidden"
         style={{ background: theme.sectionBg }}
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -430,14 +430,14 @@ const SolarSystemPage = ({ systemId }) => {
 
                     {/* ── Left slot ── */}
                     {isLeft ? (
-                      <div className="w-full md:w-[45%] pl-16 md:pl-0 text-left">
+                      <div className="w-full md:w-[45%] pl-14 sm:pl-16 md:pl-0 text-left">
                         <motion.div
                           variants={anim}
                           initial="hidden"
                           whileInView="visible"
                           viewport={{ once: true, margin: "-80px" }}
                           whileHover={{ scale: 1.02, boxShadow: `0 20px 40px ${theme.accent}30` }}
-                          className="relative text-white p-6 sm:p-8 rounded-[20px] shadow-xl"
+                          className="relative text-white p-5 sm:p-8 rounded-[20px] shadow-xl"
                           style={{ background: cardBg }}
                         >
                           {/* Top accent band */}
@@ -488,14 +488,14 @@ const SolarSystemPage = ({ systemId }) => {
 
                     {/* ── Right slot ── */}
                     {!isLeft ? (
-                      <div className="w-full md:w-[45%] pl-16 md:pl-0 text-left">
+                      <div className="w-full md:w-[45%] pl-14 sm:pl-16 md:pl-0 text-left">
                         <motion.div
                           variants={anim}
                           initial="hidden"
                           whileInView="visible"
                           viewport={{ once: true, margin: "-80px" }}
                           whileHover={{ scale: 1.02, boxShadow: `0 20px 40px ${theme.accent}30` }}
-                          className="relative text-white p-6 sm:p-8 rounded-[20px] shadow-xl"
+                          className="relative text-white p-5 sm:p-8 rounded-[20px] shadow-xl"
                           style={{ background: cardBg }}
                         >
                           {/* Top accent band */}

@@ -248,18 +248,18 @@ const AnnouncementPopup = ({ headlines, onClose }) => {
         </motion.button>
 
         {/* Content */}
-        <div className="relative z-20 px-7 pt-8 pb-7 flex flex-col items-center text-center gap-4">
+        <div className="relative z-20 px-4 sm:px-7 pt-6 sm:pt-8 pb-6 sm:pb-7 flex flex-col items-center text-center gap-3 sm:gap-4">
 
           {/* Bell icon bounce */}
           <motion.div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center"
             style={{ background: `${theme.accent}22`, border: `1.5px solid ${theme.accent}55`, boxShadow: `0 0 24px ${theme.accent}40` }}
             animate={{ y: [0, -6, 0], rotate: [-8, 8, -8, 0] }}
             transition={{ duration: 1.5, delay: 0.5, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
             initial={{ scale: 0, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
           >
-            <Bell className="w-6 h-6" style={{ color: theme.accent }} />
+            <Bell className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: theme.accent }} />
           </motion.div>
 
           {/* AnimatePresence for content flip */}
@@ -270,7 +270,7 @@ const AnnouncementPopup = ({ headlines, onClose }) => {
               animate={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
               exit={{ opacity: 0, rotateX: 38, y: -14, scale: 0.9 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-center gap-3"
+              className="flex flex-col items-center gap-2.5 sm:gap-3 w-full"
               style={{ transformStyle: 'preserve-3d' }}
             >
               {/* Badge */}
@@ -299,7 +299,7 @@ const AnnouncementPopup = ({ headlines, onClose }) => {
               )}
 
               {/* Main headline — typewriter */}
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight tracking-tight">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight break-words max-w-full">
                 <TypewriterTextLarge text={current.text} />
               </h2>
 

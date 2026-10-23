@@ -229,7 +229,7 @@ const ContactUs = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.35 + i * 0.1, duration: 0.5, ease: EASE }}
                                 whileHover={{ y: -4 }}
-                                className="flex flex-col items-center text-center gap-2 px-4 py-8 h-full justify-between group"
+                                className="flex flex-col items-center text-center gap-2 px-3 sm:px-4 py-4 sm:py-8 h-full justify-between group"
                             >
                                 <div className="flex flex-col items-center gap-2">
                                     <motion.div
@@ -297,7 +297,7 @@ const ContactUs = () => {
 
                         {/* Left - Form */}
                         <motion.div variants={itemVariants} className="">
-                            <motion.div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-12 shadow-2xl ring-1 ring-[#39b54a]/10">
+                            <motion.div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-12 shadow-2xl ring-1 ring-[#39b54a]/10">
                                 <motion.span
                                     variants={itemVariants}
                                     className="inline-block font-bold text-sm uppercase tracking-wider mb-3"
@@ -570,7 +570,7 @@ const ContactUs = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                         whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
-                        className="rounded-2xl p-10 relative overflow-hidden"
+                        className="rounded-2xl p-6 sm:p-10 relative overflow-hidden"
                         style={{ backgroundColor: GREEN }}
                     >
                         <span className="text-white/80 text-xs font-bold uppercase tracking-wider">Prefer To Talk?</span>
@@ -599,7 +599,7 @@ const ContactUs = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                         whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.25)' }}
-                        className="rounded-2xl p-10 relative overflow-hidden"
+                        className="rounded-2xl p-6 sm:p-10 relative overflow-hidden"
                         style={{ backgroundColor: NAVY }}
                     >
                         <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Free & No Obligation</span>

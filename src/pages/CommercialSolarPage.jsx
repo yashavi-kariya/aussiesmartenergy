@@ -121,7 +121,7 @@ const CommercialSolarPage = ({ systemId }) => {
 
 
       {/* Timeline Section with Cards */}
-      <section className="py-16 md:py-24" style={{ background: '#f8fafc' }}>
+      <section className="py-12 md:py-24 overflow-hidden" style={{ background: '#f8fafc' }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section heading */}
           <motion.div
@@ -129,9 +129,9 @@ const CommercialSolarPage = ({ systemId }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1e2d53]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1e2d53]">
               What's <span style={{ color: theme.accent }}>Included</span>
             </h2>
             <div className="mt-3 mx-auto h-1 w-20 rounded-full" style={{ backgroundColor: theme.accent }} />
@@ -155,7 +155,7 @@ const CommercialSolarPage = ({ systemId }) => {
                     key={idx}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-100px' }}
+                    viewport={{ once: true, margin: '-40px' }}
                     transition={{ duration: 0.6, delay: idx * 0.15 }}
                     className="relative"
                   >
@@ -170,10 +170,10 @@ const CommercialSolarPage = ({ systemId }) => {
 
                     {/* Card Container */}
                     <div className={`flex flex-col md:flex-row items-start ${isLeft ? 'md:flex-row-reverse' : ''}`}>
-                      <div className={`w-full md:w-[45%] ${isLeft ? 'md:text-right md:pr-12' : 'md:pl-12'} pl-16 md:pl-0`}>
+                      <div className={`w-full md:w-[45%] ${isLeft ? 'md:text-right md:pr-12' : 'md:pl-12'} pl-14 sm:pl-16 md:pl-0`}>
                         <motion.div
                           whileHover={{ scale: 1.02, translateY: -5 }}
-                          className="relative text-white p-6 sm:p-8 rounded-2xl shadow-lg"
+                          className="relative text-white p-5 sm:p-8 rounded-2xl shadow-lg"
                           style={{ background: theme.cardBg }}
                         >
                           {/* Top accent band */}

@@ -68,7 +68,7 @@ function App() {
   const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/login/admin' || location.pathname.startsWith('/hostedcheckout');
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full overflow-x-hidden">
       {!isAdminRoute && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />

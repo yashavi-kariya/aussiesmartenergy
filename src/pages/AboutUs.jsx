@@ -659,19 +659,19 @@ const AboutUs = () => {
             variants={containerVariants}
             initial="hidden"
             animate={experienceInView ? "visible" : "hidden"}
-            className="grid md:grid-cols-3 gap-8 text-left"
+            className="grid md:grid-cols-3 gap-5 sm:gap-8 text-left"
           >
             {/* Card 1: Certified Contractors */}
             <motion.div
               variants={itemVariants}
               whileHover={{ y: -6 }}
-              className="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-[#39b54a] transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
+              className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 hover:border-[#39b54a] transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
             >
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-[#39b54a]">
-                <ShieldCheck className="w-8 h-8" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-[#39b54a]">
+                <ShieldCheck className="w-7 h-7 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-xl font-bold text-[#1e2d53]">SAA & CEC Accreditations</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-[#1e2d53]">SAA & CEC Accreditations</h3>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
                 We work with <strong className="text-slate-900 font-semibold">experienced SAA-certified contractors and CEC-accredited installers</strong>.
               </p>
             </motion.div>
@@ -680,13 +680,13 @@ const AboutUs = () => {
             <motion.div
               variants={itemVariants}
               whileHover={{ y: -6 }}
-              className="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
+              className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
             >
-              <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
-                <Sparkles className="w-8 h-8" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
+                <Sparkles className="w-7 h-7 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-xl font-bold text-[#1e2d53]">Careful Product Selection</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-[#1e2d53]">Careful Product Selection</h3>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
                 We carefully select products based on <strong className="text-slate-900 font-semibold">quality, safety, performance, reliability and long-term value</strong>.
               </p>
             </motion.div>
@@ -695,13 +695,13 @@ const AboutUs = () => {
             <motion.div
               variants={itemVariants}
               whileHover={{ y: -6 }}
-              className="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-teal-500 transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
+              className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 hover:border-teal-500 transition-all duration-300 shadow-lg hover:shadow-xl space-y-4"
             >
-              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600">
-                <CheckCircle2 className="w-8 h-8" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600">
+                <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-xl font-bold text-[#1e2d53]">End-to-End High Standards</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-[#1e2d53]">End-to-End High Standards</h3>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
                 From system design and product selection to installation and after-sales support, we believe every part of your experience should meet the same high standard.
               </p>
             </motion.div>
@@ -1144,30 +1144,30 @@ const AboutUs = () => {
             {/* Promise Copy Container */}
             <motion.div
               variants={itemVariants}
-              className="p-8 sm:p-10 rounded-3xl bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-2xl space-y-6 text-slate-200 text-base sm:text-lg leading-relaxed text-left max-w-4xl mx-auto"
+              className="p-5 sm:p-10 rounded-2xl sm:rounded-3xl bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-2xl space-y-5 sm:space-y-6 text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed text-left max-w-4xl mx-auto"
             >
               <p>
                 We know that installing solar or a battery is an investment in your home and your future.
               </p>
-              <p className="text-white font-bold text-lg sm:text-xl">
+              <p className="text-white font-bold text-base sm:text-xl">
                 So we don't take your trust for granted.
               </p>
-              <div className="p-6 rounded-2xl bg-white/[0.06] border border-[#39b54a]/40 text-emerald-200">
-                <p className="font-semibold text-lg sm:text-xl leading-relaxed text-white">
+              <div className="p-4 sm:p-6 rounded-2xl bg-white/[0.06] border border-[#39b54a]/40 text-emerald-200">
+                <p className="font-semibold text-base sm:text-xl leading-relaxed text-white">
                   We'll be there to answer your questions, guide you through the process and support you after installation — because our relationship with you shouldn't end when the system is switched on.
                 </p>
               </div>
 
               {/* 3 Step Triad */}
-              <div className="pt-4 grid grid-cols-3 gap-3 sm:gap-4 text-center border-t border-white/10">
+              <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 text-center border-t border-white/10">
                 <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-sm sm:text-2xl font-black text-emerald-400 block">Your home.</span>
+                  <span className="text-base sm:text-xl md:text-2xl font-black text-emerald-400 block">Your home.</span>
                 </div>
                 <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-sm sm:text-2xl font-black text-teal-300 block">Your energy.</span>
+                  <span className="text-base sm:text-xl md:text-2xl font-black text-teal-300 block">Your energy.</span>
                 </div>
                 <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-sm sm:text-2xl font-black text-emerald-400 block">Your future.</span>
+                  <span className="text-base sm:text-xl md:text-2xl font-black text-emerald-400 block">Your future.</span>
                 </div>
               </div>
             </motion.div>
