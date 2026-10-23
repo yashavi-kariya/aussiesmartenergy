@@ -414,18 +414,8 @@ const AdminPayments = () => {
                         {payment.status}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 whitespace-nowrap font-mono text-xs">
-                      <div className="font-bold text-white">{payment.orderId}</div>
-                      {payment.projectNumber && (
-                        <div className="text-[11px] text-blue-300/80 font-sans mt-0.5">
-                          Ref: <span className="font-mono font-semibold text-blue-300">{payment.projectNumber}</span>
-                        </div>
-                      )}
-                      {payment.transactionId && (
-                        <div className="text-[10px] text-white/40 font-mono mt-0.5">
-                          ANZ Txn: {payment.transactionId}
-                        </div>
-                      )}
+                    <td className="px-5 py-3.5 whitespace-nowrap font-mono font-bold text-white text-xs">
+                      {payment.orderId}
                     </td>
                     <td className="px-5 py-3.5 whitespace-nowrap font-semibold text-white">
                       {payment.customer?.firstName} {payment.customer?.lastName}
@@ -539,27 +529,6 @@ const AdminPayments = () => {
                   <p><strong>Hosted Checkout ID:</strong> <span className="font-mono text-xs bg-slate-100 p-1 rounded">{selectedPayment.hostedCheckoutId || 'N/A'}</span></p>
                   <p><strong>Transaction ID:</strong> <span className="font-mono text-xs bg-slate-100 p-1 rounded">{selectedPayment.transactionId || 'N/A'}</span></p>
                   <p><strong>Created At:</strong> {formatDate(selectedPayment.createdAt)}</p>
-                </div>
-
-                {/* ANZ Portal Guide */}
-                <div className="p-3.5 bg-blue-50/80 rounded-xl border border-blue-200/80 text-xs text-slate-700 space-y-2">
-                  <div className="font-bold text-[#003b73] flex items-center gap-1.5 text-xs">
-                    <ShieldCheck className="w-4 h-4 text-[#003b73]" />
-                    <span>How to find this in your ANZ Worldline Portal:</span>
-                  </div>
-                  <p className="text-slate-600">
-                    Go to <strong>Operations &gt; Transactions</strong> (or <strong>Search Transactions</strong>). Do not check <em>Settlements</em> until the overnight bank batch clears.
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-[11px]">
-                    <div className="bg-white p-2 rounded border border-blue-100">
-                      <span className="block text-slate-400 font-sans text-[10px] font-bold">MERCHANT REFERENCE</span>
-                      <span className="font-bold text-slate-900 select-all">{selectedPayment.projectNumber || selectedPayment.orderId}</span>
-                    </div>
-                    <div className="bg-white p-2 rounded border border-blue-100">
-                      <span className="block text-slate-400 font-sans text-[10px] font-bold">PAYMENT ID</span>
-                      <span className="font-bold text-slate-900 select-all">{selectedPayment.transactionId || selectedPayment.hostedCheckoutId || 'N/A'}</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 

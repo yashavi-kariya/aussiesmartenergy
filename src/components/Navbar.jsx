@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, ArrowRight, Phone, ExternalLink, CreditCard, ShieldCheck } from 'lucide-react';
@@ -30,12 +30,54 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const containerRef = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const el = containerRef.current;
+    if (!el) return;
+
+    let lastBaseHeight = 0;
+
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      const h = Math.round(rect.height || el.offsetHeight || 0);
+      if (h > 0) {
+        document.documentElement.style.setProperty('--navbar-total-height', `${h}px`);
+        if (window.scrollY <= 15 || lastBaseHeight === 0 || Math.abs(h - lastBaseHeight) > 30) {
+          document.documentElement.style.setProperty('--navbar-base-height', `${h}px`);
+          lastBaseHeight = h;
+        }
+      }
+    };
+
+    measure();
+    const t1 = setTimeout(measure, 80);
+    const t2 = setTimeout(measure, 300);
+
+    let ro;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(() => measure());
+      ro.observe(el);
+    }
+
+    const onScroll = () => {
+      setScrolled(window.scrollY > 10);
+      if (window.scrollY <= 15) {
+        measure();
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      if (ro) ro.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
+    };
   }, []);
 
   useEffect(() => {
@@ -125,7 +167,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 overflow-visible navbar-container">
+    <div ref={containerRef} className="fixed top-0 left-0 right-0 z-50 overflow-visible navbar-container">
       {/* ============ Top Dynamic Announcement Bar ============ */}
       <AnnouncementBar />
 
@@ -146,15 +188,14 @@ const Navbar = () => {
       {/* ============ Outer wrapper — full width, no rounding, no side/top gaps ============ */}
       <motion.div
         initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1, height: scrolled ? 80 : 100 }}
+        animate={{ y: 0, opacity: 1, height: scrolled ? 68 : 80 }}
         transition={{ duration: 0.5, ease: EASE }}
         className="relative w-full overflow-visible"
       >
         {/* ============ Full-width nav bar ============ */}
         <nav
-          className="relative w-full h-full flex items-stretch bg-white shadow-xl border-b border-slate-200/60 overflow-visible"
+          className="relative w-full h-full flex items-stretch justify-between lg:justify-start bg-white shadow-xl border-b border-slate-200/60 overflow-visible"
           style={{
-            background: '#becde2ff',
             boxShadow: scrolled
               ? '0 4px 24px -4px rgba(15,76,255,0.18), 0 2px 8px rgba(15,23,42,0.08)'
               : '0 2px 16px -2px rgba(15,76,255,0.10), 0 1px 4px rgba(15,23,42,0.05)',
@@ -163,20 +204,20 @@ const Navbar = () => {
           {/* ---- Logo panel ---- */}
           <Link
             to="/"
-            className="relative z-30 flex items-center bg-white pl-4 sm:pl-8 pr-4 sm:pr-8 flex-shrink-0"
+            className="relative z-20 flex items-center bg-white pl-3.5 sm:pl-4 xl:pl-5 pr-2.5 xl:pr-3 flex-shrink-0"
           >
             <motion.img
               src={logoImg}
               alt="Aussie Smart Energy"
-              animate={{ height: scrolled ? 68 : 86 }}
-              whileHover={{ scale: 1.04 }}
+              animate={{ height: scrolled ? 42 : 52 }}
+              whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.3, ease: EASE }}
-              className="w-auto max-h-[90%] object-contain"
+              className="w-auto max-h-[88%] object-contain"
             />
           </Link>
 
-          {/* ============ Right zone ============ */}
-          <div className="relative z-10 flex-1 flex items-stretch overflow-visible">
+          {/* ============ Right zone (desktop only) ============ */}
+          <div className="hidden lg:flex flex-1 items-stretch overflow-visible min-w-0">
             {/* Layered background */}
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-sky-50 to-blue-100" />
@@ -187,12 +228,12 @@ const Navbar = () => {
 
             {/* ---- Glass nav links container ---- */}
             <div
-              className="hidden lg:flex flex-1 items-center justify-center gap-1 mx-2"
+              className="flex flex-1 items-center justify-center gap-1 px-1.5 xl:px-3 min-w-0"
               onMouseLeave={() => setHoveredItem(null)}
             >
               <div
-                className="flex items-center gap-1 bg-white/60 backdrop-blur-xl border border-white/70 rounded-full px-2 py-2"
-                style={{ boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6)' }}
+                className="flex items-center gap-0.5 2xl:gap-1 bg-white/75 backdrop-blur-xl border border-white/85 rounded-full px-1.5 xl:px-2 py-1.5 shadow-sm"
+                style={{ boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.7)' }}
               >
                 {navItems.map((item) => {
                   const isActive = isItemActive(item);
@@ -216,7 +257,7 @@ const Navbar = () => {
                       {item.isHighlight ? (
                         <Link
                           to={item.href}
-                          className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-black rounded-full transition-all relative bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 border border-emerald-300/40 hover:scale-105 active:scale-95 ml-1 cursor-pointer"
+                          className="flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 text-xs font-black rounded-full transition-all relative bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 border border-emerald-300/40 hover:scale-105 active:scale-95 ml-0.5 xl:ml-1 cursor-pointer flex-shrink-0 whitespace-nowrap"
                         >
                           <CreditCard size={13} className="text-emerald-100" />
                           <span className="relative tracking-wide font-extrabold">{item.name}</span>
@@ -227,7 +268,7 @@ const Navbar = () => {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full transition-all relative bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-sm shadow-emerald-500/20 border border-emerald-300/30 hover:scale-105 active:scale-95 ml-0.5"
+                          className="flex items-center gap-1.5 px-2.5 xl:px-3 py-1 text-xs font-bold rounded-full transition-all relative bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-sm shadow-emerald-500/20 border border-emerald-300/30 hover:scale-105 active:scale-95 ml-0.5 flex-shrink-0 whitespace-nowrap"
                         >
                           <CreditCard size={11} className="text-emerald-100" />
                           <span className="relative">{item.name}</span>
@@ -241,7 +282,7 @@ const Navbar = () => {
                               setActiveDropdown(activeDropdown === item.name ? null : item.name);
                             }
                           }}
-                          className={`flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition-colors relative cursor-pointer ${
+                          className={`flex items-center gap-1 px-2 xl:px-2.5 2xl:px-3.5 py-1.5 2xl:py-2 text-xs 2xl:text-sm font-semibold rounded-full transition-colors relative cursor-pointer whitespace-nowrap flex-shrink-0 ${
                             isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
                           }`}
                         >
@@ -404,31 +445,32 @@ const Navbar = () => {
             {/* ---- Phone (desktop only, sits quietly in the glass zone) ---- */}
             <a
               href="tel:1300959170"
-              className="hidden xl:flex items-center gap-2.5 pr-3"
+              aria-label="Call Aussie Smart Energy: 1300 959 170"
+              className="hidden xl:flex items-center gap-2 pr-1.5 xl:pr-2.5 flex-shrink-0 group"
             >
-              <span className="w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-white/70 text-[#0F4CFF] flex items-center justify-center flex-shrink-0 shadow-sm">
-                <Phone size={16} />
+              <span className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md border border-white/80 text-[#0F4CFF] group-hover:bg-blue-50 group-hover:text-blue-700 flex items-center justify-center flex-shrink-0 shadow-sm transition-colors">
+                <Phone size={14} />
               </span>
-              <div className="leading-tight whitespace-nowrap">
-                <p className="text-[11px] text-slate-500 font-medium">Call Us Today</p>
-                <p className="text-sm font-bold text-[#0F172A]">1300 959 170</p>
+              <div className="hidden min-[1360px]:block leading-tight whitespace-nowrap">
+                <p className="text-[10px] xl:text-[11px] text-slate-500 font-medium">Call Us Today</p>
+                <p className="text-xs xl:text-sm font-bold text-[#0F172A] group-hover:text-[#0F4CFF] transition-colors">1300 959 170</p>
               </div>
             </a>
 
             {/* ---- CTA: angled diagonal blue panel ---- */}
             <div
-              className="hidden lg:flex items-center pl-14 pr-2 relative overflow-hidden"
+              className="flex items-center pl-6 xl:pl-8 2xl:pl-10 pr-2.5 xl:pr-4 relative flex-shrink-0"
               style={{
-                clipPath: 'polygon(26% 0, 100% 0, 100% 100%, 0% 100%)',
-                background: 'linear-gradient(100deg, #091f61ff 0%, #133585ff 50%, #0a4bb3ff 100%)',
+                clipPath: 'polygon(22px 0, 100% 0, 100% 100%, 0 100%)',
+                background: 'linear-gradient(100deg, #091f61 0%, #133585 50%, #0a4bb3 100%)',
               }}
             >
               <div className="absolute inset-0 opacity-20" style={DOTS_LIGHT} />
               <Link to="/contact">
                 <motion.div
-                  whileHover={{ scale: 1.04 }}
+                  whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="relative flex items-center space-x-3 bg-white/15 hover:bg-white/25 text-white pl-5 pr-1.5 py-1.5 rounded-full font-semibold text-sm transition-all overflow-hidden group border border-white/30 cursor-pointer"
+                  className="relative flex items-center gap-1.5 xl:gap-2 bg-white/15 hover:bg-white/25 text-white pl-3 xl:pl-3.5 pr-1.5 py-1.5 rounded-full font-semibold text-xs xl:text-sm transition-all overflow-hidden group border border-white/30 cursor-pointer flex-shrink-0 whitespace-nowrap"
                 >
                   <motion.span
                     initial={{ x: '-120%' }}
@@ -441,33 +483,43 @@ const Navbar = () => {
                     animate={{ x: [0, 3, 0] }}
                     whileHover={{ rotate: 45, x: 0 }}
                     transition={{ x: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 0.25, ease: EASE } }}
-                    className="relative w-8 h-8 bg-white text-[#0F4CFF] rounded-full flex items-center justify-center flex-shrink-0"
+                    className="relative w-7 h-7 xl:w-7.5 xl:h-7.5 bg-white text-[#0F4CFF] rounded-full flex items-center justify-center flex-shrink-0 shadow-sm"
                   >
-                    <ArrowRight size={15} />
+                    <ArrowRight size={13} />
                   </motion.div>
                 </motion.div>
               </Link>
             </div>
           </div>
 
-          {/* ---- Mobile hamburger ---- */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden relative z-30 flex items-center px-4 bg-white text-slate-700 hover:text-[#0F4CFF] transition-colors"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={isOpen ? 'close' : 'open'}
-                initial={{ rotate: -90, opacity: 0, scale: 0.7 }}
-                animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
-                transition={{ duration: 0.2, ease: EASE }}
-                className="flex"
-              >
-                {isOpen ? <X size={22} /> : <Menu size={22} />}
-              </motion.span>
-            </AnimatePresence>
-          </button>
+          {/* ---- Mobile actions (Call button + Hamburger) ---- */}
+          <div className="lg:hidden flex items-center gap-2 pr-3 sm:pr-5 z-30">
+            <a
+              href="tel:1300959170"
+              aria-label="Call Aussie Smart Energy"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-50 text-[#0F4CFF] hover:bg-blue-100 flex items-center justify-center transition-colors shadow-sm"
+            >
+              <Phone size={17} />
+            </a>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#0F4CFF] flex items-center justify-center transition-colors"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={isOpen ? 'close' : 'open'}
+                  initial={{ rotate: -90, opacity: 0, scale: 0.7 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
+                  transition={{ duration: 0.2, ease: EASE }}
+                  className="flex"
+                >
+                  {isOpen ? <X size={20} /> : <Menu size={20} />}
+                </motion.span>
+              </AnimatePresence>
+            </button>
+          </div>
         </nav>
       </motion.div>
 

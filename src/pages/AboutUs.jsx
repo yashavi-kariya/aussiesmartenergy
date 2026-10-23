@@ -253,7 +253,10 @@ const AboutUs = () => {
           ========================================================================= */}
       <section
         ref={heroRef}
-        className="relative pt-36 sm:pt-40 lg:pt-44 pb-20 lg:pb-28 bg-gradient-to-b from-white via-emerald-50/40 to-slate-50 overflow-hidden border-b border-slate-200/60"
+        className="relative pt-[215px] sm:pt-[190px] lg:pt-[160px] pb-16 sm:pb-20 lg:pb-28 bg-gradient-to-b from-white via-emerald-50/40 to-slate-50 overflow-hidden border-b border-slate-200/60"
+        style={{
+          paddingTop: 'calc(var(--navbar-base-height, 195px) + 1.5rem)'
+        }}
       >
         {/* Animated Radial Ambient Glows */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -294,12 +297,12 @@ const AboutUs = () => {
               <motion.div
                 variants={itemVariants}
                 whileHover={{ scale: 1.03 }}
-                className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-500/15 via-[#39b54a]/20 to-teal-500/15 border-2 border-[#39b54a]/30 backdrop-blur-md shadow-md shadow-emerald-500/10"
+                className="inline-flex items-center gap-2 sm:gap-3 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-emerald-500/15 via-[#39b54a]/20 to-teal-500/15 border-2 border-[#39b54a]/30 backdrop-blur-md shadow-md shadow-emerald-500/10 max-w-full"
               >
-                <div className="w-6 h-6 rounded-full bg-[#39b54a] flex items-center justify-center shadow-sm">
-                  <Sparkles className="w-3.5 h-3.5 text-white animate-pulse" />
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#39b54a] flex items-center justify-center shadow-sm flex-shrink-0">
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white animate-pulse" />
                 </div>
-                <span className="text-sm sm:text-base font-extrabold tracking-wide text-[#176a26] uppercase">
+                <span className="text-xs sm:text-sm md:text-base font-extrabold tracking-wide text-[#176a26] uppercase">
                   Australian Solar & Battery Specialists
                 </span>
               </motion.div>
@@ -307,7 +310,7 @@ const AboutUs = () => {
               {/* H1 Title */}
               <motion.h1
                 variants={itemVariants}
-                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#1e2d53] leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-[#1e2d53] leading-tight"
               >
                 About <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2c8d39] via-[#39b54a] to-teal-600">Aussie Smart Energy</span>
               </motion.h1>
@@ -315,7 +318,7 @@ const AboutUs = () => {
               {/* Subtitle */}
               <motion.h3
                 variants={itemVariants}
-                className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-700 tracking-tight"
+                className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-700 tracking-tight"
               >
                 Smarter Energy. Better Choices. A Team You Can Trust.
               </motion.h3>
@@ -323,9 +326,9 @@ const AboutUs = () => {
               {/* Story Box */}
               <motion.div
                 variants={itemVariants}
-                className="p-6 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-xl shadow-slate-200/50 space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed text-left"
+                className="p-5 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-xl shadow-slate-200/50 space-y-4 text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed text-left"
               >
-                <p className="text-lg sm:text-xl font-medium text-slate-900">
+                <p className="text-base sm:text-xl font-medium text-slate-900">
                   At <strong className="text-[#39b54a] font-bold">Aussie Smart Energy</strong>, we understand that choosing a solar or battery system is a big decision.
                 </p>
                 <p>
@@ -336,7 +339,7 @@ const AboutUs = () => {
                 </p>
 
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between flex-wrap gap-3">
-                  <p className="text-[#2c8d39] font-bold text-base sm:text-lg italic">
+                  <p className="text-[#2c8d39] font-bold text-sm sm:text-lg italic">
                     That is the difference we aim to make.
                   </p>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-xs font-bold text-[#1e7c2c]">
@@ -349,19 +352,19 @@ const AboutUs = () => {
               {/* Action Buttons */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-wrap items-center gap-4 pt-2"
+                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2"
               >
                 <Link
                   to="/contact"
-                  className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#39b54a] to-[#2ea43e] hover:from-[#2fa03f] hover:to-[#268c34] text-white font-bold text-sm sm:text-base shadow-lg shadow-emerald-500/25 transition-all duration-300 flex items-center gap-2.5 group transform hover:-translate-y-0.5"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#39b54a] to-[#2ea43e] hover:from-[#2fa03f] hover:to-[#268c34] text-white font-bold text-sm sm:text-base shadow-lg shadow-emerald-500/25 transition-all duration-300 flex items-center justify-center gap-2.5 group transform hover:-translate-y-0.5"
                 >
                   <span>Talk With Our Team</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
 
                 <a
-                  href="tel:1300986827"
-                  className="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm sm:text-base shadow-sm transition-all duration-300 flex items-center gap-2"
+                  href="tel:1300959170"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm sm:text-base shadow-sm transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <PhoneCall className="w-4 h-4 text-[#39b54a]" />
                   <span>1300 959 170</span>
@@ -440,16 +443,16 @@ const AboutUs = () => {
                   </div>
 
                   {/* 4 Feature Icons */}
-                  <div className="grid grid-cols-4 gap-2 pt-1 text-center">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-center">
                     {[
                       { icon: Sun, label: "Solar Energy" },
                       { icon: Battery, label: "Smart Storage" },
                       { icon: Zap, label: "Efficiency" },
                       { icon: ShieldCheck, label: "CEC & SAA" }
                     ].map((item, idx) => (
-                      <div key={idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex flex-col items-center gap-1">
-                        <item.icon className="w-5 h-5 text-[#39b54a]" />
-                        <span className="text-[10px] font-bold text-slate-700">{item.label}</span>
+                      <div key={idx} className="p-2 sm:p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex flex-col items-center gap-1">
+                        <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#39b54a]" />
+                        <span className="text-[10px] sm:text-xs font-bold text-slate-700">{item.label}</span>
                       </div>
                     ))}
                   </div>
@@ -595,7 +598,7 @@ const AboutUs = () => {
                 initial={{ y: 20, opacity: 0 }}
                 animate={controlInView ? { y: 0, opacity: 1 } : {}}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="absolute -bottom-5 -left-5 bg-white p-4 sm:p-5 rounded-2xl shadow-xl border border-slate-200/80 flex items-center gap-4 text-left"
+                className="absolute -bottom-4 left-2 sm:-bottom-5 sm:-left-5 bg-white p-3.5 sm:p-5 rounded-2xl shadow-xl border border-slate-200/80 flex items-center gap-3 sm:gap-4 text-left max-w-[90%] sm:max-w-none"
               >
                 <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-[#39b54a] flex-shrink-0">
                   <Home className="w-6 h-6" />
@@ -870,7 +873,7 @@ const AboutUs = () => {
               </div>
 
               {/* Decorative badge */}
-              <div className="absolute -top-5 -right-5 bg-gradient-to-r from-[#39b54a] to-emerald-600 text-white p-4 rounded-2xl shadow-xl flex items-center gap-3">
+              <div className="absolute -top-3 right-2 sm:-top-5 sm:-right-5 bg-gradient-to-r from-[#39b54a] to-emerald-600 text-white p-3 sm:p-4 rounded-2xl shadow-xl flex items-center gap-2 sm:gap-3 max-w-[90%] sm:max-w-none">
                 <Users className="w-6 h-6" />
                 <span className="text-xs font-bold uppercase tracking-wider">Plain English Advice</span>
               </div>
@@ -1176,17 +1179,17 @@ const AboutUs = () => {
               </h3>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap justify-center items-center gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 pt-4">
                 <Link
                   to="/contact"
-                  className="px-8 py-4 rounded-xl bg-[#39b54a] hover:bg-[#2fa03f] text-white font-bold text-base sm:text-lg shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 flex items-center gap-3 group"
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#39b54a] hover:bg-[#2fa03f] text-white font-bold text-base sm:text-lg shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 flex items-center justify-center gap-3 group"
                 >
                   <span>Get in Touch With Us</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   to="/solar/6.6kw"
-                  className="px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base sm:text-lg backdrop-blur-sm transition-all duration-300 flex items-center gap-2"
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base sm:text-lg backdrop-blur-sm transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <Sun className="w-5 h-5 text-[#39b54a]" />
                   <span>Explore Solar Systems</span>

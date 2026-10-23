@@ -309,14 +309,14 @@ const EnquiryModal = ({
                       <p className="text-[11px] sm:text-xs leading-relaxed text-slate-500 pl-[26px]">
                         You have the right to opt out of receiving marketing communications from us at any time and your personal information will be handled in accordance with Energy Makeovers' Privacy Policy available at{' '}
                         <a
-                          href="https://www.energymakeovers.com.au"
+                          href="https://energymakeovers.com.au/"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="underline hover:text-slate-900 transition-colors font-medium break-all"
                           style={{ color: accentColor }}
                           onClick={(e) => e.stopPropagation()}
                         >
-                          www.energymakeovers.com.au
+                          energymakeovers.com.au
                         </a>
                       </p>
                     </div>

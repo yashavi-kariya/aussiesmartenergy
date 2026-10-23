@@ -38,7 +38,7 @@ const ScrollToTopButton = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 bg-[#39b54a] hover:bg-[#2e9e3f] text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+          className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 bg-[#39b54a] hover:bg-[#2e9e3f] text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
           aria-label="Scroll to top"
         >
           <ArrowUp className="w-6 h-6 group-hover:translate-y-[-2px] transition-transform duration-200" />

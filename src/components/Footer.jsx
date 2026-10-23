@@ -70,7 +70,7 @@ export default function Footer() {
     {
       name: 'YouTube',
       icon: FaYoutube,
-      href: 'https://youtube.com',
+      href: 'https://www.youtube.com/@AussieSmartEnergy',
       color: '#FF0000',
       bgHover: 'hover:bg-[#FF0000]/20 hover:border-[#FF0000]/40 hover:text-[#FF0000]',
       shadow: 'hover:shadow-[0_0_16px_rgba(255,0,0,0.4)]',
@@ -249,24 +249,27 @@ export default function Footer() {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 xl:gap-12 items-start"
           >
             {/* -----------------------------------------------------------
-                COL 1: ACCREDITATIONS & CERTIFICATIONS (Span 3 on lg)
+                COL 1: ACCREDITATIONS & CERTIFICATIONS (Span 1 on sm/md, 3 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col gap-5">
+            <motion.div
+              variants={itemVariants}
+              className="sm:col-span-1 lg:col-span-3 flex flex-col gap-4 sm:gap-5"
+            >
               <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                 <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Accreditations</h4>
               </div>
 
               {/* Accreditations Trust Card */}
-              <div className="rounded-2xl bg-white/[0.05] border border-white/15 p-5 backdrop-blur-sm hover:border-white/25 transition-all duration-300 group shadow-lg flex flex-col gap-3.5">
-                <div className="bg-white/95 rounded-xl p-4 flex flex-col gap-3 items-center justify-center shadow-inner transition-transform duration-300 group-hover:scale-[1.01]">
+              <div className="rounded-2xl bg-white/[0.05] border border-white/15 p-4 sm:p-5 backdrop-blur-sm hover:border-white/25 transition-all duration-300 group shadow-lg flex flex-col gap-3.5">
+                <div className="bg-white/95 rounded-xl p-3.5 sm:p-4 flex flex-col gap-3 items-center justify-center shadow-inner transition-transform duration-300 group-hover:scale-[1.01]">
                   <img
                     src={bannerLogo}
                     alt="Clean Energy Council & NETCC Approved Seller"
-                    className="w-full h-auto max-h-20 object-contain"
+                    className="w-full h-auto max-h-16 sm:max-h-20 object-contain"
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
@@ -275,14 +278,14 @@ export default function Footer() {
                   <img
                     src={saaLogo}
                     alt="Solar Accreditation Australia"
-                    className="w-full h-auto max-h-12 object-contain"
+                    className="w-full h-auto max-h-10 sm:max-h-12 object-contain"
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
                   />
                 </div>
 
-                <div className="flex items-center gap-2.5 text-sm text-slate-300 font-medium">
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-300 font-medium">
                   <ShieldCheck size={16} className="text-[#39b54a] flex-shrink-0" />
                   <span className="leading-tight">NETCC Approved Seller, CEC & SAA Accredited</span>
                 </div>
@@ -290,9 +293,12 @@ export default function Footer() {
             </motion.div>
 
             {/* -----------------------------------------------------------
-                COL 2: QUICK LINKS / RESOURCES (Span 2 on lg)
+                COL 2: QUICK LINKS / RESOURCES (Span 1 on sm/md, 2 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col gap-5">
+            <motion.div
+              variants={itemVariants}
+              className="sm:col-span-1 lg:col-span-2 flex flex-col gap-4 sm:gap-5"
+            >
               <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#39b54a]" />
                 <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Resources</h4>
@@ -304,13 +310,17 @@ export default function Footer() {
                 <FooterNavLink href="/contact">Contact Us</FooterNavLink>
                 <FooterNavLink href="/batteries/solar-system-with-batteries">Solar Batteries</FooterNavLink>
                 <FooterNavLink href="/solar/6.6kw">Solar Packages</FooterNavLink>
+                <FooterNavLink href="/solar/commercial">Commercial Solar</FooterNavLink>
               </ul>
             </motion.div>
 
             {/* -----------------------------------------------------------
-                COL 3: CONTACT & LOCATIONS (Span 4 on lg)
+                COL 3: CONTACT & LOCATIONS (Span 1 on sm/md, 4 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-4 flex flex-col gap-6">
+            <motion.div
+              variants={itemVariants}
+              className="sm:col-span-1 lg:col-span-4 flex flex-col gap-5 sm:gap-6"
+            >
               <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
                 <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Contact Us</h4>
@@ -400,16 +410,19 @@ export default function Footer() {
             </motion.div>
 
             {/* -----------------------------------------------------------
-                COL 4: BRAND & LOGO (Span 3 on lg)
+                COL 4: BRAND & LOGO (Span 1 on sm/md, 3 on lg)
             ----------------------------------------------------------- */}
-            <motion.div variants={itemVariants} className="lg:col-span-3 flex flex-col items-start gap-6">
+            <motion.div
+              variants={itemVariants}
+              className="sm:col-span-1 lg:col-span-3 flex flex-col items-start gap-5 sm:gap-6"
+            >
               {/* Premium Logo Card */}
               <Link to="/" className="group inline-block focus:outline-none">
-                <div className="relative rounded-2xl bg-white px-6 py-4 shadow-lg shadow-black/20 border border-white/20 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(57,181,74,0.25)] group-hover:border-[#39b54a]/40">
+                <div className="relative rounded-2xl bg-white px-5 sm:px-6 py-3.5 sm:py-4 shadow-lg shadow-black/20 border border-white/20 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(57,181,74,0.25)] group-hover:border-[#39b54a]/40">
                   <img
                     src={logoImg}
                     alt="Aussie Smart Energy"
-                    className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="h-12 sm:h-14 lg:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
@@ -417,26 +430,33 @@ export default function Footer() {
                 </div>
               </Link>
 
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-sm">
+                Empowering Australian homes and businesses with clean, reliable solar and smart battery solutions engineered for long-term savings.
+              </p>
+
               {/* Social Media Links */}
-              <div className="flex items-center gap-3.5 pt-1">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <motion.a
-                      key={social.name}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.name}
-                      whileHover={{ scale: 1.12, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className={`w-11 h-11 rounded-xl flex items-center justify-center text-slate-200 bg-white/[0.06] border border-white/15 transition-all duration-300 ${social.bgHover} ${social.shadow}`}
-                    >
-                      <Icon size={18} />
-                    </motion.a>
-                  );
-                })}
+              <div className="flex flex-col gap-2 pt-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Connect With Us</span>
+                <div className="flex items-center gap-3 pt-0.5">
+                  {socialLinks.map((social) => {
+                    const Icon = social.icon;
+                    return (
+                      <motion.a
+                        key={social.name}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.name}
+                        whileHover={{ scale: 1.12, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-slate-200 bg-white/[0.06] border border-white/15 transition-all duration-300 ${social.bgHover} ${social.shadow}`}
+                      >
+                        <Icon size={17} />
+                      </motion.a>
+                    );
+                  })}
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -446,21 +466,21 @@ export default function Footer() {
           ----------------------------------------------------------- */}
           <motion.div
             variants={itemVariants}
-            className="mt-12 p-6 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col md:flex-row items-center gap-5 backdrop-blur-sm shadow-inner"
+            className="mt-10 sm:mt-12 p-5 sm:p-6 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 backdrop-blur-sm shadow-inner"
           >
             <div className="flex items-center gap-3 shrink-0">
               <img
                 src={aboriginalFlag}
                 alt="Australian Aboriginal Flag"
-                className="h-9 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
+                className="h-8 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
               />
               <img
                 src={torresStraitFlag}
                 alt="Torres Strait Islander Flag"
-                className="h-9 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
+                className="h-8 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
               />
             </div>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed text-center md:text-left font-normal">
+            <p className="text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed text-center sm:text-left font-normal">
               <span className="text-white font-semibold">Aussie Smart Energy</span> acknowledges Aboriginal and Torres Strait Islander people as the Traditional Custodians of the land and acknowledges and pays respect to their Elders, past and present.
             </p>
           </motion.div>
@@ -472,7 +492,7 @@ export default function Footer() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm sm:text-base text-slate-300"
+            className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm md:text-base text-slate-300 pb-16 sm:pb-4 pr-0 sm:pr-20 lg:pr-24"
           >
             <div className="flex items-center gap-2.5">
               <ShieldCheck size={18} className="text-[#39b54a] flex-shrink-0" />
