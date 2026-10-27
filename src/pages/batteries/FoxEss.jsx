@@ -10,9 +10,9 @@ import solarBatteries3 from '../../assets/foxess/foxess3.jpeg';
 import esyHomeBattery from '../../assets/esy/esy2.webp';
 import esySystem from '../../assets/fox_ess_home_system.jpg';
 import esyEnergyManagement from '../../assets/foxess/foxess8.jpeg';
-import esyConnectedHome from '../../assets/esy/esy4.webp';
-import esyVpp from '../../assets/esy/esy5.webp';
-import esyWarranty from '../../assets/esy/esy4.jpeg';
+import esyConnectedHome from '../../assets/foxess/foxess4.jpeg';
+import esyVpp from '../../assets/foxess/foxess5.jpeg';
+import esyWarranty from '../..//assets/foxess/foxess6.jpeg';
 import foxessGoldenSun from '../../assets/fox-ess solar.png';
 
 const TargetBullet = ({ text, light = false }) => (

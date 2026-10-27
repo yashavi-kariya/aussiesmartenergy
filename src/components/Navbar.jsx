@@ -126,6 +126,7 @@ const Navbar = () => {
         { label: 'ESY', href: '/batteries/esy' },
         { label: 'SOFAR', href: '/batteries/sofar' },
         { label: 'GoodWe', href: '/batteries/goodwe' },
+        { label: 'AlphaESS', href: '/batteries/alpha-ess' },
       ]
     },
     {

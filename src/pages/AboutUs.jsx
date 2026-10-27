@@ -253,7 +253,7 @@ const AboutUs = () => {
           ========================================================================= */}
       <section
         ref={heroRef}
-        className="relative pt-[215px] sm:pt-[190px] lg:pt-[160px] pb-16 sm:pb-20 lg:pb-28 bg-gradient-to-b from-white via-emerald-50/40 to-slate-50 overflow-hidden border-b border-slate-200/60"
+        className="relative pt-[215px] sm:pt-[190px] lg:pt-[160px] pb-8 sm:pb-10 lg:pb-12 bg-gradient-to-b from-white via-emerald-50/40 to-slate-50 overflow-hidden border-b border-slate-200/60"
         style={{
           paddingTop: 'calc(var(--navbar-base-height, 195px) + 1.5rem)'
         }}
@@ -468,9 +468,9 @@ const AboutUs = () => {
       {/* =========================================================================
           SECTION 1: Helping Australians Take Control of Their Energy
           ========================================================================= */}
-      <section ref={controlRef} className="py-20 lg:py-28 bg-white relative overflow-hidden">
+      <section ref={controlRef} className="pt-8 sm:pt-10 lg:pt-12 pb-10 sm:pb-12 lg:pb-14 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
             {/* Left Content (7 Cols) */}
             <motion.div
@@ -616,13 +616,13 @@ const AboutUs = () => {
       {/* =========================================================================
           SECTION 2: Experience You Can Rely On
           ========================================================================= */}
-      <section ref={experienceRef} className="py-20 lg:py-28 bg-slate-100/70 text-[#1e2d53] relative overflow-hidden border-y border-slate-200/80">
+      <section ref={experienceRef} className="py-10 sm:py-12 lg:py-14 bg-slate-100/70 text-[#1e2d53] relative overflow-hidden border-y border-slate-200/80">
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={experienceInView ? "visible" : "hidden"}
-            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
+            className="text-center max-w-3xl mx-auto space-y-4 mb-8 sm:mb-10 lg:mb-12"
           >
             <motion.div
               variants={itemVariants}
@@ -712,7 +712,7 @@ const AboutUs = () => {
       {/* =========================================================================
           SECTION 3: NETCC Approved Seller & What This Means for You
           ========================================================================= */}
-      <section ref={netccRef} className="py-20 lg:py-28 bg-white relative overflow-hidden">
+      <section ref={netccRef} className="py-10 sm:py-12 lg:py-14 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Section Header */}
@@ -720,7 +720,7 @@ const AboutUs = () => {
             variants={containerVariants}
             initial="hidden"
             animate={netccInView ? "visible" : "hidden"}
-            className="max-w-4xl mx-auto text-center space-y-5 mb-16"
+            className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-5 mb-8 sm:mb-10 lg:mb-12"
           >
             <motion.div
               variants={itemVariants}
@@ -758,7 +758,7 @@ const AboutUs = () => {
           </motion.div>
 
           {/* Subheading: What This Means for You */}
-          <div className="mb-10 text-center">
+          <div className="mb-6 sm:mb-8 text-center">
             <h3 className="text-2xl sm:text-3xl font-black text-[#1e2d53] flex items-center justify-center gap-2">
               <Sparkles className="w-6 h-6 text-[#39b54a]" />
               What This Means for You
@@ -841,9 +841,9 @@ const AboutUs = () => {
       {/* =========================================================================
           SECTION 4: We're People Helping People
           ========================================================================= */}
-      <section ref={peopleRef} className="py-20 lg:py-28 bg-slate-50 relative overflow-hidden border-t border-slate-200/80">
+      <section ref={peopleRef} className="py-10 sm:py-12 lg:py-14 bg-slate-50 relative overflow-hidden border-t border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
             {/* Left Image / Visual Card (5 Cols) */}
             <motion.div
@@ -938,13 +938,13 @@ const AboutUs = () => {
       {/* =========================================================================
           SECTION 5: More Than Just an Installation
           ========================================================================= */}
-      <section ref={moreThanRef} className="py-20 lg:py-28 bg-white relative overflow-hidden border-t border-slate-200/80">
+      <section ref={moreThanRef} className="py-10 sm:py-12 lg:py-14 bg-white relative overflow-hidden border-t border-slate-200/80">
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={moreThanInView ? "visible" : "hidden"}
-            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
+            className="text-center max-w-3xl mx-auto space-y-4 mb-8 sm:mb-10 lg:mb-12"
           >
             <motion.div
               variants={itemVariants}
@@ -1020,7 +1020,7 @@ const AboutUs = () => {
             variants={itemVariants}
             initial="hidden"
             animate={moreThanInView ? "visible" : "hidden"}
-            className="mt-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-300 text-center max-w-2xl mx-auto shadow-md"
+            className="mt-8 sm:mt-10 lg:mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-300 text-center max-w-2xl mx-auto shadow-md"
           >
             <p className="text-xl sm:text-2xl font-black text-[#1e2d53]">
               And most importantly, <span className="text-[#2c8d39] uppercase tracking-wide">your satisfaction.</span>
@@ -1032,13 +1032,13 @@ const AboutUs = () => {
       {/* =========================================================================
           SECTION 6: Why Choose Aussie Smart Energy?
           ========================================================================= */}
-      <section ref={whyChooseRef} className="py-20 lg:py-28 bg-slate-50 relative overflow-hidden border-t border-slate-200/80">
+      <section ref={whyChooseRef} className="py-10 sm:py-12 lg:py-14 bg-slate-50 relative overflow-hidden border-t border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={whyChooseInView ? "visible" : "hidden"}
-            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
+            className="text-center max-w-3xl mx-auto space-y-4 mb-8 sm:mb-10 lg:mb-12"
           >
             <motion.div
               variants={itemVariants}
@@ -1105,7 +1105,7 @@ const AboutUs = () => {
       {/* =========================================================================
           SECTION 7: Our Promise to You (CTA / Closing Hero)
           ========================================================================= */}
-      <section ref={promiseRef} className="py-20 lg:py-28 bg-gradient-to-br from-[#121c33] via-[#1e2d53] to-[#0f172a] text-white relative overflow-hidden">
+      <section ref={promiseRef} className="py-12 sm:py-14 lg:py-16 bg-gradient-to-br from-[#121c33] via-[#1e2d53] to-[#0f172a] text-white relative overflow-hidden">
         {/* Ambient Glows */}
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
@@ -1125,7 +1125,7 @@ const AboutUs = () => {
             variants={containerVariants}
             initial="hidden"
             animate={promiseInView ? "visible" : "hidden"}
-            className="space-y-8"
+            className="space-y-6 sm:space-y-8"
           >
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#6ee7b7] text-xs font-bold uppercase tracking-wider">
               <Heart className="w-3.5 h-3.5" />

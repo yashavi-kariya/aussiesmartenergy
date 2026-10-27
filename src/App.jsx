@@ -26,7 +26,8 @@ import {
   Pylontech,
   Esy,
   Sofar,
-  GoodWe
+  GoodWe,
+  AlphaEss
 } from './pages/batteries'
 import ProjectDetails from './pages/ProjectDetails'
 import AdminProjects from './pages/AdminProjects'
@@ -105,6 +106,8 @@ function App() {
         <Route path="/batteries/SOFAR" element={<Sofar />} />
         <Route path="/batteries/sopher" element={<Sofar />} />
         <Route path="/batteries/goodwe" element={<GoodWe />} />
+        <Route path="/batteries/alpha-ess" element={<AlphaEss />} />
+        <Route path="/batteries/alphaess" element={<AlphaEss />} />
         <Route path="/commercial/customize" element={<CommercialCustomize />} />
         <Route path="/projects/:slug" element={<ProjectDetails />} />
         <Route path="/payment/result" element={<PaymentResult />} />

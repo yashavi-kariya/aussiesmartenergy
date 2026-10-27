@@ -6,3 +6,4 @@ export { default as Esy } from './Esy';
 export { default as Sofar } from './Sofar';
 export { default as Sopher } from './Sofar';
 export { default as GoodWe } from './GoodWe';
+export { default as AlphaEss } from './AlphaEss';

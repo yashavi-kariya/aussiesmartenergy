@@ -5,8 +5,10 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-Media_Storage-3448C5?style=flat&logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+[![ANZ Worldline](https://img.shields.io/badge/Payment-ANZ_Worldline-004B87?style=flat)](https://www.worldline.com/)
 
-**Aussie Smart Energy** is a full-stack, enterprise-grade web platform and management system designed for an Australian clean energy and solar provider. The platform delivers a modern, high-performance customer experience for exploring residential and commercial solar installations, battery storage solutions, financial rebate calculators, and instant quote enquiries—backed by a comprehensive administrative portal for managing leads, portfolios, reviews, hero banners, and announcement tickers.
+**Aussie Smart Energy** is a full-stack, enterprise-grade web platform and management system designed for an Australian clean energy and solar provider. The platform delivers a modern, high-performance customer experience for exploring residential and commercial solar installations, home battery storage ecosystems, financial rebate calculators, and online invoice payments—backed by a comprehensive administrative portal for managing leads, portfolios, reviews, payments, hero banners, and announcement tickers.
 
 ---
 
@@ -25,6 +27,16 @@
 - [Environment Variables](#-environment-variables)
   - [Frontend (`.env`)](#frontend-env)
   - [Backend (`server/.env`)](#backend-serverenv)
+- [Cloudinary Cloud Media Storage](#-cloudinary-cloud-media-storage)
+  - [How It Works & Local Fallback](#how-it-works--local-fallback)
+  - [Migrating Existing Uploads to Cloudinary](#migrating-existing-uploads-to-cloudinary)
+- [Database Backup & Seeding Tools](#-database-backup--seeding-tools)
+  - [Exporting Entire Database to JSON](#exporting-entire-database-to-json)
+  - [Seeding into a Target Database](#seeding-into-a-target-database)
+- [Battery Storage Ecosystem](#-battery-storage-ecosystem)
+- [ANZ Worldline Payment Integration](#-anz-worldline-payment-integration)
+  - [Architecture & Payment Flow](#architecture--payment-flow)
+  - [Local Testing Simulator](#local-testing-simulator)
 - [Google Reviews Integration](#-google-reviews-integration)
   - [Data Source & Architecture](#data-source--architecture)
   - [Seeding Real Reviews](#seeding-real-reviews)
@@ -33,13 +45,12 @@
   - [Health & Diagnostics](#health--diagnostics)
   - [Admin Authentication](#admin-authentication)
   - [Enquiries & Leads](#enquiries--leads)
-  - [Payments & Hosted Checkout](#payments--hosted-checkout)
   - [Projects & Case Studies](#projects--case-studies)
   - [Customer Reviews](#customer-reviews)
   - [Google Reviews](#google-reviews)
   - [Hero Banners](#hero-banners)
   - [Headlines & Announcements](#headlines--announcements)
-- [ANZ Worldline Payment Integration](#-anz-worldline-payment-integration)
+  - [Payments & Hosted Checkout](#payments--hosted-checkout)
 - [Available Scripts](#-available-scripts)
 - [License](#-license)
 
@@ -48,30 +59,38 @@
 ## 🚀 Features
 
 ### Customer-Facing Experience
-- **Residential Solar Packages**: In-depth breakdowns, system specifications, and pricing for **6.6 kW**, **10.5 kW**, **13.2 kW**, and **15 kW** residential setups.
-- **Commercial Solar Systems**: High-yield commercial installations for **20 kW**, **30 kW**, **50 kW**, **100 kW**, and fully customized commercial solutions.
-- **Battery Storage Ecosystem**: Dedicated product pages and technical specs for tier-1 storage manufacturers:
-  - **Pylontech**
-  - **ESY Sunhome**
-  - **Fox ESS**
-  - **GoodWe**
-  - **Sigenergy**
-  - **Sofar Solar**
-- **NSW Solar & Battery Savings Calculator**: Interactive estimation tool calculating estimated yearly savings, battery ROI, and available government rebates.
-- **Verified Google Reviews & Testimonials**: 10 real, verified written reviews sourced directly from the Aussie Smart Energy Google Business Profile, stored in MongoDB. Optional live widget powered by Jotform for real-time display.
-- **Interactive Quote & Contact Modals**: Instant lead capture forms across all product pages with validation.
+- **Residential Solar Packages**: In-depth breakdowns, system specifications, and pricing for **6.6 kW**, **10.5 kW**, **13.2 kW**, and **15 kW** residential setups with interactive 3D visualizations.
+- **Commercial Solar Systems**: High-yield commercial installations for **20 kW**, **30 kW**, **50 kW**, **100 kW**, and custom enterprise setups with ROI breakdowns.
+- **Tier-1 Battery Storage Ecosystem**: Dedicated product pages, technical specs, and instant quote capture for leading battery manufacturers:
+  - **AlphaESS** (Smile series: 6.6 kWh, 10.45 kWh, 13.3 kWh modular capacity, VPP ready, IP65 outdoor rated)
+  - **Pylontech** (Pelio-L, Force L1/L2 series)
+  - **ESY Sunhome** (HM6 modular 5.12 kWh – 30.72 kWh residential storage)
+  - **Fox ESS** (EP5 & Mira series high-voltage systems)
+  - **GoodWe** (Lynx Home U & F series lithium battery solutions)
+  - **Sigenergy** (SigenStor 5-in-1 energy storage system)
+  - **Sofar Solar** (AMASS Store series)
+- **About Aussie Smart Energy**: Detailed company story, NETCC Approved Seller consumer code commitment, SAA & CEC accreditations, core focus pillars, and interactive 3D tilt showcase.
+- **NSW Solar & Battery Savings Calculator**: Interactive estimation tool calculating estimated yearly savings, battery ROI, and available state government rebates.
+- **Online Invoice & Quote Payments (`Pay Online`)**: Seamless customer portal to pay invoices and deposits online securely via ANZ Worldline Solutions Hosted Checkout, with instant transaction receipts.
+- **Local Payment Simulator**: Built-in offline testing sandbox (`/hostedcheckout/simulate`) allowing developers to test approved, cancelled, and declined transaction journeys without hitting live payment rails.
+- **Verified Google Reviews & Testimonials**: 10 real, verified written reviews sourced directly from the Aussie Smart Energy Google Business Profile, stored in MongoDB with high-contrast WCAG-compliant dark typography. Optional live widget powered by Jotform for real-time display.
+- **Mobile-Optimized Dynamic Footer**: Brand-first mobile hierarchy with prominent centered branding, compact 2-column directory navigation, side-by-side accreditation trust strip, tap-to-call/email actions, and Australian First Nations Acknowledgement of Country.
+- **Interactive Quote & Contact Modals**: Instant lead capture forms across all product pages with front-to-back input validation.
 - **Projects & Case Studies Gallery**: Visual showcase of completed solar installations across Australia with high-resolution image galleries and project specifications.
 - **Dynamic Hero Slider & Marquee Ticker**: Real-time admin-managed hero banner sliders and top announcement tickers.
-- **Responsive & Motion-Driven UI**: Built with Tailwind CSS, Framer Motion, and GSAP for animations and micro-interactions.
+- **Responsive & Motion-Driven UI**: Built with Tailwind CSS, Framer Motion, and GSAP for micro-animations and smooth layout transitions.
 
 ### Admin Management Portal
 - **Secure Authentication**: JWT-based authentication with bcrypt password hashing, input sanitization, and protected route guards.
-- **Lead & Enquiry Management**: View, filter, track status, and manage incoming customer quotation requests.
-- **Project Case Studies Manager**: Create, edit, soft-delete, and restore portfolio case studies with multi-image gallery uploads (`Multer`).
-- **Review Moderation & Google Reviews Sync**: Manage verified testimonials, set featured reviews, order display priority, and manually sync Google Business ratings via the admin panel.
+- **Lead & Customer Enquiry Management**: View, filter, track status, and manage incoming customer quotation requests.
+- **Payment Transactions Audit & Gateway Sync**: Track customer payments, view revenue statistics, inspect transaction IDs, and trigger real-time status reconciliations with ANZ Worldline.
+- **Project Case Studies Manager**: Create, edit, soft-delete, and restore portfolio case studies with multi-image gallery uploads.
+- **Cloudinary Cloud Media Storage**: Automatic cloud image uploading with local disk fallback when API keys are not present.
+- **Review Moderation & Google Reviews Sync**: Manage verified testimonials, set featured reviews, order display priority, and trigger manual sync with Google Places API.
 - **Hero Banner Manager**: Upload hero slider images, adjust display order, and toggle active banners.
 - **Announcement Headlines Manager**: Add and manage promotional headline tickers with custom URLs and active status toggles.
-- **Health & Readiness Monitoring**: Multi-tier health endpoints (`/health`, `/health/live`, `/health/ready`) reporting Mongoose ready state, CPU/memory metrics, and system uptime.
+- **Health & Readiness Monitoring**: Multi-tier health endpoints (`/health`, `/health/live`, `/health/ready`) reporting Mongoose connection state, memory metrics, and uptime.
+- **Database Backup & Cloudinary Migration Tooling**: Built-in CLI scripts to export entire databases to portable JSON and migrate disk uploads directly to Cloudinary.
 
 ---
 
@@ -90,10 +109,11 @@
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js 4.x
 - **Database**: MongoDB with Mongoose ODM
+- **Media Storage**: Cloudinary (v2 SDK with buffer streaming) + Multer fallback
+- **Payments**: ANZ Worldline Solutions (`onlinepayments-sdk-nodejs`)
 - **Authentication**: JSON Web Tokens (JWT) & Bcrypt.js
 - **Security & Headers**: Helmet, CORS, Express Validator
-- **File Uploads**: Multer (Local disk storage with static serving)
-- **Logging & Monitoring**: Morgan, custom health diagnostic utilities
+- **Logging & Diagnostics**: Morgan, custom health check monitors
 
 ---
 
@@ -104,64 +124,82 @@ aussiesmartenergy/
 ├── public/                         # Public static assets, favicon, brand assets
 ├── src/                            # Frontend React source code
 │   ├── assets/                     # Brand images, illustrations, and logos
+│   │   ├── Alphaess/               # AlphaESS product imagery & battery renders
+│   │   ├── pylontech/              # Pylontech product graphics
+│   │   └── ...                     # Solar panels, inverters & brand badges
 │   ├── components/                 # Reusable UI components
+│   │   ├── AnnouncementBar.jsx     # Top marquee ticker banner
+│   │   ├── ApprovedSellerBanner.jsx# NETCC Approved Seller trust strip
 │   │   ├── BrandsSection.jsx       # Solar & battery partner logos
-│   │   ├── GoogleReviews.jsx       # Verified Google reviews carousel (DB-backed)
+│   │   ├── CheckoutModal.jsx       # Payment modal wrapper
+│   │   ├── EnquiryModal.jsx        # Instant quote enquiry modal
+│   │   ├── Footer.jsx              # Mobile-optimized footer with First Nations tribute
+│   │   ├── GoogleReviews.jsx       # Verified Google reviews carousel with dark styling
 │   │   ├── GoogleReviewsWidget.jsx # Jotform live Google Reviews embed widget
 │   │   ├── HeroSlider.jsx          # Dynamic hero image carousel
-│   │   ├── MarqueeHeadline.jsx     # Running announcement ticker
-│   │   ├── Navbar.jsx              # Primary navigation header
-│   │   ├── Footer.jsx              # Site footer with quick links
-│   │   └── ...                     # Modals, forms, and cards
+│   │   ├── Navbar.jsx              # Responsive navigation header with mega menus
+│   │   ├── ProjectsSection.jsx     # Portfolio showcase carousel
+│   │   └── ...                     # Cards, accordions, and utilities
 │   ├── data/                       # Static product data, pricing, specs, FAQs
 │   ├── pages/                      # Application views & routes
 │   │   ├── batteries/              # Dedicated battery manufacturer pages
+│   │   │   ├── AlphaEss.jsx        # AlphaESS (6.6 kWh, 10.45 kWh, 13.3 kWh)
 │   │   │   ├── Esy.jsx             # ESY Sunhome
 │   │   │   ├── FoxEss.jsx          # Fox ESS
 │   │   │   ├── GoodWe.jsx          # GoodWe
 │   │   │   ├── Pylontech.jsx       # Pylontech
 │   │   │   ├── Sigenergy.jsx       # Sigenergy
 │   │   │   └── Sofar.jsx           # Sofar Solar
+│   │   ├── AboutUs.jsx             # Company story, NETCC accreditation & 3D showcase
 │   │   ├── AdminBanners.jsx        # Admin hero banner manager
 │   │   ├── AdminDashboard.jsx      # Admin enquiries dashboard
 │   │   ├── AdminHeadlines.jsx      # Admin ticker announcement manager
-│   │   ├── AdminLogin.jsx          # Admin login authentication view
-│   │   ├── AdminProjects.jsx       # Admin case studies CRUD
+│   │   ├── AdminLogin.jsx          # Admin authentication login
+│   │   ├── AdminPayments.jsx       # Admin payment audit & reconciliation
+│   │   ├── AdminProjects.jsx       # Admin case studies CRUD & gallery manager
 │   │   ├── AdminReviews.jsx        # Admin Google reviews management & sync
+│   │   ├── ANZWorldlineHostedCheckoutSimulator.jsx # Local payment checkout testing sandbox
+│   │   ├── ContactUs.jsx           # Enquiry form and office locations
 │   │   ├── Home.jsx                # Landing page
-│   │   ├── NSWCalculator.jsx       # Solar savings & rebate calculator
+│   │   ├── NSWCalculator.jsx       # Solar savings & government rebate calculator
+│   │   ├── PayOnline.jsx           # Customer online invoice payment view
+│   │   ├── PaymentResult.jsx       # Payment success/confirmation receipt view
 │   │   ├── ProjectDetails.jsx      # Individual case study view
 │   │   ├── SolarCommercial.jsx     # Commercial solar packages
 │   │   ├── Solar6kw.jsx            # 6.6 kW residential package
 │   │   ├── Solar10kw.jsx           # 10.5 kW residential package
 │   │   ├── Solar13kw.jsx           # 13.2 kW residential package
 │   │   └── ...                     # Other product & info pages
-│   ├── utils/                      # API client, helpers, and formatters
+│   ├── utils/                      # Axios client, formatters, and helpers
 │   ├── App.jsx                     # Route definitions and layout wrapper
 │   ├── index.css                   # Global Tailwind directives & design system
 │   └── main.jsx                    # React root entry point
 ├── server/                         # Backend Express server source code
 │   ├── src/
-│   │   ├── config/                 # Database connection (MongoDB)
-│   │   ├── controllers/            # Request controllers (Admin, Banners, Enquiries, GoogleReviews, Headlines, Projects, Reviews)
-│   │   ├── middleware/             # JWT Auth, Error Handler, Multer file upload
-│   │   ├── models/                 # Mongoose schemas (Admin, Banner, Enquiry, Headline, Project, Review)
+│   │   ├── config/
+│   │   │   ├── cloudinary.js       # Cloudinary streaming upload & local fallback
+│   │   │   └── db.js               # MongoDB connection handler
+│   │   ├── controllers/            # Controllers (Admin, Banners, Enquiries, GoogleReviews, Headlines, Payments, Projects, Reviews)
+│   │   ├── middleware/             # JWT Auth, Error Handler, Multer buffer upload
+│   │   ├── models/                 # Mongoose schemas (Admin, Banner, Enquiry, Headline, Payment, Project, Review, GoogleReview)
 │   │   ├── routes/                 # Express API route handlers
-│   │   ├── scripts/                # One-off database scripts
-│   │   │   ├── seedReviews.js      # Seeds 10 verified real Google reviews into MongoDB
-│   │   │   └── reseedRealReviews.js# Utility: purge & re-seed Google reviews from source
-│   │   ├── services/               # Background service workers
-│   │   │   └── googleReviewSyncService.js # Periodic Google Places API sync job
-│   │   ├── utils/                  # Admin seeders & helper functions
-│   │   │   ├── cleanStaticReviews.js      # Removes stale/fake review records
-│   │   │   └── seedAussieGoogleReviews.js # Source data for review seeding
+│   │   ├── scripts/                # Database and migration scripts
+│   │   │   ├── exportDatabase.js   # Exports all MongoDB collections to JSON
+│   │   │   ├── migrateUploadsToCloudinary.js # Migrates disk uploads to Cloudinary
+│   │   │   ├── seedReviews.js      # Seeds 10 verified Google reviews
+│   │   │   ├── reseedRealReviews.js# Purges & re-seeds reviews
+│   │   │   └── seedTargetDatabase.js # Seeds data into any target database
+│   │   ├── services/
+│   │   │   └── googleReviewSyncService.js # Periodic Google Places sync job
+│   │   ├── utils/                  # Admin seeders & API response formatters
 │   │   ├── validation/             # Express-validator schemas
-│   │   └── server.js               # Server bootstrap & middleware setup
-│   ├── uploads/                    # Uploaded images (projects, banners, reviews)
-│   ├── .env.example                # Backend environment variable template
-│   └── package.json                # Backend package configuration & scripts
+│   │   └── server.js               # Express application bootstrap
+│   ├── uploads/                    # Local image storage fallback
+│   └── package.json                # Backend dependencies and scripts
+├── database_export.json            # Database snapshot export
+├── seed_data.json                  # Clean portable seed data
 ├── package.json                    # Frontend package configuration & scripts
-├── tailwind.config.js              # Tailwind CSS custom theme & plugins
+├── tailwind.config.js              # Tailwind custom theme & plugins
 └── vite.config.js                  # Vite configuration & build plugins
 ```
 
@@ -198,11 +236,7 @@ cd aussiesmartenergy
    ```
 
 3. **Configure environment variables:**
-   Copy `.env.example` to create your `.env` file:
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` with your MongoDB URI, JWT secret, and optional Google Places API credentials:
+   Create a `.env` file in the `server` directory (or edit the root `.env`):
    ```env
    PORT=5000
    MONGODB_URI=mongodb://127.0.0.1:27017/aussiesmartenergy
@@ -210,12 +244,25 @@ cd aussiesmartenergy
    NODE_ENV=development
    FRONTEND_URL=http://localhost:5173
 
-   # Default Admin Credentials
+   # Default Admin Credentials for seeder
    ADMIN_USERNAME=admin
    ADMIN_EMAIL=admin@aussiesmartenergy.com.au
    ADMIN_PASSWORD=AdminPassword123!
 
-   # Google Places API (Optional for live reviews sync)
+   # Cloudinary Media Storage (Optional, falls back to disk if omitted)
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+
+   # ANZ Worldline Payment Gateway (Sandbox / Preprod)
+   ANZ_MERCHANT_ID=your_anz_merchant_id
+   ANZ_API_KEY=your_anz_api_key
+   ANZ_API_SECRET=your_anz_api_secret
+   ANZ_API_ENDPOINT=payment.preprod.anzworldline-solutions.com.au
+   ANZ_ENVIRONMENT=sandbox
+   ANZ_WEBHOOK_SECRET=your_anz_webhook_secret
+
+   # Google Places API (Optional for background reviews sync)
    GOOGLE_PLACES_API_KEY=your_google_places_api_key
    GOOGLE_PLACE_ID=ChIJ_QaRUQCP1moRz4Bz7m8a86c
    GOOGLE_BUSINESS_URL=https://www.google.com/maps/place/Aussie+Smart+Energy/...
@@ -285,9 +332,121 @@ cd aussiesmartenergy
 | `ADMIN_USERNAME` | Default admin username for seeder | `admin` |
 | `ADMIN_EMAIL` | Default admin email for seeder | `admin@aussiesmartenergy.com.au` |
 | `ADMIN_PASSWORD` | Default admin password for seeder | `Admin123!` |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary account cloud name | `your_cloud_name` |
+| `CLOUDINARY_API_KEY` | Cloudinary API Key | `your_api_key` |
+| `CLOUDINARY_API_SECRET` | Cloudinary API Secret | `your_api_secret` |
+| `ANZ_MERCHANT_ID` | ANZ Worldline Merchant Account ID | `your_anz_merchant_id` |
+| `ANZ_API_KEY` | ANZ Worldline Hosted Checkout API Key ID | `your_anz_api_key` |
+| `ANZ_API_SECRET` | ANZ Worldline Secret API Key | `your_anz_api_secret` |
+| `ANZ_API_ENDPOINT` | Gateway hostname (`payment.preprod...` / `payment...`) | `payment.preprod.anzworldline-solutions.com.au` |
+| `ANZ_ENVIRONMENT` | Gateway mode (`sandbox` or `production`) | `sandbox` |
+| `ANZ_WEBHOOK_SECRET` | Secret key for verifying ANZ webhook signature *(optional)* | `your_anz_webhook_secret` |
 | `GOOGLE_PLACES_API_KEY` | Google Places API key for reviews sync *(optional)* | `AIzaSy...` |
 | `GOOGLE_PLACE_ID` | Google Place ID for Aussie Smart Energy *(optional)* | `ChIJ_QaRUQCP1moRz4Bz7m8a86c` |
 | `GOOGLE_BUSINESS_URL` | Direct Google Maps / Business URL *(optional)* | `https://www.google.com/maps/...` |
+
+---
+
+## ☁️ Cloudinary Cloud Media Storage
+
+### How It Works & Local Fallback
+All image uploads (project galleries, hero banners, and customer review avatars) are processed through `server/src/config/cloudinary.js`.
+
+- **Cloud Upload**: When `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` are defined in `server/.env`, images stream directly from memory to Cloudinary with CDN URLs saved in MongoDB.
+- **Local Fallback**: If Cloudinary credentials are not present, images are stored locally under `server/uploads/` and served via Express static middleware.
+- **Automated Cleanup**: Deleting a project, banner, or review automatically deletes the corresponding asset from Cloudinary (or local disk).
+
+### Migrating Existing Uploads to Cloudinary
+If you have existing images stored on your local disk and wish to transfer them to your Cloudinary cloud bucket:
+
+```bash
+cd server
+npm run migrate:cloudinary
+```
+
+The script will:
+1. Scan all MongoDB documents (`projects`, `banners`).
+2. Identify images pointing to `/uploads/`.
+3. Upload each file to Cloudinary under the `aussiesmartenergy` namespace.
+4. Update the MongoDB records with secure Cloudinary CDN URLs.
+
+---
+
+## 🗄️ Database Backup & Seeding Tools
+
+### Exporting Entire Database to JSON
+Export all active MongoDB collections (Enquiries, Projects, Reviews, GoogleReviews, Banners, Headlines, Payments, Admins) into clean JSON files:
+
+```bash
+cd server
+npm run export:db
+```
+
+This generates:
+- `database_export.json`: Full database dump with timestamps and object IDs.
+- `seed_data.json`: Standardized seed dataset.
+- `seed_data_no_ids.json`: Dataset stripped of Mongo `_id` fields for importing into fresh databases.
+
+### Seeding into a Target Database
+To populate a remote MongoDB cluster (e.g. MongoDB Atlas or staging environment):
+
+```bash
+cd server
+node src/scripts/seedTargetDatabase.js "<TARGET_MONGODB_URI>" --drop
+```
+
+Options:
+- `--drop`: Drops existing target collections prior to inserting data.
+- `--no-ids`: Generates fresh ObjectIDs in the target database.
+
+---
+
+## 🔋 Battery Storage Ecosystem
+
+Aussie Smart Energy provides complete, manufacturer-backed home battery storage solutions. Each system has a dedicated page with interactive calculators, specification tables, and instant quote forms:
+
+| Brand | Model / Series | Capacity Range | Features | Page Route |
+| :--- | :--- | :--- | :--- | :--- |
+| **AlphaESS** | Smile Series (Smile-G3 / B3) | 6.6 kWh, 10.45 kWh, 13.3 kWh | Modular, VPP ready, IP65 outdoor, 10-year warranty | `/batteries/alphaess` |
+| **Pylontech** | Pelio-L & Force Series | 5.12 kWh – 20.48 kWh | High cycle life, slimline wall mount, LFP safety | `/batteries/pylontech` |
+| **ESY Sunhome** | HM6 Modular | 5.12 kWh – 30.72 kWh | All-in-one storage, stackable modules, emergency backup | `/batteries/esy` |
+| **Fox ESS** | EP5 & Mira Series | 5.18 kWh – 20.7 kWh | High-voltage efficiency, fast charging, sleek aesthetics | `/batteries/fox-ess` |
+| **GoodWe** | Lynx Home U & F Series | 5.4 kWh – 16.4 kWh | Seamless inverter pairing, remote diagnostic control | `/batteries/goodwe` |
+| **Sigenergy** | SigenStor | 5.0 kWh – 48.0 kWh | 5-in-1 AI-assisted solar + battery + EV charging | `/batteries/sigenergy` |
+| **Sofar Solar**| AMASS Store Series | 5.12 kWh – 20.48 kWh | Robust Australian condition resilience, grid assist | `/batteries/sofar` |
+
+---
+
+## 💳 ANZ Worldline Payment Integration
+
+### Architecture & Payment Flow
+Aussie Smart Energy integrates **ANZ Worldline Solutions Hosted Checkout** via the official `@onlinepayments/sdk-nodejs` library.
+
+```
+[React Customer Portal] 
+       │ 1. User enters invoice/reference details at /pay-online
+       ▼
+[POST /api/payments/create] 
+       │ 2. Backend validates payload and creates PENDING Payment document in MongoDB
+       │ 3. Backend calls ANZ Worldline Hosted Checkout API
+       │ 4. Receives hostedCheckoutRedirectUrl & hostedCheckoutId
+       ▼
+[ANZ Worldline Secure Gateway] 
+       │ 5. Customer enters card details securely (never touches Aussie Smart Energy servers)
+       │ 6. ANZ redirects customer back to /payment/result?paymentId=...
+       ▼
+[GET /api/payments/:paymentId/status] 
+       │ 7. Backend queries ANZ API directly to verify payment completion
+       │ 8. Payment status updated to SUCCESS / FAILED
+       ▼
+[Customer Receipt / Admin Dashboard]
+```
+
+### Local Testing Simulator
+To facilitate local development without requiring live card test transactions, an offline simulator is included:
+
+- **Simulator URL**: `http://localhost:5173/hostedcheckout/simulate`
+- **Features**: Test **APPROVED**, **CANCELLED**, and **DECLINED** outcomes. The simulator mimics the exact parameters returned by the ANZ Worldline Hosted Checkout gateway and redirects directly back to `PaymentResult.jsx`.
 
 ---
 
@@ -303,7 +462,7 @@ The Google Reviews system uses a **two-layer approach**:
 | **Sync** | Google Places API (New) | Background sync via `googleReviewSyncService.js` to keep ratings and metadata fresh |
 | **Live Widget** | Jotform embed *(optional)* | `GoogleReviewsWidget.jsx` — a zero-backend, real-time embed requiring no API key |
 
-> **Why only 10 reviews?**  
+> **Why 10 reviews?**  
 > Google Maps publicly exposes only the top 10 written reviews for unauthenticated users. The remaining ratings (out of 79 total) are star-only and have no public names or review text. All 10 verified written reviews are stored verbatim as shown on the Google Maps listing.
 
 ### Seeding Real Reviews
@@ -361,11 +520,6 @@ The `GoogleReviewsWidget.jsx` component provides a live Google Reviews embed pow
    // After (Live Mode)
    const JOTFORM_SCRIPT_SRC = 'https://cdn.jotfor.ms/s/umd/latest/for-google-reviews.js?widgetId=YOUR_WIDGET_ID';
    ```
-
-#### Troubleshooting Widget Visibility:
-- **Amber Warning Card Visible**: `JOTFORM_SCRIPT_SRC` is still the placeholder. Replace it with your generated URL.
-- **Red Error Banner Visible**: The script URL failed to load. Check the browser console (`[GoogleReviewsWidget Error]`) and ensure your widget URL is active.
-- **Empty / 0px Container**: The container has a default `min-h-[150px]` class. Ensure parent containers do not have `overflow: hidden` with fixed zero heights.
 
 ---
 
@@ -428,6 +582,16 @@ The `GoogleReviewsWidget.jsx` component provides a live Google Reviews embed pow
 | `PUT` | `/api/banners/order` | Protected (Admin) | Update banner display order |
 | `DELETE` | `/api/banners/:id` | Protected (Admin) | Remove hero banner |
 
+### Headlines & Announcements
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/headlines` | Public | Fetch active promotional announcement headlines |
+| `GET` | `/api/headlines/admin/all` | Protected (Admin) | Fetch all headlines with admin metadata |
+| `POST` | `/api/headlines` | Protected (Admin) | Create a new announcement headline |
+| `PUT` | `/api/headlines/:id` | Protected (Admin) | Update an existing headline |
+| `PATCH` | `/api/headlines/:id/toggle` | Protected (Admin) | Toggle headline active/inactive status |
+| `DELETE` | `/api/headlines/:id` | Protected (Admin) | Remove an announcement headline |
+
 ### Payments & Hosted Checkout
 | Method | Endpoint | Access | Description |
 | :--- | :--- | :--- | :--- |
@@ -435,39 +599,7 @@ The `GoogleReviewsWidget.jsx` component provides a live Google Reviews embed pow
 | `GET` | `/api/payments/:paymentId/status` | Public | Verify payment status via ANZ API & update database |
 | `POST` | `/api/payments/webhook` | Public | ANZ Worldline transaction feedback webhook |
 | `GET` | `/api/payments/admin/all` | Protected (Admin) | Fetch payment transactions list and revenue stats |
-
----
-
-## 💳 ANZ Worldline Payment Integration
-
-### Overview & Account Setup
-The application integrates **ANZ Worldline Solutions Hosted Checkout** using the official `@onlinepayments/sdk-nodejs` (`onlinepayments-sdk-nodejs`) package.
-
-1. **Merchant Portal Credentials**:
-   - Log into your **ANZ Worldline Merchant Back Office**.
-   - Obtain your **Merchant ID**, **API Key ID**, and **Secret API Key**.
-   - Configure Webhook Notification URL to `https://your-domain.com/api/payments/webhook` and save `ANZ_WEBHOOK_SECRET`.
-
-2. **Environment Variables Configuration**:
-   ```env
-   # ANZ Worldline Payment Gateway Configuration
-   ANZ_MERCHANT_ID=your_anz_merchant_id
-   ANZ_API_KEY=your_anz_api_key
-   ANZ_API_SECRET=your_anz_api_secret
-   ANZ_API_ENDPOINT=payment.preprod.anzworldline-solutions.com.au
-   ANZ_ENVIRONMENT=sandbox
-   ANZ_WEBHOOK_SECRET=your_anz_webhook_secret
-   ```
-
-3. **Payment Security**:
-   - Private API credentials stay strictly on the Node.js Express backend.
-   - Raw card details (card number, CVV) are entered exclusively on ANZ Worldline Hosted Checkout and never touch our servers or database.
-   - Payment amounts are validated on the backend before checkout session creation.
-   - Payment success is verified directly via ANZ Worldline API status calls rather than frontend URL parameters alone.
-
-4. **Testing & Production**:
-   - Default environment endpoint: `payment.preprod.anzworldline-solutions.com.au` (Sandbox/Test).
-   - To switch to production, update `ANZ_ENVIRONMENT=production` and set `ANZ_API_ENDPOINT=payment.anzworldline-solutions.com.au` with your live credentials in `server/.env`.
+| `POST` | `/api/payments/:paymentId/sync` | Protected (Admin) | Manually re-sync payment status against ANZ Worldline gateway |
 
 ---
 
@@ -477,14 +609,17 @@ The application integrates **ANZ Worldline Solutions Hosted Checkout** using the
 - `npm run dev` — Starts the Vite development server with hot module replacement (HMR).
 - `npm run build` — Compiles and bundles production-ready frontend assets into `dist/`.
 - `npm run preview` — Locally previews the built production bundle.
-- `npm run lint` — Runs Oxlint for fast static code analysis.
+- `npm run lint` — Runs Oxlint for static code analysis.
 
 ### Server Directory (Backend)
-- `npm run dev` — Starts Express backend with `nodemon` auto-reloading on file change.
+- `npm run dev` — Starts Express backend with `nodemon` auto-reloading.
 - `npm start` — Runs the backend server in production mode using `node src/server.js`.
 - `npm run seed:admin` — Seeds the database with default administrator credentials from `.env`.
+- `npm run export:db` — Exports all database collections into portable JSON files (`database_export.json`, `seed_data.json`).
+- `npm run migrate:cloudinary` — Migrates local `/uploads/` images to Cloudinary CDN storage.
 - `node src/scripts/seedReviews.js` — Seeds the 10 verified real Google reviews into MongoDB.
 - `node src/scripts/reseedRealReviews.js` — Purges all Google reviews and re-seeds from source data.
+- `node src/scripts/seedTargetDatabase.js "<URI>" [--drop]` — Seeds data into a target MongoDB cluster.
 
 ---
 

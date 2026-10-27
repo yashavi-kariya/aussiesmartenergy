@@ -5,14 +5,14 @@ import EnquiryModal from '../../components/EnquiryModal';
 
 // Assets
 import solarBatteries1 from '../../assets/pylontech/pylontech.jpeg';
-import solarBatteries2 from '../../assets/solarbattries2.png';
+import solarBatteries2 from '../../assets/pylontech/30kwhsolarbattries.webp';
 import solarBatteries3 from '../../assets/solarbattries3.png';
-import pylontechForceH3 from '../../assets/pylontech_force_h3.jpg';
+import pylontechForceH3 from '../../assets/pylontech/pylontech3.png';
 import esySystem from '../../assets/pylontech/pylontech2.jpg';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
-import esyWarranty from '../../assets/esy/esy6.webp';
+import esyWarranty from '../../assets/pylontech/pylontech2.jpg';
 
 const TargetBullet = ({ text, light = false }) => (
   <li className={`flex items-center gap-3 text-[15px] sm:text-base ${light ? 'text-white' : 'text-slate-700'}`}>

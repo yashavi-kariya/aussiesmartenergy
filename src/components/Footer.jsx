@@ -90,7 +90,7 @@ export default function Footer() {
       {/* -----------------------------------------------------------
           WAVE HEADER SECTION - Multi-layered animated organic waves
       ----------------------------------------------------------- */}
-      <div className="relative w-full overflow-hidden leading-none -mb-1" style={{ height: 110 }}>
+      <div className="relative w-full overflow-hidden leading-none -mb-1 h-14 sm:h-20 lg:h-[110px]">
         <svg
           viewBox="0 0 1440 120"
           preserveAspectRatio="none"
@@ -244,185 +244,27 @@ export default function Footer() {
         />
 
         {/* Content Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-10 sm:pt-12 pb-5 sm:pb-6">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 sm:pt-12 pb-5 sm:pb-6">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 xl:gap-12 items-start"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-8 xl:gap-12 items-start"
           >
             {/* -----------------------------------------------------------
-                COL 1: ACCREDITATIONS & CERTIFICATIONS (Span 1 on sm/md, 3 on lg)
+                BRAND & LOGO (Order 1 on mobile, Order 4 on desktop)
             ----------------------------------------------------------- */}
             <motion.div
               variants={itemVariants}
-              className="sm:col-span-1 lg:col-span-3 flex flex-col gap-4 sm:gap-5"
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Accreditations</h4>
-              </div>
-
-              {/* Accreditations Trust Card */}
-              <div className="rounded-2xl bg-white/[0.05] border border-white/15 p-4 sm:p-5 backdrop-blur-sm hover:border-white/25 transition-all duration-300 group shadow-lg flex flex-col gap-3.5">
-                <div className="bg-white/95 rounded-xl p-3.5 sm:p-4 flex flex-col gap-3 items-center justify-center shadow-inner transition-transform duration-300 group-hover:scale-[1.01]">
-                  <img
-                    src={bannerLogo}
-                    alt="Clean Energy Council & NETCC Approved Seller"
-                    className="w-full h-auto max-h-16 sm:max-h-20 object-contain"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                  <div className="w-full h-px bg-slate-200" />
-                  <img
-                    src={saaLogo}
-                    alt="Solar Accreditation Australia"
-                    className="w-full h-auto max-h-10 sm:max-h-12 object-contain"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                </div>
-
-                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-300 font-medium">
-                  <ShieldCheck size={16} className="text-[#39b54a] flex-shrink-0" />
-                  <span className="leading-tight">NETCC Approved Seller, CEC & SAA Accredited</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* -----------------------------------------------------------
-                COL 2: QUICK LINKS / RESOURCES (Span 1 on sm/md, 2 on lg)
-            ----------------------------------------------------------- */}
-            <motion.div
-              variants={itemVariants}
-              className="sm:col-span-1 lg:col-span-2 flex flex-col gap-4 sm:gap-5"
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#39b54a]" />
-                <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Resources</h4>
-              </div>
-
-              <ul className="flex flex-col space-y-1">
-                <FooterNavLink href="/">Home</FooterNavLink>
-                <FooterNavLink href="/about">About Us</FooterNavLink>
-                <FooterNavLink href="/contact">Contact Us</FooterNavLink>
-                <FooterNavLink href="/batteries/solar-system-with-batteries">Solar Batteries</FooterNavLink>
-                <FooterNavLink href="/solar/6.6kw">Solar Packages</FooterNavLink>
-                <FooterNavLink href="/solar/commercial">Commercial Solar</FooterNavLink>
-              </ul>
-            </motion.div>
-
-            {/* -----------------------------------------------------------
-                COL 3: CONTACT & LOCATIONS (Span 1 on sm/md, 4 on lg)
-            ----------------------------------------------------------- */}
-            <motion.div
-              variants={itemVariants}
-              className="sm:col-span-1 lg:col-span-4 flex flex-col gap-5 sm:gap-6"
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
-                <h4 className="text-white font-bold text-lg lg:text-xl tracking-wide font-outfit">Contact Us</h4>
-              </div>
-
-              {/* Phone */}
-              <div className="flex flex-col gap-1.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Phone</span>
-                <a
-                  href="tel:1300959170"
-                  className="group inline-flex items-center gap-3 text-white text-base font-semibold hover:text-[#39b54a] transition-colors duration-200"
-                >
-                  <span className="w-8 h-8 rounded-lg bg-[#39b54a]/20 border border-[#39b54a]/40 flex items-center justify-center text-[#39b54a] group-hover:bg-[#39b54a]/30 transition-colors">
-                    <Phone size={15} />
-                  </span>
-                  <span>1300 959 170</span>
-                </a>
-              </div>
-
-              {/* Email */}
-              <div className="flex flex-col gap-1.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Email</span>
-                <a
-                  href="mailto:info@aussiesmartenergy.com.au"
-                  className="group inline-flex items-center gap-3 text-white text-base font-semibold hover:text-[#39b54a] transition-colors duration-200 break-all"
-                >
-                  <span className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/30 transition-colors flex-shrink-0">
-                    <Mail size={15} />
-                  </span>
-                  <span>info@aussiesmartenergy.com.au</span>
-                </a>
-              </div>
-
-              {/* Our Locations */}
-              <div className="flex flex-col gap-2.5 pt-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                  <MapPin size={14} className="text-[#39b54a]" /> Our Locations
-                </span>
-
-                <div className="flex flex-col space-y-3">
-                  {/* QLD */}
-                  <a
-                    href="https://www.google.com/maps/place/29%2F97+Creek+St,+Brisbane+City+QLD+4000,+Australia/@-27.4663291,153.0286954,773m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6b915a1d102d8fa1:0x8158bd93785c81c!8m2!3d-27.4663291!4d153.0286954!16s%2Fg%2F11xt042p3w?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed group hover:text-[#39b54a] transition-colors"
-                  >
-                    <span className="px-2 py-0.5 rounded bg-[#39b54a]/20 border border-[#39b54a]/40 text-[#39b54a] font-extrabold text-xs flex-shrink-0 mt-0.5 group-hover:bg-[#39b54a] group-hover:text-white transition-colors">
-                      QLD
-                    </span>
-                    <span className="group-hover:text-[#39b54a] transition-colors font-medium">
-                      29/97 Creek St, Brisbane City QLD 4000 <span className="text-xs opacity-75">↗</span>
-                    </span>
-                  </a>
-
-                  {/* NSW */}
-                  <a
-                    href="https://www.google.com/maps/place/Unit+526%2F368+Sussex+St,+Sydney+NSW+2000,+Australia/data=!4m2!3m1!1s0x6b12ae3c9f56bffd:0xbb98a2932c04943?sa=X&ved=1t:242&ictx=111"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed group hover:text-blue-400 transition-colors"
-                  >
-                    <span className="px-2 py-0.5 rounded bg-blue-500/20 border border-blue-500/40 text-blue-400 font-extrabold text-xs flex-shrink-0 mt-0.5 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                      NSW
-                    </span>
-                    <span className="group-hover:text-blue-400 transition-colors font-medium">
-                      526/368 Sussex St, Sydney NSW 2000 <span className="text-xs opacity-75">↗</span>
-                    </span>
-                  </a>
-
-                  {/* VIC */}
-                  <a
-                    href="https://www.google.com/maps/place/117%2F530+Little+Collins+St,+Melbourne+VIC+3000,+Australia/@-37.8168803,144.9570922,688m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6ad65d4c478de8e7:0x64afc8ae211acac8!8m2!3d-37.8168803!4d144.9570922!16s%2Fg%2F11qpkjchy5?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed group hover:text-purple-400 transition-colors"
-                  >
-                    <span className="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-400 font-extrabold text-xs flex-shrink-0 mt-0.5 group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                      VIC
-                    </span>
-                    <span className="group-hover:text-purple-400 transition-colors font-medium">
-                      117/530 Little Collins St, Melbourne VIC 3000 <span className="text-xs opacity-75">↗</span>
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* -----------------------------------------------------------
-                COL 4: BRAND & LOGO (Span 1 on sm/md, 3 on lg)
-            ----------------------------------------------------------- */}
-            <motion.div
-              variants={itemVariants}
-              className="sm:col-span-1 lg:col-span-3 flex flex-col items-start gap-5 sm:gap-6"
+              className="order-1 lg:order-4 sm:col-span-1 lg:col-span-3 flex flex-col items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6 pb-6 border-b border-white/10 sm:border-0 sm:pb-0 w-full"
             >
               {/* Premium Logo Card */}
               <Link to="/" className="group inline-block focus:outline-none">
-                <div className="relative rounded-2xl bg-white px-5 sm:px-6 py-3.5 sm:py-4 shadow-lg shadow-black/20 border border-white/20 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(57,181,74,0.25)] group-hover:border-[#39b54a]/40">
+                <div className="relative rounded-2xl bg-white px-8 sm:px-6 py-4.5 sm:py-4 shadow-lg shadow-black/20 border border-white/20 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(57,181,74,0.25)] group-hover:border-[#39b54a]/40">
                   <img
                     src={logoImg}
                     alt="Aussie Smart Energy"
-                    className="h-12 sm:h-14 lg:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="h-20 sm:h-14 lg:h-16 w-auto max-w-[260px] sm:max-w-none object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
@@ -430,14 +272,14 @@ export default function Footer() {
                 </div>
               </Link>
 
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-sm">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-sm mx-auto sm:mx-0">
                 Empowering Australian homes and businesses with clean, reliable solar and smart battery solutions engineered for long-term savings.
               </p>
 
               {/* Social Media Links */}
-              <div className="flex flex-col gap-2 pt-0.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Connect With Us</span>
-                <div className="flex items-center gap-3 pt-0.5">
+              <div className="flex flex-col items-center sm:items-start gap-2 pt-0.5">
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Connect With Us</span>
+                <div className="flex items-center justify-center sm:justify-start gap-3 pt-0.5">
                   {socialLinks.map((social) => {
                     const Icon = social.icon;
                     return (
@@ -459,6 +301,168 @@ export default function Footer() {
                 </div>
               </div>
             </motion.div>
+
+            {/* -----------------------------------------------------------
+                QUICK LINKS / RESOURCES (Order 2 on mobile & desktop)
+            ----------------------------------------------------------- */}
+            <motion.div
+              variants={itemVariants}
+              className="order-2 lg:order-2 sm:col-span-1 lg:col-span-2 flex flex-col gap-3.5 sm:gap-5 pb-6 border-b border-white/10 sm:border-0 sm:pb-0"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#39b54a]" />
+                <h4 className="text-white font-bold text-base sm:text-lg lg:text-xl tracking-wide font-outfit">Resources</h4>
+              </div>
+
+              {/* Compact 2-column grid on mobile for efficient vertical space */}
+              <ul className="grid grid-cols-2 sm:flex sm:flex-col gap-x-3 gap-y-1 sm:gap-0 sm:space-y-1">
+                <FooterNavLink href="/">Home</FooterNavLink>
+                <FooterNavLink href="/about">About Us</FooterNavLink>
+                <FooterNavLink href="/contact">Contact Us</FooterNavLink>
+                <FooterNavLink href="/batteries/solar-system-with-batteries">Solar Batteries</FooterNavLink>
+                <FooterNavLink href="/solar/6.6kw">Solar Packages</FooterNavLink>
+                <FooterNavLink href="/solar/commercial">Commercial Solar</FooterNavLink>
+              </ul>
+            </motion.div>
+
+            {/* -----------------------------------------------------------
+                CONTACT & LOCATIONS (Order 3 on mobile & desktop)
+            ----------------------------------------------------------- */}
+            <motion.div
+              variants={itemVariants}
+              className="order-3 lg:order-3 sm:col-span-1 lg:col-span-4 flex flex-col gap-4 sm:gap-6 pb-6 border-b border-white/10 sm:border-0 sm:pb-0"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
+                <h4 className="text-white font-bold text-base sm:text-lg lg:text-xl tracking-wide font-outfit">Contact Us</h4>
+              </div>
+
+              {/* Phone & Email Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
+                {/* Phone */}
+                <div className="flex flex-col gap-1">
+                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Phone</span>
+                  <a
+                    href="tel:1300959170"
+                    className="group inline-flex items-center gap-2.5 text-white text-sm sm:text-base font-semibold hover:text-[#39b54a] transition-colors duration-200"
+                  >
+                    <span className="w-8 h-8 rounded-lg bg-[#39b54a]/20 border border-[#39b54a]/40 flex items-center justify-center text-[#39b54a] group-hover:bg-[#39b54a]/30 transition-colors flex-shrink-0">
+                      <Phone size={15} />
+                    </span>
+                    <span>1300 959 170</span>
+                  </a>
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col gap-1">
+                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Email</span>
+                  <a
+                    href="mailto:info@aussiesmartenergy.com.au"
+                    className="group inline-flex items-center gap-2.5 text-white text-xs sm:text-base font-semibold hover:text-[#39b54a] transition-colors duration-200 break-all"
+                  >
+                    <span className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/30 transition-colors flex-shrink-0">
+                      <Mail size={15} />
+                    </span>
+                    <span>info@aussiesmartenergy.com.au</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Our Locations */}
+              <div className="flex flex-col gap-2 pt-1">
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <MapPin size={13} className="text-[#39b54a]" /> Our Locations
+                </span>
+
+                <div className="flex flex-col space-y-2.5 sm:space-y-3">
+                  {/* QLD */}
+                  <a
+                    href="https://www.google.com/maps/place/29%2F97+Creek+St,+Brisbane+City+QLD+4000,+Australia/@-27.4663291,153.0286954,773m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6b915a1d102d8fa1:0x8158bd93785c81c!8m2!3d-27.4663291!4d153.0286954!16s%2Fg%2F11xt042p3w?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-200 leading-relaxed group hover:text-[#39b54a] transition-colors"
+                  >
+                    <span className="px-2 py-0.5 rounded bg-[#39b54a]/20 border border-[#39b54a]/40 text-[#39b54a] font-extrabold text-[11px] flex-shrink-0 mt-0.5 group-hover:bg-[#39b54a] group-hover:text-white transition-colors">
+                      QLD
+                    </span>
+                    <span className="group-hover:text-[#39b54a] transition-colors font-medium">
+                      29/97 Creek St, Brisbane City QLD 4000 <span className="text-xs opacity-75">↗</span>
+                    </span>
+                  </a>
+
+                  {/* NSW */}
+                  <a
+                    href="https://www.google.com/maps/place/Unit+526%2F368+Sussex+St,+Sydney+NSW+2000,+Australia/data=!4m2!3m1!1s0x6b12ae3c9f56bffd:0xbb98a2932c04943?sa=X&ved=1t:242&ictx=111"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-200 leading-relaxed group hover:text-blue-400 transition-colors"
+                  >
+                    <span className="px-2 py-0.5 rounded bg-blue-500/20 border border-blue-500/40 text-blue-400 font-extrabold text-[11px] flex-shrink-0 mt-0.5 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                      NSW
+                    </span>
+                    <span className="group-hover:text-blue-400 transition-colors font-medium">
+                      526/368 Sussex St, Sydney NSW 2000 <span className="text-xs opacity-75">↗</span>
+                    </span>
+                  </a>
+
+                  {/* VIC */}
+                  <a
+                    href="https://www.google.com/maps/place/117%2F530+Little+Collins+St,+Melbourne+VIC+3000,+Australia/@-37.8168803,144.9570922,688m/data=!3m2!1e3!4b1!4m6!3m5!1s0x6ad65d4c478de8e7:0x64afc8ae211acac8!8m2!3d-37.8168803!4d144.9570922!16s%2Fg%2F11qpkjchy5?entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-200 leading-relaxed group hover:text-purple-400 transition-colors"
+                  >
+                    <span className="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-400 font-extrabold text-[11px] flex-shrink-0 mt-0.5 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                      VIC
+                    </span>
+                    <span className="group-hover:text-purple-400 transition-colors font-medium">
+                      117/530 Little Collins St, Melbourne VIC 3000 <span className="text-xs opacity-75">↗</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* -----------------------------------------------------------
+                ACCREDITATIONS & CERTIFICATIONS (Order 4 on mobile, Order 1 on desktop)
+            ----------------------------------------------------------- */}
+            <motion.div
+              variants={itemVariants}
+              className="order-4 lg:order-1 sm:col-span-1 lg:col-span-3 flex flex-col gap-3.5 sm:gap-5"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                <h4 className="text-white font-bold text-base sm:text-lg lg:text-xl tracking-wide font-outfit">Accreditations</h4>
+              </div>
+
+              {/* Accreditations Trust Card */}
+              <div className="rounded-2xl bg-white/[0.05] border border-white/15 p-3.5 sm:p-5 backdrop-blur-sm hover:border-white/25 transition-all duration-300 group shadow-lg flex flex-col gap-3 sm:gap-3.5">
+                <div className="bg-white/95 rounded-xl p-3 sm:p-4 flex flex-row sm:flex-col gap-3 sm:gap-3 items-center justify-around sm:justify-center shadow-inner transition-transform duration-300 group-hover:scale-[1.01]">
+                  <img
+                    src={bannerLogo}
+                    alt="Clean Energy Council & NETCC Approved Seller"
+                    className="w-1/2 sm:w-full h-auto max-h-12 sm:max-h-20 object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                  <div className="w-px h-10 bg-slate-200 sm:w-full sm:h-px" />
+                  <img
+                    src={saaLogo}
+                    alt="Solar Accreditation Australia"
+                    className="w-1/3 sm:w-full h-auto max-h-8 sm:max-h-12 object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-300 font-medium">
+                  <ShieldCheck size={16} className="text-[#39b54a] flex-shrink-0" />
+                  <span className="leading-tight">NETCC Approved Seller, CEC & SAA Accredited</span>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* -----------------------------------------------------------
@@ -466,18 +470,18 @@ export default function Footer() {
           ----------------------------------------------------------- */}
           <motion.div
             variants={itemVariants}
-            className="mt-10 sm:mt-12 p-5 sm:p-6 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 backdrop-blur-sm shadow-inner"
+            className="mt-8 sm:mt-12 p-4 sm:p-6 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col sm:flex-row items-center gap-3.5 sm:gap-5 backdrop-blur-sm shadow-inner"
           >
             <div className="flex items-center gap-3 shrink-0">
               <img
                 src={aboriginalFlag}
                 alt="Australian Aboriginal Flag"
-                className="h-8 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
+                className="h-7 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
               />
               <img
                 src={torresStraitFlag}
                 alt="Torres Strait Islander Flag"
-                className="h-8 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
+                className="h-7 sm:h-10 w-auto rounded shadow-md border border-white/20 object-contain"
               />
             </div>
             <p className="text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed text-center sm:text-left font-normal">
@@ -492,16 +496,16 @@ export default function Footer() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-6 pt-6 border-t border-white/10 flex flex-col items-center justify-center gap-2.5 text-center pb-1 px-4"
+            className="mt-6 pt-5 sm:pt-6 border-t border-white/10 flex flex-col items-center justify-center gap-2 sm:gap-2.5 text-center pb-2 px-2 sm:px-4"
           >
-            <div className="flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-3 gap-y-1.5 text-xs sm:text-sm font-medium tracking-wide uppercase text-slate-300">
+            <div className="flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-3 gap-y-1 text-[11px] sm:text-xs md:text-sm font-medium tracking-wide uppercase text-slate-400">
               <span>© COPYRIGHT 2026</span>
-              <span className="text-white/30 font-light">|</span>
-              <span className="text-white font-semibold tracking-wider">AUSSIE SMART ENERGY</span>
-              <span className="text-white/30 font-light">|</span>
+              <span className="text-white/20 font-light">•</span>
+              <span className="text-slate-200 font-semibold tracking-wider">AUSSIE SMART ENERGY</span>
+              <span className="text-white/20 font-light">•</span>
               <span>ALL RIGHTS RESERVED</span>
-              <span className="text-white/30 font-light">|</span>
-              <span>
+              <span className="text-white/20 font-light hidden sm:inline">•</span>
+              <span className="w-full sm:w-auto mt-0.5 sm:mt-0 block sm:inline">
                 DEVELOPED BY{' '}
                 <a
                   href="https://technoadviser.com/"
@@ -517,14 +521,14 @@ export default function Footer() {
             <div className="flex items-center justify-center gap-4 text-xs text-slate-400 font-medium pt-1">
               <Link
                 to="/contact"
-                className="hover:text-[#39b54a] transition-colors duration-200"
+                className="hover:text-[#39b54a] transition-colors duration-200 py-1"
               >
                 Privacy Policy
               </Link>
               <span className="text-white/20">•</span>
               <Link
                 to="/contact"
-                className="hover:text-[#39b54a] transition-colors duration-200"
+                className="hover:text-[#39b54a] transition-colors duration-200 py-1"
               >
                 Terms of Use
               </Link>

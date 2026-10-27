@@ -306,8 +306,11 @@ const GoogleReviews = () => {
               WHAT OUR CUSTOMERS SAY
             </span>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1e2d53] leading-tight">
-            Real Stories. Real Savings.
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white leading-tight tracking-tight">
+            Real Stories.{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39b54a] via-[#4ade80] to-emerald-300">
+              Real Savings.
+            </span>
           </h2>
         </div>
 
