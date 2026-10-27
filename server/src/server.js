@@ -1,3 +1,4 @@
+import './config/env.js';
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -17,6 +18,7 @@ import errorHandler, { notFound } from './middleware/errorHandler.js';
 import { startGoogleReviewsBackgroundSync } from './services/googleReviewSyncService.js';
 import fs from 'fs';
 import path from 'path';
+import { getUploadsDir } from './config/cloudinary.js';
 
 // Load .env from both server folder and root directory
 dotenv.config({ path: path.join(process.cwd(), 'server', '.env') });
@@ -69,9 +71,7 @@ app.use('/login/admin', (req, res) => {
 
 // Serve uploaded files (must be before notFound handler)
 // crossOriginResourcePolicy set to cross-origin so browsers can load images from the API server
-const uploadsDir = process.cwd().endsWith('server')
-    ? path.join(process.cwd(), 'uploads')
-    : path.join(process.cwd(), 'server', 'uploads');
+const uploadsDir = getUploadsDir();
 
 app.use('/uploads', (req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
