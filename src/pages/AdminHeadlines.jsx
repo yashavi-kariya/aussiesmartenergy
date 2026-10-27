@@ -9,6 +9,7 @@ import {
   ExternalLink, Eye, Layers, Filter, Check
 } from 'lucide-react';
 import api from '../utils/api';
+import AdminHeader from '../components/AdminHeader';
 
 const NAVY = '#1d2e57ff';
 const NAVY_DARK = '#0f1c3fff';
@@ -269,113 +270,10 @@ const AdminHeadlines = () => {
       }}
     >
       {/* ================= STICKY ADMIN HEADER ================= */}
-      <header
-        className="sticky top-0 z-30 px-6 py-4 flex items-center justify-between"
-        style={{
-          background: `${NAVY_DARK}f0`,
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-          backdropFilter: 'blur(16px)',
-        }}
-      >
-        <div className="flex items-center gap-3">
-          <div
-            className="p-2.5 rounded-xl"
-            style={{ background: `${GREEN}18`, border: `1.5px solid ${GREEN}35` }}
-          >
-            <Megaphone className="w-5 h-5" style={{ color: GREEN }} />
-          </div>
-          <div>
-            <h1 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
-              Aussie Smart Energy
-              <span
-                className="text-xs px-2.5 py-0.5 rounded-full font-semibold"
-                style={{ background: `${GREEN}22`, color: GREEN, border: `1px solid ${GREEN}40` }}
-              >
-                Admin Portal
-              </span>
-            </h1>
-            <p className="text-xs text-white/40">Manage dynamic announcements & schemes</p>
-          </div>
-        </div>
-
-        {/* Global Navigation Tabs */}
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={() => navigate('/admin/dashboard')}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              color: '#e2e8f0',
-            }}
-          >
-            <Zap className="w-4 h-4 text-emerald-400" />
-            Enquiries
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/projects')}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(59,130,246,0.12)',
-              border: '1px solid rgba(59,130,246,0.25)',
-              color: '#bfdbfe',
-            }}
-          >
-            <FileText className="w-4 h-4" />
-            Projects
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/reviews')}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(250,204,21,0.12)',
-              border: '1px solid rgba(250,204,21,0.25)',
-              color: '#fef08a',
-            }}
-          >
-            <Star className="w-4 h-4 text-yellow-400" />
-            Reviews
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/banners')}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(16,185,129,0.12)',
-              border: '1px solid rgba(16,185,129,0.25)',
-              color: '#a7f3d0',
-            }}
-          >
-            <ImageIcon className="w-4 h-4 text-emerald-400" />
-            Hero Banners
-          </button>
-
-          <button
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 shadow-md"
-            style={{
-              background: `${GREEN}25`,
-              border: `1.5px solid ${GREEN}`,
-              color: '#ffffff',
-            }}
-          >
-            <Megaphone className="w-4 h-4" style={{ color: GREEN }} />
-            Headlines
-          </button>
-
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-rose-300 hover:text-rose-200 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/25 transition-all duration-200 ml-2"
-          >
-            <LogOut className="w-4 h-4" />
-            Logout
-          </button>
-        </div>
-      </header>
+      <AdminHeader activeSection="headlines" subtitle="Manage dynamic announcements & schemes" />
 
       {/* ================= TOASTS ================= */}
-      <div className="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none">
+      <div className="fixed top-20 right-4 sm:right-6 z-50 flex flex-col gap-2 pointer-events-none max-w-[90vw]">
         <AnimatePresence>
           {success && (
             <motion.div
@@ -384,8 +282,8 @@ const AdminHeadlines = () => {
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               className="px-4 py-3 rounded-xl bg-emerald-500/90 text-white text-sm font-semibold shadow-xl backdrop-blur-md flex items-center gap-2 pointer-events-auto border border-emerald-400/40"
             >
-              <CheckCircle2 className="w-4 h-4 text-white" />
-              {success}
+              <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
+              <span>{success}</span>
             </motion.div>
           )}
           {error && (
@@ -395,11 +293,11 @@ const AdminHeadlines = () => {
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               className="px-4 py-3 rounded-xl bg-rose-600/90 text-white text-sm font-semibold shadow-xl backdrop-blur-md flex items-center gap-2 pointer-events-auto border border-rose-400/40"
             >
-              <AlertCircle className="w-4 h-4 text-white" />
-              {error}
+              <AlertCircle className="w-4 h-4 text-white shrink-0" />
+              <span className="flex-1">{error}</span>
               <button
                 onClick={() => setError('')}
-                className="ml-2 hover:opacity-80"
+                className="ml-2 hover:opacity-80 shrink-0"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -409,12 +307,12 @@ const AdminHeadlines = () => {
       </div>
 
       {/* ================= MAIN CONTENT ================= */}
-      <main className="flex-1 p-6 sm:p-8 max-w-7xl mx-auto w-full space-y-6">
+      <main className="flex-1 p-3 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-5 sm:space-y-6 min-w-0">
         
         {/* Top Header Row & Stat Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <div
-            className="p-5 rounded-2xl border flex items-center justify-between"
+            className="p-4 sm:p-5 rounded-2xl border flex items-center justify-between"
             style={{
               background: 'rgba(255,255,255,0.04)',
               borderColor: 'rgba(255,255,255,0.08)',
@@ -425,15 +323,15 @@ const AdminHeadlines = () => {
               <p className="text-xs font-medium text-white/50 uppercase tracking-wider">
                 Total Headlines
               </p>
-              <h3 className="text-2xl font-black text-white mt-1">{stats.total}</h3>
+              <h3 className="text-xl sm:text-2xl font-black text-white mt-1">{stats.total}</h3>
             </div>
-            <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 shrink-0">
               <Layers className="w-5 h-5" />
             </div>
           </div>
 
           <div
-            className="p-5 rounded-2xl border flex items-center justify-between"
+            className="p-4 sm:p-5 rounded-2xl border flex items-center justify-between"
             style={{
               background: 'rgba(255,255,255,0.04)',
               borderColor: 'rgba(255,255,255,0.08)',
@@ -450,15 +348,15 @@ const AdminHeadlines = () => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
               </div>
-              <h3 className="text-2xl font-black text-emerald-400 mt-1">{stats.active}</h3>
+              <h3 className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">{stats.active}</h3>
             </div>
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
               <Zap className="w-5 h-5" />
             </div>
           </div>
 
           <div
-            className="p-5 rounded-2xl border flex items-center justify-between"
+            className="p-4 sm:p-5 rounded-2xl border flex items-center justify-between"
             style={{
               background: 'rgba(255,255,255,0.04)',
               borderColor: 'rgba(255,255,255,0.08)',
@@ -469,9 +367,9 @@ const AdminHeadlines = () => {
               <p className="text-xs font-medium text-white/50 uppercase tracking-wider">
                 Inactive / Drafts
               </p>
-              <h3 className="text-2xl font-black text-white/60 mt-1">{stats.inactive}</h3>
+              <h3 className="text-xl sm:text-2xl font-black text-white/60 mt-1">{stats.inactive}</h3>
             </div>
-            <div className="p-3 rounded-xl bg-slate-500/10 border border-slate-500/20 text-slate-400">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-slate-500/10 border border-slate-500/20 text-slate-400 shrink-0">
               <AlertCircle className="w-5 h-5" />
             </div>
           </div>
@@ -479,7 +377,7 @@ const AdminHeadlines = () => {
 
         {/* Toolbar: Search, Filters & Create Button */}
         <div
-          className="p-4 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-4"
+          className="p-3 sm:p-4 rounded-2xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4"
           style={{
             background: 'rgba(255,255,255,0.04)',
             borderColor: 'rgba(255,255,255,0.08)',
@@ -499,7 +397,7 @@ const AdminHeadlines = () => {
           </form>
 
           {/* Filter Status & Actions */}
-          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full md:w-auto justify-between md:justify-end">
             <div className="flex bg-white/5 border border-white/10 rounded-xl p-1">
               {[
                 { id: 'all', label: 'All' },
@@ -523,17 +421,17 @@ const AdminHeadlines = () => {
             <button
               onClick={fetchHeadlines}
               title="Refresh list"
-              className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-colors shrink-0"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-400' : ''}`} />
             </button>
 
             <button
               onClick={openCreateModal}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-950 bg-gradient-to-r from-[#39b54a] to-[#5eead4] hover:opacity-95 shadow-[0_0_20px_rgba(57,181,74,0.3)] transition-all duration-200"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-950 bg-gradient-to-r from-[#39b54a] to-[#5eead4] hover:opacity-95 shadow-[0_0_20px_rgba(57,181,74,0.3)] transition-all duration-200 flex-1 sm:flex-none"
             >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              Add Announcement
+              <Plus className="w-4 h-4 stroke-[3] shrink-0" />
+              <span>Add Announcement</span>
             </button>
           </div>
         </div>
@@ -686,7 +584,7 @@ const AdminHeadlines = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="w-full max-w-2xl rounded-3xl border p-6 sm:p-8 space-y-6 my-8"
+              className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border p-4 sm:p-8 space-y-4 sm:space-y-6 my-4 sm:my-8"
               style={{
                 background: `linear-gradient(170deg, ${NAVY_DARK} 0%, #15264f 100%)`,
                 borderColor: 'rgba(255,255,255,0.15)',
@@ -917,21 +815,21 @@ const AdminHeadlines = () => {
                 </div>
 
                 {/* Modal Actions */}
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 pt-4 border-t border-white/10">
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2.5 rounded-xl text-sm font-semibold text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+                    className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white hover:bg-white/5 transition-colors text-center"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={saving}
-                    className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-slate-950 bg-gradient-to-r from-[#39b54a] to-[#5eead4] hover:opacity-95 shadow-lg transition-all disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-950 bg-gradient-to-r from-[#39b54a] to-[#5eead4] hover:opacity-95 shadow-lg transition-all disabled:opacity-50 text-center"
                   >
                     {saving && <RefreshCw className="w-4 h-4 animate-spin" />}
-                    {editingHeadline ? 'Save Changes' : 'Publish Headline'}
+                    <span>{editingHeadline ? 'Save Changes' : 'Publish Headline'}</span>
                   </button>
                 </div>
               </form>
@@ -948,37 +846,37 @@ const AdminHeadlines = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl border p-6 space-y-4"
+              className="w-full max-w-md rounded-2xl border p-4 sm:p-6 space-y-4"
               style={{
                 background: NAVY_DARK,
                 borderColor: 'rgba(244,63,94,0.3)',
               }}
             >
               <div className="flex items-center gap-3 text-rose-400">
-                <div className="p-2 rounded-xl bg-rose-500/10 border border-rose-500/30">
+                <div className="p-2 rounded-xl bg-rose-500/10 border border-rose-500/30 shrink-0">
                   <AlertCircle className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white">Delete Announcement</h3>
+                <h3 className="text-base sm:text-lg font-bold text-white">Delete Announcement</h3>
               </div>
 
-              <p className="text-sm text-white/70">
+              <p className="text-xs sm:text-sm text-white/70">
                 Are you sure you want to permanently delete this headline?
               </p>
 
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-white/90 italic">
+              <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-white/90 italic break-words">
                 "{deleteModal.headline?.text}"
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-2">
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 pt-2">
                 <button
                   onClick={() => setDeleteModal({ open: false, headline: null })}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-white/60 hover:text-white transition-colors"
+                  className="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-colors text-center"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={confirmDelete}
-                  className="px-5 py-2 rounded-xl text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-lg shadow-rose-600/30 transition-colors"
+                  className="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-lg shadow-rose-600/30 transition-colors text-center"
                 >
                   Yes, Delete
                 </button>

@@ -8,6 +8,7 @@ import {
   Megaphone, CheckCircle2, XCircle, AlertTriangle, ShieldCheck
 } from 'lucide-react';
 import api from '../utils/api';
+import AdminHeader from '../components/AdminHeader';
 
 const NAVY = '#1d2e57ff';
 const NAVY_DARK = '#0f1c3fff';
@@ -128,117 +129,9 @@ const AdminPayments = () => {
       style={{ background: `linear-gradient(160deg, ${NAVY_DARK} 0%, ${NAVY} 60%, ${NAVY_MID} 100%)` }}
     >
       {/* Header */}
-      <header
-        className="sticky top-0 z-20 px-6 py-4 flex items-center justify-between"
-        style={{
-          background: `${NAVY_DARK}f0`,
-          borderBottom: `1px solid rgba(255,255,255,0.08)`,
-          backdropFilter: 'blur(16px)',
-        }}
-      >
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/admin/dashboard')}>
-          <div
-            className="p-2.5 rounded-xl"
-            style={{ background: `${GREEN}18`, border: `1.5px solid ${GREEN}35` }}
-          >
-            <CreditCard className="w-5 h-5 text-emerald-400" />
-          </div>
-          <div>
-            <h1 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
-              Aussie Smart Energy
-              <span
-                className="text-xs px-2.5 py-0.5 rounded-full font-semibold"
-                style={{ background: `rgba(16,185,129,0.2)`, color: '#a7f3d0', border: `1px solid rgba(16,185,129,0.3)` }}
-              >
-                Payments &amp; Transactions
-              </span>
-            </h1>
-            <p className="text-xs text-white/40">ANZ Worldline Solutions Payment Dashboard</p>
-          </div>
-        </div>
+      <AdminHeader activeSection="payments" subtitle="ANZ Worldline Solutions Payment Dashboard" />
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/admin/dashboard')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              color: '#e2e8f0',
-            }}
-          >
-            <FileText className="w-4 h-4" />
-            Enquiries
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/projects')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(59,130,246,0.12)',
-              border: '1px solid rgba(59,130,246,0.25)',
-              color: '#bfdbfe',
-            }}
-          >
-            <Zap className="w-4 h-4" />
-            Projects
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/reviews')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(250,204,21,0.12)',
-              border: '1px solid rgba(250,204,21,0.25)',
-              color: '#fef08a',
-            }}
-          >
-            <Star className="w-4 h-4 text-yellow-400" />
-            Reviews
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/banners')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(16,185,129,0.12)',
-              border: '1px solid rgba(16,185,129,0.25)',
-              color: '#a7f3d0',
-            }}
-          >
-            <ImageIcon className="w-4 h-4 text-emerald-400" />
-            Banners
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/headlines')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(57,181,74,0.12)',
-              border: '1px solid rgba(57,181,74,0.25)',
-              color: '#bbf7d0',
-            }}
-          >
-            <Megaphone className="w-4 h-4 text-emerald-400" />
-            Headlines
-          </button>
-
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(239,68,68,0.12)',
-              border: '1px solid rgba(239,68,68,0.25)',
-              color: '#fca5a5',
-            }}
-          >
-            <LogOut className="w-4 h-4" />
-            Logout
-          </button>
-        </div>
-      </header>
-
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8 space-y-5 sm:space-y-6 min-w-0">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
@@ -284,7 +177,7 @@ const AdminPayments = () => {
 
         {/* Filters */}
         <div
-          className="p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between"
+          className="p-3 sm:p-4 rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-4 items-stretch md:items-center justify-between"
           style={{
             background: `${NAVY_MID}99`,
             border: '1px solid rgba(255,255,255,0.07)',
@@ -308,17 +201,17 @@ const AdminPayments = () => {
             />
           </div>
 
-          <div className="flex flex-wrap w-full md:w-auto items-center gap-3 justify-end">
+          <div className="flex flex-wrap w-full md:w-auto items-center gap-2 sm:gap-3 justify-between md:justify-end">
             {/* Status Filter */}
             <div
-              className="flex items-center gap-2 px-3 py-2 rounded-xl"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl flex-1 sm:flex-none"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
             >
-              <Filter className="w-4 h-4 text-white/40" />
+              <Filter className="w-4 h-4 text-white/40 shrink-0" />
               <select
                 value={statusFilter}
                 onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-                className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
+                className="bg-transparent text-white text-xs sm:text-sm focus:outline-none cursor-pointer w-full sm:w-auto"
               >
                 <option value="" style={{ background: NAVY }}>All Statuses</option>
                 <option value="SUCCESS" style={{ background: NAVY }}>SUCCESS</option>
@@ -333,7 +226,7 @@ const AdminPayments = () => {
             <button
               onClick={fetchPayments}
               disabled={loading}
-              className="p-2.5 rounded-xl transition-colors disabled:opacity-50"
+              className="p-2.5 rounded-xl transition-colors disabled:opacity-50 shrink-0"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
               title="Refresh"
             >
@@ -357,8 +250,117 @@ const AdminPayments = () => {
             </div>
           )}
 
-          <div className="overflow-x-auto w-full">
-            <table className="w-full border-collapse text-left">
+          {/* Mobile & Tablet Responsive Cards (Exposes all 7 columns from desktop view without cutoffs) */}
+          <div className="lg:hidden p-3.5 sm:p-5 grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+            {loading && payments.length === 0 ? (
+              <div className="col-span-full text-center py-12 text-white/40">
+                <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-3" style={{ color: GREEN }} />
+                <span>Loading payments...</span>
+              </div>
+            ) : payments.length === 0 ? (
+              <div className="col-span-full text-center py-12 text-white/30 text-sm">
+                No payment transactions found.
+              </div>
+            ) : (
+              payments.map((payment) => (
+                <div
+                  key={payment._id}
+                  className="p-4 sm:p-5 rounded-xl flex flex-col justify-between transition-all"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                  }}
+                >
+                  <div>
+                    {/* Top Header: Status & Amount */}
+                    <div className="flex items-center justify-between gap-2 pb-3 border-b border-white/5 mb-3">
+                      <span
+                        className="inline-flex px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                        style={
+                          payment.status === 'SUCCESS'
+                            ? { background: 'rgba(52,211,153,0.15)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }
+                            : payment.status === 'PENDING'
+                              ? { background: 'rgba(245,158,11,0.15)', color: '#fbbf24', border: '1px solid rgba(245,158,11,0.3)' }
+                              : payment.status === 'CANCELLED'
+                                ? { background: 'rgba(251,146,60,0.15)', color: '#fb923c', border: '1px solid rgba(251,146,60,0.3)' }
+                                : { background: 'rgba(248,113,113,0.15)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }
+                        }
+                      >
+                        {payment.status}
+                      </span>
+                      <span className="text-base sm:text-lg font-black text-emerald-400">
+                        ${payment.amount?.toLocaleString('en-AU')} {payment.currency}
+                      </span>
+                    </div>
+
+                    {/* Middle: Details Grid */}
+                    <div className="space-y-2.5 text-xs text-white/70 mb-4">
+                      {/* Order ID */}
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-white/40 block mb-0.5 tracking-wider">
+                          Order ID
+                        </span>
+                        <span className="font-mono font-bold text-white text-xs select-all break-all">
+                          {payment.orderId}
+                        </span>
+                      </div>
+
+                      {/* Customer */}
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-white/40 block mb-0.5 tracking-wider">
+                          Customer
+                        </span>
+                        <div className="font-semibold text-white text-sm">
+                          {payment.customer?.firstName} {payment.customer?.lastName}
+                        </div>
+                        {payment.customer?.email && (
+                          <a
+                            href={`mailto:${payment.customer?.email}`}
+                            className="text-white/50 text-xs hover:text-emerald-400 transition-colors break-all block"
+                          >
+                            {payment.customer?.email}
+                          </a>
+                        )}
+                      </div>
+
+                      {/* Package */}
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-white/40 block mb-0.5 tracking-wider">
+                          Package
+                        </span>
+                        <span className="text-white/90 font-medium">
+                          {payment.packageDetails?.title || 'Solar Package'}
+                        </span>
+                      </div>
+
+                      {/* Date */}
+                      <div className="flex items-center gap-1.5 text-white/40 text-[11px] pt-1">
+                        <Calendar className="w-3.5 h-3.5 text-white/30" />
+                        <span>{formatDate(payment.createdAt)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="pt-3 border-t border-white/5 mt-auto">
+                    <button
+                      onClick={() => setSelectedPayment(payment)}
+                      className="w-full py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                      style={{ background: 'rgba(96,165,250,0.12)', border: '1px solid rgba(96,165,250,0.25)', color: '#60a5fa' }}
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      View Full Payment Details
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Full Data Table */}
+          <div className="hidden lg:block overflow-x-auto w-full">
+            <table className="w-full min-w-[700px] border-collapse text-left">
               <thead>
                 <tr
                   className="text-xs font-bold uppercase tracking-wider"
@@ -449,7 +451,7 @@ const AdminPayments = () => {
           {/* Pagination */}
           {totalPages > 0 && (
             <div
-              className="px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm"
+              className="px-3 sm:px-5 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm"
               style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: `${NAVY_DARK}60`, color: 'rgba(255,255,255,0.4)' }}
             >
               <div>
@@ -482,40 +484,40 @@ const AdminPayments = () => {
       {/* Details Modal */}
       <AnimatePresence>
         {selectedPayment && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(10,16,32,0.85)', backdropFilter: 'blur(8px)' }}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" style={{ background: 'rgba(10,16,32,0.85)', backdropFilter: 'blur(8px)' }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-2xl bg-white rounded-2xl overflow-hidden flex flex-col max-h-[85vh] shadow-2xl"
+              className="w-full max-w-2xl bg-white rounded-2xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl"
             >
-              <div className="p-5 bg-gradient-to-r from-[#003b73] to-[#006ab7] text-white flex items-center justify-between">
-                <div>
+              <div className="p-4 sm:p-5 bg-gradient-to-r from-[#003b73] to-[#006ab7] text-white flex items-center justify-between">
+                <div className="min-w-0 pr-3">
                   <span className="text-xs font-bold text-blue-200 uppercase tracking-wider">ANZ Worldline Transaction</span>
-                  <h3 className="text-xl font-bold">{selectedPayment.orderId}</h3>
+                  <h3 className="text-base sm:text-xl font-bold truncate">{selectedPayment.orderId}</h3>
                 </div>
-                <button onClick={() => setSelectedPayment(null)} className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white">
+                <button onClick={() => setSelectedPayment(null)} className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white shrink-0">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="p-6 overflow-y-auto space-y-4 text-slate-800 text-sm">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 sm:p-6 overflow-y-auto space-y-4 text-slate-800 text-xs sm:text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-xs text-slate-400 font-bold uppercase">Status</span>
-                    <p className="font-extrabold text-base mt-1" style={{ color: selectedPayment.status === 'SUCCESS' ? '#059669' : '#d97706' }}>
+                    <span className="text-[11px] sm:text-xs text-slate-400 font-bold uppercase">Status</span>
+                    <p className="font-extrabold text-sm sm:text-base mt-1" style={{ color: selectedPayment.status === 'SUCCESS' ? '#059669' : '#d97706' }}>
                       {selectedPayment.status}
                     </p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-xs text-slate-400 font-bold uppercase">Amount</span>
-                    <p className="font-extrabold text-base mt-1 text-[#003b73]">
+                    <span className="text-[11px] sm:text-xs text-slate-400 font-bold uppercase">Amount</span>
+                    <p className="font-extrabold text-sm sm:text-base mt-1 text-[#003b73]">
                       ${selectedPayment.amount?.toLocaleString('en-AU')} {selectedPayment.currency}
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <h4 className="font-bold text-slate-700">Customer Details</h4>
                   <p><strong>Name:</strong> {selectedPayment.customer?.firstName} {selectedPayment.customer?.lastName}</p>
                   <p><strong>Email:</strong> {selectedPayment.customer?.email}</p>
@@ -523,28 +525,28 @@ const AdminPayments = () => {
                   <p><strong>Address:</strong> {selectedPayment.customer?.address || 'N/A'}</p>
                 </div>
 
-                <div className="space-y-2 pt-2">
+                <div className="space-y-1.5 pt-2 border-t border-slate-100">
                   <h4 className="font-bold text-slate-700">Gateway Information</h4>
-                  <p><strong>Project / Ref No:</strong> <span className="font-mono text-xs bg-blue-50 text-[#003b73] px-2 py-0.5 rounded font-bold">{selectedPayment.projectNumber || selectedPayment.orderId}</span></p>
-                  <p><strong>Hosted Checkout ID:</strong> <span className="font-mono text-xs bg-slate-100 p-1 rounded">{selectedPayment.hostedCheckoutId || 'N/A'}</span></p>
-                  <p><strong>Transaction ID:</strong> <span className="font-mono text-xs bg-slate-100 p-1 rounded">{selectedPayment.transactionId || 'N/A'}</span></p>
+                  <p><strong>Project / Ref No:</strong> <span className="font-mono text-xs bg-blue-50 text-[#003b73] px-2 py-0.5 rounded font-bold break-all">{selectedPayment.projectNumber || selectedPayment.orderId}</span></p>
+                  <p><strong>Hosted Checkout ID:</strong> <span className="font-mono text-[11px] sm:text-xs bg-slate-100 p-1 rounded break-all inline-block max-w-full">{selectedPayment.hostedCheckoutId || 'N/A'}</span></p>
+                  <p><strong>Transaction ID:</strong> <span className="font-mono text-[11px] sm:text-xs bg-slate-100 p-1 rounded break-all inline-block max-w-full">{selectedPayment.transactionId || 'N/A'}</span></p>
                   <p><strong>Created At:</strong> {formatDate(selectedPayment.createdAt)}</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+              <div className="p-3 sm:p-4 bg-slate-50 border-t border-slate-200 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => handleSyncPayment(selectedPayment)}
                   disabled={syncing}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-sm disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-sm disabled:opacity-50 text-center"
                   style={{ background: 'linear-gradient(135deg, #003b73 0%, #006ab7 100%)' }}
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
-                  {syncing ? 'Checking with ANZ...' : 'Sync Status with ANZ Bank'}
+                  <RefreshCw className={`w-3.5 h-3.5 shrink-0 ${syncing ? 'animate-spin' : ''}`} />
+                  <span>{syncing ? 'Checking with ANZ...' : 'Sync Status with ANZ Bank'}</span>
                 </button>
 
-                <button onClick={() => setSelectedPayment(null)} className="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 font-bold text-slate-700 text-sm">
+                <button onClick={() => setSelectedPayment(null)} className="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 font-bold text-slate-700 text-xs sm:text-sm text-center">
                   Close
                 </button>
               </div>

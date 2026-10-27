@@ -9,6 +9,7 @@ import {
     Sparkles, AlertCircle
 } from 'lucide-react';
 import api from '../utils/api';
+import AdminHeader from '../components/AdminHeader';
 
 const NAVY = '#1d2e57ff';
 const NAVY_DARK = '#0f1c3fff';
@@ -450,118 +451,10 @@ const AdminReviews = () => {
             style={{ background: `linear-gradient(160deg, ${NAVY_DARK} 0%, ${NAVY} 60%, ${NAVY_MID} 100%)` }}
         >
             {/* Sticky Admin Header */}
-            <header
-                className="sticky top-0 z-30 px-6 py-4 flex flex-wrap items-center justify-between gap-4"
-                style={{
-                    background: `${NAVY_DARK}f5`,
-                    borderBottom: '1px solid rgba(255,255,255,0.08)',
-                    backdropFilter: 'blur(16px)',
-                }}
-            >
-                <div className="flex items-center gap-3">
-                    <div
-                        className="p-2.5 rounded-xl"
-                        style={{ background: `${GREEN}18`, border: `1.5px solid ${GREEN}35` }}
-                    >
-                        <Zap className="w-5 h-5" style={{ color: GREEN }} />
-                    </div>
-                    <div>
-                        <h1 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
-                            Aussie Smart Energy
-                            <span
-                                className="text-xs px-2.5 py-0.5 rounded-full font-semibold"
-                                style={{ background: `${GREEN}22`, color: GREEN, border: `1px solid ${GREEN}40` }}
-                            >
-                                Admin Reviews
-                            </span>
-                        </h1>
-                        <p className="text-xs text-white/40">Select Featured Google Reviews & Manage Platform Testimonials</p>
-                    </div>
-                </div>
-
-                {/* Top Navigation */}
-                <div className="flex items-center gap-2.5">
-                    <button
-                        onClick={() => navigate('/admin/dashboard')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            color: 'rgba(255,255,255,0.8)',
-                        }}
-                    >
-                        <MessageSquare className="w-3.5 h-3.5" />
-                        Enquiries
-                    </button>
-
-                    <button
-                        onClick={() => navigate('/admin/projects')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            color: 'rgba(255,255,255,0.8)',
-                        }}
-                    >
-                        <FileText className="w-3.5 h-3.5" />
-                        Projects
-                    </button>
-
-                    <button
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold"
-                        style={{
-                            background: `${GREEN}20`,
-                            border: `1px solid ${GREEN}60`,
-                            color: '#fff',
-                        }}
-                    >
-                        <Star className="w-3.5 h-3.5 fill-current text-yellow-400" />
-                        Reviews
-                    </button>
-
-                    <button
-                        onClick={() => navigate('/admin/banners')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(16,185,129,0.12)',
-                            border: '1px solid rgba(16,185,129,0.25)',
-                            color: '#a7f3d0',
-                        }}
-                    >
-                        <ImageIcon className="w-3.5 h-3.5 text-emerald-400" />
-                        Hero Banners
-                    </button>
-
-                    <button
-                        onClick={() => navigate('/admin/headlines')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(57,181,74,0.12)',
-                            border: '1px solid rgba(57,181,74,0.25)',
-                            color: '#bbf7d0',
-                        }}
-                    >
-                        <Megaphone className="w-3.5 h-3.5 text-emerald-400" />
-                        Headlines
-                    </button>
-
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(239,68,68,0.12)',
-                            border: '1px solid rgba(239,68,68,0.25)',
-                            color: '#fca5a5',
-                        }}
-                    >
-                        <LogOut className="w-3.5 h-3.5" />
-                        Logout
-                    </button>
-                </div>
-            </header>
+            <AdminHeader activeSection="reviews" subtitle="Select Featured Google Reviews & Manage Platform Testimonials" />
 
             {/* Main Content */}
-            <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">
+            <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8 space-y-6 min-w-0">
                 {/* Notification Alerts */}
                 <AnimatePresence>
                     {error && (
@@ -595,37 +488,37 @@ const AdminReviews = () => {
                 </AnimatePresence>
 
                 {/* Tab Switcher: Google Reviews vs Custom Reviews */}
-                <div className="flex flex-wrap items-center justify-between gap-4 p-2 rounded-2xl bg-white/[0.04] border border-white/10">
-                    <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-2 rounded-2xl bg-white/[0.04] border border-white/10">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                         <button
                             onClick={() => setActiveTab('google')}
-                            className={`flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-200 ${
+                            className={`flex items-center justify-center sm:justify-start gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-200 ${
                                 activeTab === 'google'
                                     ? 'bg-blue-600/30 text-blue-300 border border-blue-400/40 shadow-md'
                                     : 'text-white/60 hover:text-white hover:bg-white/5'
                             }`}
                         >
                             <GoogleIcon />
-                            <span>Aussie Smart Energy Google Reviews & Spotlight</span>
+                            <span className="truncate">Google Reviews & Spotlight</span>
                             {googleFeaturedReview && (
-                                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Featured Review Active" />
+                                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" title="Featured Review Active" />
                             )}
                         </button>
 
                         <button
                             onClick={() => setActiveTab('custom')}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-200 ${
+                            className={`flex items-center justify-center sm:justify-start gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-200 ${
                                 activeTab === 'custom'
                                     ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-400/40 shadow-md'
                                     : 'text-white/60 hover:text-white hover:bg-white/5'
                             }`}
                         >
-                            <Star className="w-4 h-4" />
-                            <span>Custom & Multi-Platform Reviews ({reviews.length})</span>
+                            <Star className="w-4 h-4 shrink-0" />
+                            <span>Custom & Multi-Platform ({reviews.length})</span>
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-2 px-3 py-1 text-xs text-white/50">
+                    <div className="flex items-center justify-between sm:justify-end gap-2 px-3 py-1 text-xs text-white/50 border-t sm:border-t-0 border-white/10 pt-2 sm:pt-0">
                         <span>Active View:</span>
                         <strong className="text-white capitalize font-bold">
                             {activeTab === 'google' ? 'Google Reviews' : 'Custom Reviews'}
@@ -640,32 +533,32 @@ const AdminReviews = () => {
                     <div className="space-y-6">
                         {/* Google Place Status & Sync Card */}
                         <div
-                            className="p-6 rounded-3xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6"
+                            className="p-4 sm:p-6 rounded-3xl border flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-6"
                             style={{
                                 background: 'linear-gradient(135deg, rgba(66,133,244,0.12) 0%, rgba(15,28,63,0.6) 100%)',
                                 borderColor: 'rgba(66,133,244,0.3)',
                             }}
                         >
-                            <div className="flex items-start gap-4">
-                                <div className="p-3.5 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center">
+                            <div className="flex items-start gap-3 sm:gap-4">
+                                <div className="p-3 sm:p-3.5 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center shrink-0">
                                     <GoogleIcon />
                                 </div>
-                                <div className="space-y-1">
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="text-lg font-black text-white">Aussie Smart Energy</h3>
-                                        <span className="text-xs px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 font-bold">
+                                <div className="space-y-1 min-w-0">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <h3 className="text-base sm:text-lg font-black text-white">Aussie Smart Energy</h3>
+                                        <span className="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 font-bold">
                                             Official Google Business Listing
                                         </span>
                                     </div>
-                                    <div className="flex items-center gap-3 text-xs text-white/70">
+                                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-white/70">
                                         <span className="font-extrabold text-yellow-400 flex items-center gap-1">
                                             <Star size={13} className="fill-current" />
                                             {googleSummary.rating.toFixed(1)} / 5.0 Rating
                                         </span>
                                         <span>•</span>
-                                        <span>{googleSummary.totalReviews} Total Google Reviews</span>
+                                        <span>{googleSummary.totalReviews} Total Reviews</span>
                                         <span>•</span>
-                                        <span>{googleReviews.length} Reviews Available</span>
+                                        <span>{googleReviews.length} Available</span>
                                     </div>
                                     <p className="text-xs text-white/50 pt-1">
                                         Choose any Google customer review below to feature as the spotlight review on the Aussie Smart Energy homepage.
@@ -673,37 +566,37 @@ const AdminReviews = () => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-wrap items-center gap-3">
+                            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
                                 {googleSummary.placeUrl && (
                                     <a
                                         href={googleSummary.placeUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/20 transition"
+                                        className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/20 transition"
                                     >
-                                        <ExternalLink className="w-3.5 h-3.5" />
-                                        View on Google Maps
+                                        <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+                                        <span>View on Google Maps</span>
                                     </a>
                                 )}
 
                                 <button
                                     onClick={() => setGoogleModalOpen(true)}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-white shadow-lg transition transform active:scale-95 bg-emerald-600 hover:bg-emerald-500"
+                                    className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-white shadow-lg transition transform active:scale-95 bg-emerald-600 hover:bg-emerald-500"
                                 >
-                                    <Plus className="w-4 h-4 stroke-[3]" />
-                                    Add Review from Google Listing
+                                    <Plus className="w-4 h-4 stroke-[3] shrink-0" />
+                                    <span>Add from Listing</span>
                                 </button>
 
                                 <button
                                     onClick={handleSyncGoogle}
                                     disabled={syncingGoogle}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-white shadow-lg transition transform active:scale-95 bg-blue-600 hover:bg-blue-500"
+                                    className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-white shadow-lg transition transform active:scale-95 bg-blue-600 hover:bg-blue-500"
                                     style={{
                                         boxShadow: '0 8px 20px -4px rgba(66,133,244,0.5)',
                                     }}
                                 >
-                                    <RefreshCw className={`w-4 h-4 ${syncingGoogle ? 'animate-spin' : ''}`} />
-                                    {syncingGoogle ? 'Syncing...' : 'Sync Live Reviews'}
+                                    <RefreshCw className={`w-4 h-4 shrink-0 ${syncingGoogle ? 'animate-spin' : ''}`} />
+                                    <span>{syncingGoogle ? 'Syncing...' : 'Sync Live Reviews'}</span>
                                 </button>
                             </div>
                         </div>
@@ -711,25 +604,25 @@ const AdminReviews = () => {
                         {/* Currently Featured Review Spotlight Banner */}
                         {googleFeaturedReview && (
                             <div
-                                className="p-5 rounded-2xl border flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                                className="p-4 sm:p-5 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
                                 style={{
                                     background: 'rgba(57,181,74,0.12)',
                                     borderColor: 'rgba(57,181,74,0.4)',
                                 }}
                             >
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
-                                        <Sparkles className="w-5 h-5 fill-current" />
+                                <div className="flex items-start sm:items-center gap-3 min-w-0">
+                                    <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 shrink-0">
+                                        <Sparkles className="w-4 sm:w-5 h-4 sm:h-5 fill-current" />
                                     </div>
-                                    <div>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xs font-black text-emerald-300 uppercase tracking-wider">
-                                                Active Homepage Spotlight Review:
+                                    <div className="min-w-0">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <span className="text-[10px] sm:text-xs font-black text-emerald-300 uppercase tracking-wider">
+                                                Active Homepage Spotlight:
                                             </span>
-                                            <strong className="text-white text-sm">
+                                            <strong className="text-white text-xs sm:text-sm truncate">
                                                 "{googleFeaturedReview.authorName}"
                                             </strong>
-                                            <span className="text-xs text-yellow-400 font-bold">
+                                            <span className="text-xs text-yellow-400 font-bold shrink-0">
                                                 ({googleFeaturedReview.rating} ★)
                                             </span>
                                         </div>
@@ -742,7 +635,7 @@ const AdminReviews = () => {
                                 <button
                                     onClick={() => handleRemoveFeaturedGoogle(googleFeaturedReview)}
                                     disabled={settingFeaturedId === (googleFeaturedReview._id || googleFeaturedReview.googleReviewId)}
-                                    className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border border-white/20 transition self-end md:self-auto"
+                                    className="w-full sm:w-auto text-center px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border border-white/20 transition shrink-0"
                                 >
                                     Remove Spotlight
                                 </button>
@@ -751,7 +644,7 @@ const AdminReviews = () => {
 
                         {/* Search & Actions Bar */}
                         <div
-                            className="p-4 rounded-2xl border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4"
+                            className="p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4"
                             style={{
                                 background: 'rgba(255,255,255,0.04)',
                                 borderColor: 'rgba(255,255,255,0.08)',
@@ -768,17 +661,17 @@ const AdminReviews = () => {
                                 />
                             </div>
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-between sm:justify-end gap-2">
                                 <button
                                     onClick={fetchGoogleReviews}
                                     disabled={loadingGoogle}
-                                    className="p-2.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 transition"
+                                    className="p-2.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 transition shrink-0"
                                     title="Refresh Google Reviews"
                                 >
                                     <RefreshCw className={`w-4 h-4 ${loadingGoogle ? 'animate-spin' : ''}`} />
                                 </button>
                                 <span className="text-xs text-white/50">
-                                    Showing {filteredGoogleReviews.length} Aussie Smart Energy Google Reviews
+                                    {filteredGoogleReviews.length} Reviews Found
                                 </span>
                             </div>
                         </div>
@@ -952,7 +845,7 @@ const AdminReviews = () => {
                 {activeTab === 'custom' && (
                     <div className="space-y-6">
                         {/* Stats Row */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                             {[
                                 { label: 'Total Reviews', value: reviews.length, icon: Star, color: '#60a5fa' },
                                 { label: 'Active on Site', value: reviews.filter((r) => r.isFeatured).length, icon: CheckCircle2, color: GREEN },
@@ -968,7 +861,7 @@ const AdminReviews = () => {
                                 return (
                                     <div
                                         key={s.label}
-                                        className="p-4 rounded-2xl border"
+                                        className="p-3.5 sm:p-4 rounded-2xl border"
                                         style={{
                                             background: 'rgba(255,255,255,0.03)',
                                             borderColor: 'rgba(255,255,255,0.08)',
@@ -976,11 +869,11 @@ const AdminReviews = () => {
                                     >
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs text-white/50 font-bold uppercase tracking-wider">{s.label}</span>
-                                            <div className="p-2 rounded-xl" style={{ background: `${s.color}15` }}>
+                                            <div className="p-2 rounded-xl shrink-0" style={{ background: `${s.color}15` }}>
                                                 <Icon className="w-4 h-4" style={{ color: s.color }} />
                                             </div>
                                         </div>
-                                        <div className="text-2xl font-black text-white mt-2">{s.value}</div>
+                                        <div className="text-xl sm:text-2xl font-black text-white mt-2 break-all">{s.value}</div>
                                     </div>
                                 );
                             })}
@@ -988,14 +881,14 @@ const AdminReviews = () => {
 
                         {/* Actions & Filters Bar */}
                         <div
-                            className="p-4 rounded-2xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4"
+                            className="p-3 sm:p-4 rounded-2xl border flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 sm:gap-4"
                             style={{
                                 background: 'rgba(255,255,255,0.04)',
                                 borderColor: 'rgba(255,255,255,0.08)',
                             }}
                         >
-                            <div className="flex flex-wrap items-center gap-3 flex-1">
-                                <div className="relative flex-1 min-w-[200px] max-w-md">
+                            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 flex-1">
+                                <div className="relative flex-1 min-w-[200px] max-w-full sm:max-w-md">
                                     <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" />
                                     <input
                                         type="text"
@@ -1006,35 +899,37 @@ const AdminReviews = () => {
                                     />
                                 </div>
 
-                                <select
-                                    value={platformFilter}
-                                    onChange={(e) => setPlatformFilter(e.target.value)}
-                                    style={{ ...inputStyle, width: 'auto', minWidth: '150px' }}
-                                >
-                                    <option value="all" className="bg-slate-900">All Platforms</option>
-                                    {PLATFORMS.map((p) => (
-                                        <option key={p.value} value={p.value} className="bg-slate-900">
-                                            {p.label}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
+                                    <select
+                                        value={platformFilter}
+                                        onChange={(e) => setPlatformFilter(e.target.value)}
+                                        style={{ ...inputStyle, width: '100%', minWidth: '130px' }}
+                                    >
+                                        <option value="all" className="bg-slate-900">All Platforms</option>
+                                        {PLATFORMS.map((p) => (
+                                            <option key={p.value} value={p.value} className="bg-slate-900">
+                                                {p.label}
+                                            </option>
+                                        ))}
+                                    </select>
 
-                                <select
-                                    value={featuredFilter}
-                                    onChange={(e) => setFeaturedFilter(e.target.value)}
-                                    style={{ ...inputStyle, width: 'auto', minWidth: '150px' }}
-                                >
-                                    <option value="all" className="bg-slate-900">All Status</option>
-                                    <option value="true" className="bg-slate-900">Active on Site</option>
-                                    <option value="false" className="bg-slate-900">Hidden / Draft</option>
-                                </select>
+                                    <select
+                                        value={featuredFilter}
+                                        onChange={(e) => setFeaturedFilter(e.target.value)}
+                                        style={{ ...inputStyle, width: '100%', minWidth: '130px' }}
+                                    >
+                                        <option value="all" className="bg-slate-900">All Status</option>
+                                        <option value="true" className="bg-slate-900">Active on Site</option>
+                                        <option value="false" className="bg-slate-900">Hidden / Draft</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-between sm:justify-end gap-2">
                                 <button
                                     onClick={fetchCustomReviews}
                                     disabled={loadingCustom}
-                                    className="p-2.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 transition"
+                                    className="p-2.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 transition shrink-0"
                                     title="Refresh Reviews"
                                 >
                                     <RefreshCw className={`w-4 h-4 ${loadingCustom ? 'animate-spin' : ''}`} />
@@ -1042,14 +937,14 @@ const AdminReviews = () => {
 
                                 <button
                                     onClick={openAddModal}
-                                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white shadow-lg transition transform active:scale-95"
+                                    className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white shadow-lg transition transform active:scale-95 flex-1 sm:flex-none"
                                     style={{
                                         background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)`,
                                         boxShadow: `0 8px 20px -4px ${GREEN}60`,
                                     }}
                                 >
-                                    <Plus className="w-4 h-4 stroke-[3]" />
-                                    Add Review
+                                    <Plus className="w-4 h-4 stroke-[3] shrink-0" />
+                                    <span>Add Review</span>
                                 </button>
                             </div>
                         </div>
@@ -1212,7 +1107,7 @@ const AdminReviews = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-blue-400/30 shadow-2xl p-6 sm:p-8 space-y-6"
+                            className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-blue-400/30 shadow-2xl p-4 sm:p-8 space-y-4 sm:space-y-6"
                             style={{ background: `${NAVY_DARK}` }}
                         >
                             <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -1221,7 +1116,7 @@ const AdminReviews = () => {
                                         <GoogleIcon />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-extrabold text-white">
+                                        <h3 className="text-base sm:text-lg font-extrabold text-white">
                                             Add Aussie Smart Energy Google Review
                                         </h3>
                                         <p className="text-xs text-white/40 mt-0.5">
@@ -1330,18 +1225,18 @@ const AdminReviews = () => {
                                     </label>
                                 </div>
 
-                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                                <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 pt-4 border-t border-white/10">
                                     <button
                                         type="button"
                                         onClick={() => setGoogleModalOpen(false)}
-                                        className="px-5 py-2.5 rounded-xl text-xs font-bold text-white/60 hover:text-white transition"
+                                        className="px-5 py-2.5 rounded-xl text-xs font-bold text-white/60 hover:text-white transition text-center"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={savingGoogle}
-                                        className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg transition bg-blue-600 hover:bg-blue-500"
+                                        className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg transition bg-blue-600 hover:bg-blue-500"
                                     >
                                         {savingGoogle ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                                         Save Google Review
@@ -1361,12 +1256,12 @@ const AdminReviews = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 shadow-2xl p-6 sm:p-8 space-y-6"
+                            className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 shadow-2xl p-4 sm:p-8 space-y-4 sm:space-y-6"
                             style={{ background: `${NAVY_DARK}` }}
                         >
                             <div className="flex items-center justify-between border-b border-white/10 pb-4">
                                 <div>
-                                    <h3 className="text-lg font-extrabold text-white">
+                                    <h3 className="text-base sm:text-lg font-extrabold text-white">
                                         {editing ? 'Edit Customer Review' : 'Add New Review'}
                                     </h3>
                                     <p className="text-xs text-white/40 mt-0.5">
@@ -1543,18 +1438,18 @@ const AdminReviews = () => {
                                     </label>
                                 </div>
 
-                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                                <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 pt-4 border-t border-white/10">
                                     <button
                                         type="button"
                                         onClick={() => setModalOpen(false)}
-                                        className="px-5 py-2.5 rounded-xl text-xs font-bold text-white/60 hover:text-white transition"
+                                        className="px-5 py-2.5 rounded-xl text-xs font-bold text-white/60 hover:text-white transition text-center"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={saving}
-                                        className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg transition"
+                                        className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg transition"
                                         style={{
                                             background: `linear-gradient(135deg, ${GREEN} 0%, ${GREEN_DARK} 100%)`,
                                             boxShadow: `0 8px 20px -4px ${GREEN}60`,
@@ -1578,10 +1473,10 @@ const AdminReviews = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="w-full max-w-md rounded-3xl border border-red-500/20 bg-slate-900 shadow-2xl p-6 space-y-4"
+                            className="w-full max-w-md rounded-3xl border border-red-500/20 bg-slate-900 shadow-2xl p-4 sm:p-6 space-y-4"
                         >
                             <div className="flex items-center gap-3 text-red-400">
-                                <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20">
+                                <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 shrink-0">
                                     <Trash2 className="w-5 h-5" />
                                 </div>
                                 <div>
@@ -1594,17 +1489,17 @@ const AdminReviews = () => {
                                 Are you sure you want to permanently delete the review by <strong className="text-white">"{deleteTarget.authorName}"</strong>?
                             </p>
 
-                            <div className="flex items-center justify-end gap-2 pt-2">
+                            <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 pt-2">
                                 <button
                                     onClick={() => setDeleteTarget(null)}
-                                    className="px-4 py-2 rounded-xl text-xs font-bold text-white/60 hover:text-white"
+                                    className="px-4 py-2 rounded-xl text-xs font-bold text-white/60 hover:text-white text-center"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleDelete}
                                     disabled={deleting}
-                                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-500 text-white transition"
+                                    className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-500 text-white transition"
                                 >
                                     {deleting ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
                                     Delete Permanently

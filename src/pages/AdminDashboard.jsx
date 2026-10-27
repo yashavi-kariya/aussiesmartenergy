@@ -7,6 +7,7 @@ import {
   FileText, Zap, ArrowUpDown, X, CheckSquare, Star, Image as ImageIcon, Megaphone, CreditCard, ShieldCheck
 } from 'lucide-react';
 import api from '../utils/api';
+import AdminHeader from '../components/AdminHeader';
 
 const NAVY = '#1d2e57ff';
 const NAVY_DARK = '#0f1c3fff';
@@ -134,116 +135,10 @@ const AdminDashboard = () => {
       className="min-h-screen flex flex-col"
       style={{ background: `linear-gradient(160deg, ${NAVY_DARK} 0%, ${NAVY} 60%, ${NAVY_MID} 100%)` }}
     >
-      {/* Sticky Header */}
-      <header
-        className="sticky top-0 z-20 px-6 py-4 flex items-center justify-between"
-        style={{
-          background: `${NAVY_DARK}f0`,
-          borderBottom: `1px solid rgba(255,255,255,0.08)`,
-          backdropFilter: 'blur(16px)',
-        }}
-      >
-        <div className="flex items-center gap-3">
-          <div
-            className="p-2.5 rounded-xl"
-            style={{ background: `${GREEN}18`, border: `1.5px solid ${GREEN}35` }}
-          >
-            <Zap className="w-5 h-5" style={{ color: GREEN }} />
-          </div>
-          <div>
-            <h1 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
-              Aussie Smart Energy
-              <span
-                className="text-xs px-2.5 py-0.5 rounded-full font-semibold"
-                style={{ background: `${GREEN}22`, color: GREEN, border: `1px solid ${GREEN}40` }}
-              >
-                Admin Portal
-              </span>
-            </h1>
-            <p className="text-xs text-white/40">Manage customer enquiries</p>
-          </div>
-        </div>
+      {/* Unified Responsive Admin Header with Mobile Drawer */}
+      <AdminHeader activeSection="dashboard" subtitle="Manage customer enquiries" />
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/admin/projects')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(59,130,246,0.12)',
-              border: '1px solid rgba(59,130,246,0.25)',
-              color: '#bfdbfe',
-            }}
-          >
-            <FileText className="w-4 h-4" />
-            Projects
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/reviews')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(250,204,21,0.12)',
-              border: '1px solid rgba(250,204,21,0.25)',
-              color: '#fef08a',
-            }}
-          >
-            <Star className="w-4 h-4 text-yellow-400" />
-            Reviews
-          </button>
-          <button
-            onClick={() => navigate('/admin/banners')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(16,185,129,0.12)',
-              border: '1px solid rgba(16,185,129,0.25)',
-              color: '#a7f3d0',
-            }}
-          >
-            <ImageIcon className="w-4 h-4 text-emerald-400" />
-            Hero Banners
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/headlines')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(57,181,74,0.12)',
-              border: '1px solid rgba(57,181,74,0.25)',
-              color: '#bbf7d0',
-            }}
-          >
-            <Megaphone className="w-4 h-4 text-emerald-400" />
-            Headlines
-          </button>
-
-          <button
-            onClick={() => navigate('/admin/payments')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(59,130,246,0.12)',
-              border: '1px solid rgba(59,130,246,0.25)',
-              color: '#bfdbfe',
-            }}
-          >
-            <CreditCard className="w-4 h-4 text-blue-400" />
-            Payments
-          </button>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-            style={{
-              background: 'rgba(239,68,68,0.12)',
-              border: '1px solid rgba(239,68,68,0.25)',
-              color: '#fca5a5',
-            }}
-          >
-            <LogOut className="w-4 h-4" />
-            Logout
-          </button>
-        </div>
-      </header>
-
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8 space-y-5 sm:space-y-6 min-w-0">
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -291,14 +186,14 @@ const AdminDashboard = () => {
 
         {/* Filters Bar */}
         <div
-          className="p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between"
+          className="p-3.5 sm:p-4 rounded-2xl flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between"
           style={{
             background: `${NAVY_MID}99`,
             border: '1px solid rgba(255,255,255,0.07)',
           }}
         >
           {/* Search */}
-          <div className="relative w-full md:w-80">
+          <div className="relative w-full sm:w-72 md:w-80">
             <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-white/30">
               <Search className="w-4 h-4" />
             </span>
@@ -306,7 +201,7 @@ const AdminDashboard = () => {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full py-2.5 pl-10 pr-4 text-white text-sm rounded-xl outline-none transition-all placeholder-white/25"
+              className="w-full py-2 sm:py-2.5 pl-10 pr-4 text-white text-xs sm:text-sm rounded-xl outline-none transition-all placeholder-white/25"
               style={{
                 background: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(255,255,255,0.1)',
@@ -317,13 +212,13 @@ const AdminDashboard = () => {
             />
           </div>
 
-          <div className="flex flex-wrap w-full md:w-auto items-center gap-3 justify-end">
+          <div className="flex flex-wrap w-full sm:w-auto items-center gap-2 sm:gap-3 justify-between sm:justify-end">
             {/* Form Type Filter */}
             <div
-              className="flex items-center gap-2 px-3 py-2 rounded-xl"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl flex-1 sm:flex-initial"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
             >
-              <Filter className="w-4 h-4 text-white/40" />
+              <Filter className="w-4 h-4 text-white/40 shrink-0" />
               <select
                 value={formType || category}
                 onChange={(e) => {
@@ -341,7 +236,7 @@ const AdminDashboard = () => {
                   }
                   setPage(1);
                 }}
-                className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
+                className="bg-transparent text-white text-xs sm:text-sm focus:outline-none cursor-pointer w-full"
                 style={{ color: 'rgba(255,255,255,0.85)' }}
               >
                 <option value="" style={{ background: NAVY }}>All Types</option>
@@ -369,7 +264,7 @@ const AdminDashboard = () => {
               <select
                 value={limit}
                 onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }}
-                className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
+                className="bg-transparent text-white text-xs sm:text-sm focus:outline-none cursor-pointer"
               >
                 {[5, 10, 25, 50].map(n => (
                   <option key={n} value={n} style={{ background: NAVY }}>{n} per page</option>
@@ -381,7 +276,7 @@ const AdminDashboard = () => {
             <button
               onClick={fetchEnquiries}
               disabled={loading}
-              className="p-2.5 rounded-xl transition-colors disabled:opacity-50"
+              className="p-2 sm:p-2.5 rounded-xl transition-colors disabled:opacity-50"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
               title="Refresh"
             >
@@ -405,8 +300,124 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          <div className="overflow-x-auto w-full">
-            <table className="w-full border-collapse text-left">
+          {/* Mobile & Tablet Responsive Cards (Solves cut off names and exposes all details on smaller screens) */}
+          <div className="lg:hidden p-3.5 sm:p-5 grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+            {loading && enquiries.length === 0 ? (
+              <div className="col-span-full text-center py-12 text-white/40">
+                <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-3" style={{ color: GREEN }} />
+                <span>Loading enquiries...</span>
+              </div>
+            ) : enquiries.length === 0 ? (
+              <div className="col-span-full text-center py-12 text-white/30 text-sm">
+                No enquiries found matching the criteria.
+              </div>
+            ) : (
+              enquiries.map((enquiry) => (
+                <div
+                  key={enquiry._id}
+                  className="p-4 sm:p-5 rounded-xl flex flex-col justify-between transition-all"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                  }}
+                >
+                  <div>
+                    {/* Header: Type Badge & Date */}
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span
+                        className="inline-flex px-2.5 py-1 rounded-full text-xs font-bold leading-tight"
+                        style={
+                          enquiry.formType === 'hero'
+                            ? { background: `${GREEN}18`, color: GREEN, border: `1px solid ${GREEN}35` }
+                            : enquiry.formType === 'contact'
+                              ? { background: 'rgba(96,165,250,0.12)', color: '#60a5fa', border: '1px solid rgba(96,165,250,0.25)' }
+                              : enquiry.formType?.startsWith('residential')
+                                ? { background: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }
+                                : { background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }
+                        }
+                      >
+                        {enquiry.formType === 'hero'
+                          ? 'Hero Form'
+                          : enquiry.formType === 'contact'
+                            ? 'Contact Us'
+                            : enquiry.formType?.startsWith('residential')
+                              ? `Residential · ${enquiry.formType.replace('residential-', '').toUpperCase()}`
+                              : `Commercial · ${enquiry.formType?.replace('commercial-', '').toUpperCase()}`
+                        }
+                      </span>
+                      <span className="text-[11px] text-white/40 flex items-center gap-1 shrink-0">
+                        <Calendar className="w-3 h-3 text-white/30" />
+                        {formatDate(enquiry.createdAt)}
+                      </span>
+                    </div>
+
+                    {/* Customer Full Name (Never Cut Down) */}
+                    <h4 className="text-base sm:text-lg font-bold text-white tracking-tight break-words mb-3">
+                      {enquiry.firstName} {enquiry.lastName}
+                    </h4>
+
+                    {/* Customer Contact Details */}
+                    <div className="space-y-2 text-xs text-white/70 mb-4">
+                      {enquiry.email && (
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Mail className="w-3.5 h-3.5 text-white/40 shrink-0" />
+                          <a
+                            href={`mailto:${enquiry.email}`}
+                            className="hover:text-emerald-400 transition-colors break-all select-all text-white/80"
+                          >
+                            {enquiry.email}
+                          </a>
+                        </div>
+                      )}
+                      {enquiry.phone && (
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Phone className="w-3.5 h-3.5 text-white/40 shrink-0" />
+                          <a
+                            href={`tel:${enquiry.phone}`}
+                            className="hover:text-emerald-400 transition-colors font-medium text-white/80"
+                          >
+                            {enquiry.phone}
+                          </a>
+                        </div>
+                      )}
+                      {enquiry.address && (
+                        <div className="flex items-start gap-2 min-w-0">
+                          <MapPin className="w-3.5 h-3.5 text-white/40 shrink-0 mt-0.5" />
+                          <span className="text-white/50 break-words leading-relaxed">{enquiry.address}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="pt-3 border-t border-white/5 flex items-center gap-2 mt-auto">
+                    <button
+                      onClick={() => setSelectedEnquiry(enquiry)}
+                      className="flex-1 py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                      style={{ background: 'rgba(96,165,250,0.12)', border: '1px solid rgba(96,165,250,0.25)', color: '#60a5fa' }}
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      View Full Details
+                    </button>
+                    <button
+                      onClick={() => setDeleteId(enquiry._id)}
+                      className="py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                      style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#f87171' }}
+                      title="Delete Enquiry"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Full Data Table */}
+          <div className="hidden lg:block overflow-x-auto w-full">
+            <table className="w-full border-collapse text-left min-w-[720px]">
               <thead>
                 <tr
                   className="text-xs font-bold uppercase tracking-wider"
@@ -522,7 +533,7 @@ const AdminDashboard = () => {
           {/* Pagination */}
           {totalPages > 0 && (
             <div
-              className="px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm"
+              className="px-4 sm:px-5 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs sm:text-sm text-center sm:text-left"
               style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: `${NAVY_DARK}60`, color: 'rgba(255,255,255,0.4)' }}
             >
               <div>
@@ -560,16 +571,15 @@ const AdminDashboard = () => {
       </main>
 
       {/* ─── View Details Modal ─── */}
-      {/* ─── View Details Modal ─── */}
       <AnimatePresence>
         {selectedEnquiry && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(52, 56, 85, 0.85)', backdropFilter: 'blur(8px)' }}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" style={{ background: 'rgba(10, 16, 32, 0.85)', backdropFilter: 'blur(8px)' }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.22 }}
-              className="w-full max-w-2xl rounded-2xl overflow-hidden flex flex-col max-h-[85vh]"
+              className="w-full max-w-2xl rounded-2xl overflow-hidden flex flex-col max-h-[90vh]"
               style={{
                 background: '#ffffff',
                 border: '1px solid rgba(0,0,0,0.08)',
@@ -577,13 +587,13 @@ const AdminDashboard = () => {
               }}
             >
               {/* Green accent bar */}
-              <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${GREEN}, ${GREEN_DARK})` }} />
+              <div className="h-1 w-full shrink-0" style={{ background: `linear-gradient(90deg, ${GREEN}, ${GREEN_DARK})` }} />
 
               <div
-                className="p-5 flex items-center justify-between"
+                className="p-4 sm:p-5 flex items-center justify-between shrink-0"
                 style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', background: '#f8f9fb' }}
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
                   <span
                     className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold"
                     style={
@@ -619,26 +629,26 @@ const AdminDashboard = () => {
                 </button>
               </div>
 
-              <div className="p-6 overflow-y-auto space-y-5">
+              <div className="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-5">
                 <div>
-                  <h3 className="text-xl font-bold text-black">{selectedEnquiry.firstName} {selectedEnquiry.lastName}</h3>
-                  <p className="text-sm text-black/40 mt-0.5">Customer Enquiry Details</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-black">{selectedEnquiry.firstName} {selectedEnquiry.lastName}</h3>
+                  <p className="text-xs sm:text-sm text-black/40 mt-0.5">Customer Enquiry Details</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {[
                     { icon: Mail, label: 'Email Address', value: selectedEnquiry.email, href: `mailto:${selectedEnquiry.email}` },
                     { icon: Phone, label: 'Phone Number', value: selectedEnquiry.phone, href: `tel:${selectedEnquiry.phone}` },
                   ].map(({ icon: Icon, label, value, href }) => (
                     <div
                       key={label}
-                      className="p-3.5 rounded-xl flex items-center gap-3"
+                      className="p-3 sm:p-3.5 rounded-xl flex items-center gap-3"
                       style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
                     >
                       <Icon className="w-5 h-5 text-white/60 shrink-0" />
-                      <div className="overflow-hidden">
+                      <div className="overflow-hidden min-w-0">
                         <p className="text-xs text-white/50 font-medium">{label}</p>
-                        <a href={href} className="text-sm block truncate text-white font-mono">
+                        <a href={href} className="text-xs sm:text-sm block truncate text-white font-mono hover:underline">
                           {value}
                         </a>
                       </div>
@@ -647,29 +657,29 @@ const AdminDashboard = () => {
                 </div>
 
                 <div
-                  className="p-3.5 rounded-xl flex items-start gap-3"
+                  className="p-3 sm:p-3.5 rounded-xl flex items-start gap-3"
                   style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
                 >
                   <MapPin className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs text-white/50 font-medium">Address</p>
-                    <p className="text-sm text-white mt-0.5">{selectedEnquiry.address || 'No Address Provided'}</p>
+                    <p className="text-xs sm:text-sm text-white mt-0.5 break-words">{selectedEnquiry.address || 'No Address Provided'}</p>
                   </div>
                 </div>
 
                 {selectedEnquiry.consent !== undefined && (
                   <div
-                    className="p-3.5 rounded-xl flex items-center justify-between"
+                    className="p-3 sm:p-3.5 rounded-xl flex items-center justify-between gap-2"
                     style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
                   >
                     <div>
                       <p className="text-xs text-white/50 font-medium">VEU Scheme Marketing Consent</p>
-                      <p className="text-sm text-white mt-0.5">
+                      <p className="text-xs sm:text-sm text-white mt-0.5">
                         {selectedEnquiry.consent ? 'Consent Granted (24 Months)' : 'No Consent Recorded'}
                       </p>
                     </div>
                     <span
-                      className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                      className={`px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 ${
                         selectedEnquiry.consent
                           ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                           : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
@@ -681,15 +691,15 @@ const AdminDashboard = () => {
                 )}
 
                 <div
-                  className="p-4 rounded-xl"
+                  className="p-3.5 sm:p-4 rounded-xl"
                   style={{ background: NAVY, border: `1px solid ${NAVY_LIGHT}` }}
                 >
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-2 sm:mb-3">
                     <MessageSquare className="w-4 h-4 text-white/50" />
                     <p className="text-xs text-white/50 font-medium">Message</p>
                   </div>
                   <div
-                    className="text-sm text-white/90 whitespace-pre-wrap leading-relaxed p-3 rounded-lg min-h-[72px]"
+                    className="text-xs sm:text-sm text-white/90 whitespace-pre-wrap leading-relaxed p-3 rounded-lg min-h-[72px] break-words"
                     style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.08)' }}
                   >
                     {selectedEnquiry.message ||
@@ -700,19 +710,19 @@ const AdminDashboard = () => {
               </div>
 
               <div
-                className="p-5 flex justify-end gap-3"
+                className="p-4 sm:p-5 flex justify-end gap-2.5 sm:gap-3 shrink-0"
                 style={{ borderTop: '1px solid rgba(0,0,0,0.08)', background: '#f8f9fb' }}
               >
                 <button
                   onClick={() => setSelectedEnquiry(null)}
-                  className="px-5 py-2.5 rounded-xl text-black/70 hover:text-black text-sm font-semibold transition-colors"
+                  className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-black/70 hover:text-black text-xs sm:text-sm font-semibold transition-colors"
                   style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)' }}
                 >
                   Close
                 </button>
                 <button
                   onClick={() => { const id = selectedEnquiry._id; setSelectedEnquiry(null); setDeleteId(id); }}
-                  className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold transition-all flex items-center gap-1.5"
+                  className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-white text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5"
                   style={{ background: 'rgba(239,68,68,0.9)', border: '1px solid rgba(239,68,68,0.4)' }}
                 >
                   <Trash2 className="w-4 h-4" /> Delete
@@ -726,12 +736,12 @@ const AdminDashboard = () => {
       {/* ─── Delete Confirmation Modal ─── */}
       <AnimatePresence>
         {deleteId && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(10,16,32,0.90)', backdropFilter: 'blur(8px)' }}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" style={{ background: 'rgba(10,16,32,0.90)', backdropFilter: 'blur(8px)' }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md rounded-2xl overflow-hidden p-6 space-y-5"
+              className="w-full max-w-md rounded-2xl overflow-hidden p-4 sm:p-6 space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto"
               style={{
                 background: `linear-gradient(145deg, ${NAVY_LIGHT}, ${NAVY_MID})`,
                 border: '1px solid rgba(255,255,255,0.1)',

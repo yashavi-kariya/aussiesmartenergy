@@ -50,17 +50,17 @@ const AdminLogin = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center relative overflow-hidden px-4 py-12"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden px-3 sm:px-4 py-8 sm:py-12"
       style={{ background: `linear-gradient(135deg, ${NAVY_DARK} 0%, ${NAVY} 50%, ${NAVY_LIGHT} 100%)` }}
     >
       {/* Decorative radial glow — green accent top right */}
       <div
-        className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+        className="absolute top-0 right-0 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] rounded-full pointer-events-none"
         style={{ background: `radial-gradient(circle, ${GREEN}22 0%, transparent 70%)` }}
       />
       {/* Decorative radial glow — navy deep bottom left */}
       <div
-        className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+        className="absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] rounded-full pointer-events-none"
         style={{ background: `radial-gradient(circle, ${NAVY_DARK}cc 0%, transparent 70%)` }}
       />
 
@@ -74,13 +74,13 @@ const AdminLogin = () => {
       />
 
       {/* Back to website link */}
-      <div className="absolute top-6 left-6 z-20">
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
         <Link
           to="/"
-          className="flex items-center gap-2 text-white/80 hover:text-white transition-colors duration-200 text-sm font-medium"
+          className="flex items-center gap-2 text-white/80 hover:text-white transition-colors duration-200 text-xs sm:text-sm font-medium bg-black/20 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none px-3 py-1.5 sm:p-0 rounded-xl sm:rounded-none border border-white/10 sm:border-0"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Website
+          <span>Back to Website</span>
         </Link>
       </div>
 
@@ -89,7 +89,7 @@ const AdminLogin = () => {
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full max-w-md z-10"
+        className="w-full max-w-md z-10 my-auto"
         style={{
           background: `linear-gradient(145deg, ${NAVY_LIGHT}cc, ${NAVY}ee)`,
           border: `1px solid rgba(255,255,255,0.12)`,
@@ -104,25 +104,25 @@ const AdminLogin = () => {
           style={{ background: `linear-gradient(90deg, ${GREEN}, ${GREEN_DARK})` }}
         />
 
-        <div className="p-8">
+        <div className="p-5 sm:p-8">
           {/* Logo & Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
-              className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4"
+              className="inline-flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 rounded-2xl mb-3 sm:mb-4"
               style={{
                 background: `linear-gradient(135deg, ${GREEN}20, ${GREEN}10)`,
                 border: `2px solid ${GREEN}40`,
               }}
             >
-              <Zap className="w-7 h-7" style={{ color: GREEN }} />
+              <Zap className="w-6 sm:w-7 h-6 sm:h-7" style={{ color: GREEN }} />
             </motion.div>
-            <h1 className="text-2xl font-extrabold text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
               Aussie Smart Energy
             </h1>
-            <p className="text-white/70 text-sm mt-1 font-medium tracking-wide uppercase">
+            <p className="text-white/70 text-xs sm:text-sm mt-1 font-medium tracking-wide uppercase">
               Admin Portal
             </p>
           </div>
@@ -159,7 +159,7 @@ const AdminLogin = () => {
                   type="text"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="w-full py-3 pl-11 pr-4 text-white text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/50"
+                  className="w-full py-3 pl-11 pr-4 text-white text-base sm:text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/50"
                   style={{
                     background: `rgba(255,255,255,0.10)`,
                     border: `1px solid rgba(255,255,255,0.2)`,
@@ -189,7 +189,7 @@ const AdminLogin = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full py-3 pl-11 pr-12 text-white text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/50"
+                  className="w-full py-3 pl-11 pr-12 text-white text-base sm:text-sm rounded-xl outline-none transition-all duration-200 placeholder-white/50"
                   style={{
                     background: `rgba(255,255,255,0.10)`,
                     border: `1px solid rgba(255,255,255,0.2)`,

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import api from '../utils/api';
 import { getImageUrl } from '../utils/imageUrl';
+import AdminHeader from '../components/AdminHeader';
 
 const NAVY = '#1d2e57ff';
 const NAVY_DARK = '#0f1c3fff';
@@ -126,113 +127,17 @@ const AdminBanners = () => {
             style={{ background: `linear-gradient(160deg, ${NAVY_DARK} 0%, ${NAVY} 60%, ${NAVY_MID} 100%)` }}
         >
             {/* ── Sticky Header ── */}
-            <header
-                className="sticky top-0 z-30 px-6 py-4 flex flex-wrap items-center justify-between gap-4"
-                style={{
-                    background: `${NAVY_DARK}f5`,
-                    borderBottom: '1px solid rgba(255,255,255,0.08)',
-                    backdropFilter: 'blur(16px)',
-                }}
-            >
-                <div className="flex items-center gap-3">
-                    <div
-                        className="p-2.5 rounded-xl"
-                        style={{ background: `${GREEN}18`, border: `1.5px solid ${GREEN}35` }}
-                    >
-                        <Zap className="w-5 h-5" style={{ color: GREEN }} />
-                    </div>
-                    <div>
-                        <h1 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
-                            Aussie Smart Energy
-                            <span
-                                className="text-xs px-2.5 py-0.5 rounded-full font-semibold"
-                                style={{ background: `${GREEN}22`, color: GREEN, border: `1px solid ${GREEN}40` }}
-                            >
-                                Hero Banners
-                            </span>
-                        </h1>
-                        <p className="text-xs text-white/40">Manage rotating hero background images</p>
-                    </div>
-                </div>
-
-                {/* Top Navigation */}
-                <div className="flex items-center gap-2.5">
-                    <button
-                        onClick={() => navigate('/admin/dashboard')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            color: 'rgba(255,255,255,0.8)',
-                        }}
-                    >
-                        <ChevronLeft className="w-3.5 h-3.5" />
-                        Dashboard
-                    </button>
-
-                    <button
-                        onClick={() => navigate('/admin/projects')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(59,130,246,0.12)',
-                            border: '1px solid rgba(59,130,246,0.25)',
-                            color: '#bfdbfe',
-                        }}
-                    >
-                        <FileText className="w-3.5 h-3.5" />
-                        Projects
-                    </button>
-
-                    <button
-                        onClick={() => navigate('/admin/reviews')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(250,204,21,0.12)',
-                            border: '1px solid rgba(250,204,21,0.25)',
-                            color: '#fef08a',
-                        }}
-                    >
-                        <Star className="w-3.5 h-3.5 text-yellow-400" />
-                        Reviews
-                    </button>
-
-                    <button
-                        onClick={() => navigate('/admin/headlines')}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(57,181,74,0.12)',
-                            border: '1px solid rgba(57,181,74,0.25)',
-                            color: '#bbf7d0',
-                        }}
-                    >
-                        <Megaphone className="w-3.5 h-3.5 text-emerald-400" />
-                        Headlines
-                    </button>
-
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(239,68,68,0.12)',
-                            border: '1px solid rgba(239,68,68,0.25)',
-                            color: '#fca5a5',
-                        }}
-                    >
-                        <LogOut className="w-3.5 h-3.5" />
-                        Logout
-                    </button>
-                </div>
-            </header>
+            <AdminHeader activeSection="banners" subtitle="Manage rotating hero background images" />
 
             {/* ── Main Content ── */}
-            <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">
+            <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8 space-y-6 min-w-0">
 
                 {/* Top Info Bar & Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="p-5 rounded-2xl md:col-span-2 flex flex-col justify-between"
+                        className="p-4 sm:p-5 rounded-2xl md:col-span-2 flex flex-col justify-between"
                         style={{
                             background: `linear-gradient(135deg, ${NAVY_LIGHT}90, ${NAVY_MID}90)`,
                             border: '1px solid rgba(255,255,255,0.09)',
@@ -252,7 +157,7 @@ const AdminBanners = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/10 text-xs text-white/50">
+                        <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-4 pt-4 border-t border-white/10 text-xs text-white/50">
                             <span className="flex items-center gap-1.5">
                                 <span className="w-2 h-2 rounded-full bg-emerald-400"></span> Max 10 Images Allowed
                             </span>
@@ -270,7 +175,7 @@ const AdminBanners = () => {
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="p-5 rounded-2xl flex flex-col justify-between"
+                        className="p-4 sm:p-5 rounded-2xl flex flex-col justify-between"
                         style={{
                             background: `linear-gradient(135deg, ${NAVY_LIGHT}80, ${NAVY_MID}80)`,
                             border: '1px solid rgba(255,255,255,0.08)',
@@ -287,8 +192,8 @@ const AdminBanners = () => {
 
                         <div className="my-3">
                             <div className="flex items-baseline gap-2">
-                                <span className="text-4xl font-black text-white">{banners.length}</span>
-                                <span className="text-lg font-bold text-white/40">/ {MAX_BANNERS}</span>
+                                <span className="text-3xl sm:text-4xl font-black text-white">{banners.length}</span>
+                                <span className="text-base sm:text-lg font-bold text-white/40">/ {MAX_BANNERS}</span>
                             </div>
                             {/* Progress bar */}
                             <div className="w-full h-2 rounded-full bg-white/10 mt-3 overflow-hidden">
@@ -302,7 +207,7 @@ const AdminBanners = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between text-xs text-white/50">
+                        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-white/50">
                             <span>Upload format: JPG, PNG, WEBP</span>
                             <button
                                 onClick={fetchBanners}
@@ -342,7 +247,7 @@ const AdminBanners = () => {
 
                 {/* ── Upload Box Section ── */}
                 <div
-                    className="p-6 rounded-3xl relative overflow-hidden"
+                    className="p-4 sm:p-6 rounded-3xl relative overflow-hidden"
                     style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(255,255,255,0.08)',
@@ -359,7 +264,7 @@ const AdminBanners = () => {
                     />
 
                     {banners.length >= MAX_BANNERS ? (
-                        <div className="p-6 rounded-2xl text-center flex flex-col items-center justify-center border border-amber-500/20 bg-amber-500/5">
+                        <div className="p-4 sm:p-6 rounded-2xl text-center flex flex-col items-center justify-center border border-amber-500/20 bg-amber-500/5">
                             <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 mb-3">
                                 <Layers className="w-6 h-6" />
                             </div>
@@ -372,26 +277,26 @@ const AdminBanners = () => {
                     ) : (
                         <div
                             onClick={() => !uploading && fileInputRef.current?.click()}
-                            className={`border-2 border-dashed rounded-2xl p-8 text-center flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${uploading
+                            className={`border-2 border-dashed rounded-2xl p-5 sm:p-8 text-center flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${uploading
                                     ? 'border-emerald-500/50 bg-emerald-500/5 cursor-wait'
                                     : 'border-white/20 hover:border-emerald-400/60 hover:bg-white/[0.02]'
                                 }`}
                         >
                             <div
-                                className="w-14 h-14 rounded-2xl flex items-center justify-center mb-3.5 transition-transform duration-300 group-hover:scale-110"
+                                className="w-12 sm:w-14 h-12 sm:h-14 rounded-2xl flex items-center justify-center mb-3.5 transition-transform duration-300 group-hover:scale-110"
                                 style={{
                                     background: `linear-gradient(135deg, ${GREEN}25, ${NAVY_LIGHT})`,
                                     border: `1px solid ${GREEN}40`
                                 }}
                             >
                                 {uploading ? (
-                                    <RefreshCw className="w-6 h-6 text-emerald-400 animate-spin" />
+                                    <RefreshCw className="w-5 sm:w-6 h-5 sm:h-6 text-emerald-400 animate-spin" />
                                 ) : (
-                                    <Upload className="w-6 h-6 text-emerald-400" />
+                                    <Upload className="w-5 sm:w-6 h-5 sm:h-6 text-emerald-400" />
                                 )}
                             </div>
 
-                            <h3 className="text-base font-bold text-white">
+                            <h3 className="text-sm sm:text-base font-bold text-white">
                                 {uploading ? 'Uploading banner image(s)...' : 'Click to Upload Hero Banner Images'}
                             </h3>
                             <p className="text-xs text-white/50 mt-1 max-w-md">
@@ -401,15 +306,15 @@ const AdminBanners = () => {
                             <button
                                 type="button"
                                 disabled={uploading}
-                                className="mt-4 px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg transition-all"
+                                className="mt-4 px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-lg transition-all w-full sm:w-auto"
                                 style={{
                                     background: `linear-gradient(135deg, ${GREEN}, ${GREEN_DARK})`,
                                     color: '#ffffff',
                                     boxShadow: `0 4px 18px ${GREEN}40`
                                 }}
                             >
-                                <Plus className="w-4 h-4" />
-                                {uploading ? 'Processing Upload...' : 'Choose Images from Computer'}
+                                <Plus className="w-4 h-4 shrink-0" />
+                                <span>{uploading ? 'Processing Upload...' : 'Choose Images from Computer'}</span>
                             </button>
                         </div>
                     )}
@@ -532,13 +437,13 @@ const AdminBanners = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setPreviewImage(null)}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md cursor-zoom-out"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md cursor-zoom-out"
                     >
                         <button
                             onClick={() => setPreviewImage(null)}
-                            className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-5 sm:w-6 h-5 sm:h-6" />
                         </button>
                         <motion.img
                             initial={{ scale: 0.9 }}
@@ -546,7 +451,7 @@ const AdminBanners = () => {
                             exit={{ scale: 0.9 }}
                             src={getImageUrl(previewImage)}
                             alt="Banner Preview"
-                            className="max-w-5xl max-h-[85vh] object-contain rounded-2xl shadow-2xl border border-white/10"
+                            className="max-w-full sm:max-w-5xl max-h-[85vh] object-contain rounded-2xl shadow-2xl border border-white/10"
                             onClick={(e) => e.stopPropagation()}
                         />
                     </motion.div>
@@ -566,7 +471,7 @@ const AdminBanners = () => {
                             initial={{ scale: 0.95, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.95, opacity: 0 }}
-                            className="w-full max-w-md p-6 rounded-3xl text-slate-100 shadow-2xl"
+                            className="w-full max-w-md p-4 sm:p-6 rounded-3xl text-slate-100 shadow-2xl"
                             style={{
                                 background: `linear-gradient(145deg, ${NAVY_DARK}, ${NAVY})`,
                                 border: '1px solid rgba(255,255,255,0.12)',
@@ -576,7 +481,7 @@ const AdminBanners = () => {
                                 <Trash2 className="w-6 h-6" />
                             </div>
 
-                            <h3 className="text-lg font-extrabold text-white">Delete Hero Banner?</h3>
+                            <h3 className="text-base sm:text-lg font-extrabold text-white">Delete Hero Banner?</h3>
                             <p className="text-xs text-white/60 mt-1.5 leading-relaxed">
                                 Are you sure you want to remove this background image from the hero carousel? It will no longer appear on the homepage.
                             </p>
@@ -591,16 +496,16 @@ const AdminBanners = () => {
                                 </div>
                             )}
 
-                            <div className="flex items-center justify-end gap-3 mt-6">
+                            <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 mt-6">
                                 <button
                                     onClick={() => setDeleteModal({ open: false, banner: null })}
-                                    className="px-4 py-2 rounded-xl text-xs font-semibold hover:bg-white/5 transition-colors text-white/70"
+                                    className="px-4 py-2 rounded-xl text-xs font-semibold hover:bg-white/5 transition-colors text-white/70 text-center"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={confirmDelete}
-                                    className="px-5 py-2 rounded-xl text-xs font-bold bg-red-500 hover:bg-red-600 text-white transition-colors shadow-lg shadow-red-500/30"
+                                    className="px-5 py-2 rounded-xl text-xs font-bold bg-red-500 hover:bg-red-600 text-white transition-colors shadow-lg shadow-red-500/30 text-center"
                                 >
                                     Yes, Delete Image
                                 </button>

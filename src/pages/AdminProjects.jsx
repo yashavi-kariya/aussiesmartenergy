@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import api from '../utils/api';
 import { getImageUrl } from '../utils/imageUrl';
+import AdminHeader from '../components/AdminHeader';
 
 const NAVY = '#1d2e57ff';
 const NAVY_DARK = '#0f1c3fff';
@@ -230,103 +231,26 @@ const AdminProjects = () => {
             className="min-h-screen flex flex-col"
             style={{ background: `linear-gradient(160deg, ${NAVY_DARK} 0%, ${NAVY} 60%, ${NAVY_MID} 100%)` }}
         >
-            {/* ── Sticky Header ── */}
-            <header
-                className="sticky top-0 z-20 px-6 py-4 flex items-center justify-between"
-                style={{
-                    background: `${NAVY_DARK}f0`,
-                    borderBottom: '1px solid rgba(255,255,255,0.08)',
-                    backdropFilter: 'blur(16px)',
-                }}
-            >
-                <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl" style={{ background: `${GREEN}18`, border: `1.5px solid ${GREEN}35` }}>
-                        <Zap className="w-5 h-5" style={{ color: GREEN }} />
-                    </div>
-                    <div>
-                        <h1 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
-                            Aussie Smart Energy
-                            <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold" style={{ background: `${GREEN}22`, color: GREEN, border: `1px solid ${GREEN}40` }}>
-                                Projects
-                            </span>
-                        </h1>
-                        <p className="text-xs text-white/40">Manage your project portfolio</p>
-                    </div>
-                </div>
+            {/* ── Unified Responsive Admin Header ── */}
+            <AdminHeader activeSection="projects" subtitle="Manage your project portfolio" />
 
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => navigate('/admin/dashboard')}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-                        style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.7)' }}
-                    >
-                        <ChevronLeft className="w-4 h-4" />
-                        Dashboard
-                    </button>
-                    <button
-                        onClick={() => navigate('/admin/reviews')}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(250,204,21,0.12)',
-                            border: '1px solid rgba(250,204,21,0.25)',
-                            color: '#fef08a',
-                        }}
-                    >
-                        <Star className="w-4 h-4 text-yellow-400" />
-                        Reviews
-                    </button>
-                    <button
-                        onClick={() => navigate('/admin/banners')}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(16,185,129,0.12)',
-                            border: '1px solid rgba(16,185,129,0.25)',
-                            color: '#a7f3d0',
-                        }}
-                    >
-                        <ImageIcon className="w-4 h-4 text-emerald-400" />
-                        Hero Banners
-                    </button>
-                    <button
-                        onClick={() => navigate('/admin/headlines')}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-                        style={{
-                            background: 'rgba(57,181,74,0.12)',
-                            border: '1px solid rgba(57,181,74,0.25)',
-                            color: '#bbf7d0',
-                        }}
-                    >
-                        <Megaphone className="w-4 h-4 text-emerald-400" />
-                        Headlines
-                    </button>
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
-                        style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5' }}
-                    >
-                        <LogOut className="w-4 h-4" />
-                        Logout
-                    </button>
-                </div>
-            </header>
-
-            <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-6">
+            <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8 space-y-5 sm:space-y-6 min-w-0">
 
                 {/* ── Top bar ── */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                     <div>
-                        <h2 className="text-2xl font-extrabold text-white">Project Portfolio</h2>
-                        <p className="text-sm text-white/40 mt-0.5">
+                        <h2 className="text-xl sm:text-2xl font-extrabold text-white">Project Portfolio</h2>
+                        <p className="text-xs sm:text-sm text-white/40 mt-0.5">
                             {activeTab === 'active'
                                 ? `${projects.length} active ${projects.length === 1 ? 'project' : 'projects'} on portfolio`
                                 : `${projects.length} deleted from admin (safely preserved in database)`}
                         </p>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
                         <button
                             onClick={() => loadProjects(activeTab)}
                             disabled={loading}
-                            className="p-2.5 rounded-xl transition-colors disabled:opacity-50"
+                            className="p-2 sm:p-2.5 rounded-xl transition-colors disabled:opacity-50"
                             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
                             title="Refresh"
                         >
@@ -334,7 +258,7 @@ const AdminProjects = () => {
                         </button>
                         <button
                             onClick={openCreate}
-                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 hover:opacity-90"
+                            className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 hover:opacity-90 flex-1 sm:flex-initial"
                             style={{ background: `linear-gradient(135deg, ${GREEN}, ${GREEN_DARK})`, color: '#fff', boxShadow: `0 4px 18px ${GREEN}40` }}
                         >
                             <Plus className="w-4 h-4" />
@@ -344,10 +268,10 @@ const AdminProjects = () => {
                 </div>
 
                 {/* ── Tabs Bar ── */}
-                <div className="flex items-center gap-2 p-1.5 rounded-2xl w-fit" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-1.5 rounded-2xl w-full sm:w-fit" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <button
                         onClick={() => setActiveTab('active')}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'active'
+                        className={`flex items-center justify-center sm:justify-start gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'active'
                             ? 'text-white shadow-lg'
                             : 'text-white/50 hover:text-white hover:bg-white/5'
                             }`}
@@ -362,14 +286,14 @@ const AdminProjects = () => {
 
                     <button
                         onClick={() => setActiveTab('deleted_from_admin')}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'deleted_from_admin'
+                        className={`flex items-center justify-center sm:justify-start gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'deleted_from_admin'
                             ? 'text-white shadow-lg'
                             : 'text-white/50 hover:text-white hover:bg-white/5'
                             }`}
                         style={activeTab === 'deleted_from_admin' ? { background: `linear-gradient(135deg, ${NAVY_LIGHT}, ${NAVY_MID})`, border: '1px solid rgba(239,68,68,0.4)' } : {}}
                     >
                         <Archive className="w-3.5 h-3.5" style={activeTab === 'deleted_from_admin' ? { color: '#f87171' } : {}} />
-                        <span>Deleted from Admin (In Database)</span>
+                        <span>Deleted from Admin (In DB)</span>
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: activeTab === 'deleted_from_admin' ? 'rgba(239,68,68,0.2)' : 'rgba(255,255,255,0.08)', color: activeTab === 'deleted_from_admin' ? '#fca5a5' : 'rgba(255,255,255,0.6)' }}>
                             {counts.deleted}
                         </span>
@@ -583,13 +507,13 @@ const AdminProjects = () => {
             {/* ════════════════════ ADD / EDIT MODAL ════════════════════ */}
             <AnimatePresence>
                 {modalOpen && (
-                    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto" style={{ background: 'rgba(10,16,32,0.88)', backdropFilter: 'blur(8px)' }}>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" style={{ background: 'rgba(10,16,32,0.88)', backdropFilter: 'blur(8px)' }}>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.96, y: 12 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.96, y: 12 }}
                             transition={{ duration: 0.22 }}
-                            className="w-full max-w-2xl rounded-2xl overflow-hidden my-6"
+                            className="w-full max-w-2xl rounded-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col"
                             style={{
                                 background: `linear-gradient(145deg, ${NAVY_LIGHT}, ${NAVY_MID})`,
                                 border: '1px solid rgba(255,255,255,0.1)',
@@ -597,12 +521,12 @@ const AdminProjects = () => {
                             }}
                         >
                             {/* Green accent bar */}
-                            <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${GREEN}, ${GREEN_DARK})` }} />
+                            <div className="h-1 w-full shrink-0" style={{ background: `linear-gradient(90deg, ${GREEN}, ${GREEN_DARK})` }} />
 
                             {/* Modal header */}
-                            <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                            <div className="px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                                 <div>
-                                    <h2 className="text-lg font-extrabold text-white">{editing ? 'Edit Project' : 'Add New Project'}</h2>
+                                    <h2 className="text-base sm:text-lg font-extrabold text-white">{editing ? 'Edit Project' : 'Add New Project'}</h2>
                                     <p className="text-xs text-white/40 mt-0.5">{editing ? `Editing: ${editing.name}` : 'Fill in the details below'}</p>
                                 </div>
                                 <button
@@ -615,9 +539,9 @@ const AdminProjects = () => {
                             </div>
 
                             {/* Modal body */}
-                            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+                            <form onSubmit={handleSubmit} className="overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5 flex-1">
                                 {error && (
-                                    <div className="px-4 py-2.5 rounded-xl text-sm" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5' }}>
+                                    <div className="px-4 py-2.5 rounded-xl text-xs sm:text-sm" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5' }}>
                                         {error}
                                     </div>
                                 )}
@@ -656,7 +580,7 @@ const AdminProjects = () => {
 
                                 {/* Main Image */}
                                 <Field label="Main Image">
-                                    <div className="flex items-start gap-4">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                                         {mainImagePreview ? (
                                             <div className="relative w-28 h-20 rounded-lg overflow-hidden flex-shrink-0">
                                                 <img src={mainImagePreview} alt="preview" className="w-full h-full object-cover" />
@@ -687,7 +611,7 @@ const AdminProjects = () => {
                                             />
                                             <label
                                                 htmlFor="mainImgInput"
-                                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:opacity-90"
+                                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold cursor-pointer transition-all hover:opacity-90"
                                                 style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.7)', display: 'inline-flex' }}
                                             >
                                                 <Upload className="w-4 h-4" />
@@ -701,7 +625,7 @@ const AdminProjects = () => {
                                 {/* Gallery */}
                                 <Field label="Gallery Images (multiple)">
                                     <div className="space-y-3">
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex flex-wrap items-center gap-3">
                                             <input
                                                 ref={galleryRef}
                                                 type="file"
@@ -713,7 +637,7 @@ const AdminProjects = () => {
                                             />
                                             <label
                                                 htmlFor="galleryInput"
-                                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer hover:opacity-90"
+                                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold cursor-pointer hover:opacity-90"
                                                 style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.7)', display: 'inline-flex' }}
                                             >
                                                 <Upload className="w-4 h-4" />
@@ -727,7 +651,7 @@ const AdminProjects = () => {
                                         </div>
                                         {/* New file previews */}
                                         {galleryPreviews.length > 0 && (
-                                            <div className="grid grid-cols-5 gap-2">
+                                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                                                 {galleryPreviews.map((src, i) => (
                                                     <div key={i} className="rounded-lg overflow-hidden h-16">
                                                         <img src={src} alt="" className="w-full h-full object-cover" />
@@ -739,7 +663,7 @@ const AdminProjects = () => {
                                         {editing && editing.gallery?.length > 0 && (
                                             <div>
                                                 <p className="text-xs text-white/35 mb-2">Existing gallery — hover to remove:</p>
-                                                <div className="grid grid-cols-5 gap-2">
+                                                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                                                     {editing.gallery.map((g, i) => (
                                                         <div key={i} className="relative group rounded-lg overflow-hidden h-16">
                                                             <img src={getImageUrl(g)} alt="" className="w-full h-full object-cover" />
@@ -759,11 +683,11 @@ const AdminProjects = () => {
                                 </Field>
 
                                 {/* Footer */}
-                                <div className="flex justify-end gap-3 pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                                <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 pt-3 shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                                     <button
                                         type="button"
                                         onClick={closeModal}
-                                        className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors text-white/70 hover:text-white"
+                                        className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors text-white/70 hover:text-white"
                                         style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
                                     >
                                         Cancel
@@ -771,7 +695,7 @@ const AdminProjects = () => {
                                     <button
                                         type="submit"
                                         disabled={saving}
-                                        className="px-6 py-2.5 rounded-xl text-sm font-bold text-white transition-all disabled:opacity-50 flex items-center gap-2"
+                                        className="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                                         style={{ background: `linear-gradient(135deg, ${GREEN}, ${GREEN_DARK})`, boxShadow: `0 4px 14px ${GREEN}40` }}
                                     >
                                         {saving && <RefreshCw className="w-4 h-4 animate-spin" />}
@@ -787,12 +711,12 @@ const AdminProjects = () => {
             {/* ════════════════════ DELETE CONFIRM MODAL ════════════════════ */}
             <AnimatePresence>
                 {deleteTarget && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(10,16,32,0.90)', backdropFilter: 'blur(8px)' }}>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" style={{ background: 'rgba(10,16,32,0.90)', backdropFilter: 'blur(8px)' }}>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="w-full max-w-lg rounded-2xl overflow-hidden p-6 space-y-5"
+                            className="w-full max-w-lg rounded-2xl overflow-hidden p-4 sm:p-6 space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto"
                             style={{
                                 background: `linear-gradient(145deg, ${NAVY_LIGHT}, ${NAVY_MID})`,
                                 border: '1px solid rgba(255,255,255,0.12)',
@@ -801,20 +725,20 @@ const AdminProjects = () => {
                         >
                             {/* Modal Header */}
                             <div className="flex items-center gap-3">
-                                <div className="p-3 rounded-xl" style={{ background: deleteMode === 'both' ? 'rgba(239,68,68,0.15)' : 'rgba(96,165,250,0.15)', border: `1px solid ${deleteMode === 'both' ? 'rgba(239,68,68,0.3)' : 'rgba(96,165,250,0.3)'}` }}>
+                                <div className="p-2.5 sm:p-3 rounded-xl shrink-0" style={{ background: deleteMode === 'both' ? 'rgba(239,68,68,0.15)' : 'rgba(96,165,250,0.15)', border: `1px solid ${deleteMode === 'both' ? 'rgba(239,68,68,0.3)' : 'rgba(96,165,250,0.3)'}` }}>
                                     {deleteMode === 'both' ? (
-                                        <Trash2 className="w-6 h-6" style={{ color: '#f87171' }} />
+                                        <Trash2 className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#f87171' }} />
                                     ) : (
-                                        <Archive className="w-6 h-6" style={{ color: '#60a5fa' }} />
+                                        <Archive className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#60a5fa' }} />
                                     )}
                                 </div>
-                                <div>
-                                    <h3 className="text-lg font-bold text-white">Delete Project</h3>
+                                <div className="min-w-0">
+                                    <h3 className="text-base sm:text-lg font-bold text-white">Delete Project</h3>
                                     <p className="text-xs text-white/40">Select how you want to delete this project</p>
                                 </div>
                             </div>
 
-                            <p className="text-sm text-white/70">
+                            <p className="text-xs sm:text-sm text-white/70">
                                 Target project: <span className="font-bold text-white">"{deleteTarget.name}"</span>
                             </p>
 
@@ -823,7 +747,7 @@ const AdminProjects = () => {
                                 {/* Option 1: Delete from Admin Only */}
                                 <div
                                     onClick={() => setDeleteMode('admin_only')}
-                                    className={`p-4 rounded-xl cursor-pointer border transition-all ${deleteMode === 'admin_only'
+                                    className={`p-3.5 sm:p-4 rounded-xl cursor-pointer border transition-all ${deleteMode === 'admin_only'
                                         ? 'bg-blue-500/15 border-blue-400/60 shadow-lg'
                                         : 'bg-white/5 border-white/10 hover:bg-white/8'
                                         }`}
@@ -834,16 +758,16 @@ const AdminProjects = () => {
                                             name="deleteOption"
                                             checked={deleteMode === 'admin_only'}
                                             onChange={() => setDeleteMode('admin_only')}
-                                            className="mt-1 cursor-pointer accent-blue-400"
+                                            className="mt-1 cursor-pointer accent-blue-400 shrink-0"
                                         />
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-2">
-                                                <h4 className="text-sm font-bold text-white">1. Delete from Admin Only</h4>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 flex-wrap">
+                                                <h4 className="text-xs sm:text-sm font-bold text-white">1. Delete from Admin Only</h4>
                                                 <span className="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-400/30">
                                                     Safe / Keeps in DB
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-white/50 mt-1 leading-relaxed">
+                                            <p className="text-[11px] sm:text-xs text-white/50 mt-1 leading-relaxed">
                                                 Removes this project from your active Admin view. The project data, gallery photos, and database records remain <span className="text-white font-medium">safely stored in MongoDB</span> and can be restored anytime.
                                             </p>
                                         </div>
@@ -853,7 +777,7 @@ const AdminProjects = () => {
                                 {/* Option 2: Delete from Both Admin & Database */}
                                 <div
                                     onClick={() => setDeleteMode('both')}
-                                    className={`p-4 rounded-xl cursor-pointer border transition-all ${deleteMode === 'both'
+                                    className={`p-3.5 sm:p-4 rounded-xl cursor-pointer border transition-all ${deleteMode === 'both'
                                         ? 'bg-red-500/15 border-red-500/60 shadow-lg'
                                         : 'bg-white/5 border-white/10 hover:bg-white/8'
                                         }`}
@@ -864,16 +788,16 @@ const AdminProjects = () => {
                                             name="deleteOption"
                                             checked={deleteMode === 'both'}
                                             onChange={() => setDeleteMode('both')}
-                                            className="mt-1 cursor-pointer accent-red-400"
+                                            className="mt-1 cursor-pointer accent-red-400 shrink-0"
                                         />
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-2">
-                                                <h4 className="text-sm font-bold text-white">2. Delete from Both (Admin & Database)</h4>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 flex-wrap">
+                                                <h4 className="text-xs sm:text-sm font-bold text-white">2. Delete from Both (Admin & DB)</h4>
                                                 <span className="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-red-500/20 text-red-300 border border-red-500/30">
                                                     Permanent
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-white/50 mt-1 leading-relaxed">
+                                            <p className="text-[11px] sm:text-xs text-white/50 mt-1 leading-relaxed">
                                                 Permanently wipes the project document from the MongoDB database and deletes all uploaded image files from the server. <span className="text-red-400 font-medium">Cannot be undone.</span>
                                             </p>
                                         </div>
@@ -905,10 +829,10 @@ const AdminProjects = () => {
                             )}
 
                             {/* Actions */}
-                            <div className="flex justify-end gap-3 pt-2">
+                            <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 pt-2">
                                 <button
                                     onClick={() => { setDeleteTarget(null); setDeleteText(''); }}
-                                    className="px-4 py-2 rounded-xl text-white/70 hover:text-white text-sm font-semibold transition-colors"
+                                    className="px-4 py-2.5 rounded-xl text-white/70 hover:text-white text-xs sm:text-sm font-semibold transition-colors"
                                     style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
                                 >
                                     Cancel
@@ -916,7 +840,7 @@ const AdminProjects = () => {
                                 <button
                                     onClick={confirmDelete}
                                     disabled={deleting || (deleteMode === 'both' && deleteText !== 'DELETE')}
-                                    className="px-5 py-2.5 rounded-xl text-white text-sm font-bold transition-all disabled:opacity-30 flex items-center gap-2"
+                                    className="px-5 py-2.5 rounded-xl text-white text-xs sm:text-sm font-bold transition-all disabled:opacity-30 flex items-center justify-center gap-2"
                                     style={{
                                         background: deleteMode === 'both'
                                             ? 'linear-gradient(135deg, #ef4444, #b91c1c)'
@@ -927,7 +851,7 @@ const AdminProjects = () => {
                                     }}
                                 >
                                     {deleting && <RefreshCw className="w-4 h-4 animate-spin" />}
-                                    {deleteMode === 'both' ? 'Delete from Both (Permanent)' : 'Delete from Admin Only'}
+                                    {deleteMode === 'both' ? 'Delete Permanently' : 'Delete from Admin Only'}
                                 </button>
                             </div>
                         </motion.div>
