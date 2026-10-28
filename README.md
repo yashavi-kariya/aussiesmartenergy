@@ -244,7 +244,11 @@ cd aussiesmartenergy
    NODE_ENV=development
    FRONTEND_URL=http://localhost:5173
 
-  
+   # Default Admin Credentials for seeder (optional)
+   ADMIN_USERNAME=your_admin_username
+   ADMIN_EMAIL=admin@example.com
+   ADMIN_PASSWORD=your_secure_password
+
    # Cloudinary Media Storage (Optional, falls back to disk if omitted)
    CLOUDINARY_CLOUD_NAME=your_cloud_name
    CLOUDINARY_API_KEY=your_api_key
@@ -325,9 +329,9 @@ cd aussiesmartenergy
 | `JWT_SECRET` | Secret key used for signing JWT tokens | `your_secret_key_here` |
 | `NODE_ENV` | Application environment mode | `development` / `production` |
 | `FRONTEND_URL` | Frontend URL allowed by CORS | `http://localhost:5173` |
-| `ADMIN_USERNAME` | Default admin username for seeder | `admin` |
-| `ADMIN_EMAIL` | Default admin email for seeder | `admin@aussiesmartenergy.com.au` |
-| `ADMIN_PASSWORD` | Default admin password for seeder | `Admin123!` |
+| `ADMIN_USERNAME` | Default admin username for seeder | `your_admin_username` |
+| `ADMIN_EMAIL` | Default admin email for seeder | `admin@example.com` |
+| `ADMIN_PASSWORD` | Default admin password for seeder | `your_secure_password` |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary account cloud name | `your_cloud_name` |
 | `CLOUDINARY_API_KEY` | Cloudinary API Key | `your_api_key` |
 | `CLOUDINARY_API_SECRET` | Cloudinary API Secret | `your_api_secret` |
