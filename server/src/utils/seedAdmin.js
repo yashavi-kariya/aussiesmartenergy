@@ -8,8 +8,13 @@ const seedAdmin = async () => {
     await connectDB();
 
     const username = process.env.ADMIN_USERNAME || 'admin';
-    const email = process.env.ADMIN_EMAIL || 'admin@aussiesmartenergy.com.au';
-    const password = process.env.ADMIN_PASSWORD || 'Admin123!';
+    const email = process.env.ADMIN_EMAIL;
+    const password = process.env.ADMIN_PASSWORD;
+
+    if (!email || !password) {
+        console.error('❌ Error: ADMIN_EMAIL and ADMIN_PASSWORD must be configured in your .env file to seed an admin.');
+        process.exit(1);
+    }
 
     const existingAdmin = await Admin.findOne({ username });
     if (existingAdmin) {

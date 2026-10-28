@@ -246,7 +246,7 @@ cd aussiesmartenergy
 
    # Default Admin Credentials for seeder (optional)
    ADMIN_USERNAME=your_admin_username
-   ADMIN_EMAIL=admin@example.com
+   ADMIN_EMAIL=your_email_id  
    ADMIN_PASSWORD=your_secure_password
 
    # Cloudinary Media Storage (Optional, falls back to disk if omitted)
@@ -330,7 +330,7 @@ cd aussiesmartenergy
 | `NODE_ENV` | Application environment mode | `development` / `production` |
 | `FRONTEND_URL` | Frontend URL allowed by CORS | `http://localhost:5173` |
 | `ADMIN_USERNAME` | Default admin username for seeder | `your_admin_username` |
-| `ADMIN_EMAIL` | Default admin email for seeder | `admin@example.com` |
+| `ADMIN_EMAIL` | Default admin email for seeder | `your_email_id` |
 | `ADMIN_PASSWORD` | Default admin password for seeder | `your_secure_password` |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary account cloud name | `your_cloud_name` |
 | `CLOUDINARY_API_KEY` | Cloudinary API Key | `your_api_key` |
