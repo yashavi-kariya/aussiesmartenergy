@@ -244,11 +244,7 @@ cd aussiesmartenergy
    NODE_ENV=development
    FRONTEND_URL=http://localhost:5173
 
-   # Default Admin Credentials for seeder
-   ADMIN_USERNAME=admin
-   ADMIN_EMAIL=admin@aussiesmartenergy.com.au
-   ADMIN_PASSWORD=AdminPassword123!
-
+  
    # Cloudinary Media Storage (Optional, falls back to disk if omitted)
    CLOUDINARY_CLOUD_NAME=your_cloud_name
    CLOUDINARY_API_KEY=your_api_key
