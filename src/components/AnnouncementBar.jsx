@@ -115,7 +115,7 @@ const TypewriterTextLarge = ({ text }) => {
 };
 
 /* ─── CTA button ─── */
-const CTAButton = ({ link, isExternal, linkText, theme, large = false }) => {
+const CTAButton = ({ link, isExternal, linkText, theme, large = false, onClick }) => {
   const label = linkText || 'Learn More';
   const cls = `inline-flex items-center gap-1.5 ${large ? 'px-6 py-2.5 text-sm rounded-xl' : 'px-3 py-0.5 rounded-full text-xs'} font-semibold ${theme.btn} relative overflow-hidden transition-all`;
   const inner = (
@@ -140,8 +140,8 @@ const CTAButton = ({ link, isExternal, linkText, theme, large = false }) => {
   return (
     <motion.div whileHover={{ scale: 1.07, y: -1 }} whileTap={{ scale: 0.93 }}>
       {isExternal
-        ? <a href={link} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
-        : <Link to={link} className={cls}>{inner}</Link>}
+        ? <a href={link} target="_blank" rel="noopener noreferrer" className={cls} onClick={onClick}>{inner}</a>
+        : <Link to={link} className={cls} onClick={onClick}>{inner}</Link>}
     </motion.div>
   );
 };
@@ -329,6 +329,7 @@ const AnnouncementPopup = ({ headlines, onClose }) => {
                     linkText={current.linkText}
                     theme={theme}
                     large
+                    onClick={onClose}
                   />
                 </motion.div>
               )}
