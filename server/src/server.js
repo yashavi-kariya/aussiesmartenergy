@@ -37,6 +37,7 @@ const allowedOrigins = [
     'http://localhost:5175',
     'https://aussiesmartenergy.vercel.app',
     'https://aussiesmartenergy.onrender.com',
+    'http://192.168.1.11:5176',
     process.env.FRONTEND_URL,
 ].filter(Boolean);
 

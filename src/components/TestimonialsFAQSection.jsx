@@ -39,7 +39,7 @@ const TestimonialsFAQSection = ({ onlyFAQ = false }) => {
     <section
       ref={ref}
       id="faq"
-      className="py-20 relative overflow-hidden"
+      className="py-12 sm:py-16 lg:py-20 relative overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, #040d1e 0%, #0b1d4d 40%, #102870 70%, #040d1e 100%)',
       }}
@@ -93,7 +93,7 @@ const TestimonialsFAQSection = ({ onlyFAQ = false }) => {
               <div className="w-full flex bg-gradient-to-br from-[#0d2260]/70 to-[#0b1d4d]/70 p-4 lg:p-6 rounded-2xl shadow-2xl border border-white/10 overflow-hidden backdrop-blur-sm">
                 <video
                   src={homeVideo}
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full min-h-[220px] md:min-h-0 md:h-full object-cover rounded-md"
                   controls
                   playsInline
                   muted
@@ -165,7 +165,7 @@ const TestimonialsFAQSection = ({ onlyFAQ = false }) => {
                 </span>
               </motion.span>
 
-              <h2 className="mt-3 text-4xl sm:text-5xl lg:text-5xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+              <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
                 Frequently Asked<br />
                 <span
                   style={{

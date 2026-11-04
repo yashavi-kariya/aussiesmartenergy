@@ -306,7 +306,7 @@ const GoogleReviews = () => {
               WHAT OUR CUSTOMERS SAY
             </span>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-white leading-tight tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight tracking-tight">
             Real Stories.{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39b54a] via-[#4ade80] to-emerald-300">
               Real Savings.
@@ -420,7 +420,7 @@ const GoogleReviews = () => {
           </div>
 
           {/* Review Text Quote */}
-          <blockquote className="text-slate-700 text-base sm:text-lg font-medium leading-relaxed italic">
+          <blockquote className="text-slate-700 text-sm sm:text-base lg:text-lg font-medium leading-relaxed italic">
             "{activeReview.text || activeReview.reviewText}"
           </blockquote>
 

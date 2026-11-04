@@ -152,7 +152,16 @@ const ModernHeroSection = () => {
   ];
 
   return (
-    <section ref={ref} id="home" className="relative min-h-screen flex flex-col pt-36 sm:pt-40 lg:pt-36 overflow-hidden" style={{ perspective: '1200px' }}>
+    <section
+      ref={ref}
+      id="home"
+      className="relative min-h-screen flex flex-col overflow-hidden"
+      style={{
+        perspective: '1200px',
+        /* pt-navbar CSS utility defined in index.css covers all screen sizes automatically */
+        paddingTop: 'var(--navbar-total-height, 120px)',
+      }}
+    >
 
       {/* Dynamic Background Carousel Slider — Seamless hardware-accelerated cross-fade */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -240,7 +249,7 @@ const ModernHeroSection = () => {
             </motion.div>
 
             {/* H1 — animated word-by-word typography reveal */}
-            <h1 className="text-3xl sm:text-5xl lg:text-[58px] xl:text-[64px] font-black leading-[1.15] tracking-tight text-[#1e2d53]">
+            <h1 className="text-4xl sm:text-5xl lg:text-[58px] xl:text-[64px] font-black leading-[1.15] tracking-tight text-[#1e2d53]">
               <span className="block overflow-hidden pb-1">
                 {line1Words.map((word, i) => (
                   <motion.span
@@ -274,7 +283,7 @@ const ModernHeroSection = () => {
             {/* Description */}
             <motion.p
               variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
-              className="text-slate-600 text-base sm:text-lg font-normal leading-relaxed max-w-lg"
+              className="text-slate-600 text-sm sm:text-base lg:text-lg font-normal leading-relaxed max-w-lg"
             >
               High performance solar solutions for homes and businesses. Lower energy bills, cleaner planet and a brighter future for generations.
             </motion.p>
@@ -589,7 +598,7 @@ const ModernHeroSection = () => {
                   <motion.span
                     variants={{ hover: { x: 3, color: '#ffffff' } }}
                     transition={{ duration: 0.3, ease: EASE }}
-                    className="text-[11px] sm:text-xs font-bold text-white/90 leading-tight min-w-0 break-words"
+                    className="text-[11px] sm:text-xs font-bold text-white/90 leading-tight min-w-0 break-words hyphens-auto"
                   >
                     {feat.text}
                   </motion.span>

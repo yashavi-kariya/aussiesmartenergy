@@ -264,7 +264,7 @@ export default function Footer() {
                   <img
                     src={logoImg}
                     alt="Aussie Smart Energy"
-                    className="h-20 sm:h-14 lg:h-16 w-auto max-w-[260px] sm:max-w-none object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="h-16 sm:h-14 lg:h-16 xl:h-18 w-auto max-w-[220px] sm:max-w-[180px] object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}

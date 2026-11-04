@@ -52,6 +52,7 @@ const BrandsSection = () => {
         }
         .brands-carousel {
           animation: scroll 40s linear infinite;
+          will-change: transform;
         }
         .brands-carousel:hover {
           animation-play-state: paused;
@@ -66,11 +67,11 @@ const BrandsSection = () => {
         className="text-center px-4 mb-5 overflow-hidden"
       >
         <div className="flex items-center justify-center space-x-2 sm:space-x-3 mb-1">
-          <div className="flex-1 max-w-[32px] sm:max-w-[120px] md:max-w-[200px] h-0.5 bg-red-400"></div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-600 tracking-tight whitespace-nowrap">
+          <div className="hidden sm:block flex-1 max-w-[80px] sm:max-w-[120px] md:max-w-[200px] h-0.5 bg-red-400"></div>
+          <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-red-600 tracking-tight whitespace-nowrap">
             Brands we offer
           </h2>
-          <div className="flex-1 max-w-[32px] sm:max-w-[120px] md:max-w-[200px] h-0.5 bg-red-400"></div>
+          <div className="hidden sm:block flex-1 max-w-[80px] sm:max-w-[120px] md:max-w-[200px] h-0.5 bg-red-400"></div>
         </div>
         <div className="flex justify-center mt-1">
           <span className="text-red-600 text-2xl leading-none">★</span>

@@ -285,14 +285,14 @@ const SavingsPromoSection = () => {
                   <p className="text-indigo-300 text-[10px] font-bold uppercase tracking-widest">
                     Our Finance Partners
                   </p>
-                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4">
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4">
 
                     {/* Plenti Logo Card */}
                     <motion.div
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setFinanceModal(true)}
-                      className="relative bg-white rounded-2xl flex flex-col items-center justify-center px-4 py-3 sm:px-6 sm:py-4 h-20 sm:h-24 min-w-[110px] sm:min-w-[130px] flex-1 sm:flex-none overflow-hidden cursor-pointer shadow-md"
+                      className="relative bg-white rounded-2xl flex flex-col items-center justify-center px-3 py-2.5 sm:px-6 sm:py-4 h-16 sm:h-24 min-w-[90px] sm:min-w-[130px] flex-1 sm:flex-none overflow-hidden cursor-pointer shadow-md finance-logo-card"
                       style={{ boxShadow: '0 0 0 2px #6366f1, 0 8px 28px rgba(99,102,241,0.35)' }}
                     >
                       {/* Shimmer sweep */}
@@ -312,7 +312,7 @@ const SavingsPromoSection = () => {
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setFinanceModal(true)}
-                      className="relative bg-white rounded-2xl flex flex-col items-center justify-center px-4 py-3 sm:px-6 sm:py-4 h-20 sm:h-24 min-w-[110px] sm:min-w-[130px] flex-1 sm:flex-none overflow-hidden cursor-pointer shadow-md"
+                      className="relative bg-white rounded-2xl flex flex-col items-center justify-center px-3 py-2.5 sm:px-6 sm:py-4 h-16 sm:h-24 min-w-[90px] sm:min-w-[130px] flex-1 sm:flex-none overflow-hidden cursor-pointer shadow-md finance-logo-card"
                       style={{ boxShadow: '0 0 0 2px #6366f1, 0 8px 28px rgba(99,102,241,0.35)' }}
                     >
                       {/* Shimmer sweep */}
