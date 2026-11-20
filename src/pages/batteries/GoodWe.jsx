@@ -8,6 +8,7 @@ import { getProductSchema, getFaqSchema, getBreadcrumbSchema } from '../../utils
 // Assets
 import solarBatteries1 from '../../assets/goodwe/goodwe24kwh.jpg';
 import solarBatteries2 from '../../assets/solarbattries2.png';
+import goodwe32kwh from '../../assets/goodwe/goodwe32kwh.jpg';
 import solarBatteries3 from '../../assets/goodwe/goodwe40kwh.jpg';
 import goodweEsaBattery from '../../assets/goodwe/goodwe2.jpeg';
 import esySystem from '../../assets/goodwe/goodwe1.jpg';
@@ -84,7 +85,7 @@ const GoodWe = () => {
         badgeBg: 'bg-gradient-to-r from-[#006ab7] to-blue-700',
         title: '32kWh Solar Battery',
         subtitle: 'For growing families and higher usage.',
-        image: solarBatteries2,
+        image: goodwe32kwh,
         features: [
           'Extended Backup Time',
           'Safe & Reliable Performance',
@@ -326,7 +327,7 @@ const GoodWe = () => {
                   <img
                     src={pkg.image}
                     alt={pkg.title}
-                    className="relative z-10 h-48 sm:h-56 w-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transform group-hover:scale-105 transition-transform duration-500"
+                    className="relative z-10 h-48 sm:h-56 w-auto object-contain rounded-xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] transform group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 

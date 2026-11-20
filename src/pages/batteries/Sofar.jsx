@@ -12,6 +12,9 @@ import solarBatteries2 from '../../assets/solarbattries2.png';
 import solarBatteries3 from '../../assets/solarbattries3.png';
 import sofarBtsBattery from '../../assets/sofar/sofar.jpeg';
 import sofarBattery16kwh from '../../assets/sofar/sofar-battery-16kwh.png';
+import sofar20kwh from '../../assets/sofar/sofar-20kwh.png';
+import sofar25kwh from '../../assets/sofar/sofar-25kwh.jpg';
+import sofar30kwh from '../../assets/sofar/sofar-30kwh.jpg';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
@@ -70,7 +73,7 @@ const Sofar = () => {
         badgeBg: 'bg-gradient-to-r from-blue-700 to-[#003b73]',
         title: '20kWh Solar Battery',
         subtitle: 'For small families and daily backup.',
-        image: solarBatteries1,
+        image: sofar20kwh,
         imageBg: 'from-[#06142e] via-[#0b2b5c] to-[#1e1b4b]',
         features: [
           'Reliable Energy Storage',
@@ -85,7 +88,7 @@ const Sofar = () => {
         badgeBg: 'bg-gradient-to-r from-red-600 to-rose-600',
         title: '25kWh Solar Battery',
         subtitle: 'For growing families and higher usage.',
-        image: solarBatteries2,
+        image: sofar25kwh,
         imageBg: 'from-[#0a192f] via-[#003b73] to-[#006ab7]',
         features: [
           'Extended Backup Time',
@@ -100,7 +103,7 @@ const Sofar = () => {
         badgeBg: 'bg-gradient-to-r from-blue-900 to-[#06142e]',
         title: '30kWh Solar Battery',
         subtitle: 'For large families and maximum savings.',
-        image: solarBatteries3,
+        image: sofar30kwh,
         imageBg: 'from-[#06142e] via-[#0b2b5c] to-[#1e1b4b]',
         features: [
           'Maximum Backup Power',
@@ -324,7 +327,7 @@ const Sofar = () => {
                   <img
                     src={pkg.image}
                     alt={pkg.title}
-                    className="relative z-0 h-44 sm:h-52 w-auto object-contain drop-shadow-[0_15px_25px_rgba(239,68,68,0.35)] transform hover:scale-105 transition-transform duration-300"
+                    className="relative z-0 h-44 sm:h-52 w-auto object-contain rounded-xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.45)] transform hover:scale-105 transition-transform duration-300"
                   />
                 </div>
 
