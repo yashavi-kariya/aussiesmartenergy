@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import { CheckCircle2, Check, ArrowRight, Calculator, Sparkles, X, Zap } from 'lucide-react';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -217,6 +219,24 @@ const SolarCommercial = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-[#00a2ea]/20 selection:text-[#002b5c]">
+      <SEO
+        title="Commercial Solar Installation Australia (30kW to 100kW+) | Aussie Smart Energy"
+        description="Cut commercial electricity operating costs by up to 75%. Commercial solar systems from 30kW, 50kW, 100kW up to 1MW for Australian businesses. Fast ROI & asset write-offs."
+        keywords="commercial solar installation Australia, commercial solar Sydney, 50kW solar system, 100kW solar system, industrial solar panels, commercial battery storage"
+        canonical="/solar/commercial"
+        schema={[
+          getProductSchema({
+            name: 'Commercial Solar System Solutions (30kW - 1MW)',
+            description:
+              'Engineered turnkey commercial solar installation with load profile analysis, network approvals, and rapid payback for Australian businesses.',
+            sku: 'ASE-SOLAR-COMMERCIAL'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Commercial Solar', url: '/solar/commercial' }
+          ])
+        ]}
+      />
       
       {/* =========================================================================
           1. HERO SECTION (Commercial Solar & Battery + Proposal Form)

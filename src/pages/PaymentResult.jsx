@@ -6,6 +6,7 @@ import {
   Home, PhoneCall, Copy, Check, Clock
 } from 'lucide-react';
 import api from '../utils/api';
+import SEO from '../components/SEO';
 
 const PaymentResult = () => {
   const [searchParams] = useSearchParams();
@@ -72,6 +73,12 @@ const PaymentResult = () => {
 
   return (
     <main className="min-h-screen bg-slate-50/50 pt-36 sm:pt-40 lg:pt-44 pb-20 flex items-center justify-center px-4">
+      <SEO
+        title="Payment Confirmation | Aussie Smart Energy"
+        description="Aussie Smart Energy payment confirmation."
+        canonical="/payment/result"
+        noIndex={true}
+      />
       <motion.div
         initial={{ opacity: 0, y: 25 }}
         animate={{ opacity: 1, y: 0 }}

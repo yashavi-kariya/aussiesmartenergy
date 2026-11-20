@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import EnquiryModal from '../../components/EnquiryModal';
+import SEO from '../../components/SEO';
+import { getProductSchema, getFaqSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 // Assets
 import solarBatteries1 from '../../assets/foxess/foxess1.jpeg';
@@ -172,6 +174,27 @@ const FoxEss = () => {
 
   return (
     <main className="overflow-hidden bg-slate-50/50 pt-36 sm:pt-40 lg:pt-44">
+      <SEO
+        title="Fox ESS Solar Battery Storage Solutions Australia | Aussie Smart Energy"
+        description="Discover Fox ESS solar battery storage systems with high-voltage scalable capacity (4.66kWh to 48kWh), smart hybrid inverters, and emergency blackout backup across Australia."
+        keywords="Fox ESS Australia, Fox ESS battery price, FoxCloud monitoring, solar battery NSW, home battery storage Australia"
+        canonical="/batteries/fox-ess"
+        schema={[
+          getProductSchema({
+            name: 'Fox ESS Solar Battery Storage System',
+            description:
+              'Scalable high-voltage residential and commercial solar battery storage system with integrated FoxCloud monitoring and blackout protection.',
+            sku: 'ASE-BATTERY-FOXESS',
+            brand: 'Fox ESS'
+          }),
+          getFaqSchema(faqs),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' },
+            { name: 'Fox ESS', url: '/batteries/fox-ess' }
+          ])
+        ]}
+      />
       {/* ================= SECTION 1: PACKAGES CARDS BANNER ================= */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-12">
         <motion.div

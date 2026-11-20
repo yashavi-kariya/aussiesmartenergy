@@ -2,6 +2,9 @@ import { useState, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, Check, ArrowRight, FileText, X } from 'lucide-react';
 import api from '../utils/api';
+import SEO from '../components/SEO';
+import { getBreadcrumbSchema } from '../utils/seoSchemas';
+
 
 const SITE_OPTIONS = [
   { id: 'smb', label: 'Small-medium business', defaultBattery: 150, defaultInverter: 50, defaultSolar: 40, badge: 'BESS4 - Small-medium business - 20-200 kWh usable', defaultPrice: 180000 },
@@ -193,6 +196,16 @@ Comments: ${formData.comments || 'None'}`,
 
   return (
     <div className="min-h-screen bg-[#f3f7fb] text-slate-800 font-sans pt-36 sm:pt-40 lg:pt-44 pb-24 px-4 sm:px-6">
+      <SEO
+        title="NSW Solar & Battery Rebate Calculator | Aussie Smart Energy"
+        description="Estimate your NSW Peak Demand Reduction Scheme (PDRS) battery and solar rebate. Calculate upfront PRCs, system savings, and finance options across NSW."
+        keywords="NSW battery rebate calculator, PDRS rebate NSW, solar battery rebate Sydney, PRCs peak reduction certificates, solar savings NSW"
+        canonical="/nsw-calculator"
+        schema={getBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'NSW Solar & Battery Calculator', url: '/nsw-calculator' }
+        ])}
+      />
       <div className="max-w-xl mx-auto space-y-16">
         
         {/* =========================================================================

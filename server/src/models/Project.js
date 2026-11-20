@@ -9,6 +9,15 @@ const ProjectSchema = new mongoose.Schema({
     slug: { type: String, required: true, unique: true, index: true },
     displayOrder: { type: Number, default: 0 },
     deletedFromAdmin: { type: Boolean, default: false },
+    // Dynamic SEO Fields
+    seoTitle: { type: String, default: '' },
+    metaDescription: { type: String, default: '' },
+    focusKeyword: { type: String, default: '' },
+    canonicalUrl: { type: String, default: '' },
+    ogTitle: { type: String, default: '' },
+    ogDescription: { type: String, default: '' },
+    ogImage: { type: String, default: '' },
+    noIndex: { type: Boolean, default: false },
 }, { timestamps: true });
 
 export default mongoose.model('Project', ProjectSchema);

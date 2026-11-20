@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Sun, Wrench, ShieldCheck, Cpu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import solarSystemsData from '../data/solarSystems';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 // ── Per-system theme config ──────────────────────────────────────────────────
 const systemThemes = {
@@ -283,6 +285,27 @@ const SolarSystemPage = ({ systemId }) => {
 
   return (
     <main className="min-h-screen text-[#1e2d53] pt-0">
+      <SEO
+        title={`${system.name || systemId.toUpperCase() + ' Solar System'} | Aussie Smart Energy`}
+        description={
+          system.overview ||
+          `Premium ${systemId} solar power system engineered with Tier-1 panels, smart inverter, and government rebate discounts.`
+        }
+        keywords={`${systemId} solar system, solar panels Australia, residential solar ${systemId}, solar quote`}
+        canonical={`/solar/${systemId}`}
+        schema={[
+          getProductSchema({
+            name: `${system.name || systemId} Solar Power System`,
+            description: system.overview || `${systemId} solar system installation in Australia`,
+            sku: `ASE-SOLAR-${systemId.toUpperCase()}`
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Packages', url: '/solar/6.6kw' },
+            { name: `${system.name || systemId}`, url: `/solar/${systemId}` }
+          ])
+        ]}
+      />
 
       {/* ── 1. Hero Banner ──────────────────────────────────────────────────── */}
       <section className="relative min-h-[360px] sm:min-h-[420px] md:min-h-[460px] pt-36 sm:pt-40 lg:pt-44 pb-12 flex items-center justify-center overflow-hidden">

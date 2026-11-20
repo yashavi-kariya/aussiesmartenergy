@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import EnquiryModal from '../../components/EnquiryModal';
+import SEO from '../../components/SEO';
+import { getProductSchema, getFaqSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 // Assets
 import solarBatteries1 from '../../assets/goodwe/goodwe24kwh.jpg';
@@ -229,6 +231,27 @@ const GoodWe = () => {
 
   return (
     <main className="overflow-hidden bg-slate-50/50 pt-36 sm:pt-40 lg:pt-44">
+      <SEO
+        title="GoodWe Solar Inverter & Battery Storage Solutions Australia | Aussie Smart Energy"
+        description="Explore GoodWe all-in-one solar battery storage with ultra-fast <4ms UPS blackout protection, SEMS monitoring, and scalable capacity from 24kWh to 108kWh."
+        keywords="GoodWe Australia, GoodWe solar battery, GoodWe inverter Sydney, SEMS portal, solar battery storage Australia"
+        canonical="/batteries/goodwe"
+        schema={[
+          getProductSchema({
+            name: 'GoodWe All-in-One Solar Battery Storage System',
+            description:
+              'Modular smart battery storage system with ultra-fast backup power and comprehensive SEMS smart app energy monitoring.',
+            sku: 'ASE-BATTERY-GOODWE',
+            brand: 'GoodWe'
+          }),
+          getFaqSchema(faqs),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' },
+            { name: 'GoodWe', url: '/batteries/goodwe' }
+          ])
+        ]}
+      />
       {/* ================= SECTION 1: PACKAGES CARDS BANNER ================= */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-12">
         <motion.div

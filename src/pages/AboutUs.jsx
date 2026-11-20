@@ -32,6 +32,8 @@ import {
 import about1 from '../assets/about1.jpg';
 import batteryInstallationImg from '../assets/fox_ess_home_system.jpg';
 import solarPayback from '../assets/solar_payback_house.jpg';
+import SEO from '../components/SEO';
+import { getBreadcrumbSchema } from '../utils/seoSchemas';
 
 // Premium spring & easing definitions
 const EASE = [0.22, 1, 0.36, 1];
@@ -247,6 +249,16 @@ const AboutUs = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-[#39b54a]/20 selection:text-[#1e2d53] overflow-hidden">
+      <SEO
+        title="About Us - SAA Certified Solar Company Australia"
+        description="Learn about Aussie Smart Energy: Australia's trusted, SAA-certified solar and battery installer serving NSW, QLD, and VIC with CEC accredited partners and NETCC approval."
+        keywords="about Aussie Smart Energy, SAA certified solar installer, NETCC approved seller Australia, solar company Sydney, renewable energy Australia"
+        canonical="/about"
+        schema={getBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'About Us', url: '/about' }
+        ])}
+      />
 
       {/* =========================================================================
           HERO SECTION: About Aussie Smart Energy & Introduction

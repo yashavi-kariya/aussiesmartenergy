@@ -35,10 +35,12 @@ import AdminReviews from './pages/AdminReviews'
 import AdminBanners from './pages/AdminBanners'
 import AdminHeadlines from './pages/AdminHeadlines'
 import AdminPayments from './pages/AdminPayments'
+import AdminSEO from './pages/AdminSEO'
 import PaymentResult from './pages/PaymentResult'
 import ANZWorldlineHostedCheckoutSimulator from './pages/ANZWorldlineHostedCheckoutSimulator'
 import CommercialCustomize from './pages/CommercialCustomize'
 import PayOnline from './pages/PayOnline'
+import VEUIncentives from './pages/VEUIncentives'
 
 function App() {
   const location = useLocation();
@@ -114,6 +116,8 @@ function App() {
         <Route path="/payment/status" element={<PaymentResult />} />
         <Route path="/pay-online" element={<PayOnline />} />
         <Route path="/make-payment" element={<PayOnline />} />
+        <Route path="/veu-incentives" element={<VEUIncentives />} />
+        <Route path="/rebates/veu-incentives" element={<VEUIncentives />} />
         <Route path="/hostedcheckout/HostedCheckout/:sessionId" element={<ANZWorldlineHostedCheckoutSimulator />} />
 
         {/* Admin Routes */}
@@ -125,6 +129,7 @@ function App() {
           <Route path="/admin/banners" element={<AdminBanners />} />
           <Route path="/admin/headlines" element={<AdminHeadlines />} />
           <Route path="/admin/payments" element={<AdminPayments />} />
+          <Route path="/admin/seo" element={<AdminSEO />} />
         </Route>
       </Routes>
 

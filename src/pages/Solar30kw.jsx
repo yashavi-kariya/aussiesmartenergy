@@ -5,6 +5,8 @@ import { Send, AlertCircle, CheckCircle2, Zap, Sun, ShieldCheck, Sparkles, Maxim
 import api from '../utils/api';
 import solarPanel30kwImg from '../assets/solar_30kw_hero_banner.jpg';
 import paybackImg from '../assets/solar_payback_house.jpg';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const Solar30kw = () => {
   useEffect(() => {
@@ -87,6 +89,24 @@ const Solar30kw = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-[#1e2d53] pt-36 sm:pt-40 lg:pt-44 pb-16">
+      <SEO
+        title="30kW Commercial Solar Panel System Australia | Aussie Smart Energy"
+        description="High efficiency 30kW commercial solar system generating ~120 kWh/day for small warehouses, medical suites, workshops, and childcare centres across NSW, QLD & VIC."
+        keywords="30kW solar system, 30kW commercial solar price, commercial solar Sydney, small business solar Australia"
+        canonical="/solar/30kw"
+        schema={[
+          getProductSchema({
+            name: '30kW Commercial Solar Panel System',
+            description: 'Turnkey 30kW commercial solar installation generating ~120 kWh/day.',
+            sku: 'ASE-SOLAR-30KW'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Commercial Solar', url: '/solar/commercial' },
+            { name: '30kW Solar System', url: '/solar/30kw' }
+          ])
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* ── 1. Top Grid: 30kW Commercial & Industrial Solar System ── */}

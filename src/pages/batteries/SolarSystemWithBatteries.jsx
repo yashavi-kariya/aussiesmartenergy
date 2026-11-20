@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { ShieldCheck, Zap, Sun, Target } from 'lucide-react';
 import EnquiryModal from '../../components/EnquiryModal';
 import TestimonialsFAQSection from '../../components/TestimonialsFAQSection';
+import SEO from '../../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 // Assets
 import aussieVideo from '../../assets/videos/aussie video.mp4';
@@ -97,6 +99,24 @@ const SolarSystemWithBatteries = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans text-slate-800 pt-20 sm:pt-24">
+      <SEO
+        title="Solar Panel Systems with Battery Storage Australia | Aussie Smart Energy"
+        description="Bundle high efficiency solar panels with home battery storage to achieve up to 90% power independence. Blackout protection, VPP ready & NSW battery rebates included."
+        keywords="solar panels with batteries Australia, home solar battery bundle, solar storage package, blackout protection battery NSW"
+        canonical="/batteries/solar-system-with-batteries"
+        schema={[
+          getProductSchema({
+            name: 'Solar Panel System with Battery Storage Bundle',
+            description:
+              'Complete turnkey residential solar and battery storage package engineered for maximum self-consumption and total blackout security.',
+            sku: 'ASE-SOLAR-BATTERY-BUNDLE'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' }
+          ])
+        ]}
+      />
       {/* ── HERO BANNER ── */}
       <section className="relative bg-gradient-to-br from-[#eaf4fc] via-[#edf7ff] to-[#e4f2fe] text-slate-900 py-12 sm:py-16 overflow-hidden border-b border-sky-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">

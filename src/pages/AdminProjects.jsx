@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Plus, Edit2, Trash2, X, ChevronLeft, RefreshCw, Image as ImageIcon,
     Zap, LogOut, Upload, Eye, Hash, LayoutGrid, RotateCcw, ShieldAlert,
-    Database, Archive, CheckCircle2, Star, Megaphone
+    Database, Archive, CheckCircle2, Star, Megaphone, Globe, ChevronDown, ChevronUp
 } from 'lucide-react';
 import api from '../utils/api';
 import { getImageUrl } from '../utils/imageUrl';
@@ -50,7 +50,19 @@ const AdminProjects = () => {
     /* ── Modal state ── */
     const [modalOpen, setModalOpen] = useState(false);
     const [editing, setEditing] = useState(null); // null = create mode
-    const [form, setForm] = useState({ name: '', shortDescription: '', longDescription: '' });
+    const [form, setForm] = useState({
+        name: '',
+        shortDescription: '',
+        longDescription: '',
+        seoTitle: '',
+        metaDescription: '',
+        focusKeyword: '',
+        canonicalUrl: '',
+        ogTitle: '',
+        ogDescription: '',
+        noIndex: false,
+    });
+    const [showSeoFields, setShowSeoFields] = useState(false);
     const [mainImageFile, setMainImageFile] = useState(null);
     const [mainImagePreview, setMainImagePreview] = useState('');
     const [galleryFiles, setGalleryFiles] = useState([]);
@@ -101,7 +113,19 @@ const AdminProjects = () => {
     /* ─────────────────────────── Modal helpers ─────────────────────────── */
     const openCreate = () => {
         setEditing(null);
-        setForm({ name: '', shortDescription: '', longDescription: '' });
+        setForm({
+            name: '',
+            shortDescription: '',
+            longDescription: '',
+            seoTitle: '',
+            metaDescription: '',
+            focusKeyword: '',
+            canonicalUrl: '',
+            ogTitle: '',
+            ogDescription: '',
+            noIndex: false,
+        });
+        setShowSeoFields(false);
         setMainImageFile(null);
         setMainImagePreview('');
         setGalleryFiles([]);
@@ -112,7 +136,19 @@ const AdminProjects = () => {
 
     const openEdit = (p) => {
         setEditing(p);
-        setForm({ name: p.name, shortDescription: p.shortDescription || '', longDescription: p.longDescription || '' });
+        setForm({
+            name: p.name,
+            shortDescription: p.shortDescription || '',
+            longDescription: p.longDescription || '',
+            seoTitle: p.seoTitle || '',
+            metaDescription: p.metaDescription || '',
+            focusKeyword: p.focusKeyword || '',
+            canonicalUrl: p.canonicalUrl || '',
+            ogTitle: p.ogTitle || '',
+            ogDescription: p.ogDescription || '',
+            noIndex: Boolean(p.noIndex),
+        });
+        setShowSeoFields(Boolean(p.seoTitle || p.metaDescription || p.focusKeyword));
         setMainImageFile(null);
         setMainImagePreview(p.mainImage ? getImageUrl(p.mainImage) : '');
         setGalleryFiles([]);
@@ -124,6 +160,7 @@ const AdminProjects = () => {
     const closeModal = () => {
         setModalOpen(false);
         setEditing(null);
+        setShowSeoFields(false);
         setError('');
     };
 
@@ -150,6 +187,13 @@ const AdminProjects = () => {
         fd.append('name', form.name.trim());
         fd.append('shortDescription', form.shortDescription);
         fd.append('longDescription', form.longDescription);
+        fd.append('seoTitle', form.seoTitle || '');
+        fd.append('metaDescription', form.metaDescription || '');
+        fd.append('focusKeyword', form.focusKeyword || '');
+        fd.append('canonicalUrl', form.canonicalUrl || '');
+        fd.append('ogTitle', form.ogTitle || '');
+        fd.append('ogDescription', form.ogDescription || '');
+        fd.append('noIndex', form.noIndex ? 'true' : 'false');
         if (mainImageFile) fd.append('mainImage', mainImageFile);
         for (const f of galleryFiles) fd.append('gallery', f);
 
@@ -681,6 +725,93 @@ const AdminProjects = () => {
                                         )}
                                     </div>
                                 </Field>
+
+                                {/* SEO Metadata Accordion */}
+                                <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.02)' }}>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowSeoFields(!showSeoFields)}
+                                        className="w-full px-4 py-3 flex items-center justify-between text-left transition-colors hover:bg-white/[0.04]"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <Globe className="w-4 h-4 text-emerald-400" />
+                                            <span className="text-xs font-bold uppercase tracking-wider text-white/85">
+                                                SEO & Search Engine Settings
+                                            </span>
+                                            {(form.seoTitle || form.metaDescription || form.noIndex) && (
+                                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">
+                                                    Configured
+                                                </span>
+                                            )}
+                                        </div>
+                                        {showSeoFields ? (
+                                            <ChevronUp className="w-4 h-4 text-white/40" />
+                                        ) : (
+                                            <ChevronDown className="w-4 h-4 text-white/40" />
+                                        )}
+                                    </button>
+
+                                    {showSeoFields && (
+                                        <div className="p-4 space-y-3.5 border-t border-white/10" style={{ background: 'rgba(0,0,0,0.15)' }}>
+                                            <Field label="SEO Title (Optional Override)">
+                                                <input
+                                                    value={form.seoTitle}
+                                                    onChange={e => setForm({ ...form, seoTitle: e.target.value })}
+                                                    style={inputStyle}
+                                                    placeholder="Leave empty to use Project Name | Aussie Smart Energy"
+                                                />
+                                            </Field>
+
+                                            <Field label="Meta Description (Optional Override)">
+                                                <textarea
+                                                    value={form.metaDescription}
+                                                    onChange={e => setForm({ ...form, metaDescription: e.target.value })}
+                                                    style={{ ...inputStyle, resize: 'vertical', minHeight: '70px' }}
+                                                    placeholder="Leave empty to use Short Description"
+                                                    rows={2}
+                                                />
+                                            </Field>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <Field label="Focus Keyword">
+                                                    <input
+                                                        value={form.focusKeyword}
+                                                        onChange={e => setForm({ ...form, focusKeyword: e.target.value })}
+                                                        style={inputStyle}
+                                                        placeholder="e.g. 100kW commercial solar Sydney"
+                                                    />
+                                                </Field>
+
+                                                <Field label="Canonical URL">
+                                                    <input
+                                                        value={form.canonicalUrl}
+                                                        onChange={e => setForm({ ...form, canonicalUrl: e.target.value })}
+                                                        style={inputStyle}
+                                                        placeholder="https://aussiesmartenergy.com.au/projects/..."
+                                                    />
+                                                </Field>
+                                            </div>
+
+                                            <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/10 mt-2">
+                                                <div>
+                                                    <span className="text-xs font-bold text-white block">Robots Indexing</span>
+                                                    <span className="text-[11px] text-white/40">
+                                                        {form.noIndex ? 'Page is hidden from search engines (noindex)' : 'Page is indexed by Google (index, follow)'}
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setForm({ ...form, noIndex: !form.noIndex })}
+                                                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors ${
+                                                        form.noIndex ? 'bg-rose-500/25 text-rose-300 border border-rose-500/40' : 'bg-emerald-500/25 text-emerald-300 border border-emerald-500/40'
+                                                    }`}
+                                                >
+                                                    {form.noIndex ? 'NoIndex' : 'Index (Default)'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Footer */}
                                 <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 pt-3 shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>

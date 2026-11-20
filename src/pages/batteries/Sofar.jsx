@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, PhoneCall, ShieldCheck, Zap, ChevronDown, CheckCircle2 } from 'lucide-react';
 import EnquiryModal from '../../components/EnquiryModal';
+import SEO from '../../components/SEO';
+import { getProductSchema, getFaqSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 // Assets
 import solarBatteries1 from '../../assets/solarbattries1.png';
 import solarBatteries2 from '../../assets/solarbattries2.png';
 import solarBatteries3 from '../../assets/solarbattries3.png';
 import sofarBtsBattery from '../../assets/sofar/sofar.jpeg';
-import esySystem from '../../assets/esy/esy1.webp';
+import sofarBattery16kwh from '../../assets/sofar/sofar-battery-16kwh.png';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
@@ -231,6 +233,27 @@ const Sofar = () => {
 
   return (
     <main className="overflow-hidden bg-white pt-36 sm:pt-40 lg:pt-44">
+      <SEO
+        title="SOFAR Solar Battery Storage & Inverter Systems Australia | Aussie Smart Energy"
+        description="Discover SOFAR BTS modular battery storage systems in Australia. IP65 outdoor rated, fanless quiet cooling, plug-and-play installation & 10-year warranty."
+        keywords="SOFAR battery Australia, SOFAR BTS 5K price, SOFAR solar storage Sydney, home solar battery NSW"
+        canonical="/batteries/sofar"
+        schema={[
+          getProductSchema({
+            name: 'SOFAR BTS Modular Solar Battery Storage System',
+            description:
+              'Modular stackable residential battery storage system with natural cooling, IP65 protection, and seamless hybrid inverter compatibility.',
+            sku: 'ASE-BATTERY-SOFAR',
+            brand: 'SOFAR'
+          }),
+          getFaqSchema(faqs),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' },
+            { name: 'SOFAR', url: '/batteries/sofar' }
+          ])
+        ]}
+      />
       {/* ================= SECTION 1: PACKAGES CARDS BANNER ================= */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-12">
         <motion.div
@@ -404,12 +427,13 @@ const Sofar = () => {
         >
           <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-center pb-12">
             <div className="relative flex justify-center items-center">
-              <div className="relative w-full max-w-[440px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
+              <div className="relative w-full max-w-[440px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-6 sm:p-8 flex items-center justify-center border border-blue-400/30">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.18)_0%,transparent_70%)] pointer-events-none" />
                 <img
-                  src={esySystem}
-                  alt="Modern solar-powered house with SOFAR energy storage system"
-                  className="w-full object-cover rounded-2xl drop-shadow-lg"
+                  src={sofarBattery16kwh}
+                  alt="SOFAR 16kWh LiFePO4 Energy Storage Battery"
+                  className="relative z-10 max-h-[360px] sm:max-h-[390px] w-auto object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.6)] transform hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>

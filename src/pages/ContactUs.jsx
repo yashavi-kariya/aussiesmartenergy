@@ -1,6 +1,8 @@
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import api from '../utils/api';
+import SEO from '../components/SEO';
+import { getOrganizationSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 import {
     Phone, Mail, MapPin, Clock3, Send, ArrowRight,
     CheckCircle2, MessageSquare, ShieldCheck
@@ -150,6 +152,19 @@ const ContactUs = () => {
 
     return (
         <div className="min-h-screen bg-blue-50">
+            <SEO
+                title="Contact Us - Free Solar Quotes & Site Assessment"
+                description="Get in touch with Aussie Smart Energy. Speak with our solar specialists in Sydney NSW, Brisbane QLD, and Melbourne VIC. Call 1300 959 170 for a free solar & battery quote."
+                keywords="contact Aussie Smart Energy, solar quote Sydney, solar assessment Brisbane, solar installer Melbourne, solar rebate inquiry"
+                canonical="/contact"
+                schema={[
+                    getOrganizationSchema(),
+                    getBreadcrumbSchema([
+                        { name: 'Home', url: '/' },
+                        { name: 'Contact Us', url: '/contact' }
+                    ])
+                ]}
+            />
 
             {/* Hero Banner */}
             <section

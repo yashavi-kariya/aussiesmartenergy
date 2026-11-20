@@ -291,7 +291,7 @@ const EnquiryModal = ({
                         <span className={`text-[11px] sm:text-xs leading-relaxed transition-colors ${
                           errors.consent ? 'text-rose-600 font-medium' : 'text-slate-600 group-hover:text-slate-800'
                         }`}>
-                          By checking this box, you consent to receiving marketing communications and discussing our energy-efficient products and services that may fall under Government Schemes such as the VEU for the next 24 months with Energy Makeovers, Optimise Plumbing; Melbourne Gas Group; Electrify Me. These products include but are not limited to: air-conditioners, hot water systems, lighting, weather seals, showerheads and energy monitors.<span className="text-rose-500 font-bold ml-0.5">*</span>
+                          By checking this box, you consent to receiving marketing communications and discussing our energy-efficient products and services that may fall under Government Schemes such as the VEU for the next 24 months with Aussie Smart Energy. These products include but are not limited to: air-conditioners, hot water systems, lighting, weather seals, showerheads and energy monitors.<span className="text-rose-500 font-bold ml-0.5">*</span>
                         </span>
                       </label>
 
@@ -307,16 +307,16 @@ const EnquiryModal = ({
                       )}
 
                       <p className="text-[11px] sm:text-xs leading-relaxed text-slate-500 pl-[26px]">
-                        You have the right to opt out of receiving marketing communications from us at any time and your personal information will be handled in accordance with Energy Makeovers' Privacy Policy available at{' '}
+                        You have the right to opt out of receiving marketing communications from us at any time and your personal information will be handled in accordance with Aussie Smart Energys' Privacy Policy available at{' '}
                         <a
-                          href="https://energymakeovers.com.au/"
+                          href="https://www.aussiesmartenergy.com.au"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="underline hover:text-slate-900 transition-colors font-medium break-all"
                           style={{ color: accentColor }}
                           onClick={(e) => e.stopPropagation()}
                         >
-                          energymakeovers.com.au
+                          www.aussiesmartenergy.com.au
                         </a>
                       </p>
                     </div>

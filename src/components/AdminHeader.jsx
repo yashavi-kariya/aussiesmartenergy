@@ -14,7 +14,8 @@ import {
   ExternalLink,
   ChevronRight,
   ShieldCheck,
-  MessageSquare
+  MessageSquare,
+  Globe
 } from 'lucide-react';
 
 const NAVY = '#1d2e57ff';
@@ -93,6 +94,18 @@ const ADMIN_NAV_ITEMS = [
     border: 'rgba(99,102,241,0.25)',
     textColor: '#c7d2fe',
     description: 'Transactions & orders',
+  },
+  {
+    id: 'seo',
+    label: 'SEO',
+    path: '/admin/seo',
+    icon: Globe,
+    badge: 'Meta',
+    color: '#10b981',
+    bg: 'rgba(16,185,129,0.12)',
+    border: 'rgba(16,185,129,0.25)',
+    textColor: '#a7f3d0',
+    description: 'Meta tags, sitemaps & indexing',
   },
 ];
 

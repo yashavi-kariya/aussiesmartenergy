@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /login/admin
+Disallow: /hostedcheckout/
+Disallow: /payment/
+
+# Sitemaps
+Sitemap: https://aussiesmartenergy.com.au/sitemap.xml
+

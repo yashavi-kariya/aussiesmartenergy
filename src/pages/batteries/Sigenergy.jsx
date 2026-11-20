@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, PhoneCall, Zap, ShieldCheck, Cpu, ChevronDown, CheckCircle2 } from 'lucide-react';
 import EnquiryModal from '../../components/EnquiryModal';
+import SEO from '../../components/SEO';
+import { getProductSchema, getFaqSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 import solarBatteries4 from '../../assets/signenery/sigenergy1.jpeg';
 import esyConnectedHome from '../../assets/esy/esy4.webp';
@@ -10,7 +12,7 @@ import esySystem from '../../assets/signenery/sigenergy.jpeg';
 import esyHomeBattery from '../../assets/signenery/sigenergy.jpeg';
 import esyEnergyManagement from '../../assets/esy/esy3.webp';
 import esyVpp from '../../assets/esy/esy5.webp';
-import esyWarranty from '../../assets/esy/esy6.webp';
+import sigenergyInstallation from '../../assets/signenery/sigenergy-installation.jpg';
 
 const BulletPoint = ({ text }) => (
   <li className="flex items-start gap-3 text-slate-100 text-sm sm:text-base leading-relaxed">
@@ -78,6 +80,27 @@ const Sigenergy = () => {
 
   return (
     <main className="overflow-hidden bg-white pt-0">
+      <SEO
+        title="Sigenergy SigenStor Solar Battery Storage Australia | Aussie Smart Energy"
+        description="Experience Sigenergy SigenStor 5-in-1 energy storage in Australia: modular solar battery, hybrid inverter, 0ms blackout UPS backup, and optional 25kW DC EV fast charger."
+        keywords="Sigenergy Australia, Sigenergy SigenStor price, solar battery storage Sydney, 5 in 1 solar battery, home battery backup Australia"
+        canonical="/batteries/sigenergy"
+        schema={[
+          getProductSchema({
+            name: 'Sigenergy SigenStor 5-in-1 Home Energy Storage System',
+            description:
+              'Modular solar battery system with 0ms uninterrupted power supply, integrated hybrid inverter, and scalable capacity from 5kWh to 48kWh.',
+            sku: 'ASE-BATTERY-SIGENERGY',
+            brand: 'Sigenergy'
+          }),
+          getFaqSchema(faqs),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' },
+            { name: 'Sigenergy', url: '/batteries/sigenergy' }
+          ])
+        ]}
+      />
       {/* ================= 1. HERO SECTION ================= */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#06142e] via-[#003b73] to-[#006ab7] text-white pt-36 sm:pt-40 lg:pt-44 pb-16 lg:pb-24">
         <div className="absolute top-1/4 left-10 w-96 h-96 bg-red-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -629,7 +652,7 @@ const Sigenergy = () => {
             <div className="relative w-full max-w-[500px] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#1e1b4b] p-3 border border-blue-400/30">
               <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/20 rounded-full blur-2xl pointer-events-none" />
               <img
-                src={esyWarranty}
+                src={sigenergyInstallation}
                 alt="Sigenergy Battery installation in residential garage"
                 className="w-full h-auto object-cover rounded-2xl transform hover:scale-105 transition-transform duration-500"
               />

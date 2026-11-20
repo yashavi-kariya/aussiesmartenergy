@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import EnquiryModal from '../../components/EnquiryModal';
+import SEO from '../../components/SEO';
+import { getProductSchema, getFaqSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 // Assets
 import alphaEssLogo from '../../assets/brand/alphaESS.svg';
@@ -228,6 +230,27 @@ const AlphaEss = () => {
 
   return (
     <main className="overflow-hidden bg-slate-50/50 pt-36 sm:pt-40 lg:pt-44">
+      <SEO
+        title="AlphaESS Home Solar Battery Storage Systems Australia | Aussie Smart Energy"
+        description="Save more solar energy with AlphaESS modular home battery storage. Features EPS blackout backup, AlphaCloud smart app, and 10-year warranty across Australia."
+        keywords="AlphaESS Australia, Alpha ESS battery storage, SMILE5 battery, solar battery NSW, blackout backup Sydney"
+        canonical="/batteries/alpha-ess"
+        schema={[
+          getProductSchema({
+            name: 'AlphaESS Modular Energy Storage System',
+            description:
+              'Modular residential and commercial lithium iron phosphate battery storage with whole-home EPS backup and intelligent energy management.',
+            sku: 'ASE-BATTERY-ALPHAESS',
+            brand: 'AlphaESS'
+          }),
+          getFaqSchema(faqs),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' },
+            { name: 'AlphaESS', url: '/batteries/alpha-ess' }
+          ])
+        ]}
+      />
       {/* ================= SECTION 1: PACKAGES CARDS BANNER ================= */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-12">
         <motion.div

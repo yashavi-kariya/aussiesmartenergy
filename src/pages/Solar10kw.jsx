@@ -5,6 +5,8 @@ import { Send, AlertCircle, CheckCircle2, Users, Building2, Sparkles, Sun, Shiel
 import api from '../utils/api';
 import solarPanel10kwImg from '../assets/solar_10kw_hero_banner.jpg';
 import realInstallationImg from '../assets/solar_10kw_real_installation.jpg';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const Solar10kw = () => {
   useEffect(() => {
@@ -86,6 +88,25 @@ const Solar10kw = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-[#1e2d53] pt-36 sm:pt-40 lg:pt-44 pb-16">
+      <SEO
+        title="10kW Solar Panel System Australia (10.45kW) | Aussie Smart Energy"
+        description="Power large Australian homes and small businesses with a 10kW (10.45kW) solar system. Generates 40-44 kWh per day. Slash your electricity bills. Free quote."
+        keywords="10kW solar system Australia, 10.45kW solar panel, 10kW solar system price NSW, residential large solar system"
+        canonical="/solar/10kw"
+        schema={[
+          getProductSchema({
+            name: '10kW (10.45kW) Solar Power System',
+            description:
+              'High-output 10.45kW solar panel system engineered for high-usage households and light commercial properties.',
+            sku: 'ASE-SOLAR-10KW'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Packages', url: '/solar/6.6kw' },
+            { name: '10kW Solar System', url: '/solar/10kw' }
+          ])
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {/* ── 1. UNDERSTANDING 10.45kW SOLAR SYSTEMS SECTION ───────────────── */}

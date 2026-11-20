@@ -9,6 +9,8 @@ import savingsImg from '../assets/solar_savings_piggybank.png';
 import savingsNewImg from '../assets/solar_savings_banner_new.jpg';
 import paybackImg from '../assets/solar_payback_house.jpg';
 import handshakeAgreementImg from '../assets/handshake_agreement.jpg';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const Solar6kw = () => {
   useEffect(() => {
@@ -92,6 +94,25 @@ const Solar6kw = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-[#1e2d53] pt-36 sm:pt-40 lg:pt-44 pb-16">
+      <SEO
+        title="6.6kW Solar Panel System Sydney & NSW | Aussie Smart Energy"
+        description="Get Australia's most popular 6.6kW solar panel system with 14 Tier-1 panels, 5kW inverter, and government rebate incentives. High daily yield (24-26 kWh). Request a free quote."
+        keywords="6.6kW solar system NSW, 6.6kW solar panel price Sydney, 6.6kW solar with battery, residential solar package Australia"
+        canonical="/solar/6.6kw"
+        schema={[
+          getProductSchema({
+            name: '6.6kW Residential Solar Panel System',
+            description:
+              'Premium 6.6kW residential solar power system featuring 14 Tier-1 high efficiency solar panels generating 24-26 kWh/day.',
+            sku: 'ASE-SOLAR-6.6KW'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Packages', url: '/solar/6.6kw' },
+            { name: '6.6kW Solar System', url: '/solar/6.6kw' }
+          ])
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {/* ── 1. Top Grid: Content & Form ──────────────────────────────────── */}

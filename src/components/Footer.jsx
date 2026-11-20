@@ -322,6 +322,7 @@ export default function Footer() {
                 <FooterNavLink href="/batteries/solar-system-with-batteries">Solar Batteries</FooterNavLink>
                 <FooterNavLink href="/solar/6.6kw">Solar Packages</FooterNavLink>
                 <FooterNavLink href="/solar/commercial">Commercial Solar</FooterNavLink>
+                <FooterNavLink href="/veu-incentives">VEU Incentives</FooterNavLink>
               </ul>
             </motion.div>
 

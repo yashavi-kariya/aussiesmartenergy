@@ -14,6 +14,9 @@ import headlineRoutes from './routes/headlineRoutes.js';
 import googleReviewRoutes from './routes/googleReviewRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import seoRoutes from './routes/seoRoutes.js';
+import { getDynamicSitemap, getDynamicRobots } from './controllers/seoController.js';
+import { resolveSeoForPath, injectSeoIntoHtml } from './utils/seoPrerender.js';
 import errorHandler, { notFound } from './middleware/errorHandler.js';
 import { startGoogleReviewsBackgroundSync } from './services/googleReviewSyncService.js';
 import fs from 'fs';
@@ -54,8 +57,27 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Dynamic Technical SEO Routes (served before static files so search engines receive live XML/TXT)
+app.get('/sitemap.xml', getDynamicSitemap);
+app.get('/robots.txt', getDynamicRobots);
+
+// Google Search Console HTML File Verification Handler (prevents SPA rewrite to index.html)
+app.get('/google:hash.html', (req, res) => {
+    const filename = `google${req.params.hash}.html`;
+    const distPath = path.join(clientDistDir, filename);
+    const publicPath = process.cwd().endsWith('server')
+        ? path.join(process.cwd(), '..', 'public', filename)
+        : path.join(process.cwd(), 'public', filename);
+
+    if (fs.existsSync(distPath)) return res.sendFile(distPath);
+    if (fs.existsSync(publicPath)) return res.sendFile(publicPath);
+
+    return res.status(404).type('text/plain').send('Google verification file not found on server.');
+});
+
 // Mount lightweight health endpoints before application routes and error handlers.
 app.use('/health', healthRoutes);
+app.use('/api/seo', seoRoutes);
 app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/reviews', reviewRoutes);
@@ -85,35 +107,61 @@ const clientDistDir = process.cwd().endsWith('server')
     : path.join(process.cwd(), 'dist');
 
 if (fs.existsSync(clientDistDir)) {
-    app.use(express.static(clientDistDir));
+    // Serve static assets from dist (images, js, css)
+    app.use(express.static(clientDistDir, { index: false }));
 }
 
-// Root route handler for API / Health check ping
-app.get('/', (req, res) => {
-    if (fs.existsSync(clientDistDir) && fs.existsSync(path.join(clientDistDir, 'index.html'))) {
-        return res.sendFile(path.join(clientDistDir, 'index.html'));
+// Helper to serve index.html with dynamic SEO metadata injection
+const serveSeoIndexHtml = async (req, res) => {
+    const indexPath = path.join(clientDistDir, 'index.html');
+    if (!fs.existsSync(indexPath)) {
+        return res.json({
+            success: true,
+            message: 'Aussie Smart Energy API Server is active.',
+            environment: process.env.NODE_ENV || 'production',
+            endpoints: {
+                health: '/health',
+                seo: '/api/seo',
+                sitemap: '/sitemap.xml',
+                robots: '/robots.txt',
+                enquiries: '/api/enquiries',
+                projects: '/api/projects',
+                reviews: '/api/reviews',
+                payments: '/api/payments',
+                admin: '/api/admin',
+            },
+        });
     }
-    res.json({
-        success: true,
-        message: 'Aussie Smart Energy API Server is active.',
-        environment: process.env.NODE_ENV || 'production',
-        endpoints: {
-            health: '/health',
-            enquiries: '/api/enquiries',
-            projects: '/api/projects',
-            reviews: '/api/reviews',
-            payments: '/api/payments',
-            admin: '/api/admin',
-        },
-    });
+
+    try {
+        const rawHtml = await fs.promises.readFile(indexPath, 'utf-8');
+        const seoData = await resolveSeoForPath(req.path || '/');
+        const renderedHtml = injectSeoIntoHtml(rawHtml, seoData);
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(renderedHtml);
+    } catch (err) {
+        // Fallback to static sendFile if any error occurs
+        return res.sendFile(indexPath);
+    }
+};
+
+// Root route handler
+app.get('/', (req, res) => {
+    return serveSeoIndexHtml(req, res);
 });
 
 if (fs.existsSync(clientDistDir)) {
     app.get('*', (req, res, next) => {
-        if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path.startsWith('/health')) {
+        if (
+            req.path.startsWith('/api') ||
+            req.path.startsWith('/uploads') ||
+            req.path.startsWith('/health') ||
+            req.path === '/sitemap.xml' ||
+            req.path === '/robots.txt'
+        ) {
             return next();
         }
-        res.sendFile(path.join(clientDistDir, 'index.html'));
+        return serveSeoIndexHtml(req, res);
     });
 }
 

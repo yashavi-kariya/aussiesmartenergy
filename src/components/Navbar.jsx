@@ -129,6 +129,9 @@ const Navbar = () => {
 
   const isItemActive = (item) => {
     if (item.isExternal) return false;
+    if (item.name === 'VEU Incentives') {
+      return location.pathname === '/veu-incentives' || location.pathname.startsWith('/rebates/veu-incentives');
+    }
     if (item.isRoute) {
       return item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href);
     }
@@ -176,8 +179,10 @@ const Navbar = () => {
         { label: 'Commercial Solar and Battery', href: '/solar/commercial' },
         { label: 'Finance & $0 Upfront', href: '/solar/commercial#finance' },
         { label: 'New South Wales Rebates', href: '/solar/commercial/nsw-calculator' },
+        { label: 'Victorian VEU Incentives', href: '/veu-incentives' },
       ]
     },
+    { name: 'VEU Incentives', href: '/veu-incentives', hasDropdown: false, isRoute: true },
     { name: 'Contact Us', href: '/contact', hasDropdown: false, isRoute: true },
     {
       name: 'Pay Online',
@@ -318,7 +323,7 @@ const Navbar = () => {
                                 setActiveDropdown(activeDropdown === item.name ? null : item.name);
                               }
                             }}
-                            className={`flex items-center gap-1 px-2 xl:px-2.5 2xl:px-3.5 py-1.5 2xl:py-2 text-xs 2xl:text-sm font-semibold rounded-full transition-colors relative cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                            className={`flex items-center gap-1 px-1.5 xl:px-2.5 2xl:px-3.5 py-1.5 2xl:py-2 text-[11.5px] xl:text-xs 2xl:text-sm font-semibold rounded-full transition-colors relative cursor-pointer whitespace-nowrap flex-shrink-0 ${
                               isActive ? 'text-white' : 'text-slate-700 hover:text-[#0F4CFF]'
                             }`}
                           >

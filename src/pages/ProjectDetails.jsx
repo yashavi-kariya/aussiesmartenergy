@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../utils/api';
 import { getImageUrl } from '../utils/imageUrl';
+import SEO from '../components/SEO';
+import { getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const ProjectDetails = () => {
     const { slug } = useParams();
@@ -46,6 +48,22 @@ const ProjectDetails = () => {
 
     return (
         <>
+            <SEO
+                pageKey={`project-${slug}`}
+                title={project.seoTitle || `${project.name} | Aussie Smart Energy Projects`}
+                description={project.metaDescription || project.shortDescription || `Solar project details and installation showcase by Aussie Smart Energy.`}
+                focusKeyword={project.focusKeyword || project.name}
+                canonical={project.canonicalUrl || `/projects/${slug}`}
+                ogTitle={project.ogTitle || project.seoTitle || `${project.name} | Aussie Smart Energy`}
+                ogDescription={project.ogDescription || project.metaDescription || project.shortDescription}
+                ogImage={project.ogImage ? getImageUrl(project.ogImage) : (project.mainImage ? getImageUrl(project.mainImage) : undefined)}
+                noIndex={Boolean(project.noIndex)}
+                schema={getBreadcrumbSchema([
+                    { name: 'Home', url: '/' },
+                    { name: 'Projects', url: '/#projects' },
+                    { name: project.name, url: `/projects/${slug}` }
+                ])}
+            />
             <main className="pd-wrap">
                 {/* ── Hero Banner ── */}
                 <div className="pd-hero">

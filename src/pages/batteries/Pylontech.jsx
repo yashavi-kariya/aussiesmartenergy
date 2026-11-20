@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import EnquiryModal from '../../components/EnquiryModal';
+import SEO from '../../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 // Assets
 import solarBatteries1 from '../../assets/pylontech/pylontech.jpeg';
@@ -181,6 +183,26 @@ const Pylontech = () => {
 
   return (
     <main className="overflow-hidden bg-slate-50/50 pt-36 sm:pt-40 lg:pt-44">
+      <SEO
+        title="Pylontech Lithium Solar Battery Storage Australia | Aussie Smart Energy"
+        description="Pylontech lithium solar batteries (US5000, Force-H2/H3) for Australian homes & businesses. High cycle life, safe LFP chemistry, and scalable battery capacity."
+        keywords="Pylontech Australia, Pylontech battery price, US5000 battery, solar battery storage Sydney, Pylontech Force H3"
+        canonical="/batteries/pylontech"
+        schema={[
+          getProductSchema({
+            name: 'Pylontech Lithium Solar Energy Storage System',
+            description:
+              'Market-leading lithium iron phosphate (LFP) energy storage system with deep cycle life and flexible modular scalability.',
+            sku: 'ASE-BATTERY-PYLONTECH',
+            brand: 'Pylontech'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' },
+            { name: 'Pylontech', url: '/batteries/pylontech' }
+          ])
+        ]}
+      />
       {/* ================= PACKAGES CARDS BANNER ================= */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-12">
         <motion.div

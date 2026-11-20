@@ -5,6 +5,8 @@ import { Send, AlertCircle, CheckCircle2, Zap, Sun, ShieldCheck, Sparkles, Maxim
 import api from '../utils/api';
 import solarPanel20kwImg from '../assets/solar_20kw_hero_banner.jpg';
 import paybackImg from '../assets/solar_payback_house.jpg';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const Solar20kw = () => {
   useEffect(() => {
@@ -87,6 +89,24 @@ const Solar20kw = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-[#1e2d53] pt-36 sm:pt-40 lg:pt-44 pb-16">
+      <SEO
+        title="20kW Commercial & High Capacity Solar System Australia | Aussie Smart Energy"
+        description="20kW commercial solar panel system designed for Australian offices, workshops, and high-demand properties. Fast ROI, STC rebates & premium warranty."
+        keywords="20kW solar system, 20kW commercial solar, business solar panels Sydney, 20kW solar system price"
+        canonical="/solar/20kw"
+        schema={[
+          getProductSchema({
+            name: '20kW Commercial Solar Panel System',
+            description: 'Turnkey 20kW commercial solar installation generating ~80 kWh/day for small-to-medium businesses.',
+            sku: 'ASE-SOLAR-20KW'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Commercial Solar', url: '/solar/commercial' },
+            { name: '20kW Solar System', url: '/solar/20kw' }
+          ])
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* ── 1. Top Grid: 20kW Commercial & High Capacity Solar System ── */}

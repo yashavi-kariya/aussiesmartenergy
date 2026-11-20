@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, PhoneCall, ShieldCheck, Zap, ChevronDown, CheckCircle2 } from 'lucide-react';
 import EnquiryModal from '../../components/EnquiryModal';
+import SEO from '../../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../../utils/seoSchemas';
 
 import esyBattery from '../../assets/esy1.webp';
 import esySystem from '../../assets/esy/esy1.jpeg';
@@ -76,6 +78,26 @@ const EsyPage = () => {
 
   return (
     <main className="overflow-hidden bg-white pt-0">
+      <SEO
+        title="ESY Sunhome Smart Battery Storage Systems Australia | Aussie Smart Energy"
+        description="Experience ESY Sunhome all-in-one residential energy storage. Seamless IP66 weatherproofing, smart AI cloud optimization, and dependable blackout backup."
+        keywords="ESY Sunhome Australia, ESY battery storage, all in one solar battery Sydney, home battery backup Australia"
+        canonical="/batteries/esy"
+        schema={[
+          getProductSchema({
+            name: 'ESY Sunhome Intelligent Solar Battery Storage System',
+            description:
+              'All-in-one smart home energy storage system with integrated inverter, AI load scheduling, and whole-home blackout protection.',
+            sku: 'ASE-BATTERY-ESY',
+            brand: 'ESY Sunhome'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Batteries', url: '/batteries/solar-system-with-batteries' },
+            { name: 'ESY Sunhome', url: '/batteries/esy' }
+          ])
+        ]}
+      />
       {/* ================= 1. HERO SECTION ================= */}
       <section
         className="relative isolate min-h-[560px] overflow-hidden text-white sm:min-h-[590px] pt-36 sm:pt-40 lg:pt-44"

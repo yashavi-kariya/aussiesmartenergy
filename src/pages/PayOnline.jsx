@@ -3,6 +3,7 @@ import { motion as m } from 'framer-motion';
 import { ShieldCheck, CreditCard, Lock, FileText, User, Mail, Phone, MapPin, DollarSign, ArrowRight, Loader2 } from 'lucide-react';
 import api from '../utils/api';
 import { SupportedPaymentLogos, ANZWorldlineLogo } from '../components/PaymentLogos';
+import SEO from '../components/SEO';
 
 const MAX_PAYMENT_AMOUNT = 100000;
 
@@ -189,6 +190,11 @@ const PayOnline = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans text-slate-800 pt-24 sm:pt-28 pb-16">
+      <SEO
+        title="Pay Online Secure Checkout | Aussie Smart Energy"
+        description="Make a secure online payment for your solar or battery installation via ANZ Worldline Solutions."
+        canonical="/pay-online"
+      />
       {/* ── HERO HEADER ── */}
       <section className="bg-gradient-to-br from-[#06142e] via-[#0b2b5c] to-[#0a192f] text-white py-12 px-4 sm:px-6 lg:px-8 shadow-inner">
         <div className="max-w-4xl mx-auto text-center space-y-3">

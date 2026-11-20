@@ -18,7 +18,19 @@ const makeSlug = async (name) => {
 
 export const createProject = async (req, res, next) => {
     try {
-        const { name, shortDescription, longDescription } = req.body;
+        const {
+            name,
+            shortDescription,
+            longDescription,
+            seoTitle,
+            metaDescription,
+            focusKeyword,
+            canonicalUrl,
+            ogTitle,
+            ogDescription,
+            ogImage,
+            noIndex,
+        } = req.body;
         if (!name) return errorResponse(res, 'Project name is required', 400);
 
         const slug = await makeSlug(name);
@@ -49,7 +61,25 @@ export const createProject = async (req, res, next) => {
         const lastProject = await Project.findOne({}).sort({ displayOrder: -1 }).select('displayOrder');
         const displayOrder = lastProject ? lastProject.displayOrder + 1 : 1;
 
-        const project = await Project.create({ name, shortDescription, longDescription, mainImage, gallery, slug, displayOrder });
+        const isNoIndex = noIndex === true || noIndex === 'true';
+
+        const project = await Project.create({
+            name,
+            shortDescription,
+            longDescription,
+            mainImage,
+            gallery,
+            slug,
+            displayOrder,
+            seoTitle: seoTitle || '',
+            metaDescription: metaDescription || '',
+            focusKeyword: focusKeyword || '',
+            canonicalUrl: canonicalUrl || '',
+            ogTitle: ogTitle || '',
+            ogDescription: ogDescription || '',
+            ogImage: ogImage || '',
+            noIndex: isNoIndex,
+        });
         return successResponse(res, project, 'Project created', 201);
     } catch (error) {
         next(error);
@@ -98,6 +128,16 @@ export const updateProject = async (req, res, next) => {
         }
         if (shortDescription !== undefined) project.shortDescription = shortDescription;
         if (longDescription !== undefined) project.longDescription = longDescription;
+        if (req.body.seoTitle !== undefined) project.seoTitle = req.body.seoTitle;
+        if (req.body.metaDescription !== undefined) project.metaDescription = req.body.metaDescription;
+        if (req.body.focusKeyword !== undefined) project.focusKeyword = req.body.focusKeyword;
+        if (req.body.canonicalUrl !== undefined) project.canonicalUrl = req.body.canonicalUrl;
+        if (req.body.ogTitle !== undefined) project.ogTitle = req.body.ogTitle;
+        if (req.body.ogDescription !== undefined) project.ogDescription = req.body.ogDescription;
+        if (req.body.ogImage !== undefined) project.ogImage = req.body.ogImage;
+        if (req.body.noIndex !== undefined) {
+            project.noIndex = req.body.noIndex === true || req.body.noIndex === 'true';
+        }
 
         // mainImage replacement
         if (req.files && req.files.mainImage && req.files.mainImage[0]) {

@@ -5,6 +5,8 @@ import { Send, AlertCircle, CheckCircle2, Zap, Sun, ShieldCheck, Sparkles, Maxim
 import api from '../utils/api';
 import solarPanel13kwImg from '../assets/solar_13kw_hero_banner.jpg';
 import paybackImg from '../assets/solar_payback_house.jpg';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const Solar13kw = () => {
   useEffect(() => {
@@ -87,6 +89,25 @@ const Solar13kw = () => {
 
   return (
     <main className="min-h-screen bg-slate-50 text-[#1e2d53] pt-36 sm:pt-40 lg:pt-44 pb-16">
+      <SEO
+        title="13.2kW Solar Panel System Australia (13.3kW) | Aussie Smart Energy"
+        description="Premium 13.2kW / 13.3kW solar power system with 10kW inverter. Generates 52-56 kWh per day for large households and commercial premises. Get a free assessment."
+        keywords="13.2kW solar system, 13.3kW solar panels, large residential solar Australia, 10kW inverter with 13kW panels"
+        canonical="/solar/13.2kw"
+        schema={[
+          getProductSchema({
+            name: '13.2kW (13.3kW) Solar Power System',
+            description:
+              'Massive daily generation capability (52-56 kWh/day) designed for large power-hungry households with pools, ducted AC, and EV chargers.',
+            sku: 'ASE-SOLAR-13.2KW'
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Solar Packages', url: '/solar/6.6kw' },
+            { name: '13.2kW Solar System', url: '/solar/13.2kw' }
+          ])
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* ── 1. Top Grid: 13.3kW Solar Panel System & Get Solar Assessment ── */}

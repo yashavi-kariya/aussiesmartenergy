@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Sun, Cpu, Wrench, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import solarSystemsData from '../data/solarSystems';
+import SEO from '../components/SEO';
+import { getProductSchema, getBreadcrumbSchema } from '../utils/seoSchemas';
 
 const CommercialSolarPage = ({ systemId }) => {
   const system = solarSystemsData[systemId];
@@ -41,8 +43,31 @@ const CommercialSolarPage = ({ systemId }) => {
     icon: icons[idx] || Sun,
   }));
 
+  const cleanSlug = systemId.replace('commercial-', '');
+
   return (
     <main className="min-h-screen text-[#1e2d53] pt-0">
+      <SEO
+        title={`${system.title || cleanSlug.toUpperCase() + ' Commercial Solar System'} | Aussie Smart Energy`}
+        description={
+          system.subtitle ||
+          `Commercial ${cleanSlug} solar power system engineered for businesses in Sydney NSW, Brisbane QLD & Melbourne VIC.`
+        }
+        keywords={`${cleanSlug} solar system, commercial solar Australia, commercial solar ${cleanSlug}, commercial solar panels`}
+        canonical={`/solar/${cleanSlug}`}
+        schema={[
+          getProductSchema({
+            name: `${system.title || cleanSlug.toUpperCase() + ' Commercial Solar System'}`,
+            description: system.subtitle || `Commercial ${cleanSlug} solar system Australia`,
+            sku: `ASE-SOLAR-${cleanSlug.toUpperCase()}`
+          }),
+          getBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Commercial Solar', url: '/solar/commercial' },
+            { name: `${cleanSlug.toUpperCase()} Solar`, url: `/solar/${cleanSlug}` }
+          ])
+        ]}
+      />
       {/* Hero Section */}
       <section className="relative min-h-[360px] sm:min-h-[420px] md:min-h-[460px] pt-36 sm:pt-40 lg:pt-44 pb-12 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
